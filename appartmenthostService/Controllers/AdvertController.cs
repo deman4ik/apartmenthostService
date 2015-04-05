@@ -1,4 +1,8 @@
-﻿using System.Linq;
+﻿using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Runtime.Remoting.Contexts;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
@@ -6,6 +10,7 @@ using System.Web.Http.OData;
 using Microsoft.WindowsAzure.Mobile.Service;
 using appartmenthostService.DataObjects;
 using appartmenthostService.Models;
+using appartmenthostService.Helpers;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace appartmenthostService.Controllers
@@ -24,9 +29,10 @@ namespace appartmenthostService.Controllers
         public IQueryable<Advert> GetAllAdverts()
         {
             // Get the logged in user
-            var currentUser = User as ServiceUser;
+           // var currentUser = User as ServiceUser;
 
-            return Query().Where(advert => advert.OwnerId == currentUser.Id);
+            //return Query().Where(advert => advert.UserId == currentUser.Id);
+            return Query();
         }
 
         // GET tables/Advert/48D68C86-6EA6-4C25-AA33-223FC9A27959
@@ -47,10 +53,11 @@ namespace appartmenthostService.Controllers
         public async Task<IHttpActionResult> PostAdvert(Advert item)
         {
             // Get the logged in user
-            var currentUser = User as ServiceUser;
+           var currentUser = User as ServiceUser;
 
             // Set the user ID on the item
-            item.OwnerId = currentUser.Id;
+            item.UserId = currentUser.Id;
+
             Advert current = await InsertAsync(item);
             return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }

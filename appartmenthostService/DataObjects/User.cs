@@ -12,9 +12,16 @@ namespace appartmenthostService.DataObjects
     {
         public User() 
         {
-            this.Apartments = new List<Apartment>();
-            this.Adverts = new List<Advert>();
-            this.Reservations = new List<Reservation>();
+            this.Notifications = new HashSet<Notification>();
+            this.Favorites = new HashSet<Favorite>();
+            this.SocialAccounts = new HashSet<SocialAccount>();
+            this.Apartments = new HashSet<Apartment>();
+            this.Adverts = new HashSet<Advert>();
+            this.Reservations = new HashSet<Reservation>();
+            this.Reviews = new HashSet<Review>();
+            this.AdvertiserReviews = new HashSet<Review>();
+            this.ReviewComments = new HashSet<ReviewComment>();
+
         }
         public string Username { get; set; }
         public string Email { get; set; }
@@ -22,9 +29,14 @@ namespace appartmenthostService.DataObjects
         public byte[] SaltedAndHashedPassword { get; set; }
 
         public virtual Profile Profile { get; set; }
+        public ICollection<Notification> Notifications { get; set; } 
+        public ICollection<Favorite> Favorites { get; set; } 
         public ICollection<SocialAccount> SocialAccounts { get; set; } 
         public ICollection<Apartment> Apartments { get; set; }
         public ICollection<Advert> Adverts { get; set; }
-        public ICollection<Reservation> Reservations { get; set; } 
+        public ICollection<Reservation> Reservations { get; set; }
+        public ICollection<Review> Reviews { get; set; }
+        public ICollection<Review> AdvertiserReviews { get; set; }
+        public ICollection<ReviewComment> ReviewComments { get; set; } 
     }
 }

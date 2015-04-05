@@ -10,13 +10,15 @@ namespace appartmenthostService.DataObjects
     {
         public Advert()
         {
-            this.Pictures = new List<Picture>();
+            this.Pictures = new HashSet<Picture>();
+            this.Favorites = new HashSet<Favorite>();
+            this.Notifications = new HashSet<Notification>();
         }
         [Required]
         public string Name { get; set; }
 
         [Required]
-        public string OwnerId { get; set; }
+        public string UserId { get; set; }
 
         public string DefaultPictureId { get; set; }
 
@@ -32,9 +34,11 @@ namespace appartmenthostService.DataObjects
 
         public DateTime DateTo { get; set; }
 
-        [ForeignKey("OwnerId")]
+        [ForeignKey("UserId")]
         public virtual User Owner { get; set; }
         public virtual Apartment Apartment { get; set;}
-    public virtual ICollection<Picture> Pictures { get; set; } 
+    public ICollection<Picture> Pictures { get; set; }
+    public ICollection<Favorite> Favorites { get; set; }
+    public ICollection<Notification> Notifications { get; set; }
     }
 }
