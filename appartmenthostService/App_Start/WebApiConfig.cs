@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Web.Http;
+using appartmenthostService.Authentication;
 using Microsoft.WindowsAzure.Mobile.Service;
 using appartmenthostService.DataObjects;
 using appartmenthostService.Models;
@@ -30,21 +31,22 @@ namespace appartmenthostService
 
     public class appartmenthostInitializer : ClearDatabaseSchemaIfModelChanges<appartmenthostContext>
     {
-        //protected override void Seed(appartmenthostContext context)
-        //{
-        //    List<User> users = new List<User>
-        //    {
-        //        new User { Id = Guid.NewGuid().ToString(), Email = "vasek@example.com", Username = "Vasek" },
-        //        new User { Id = Guid.NewGuid().ToString(), Email = "parus@parus.ru", Username = "Parus" },
-        //    };
+        protected override void Seed(appartmenthostContext context)
+        {
+            byte[] salt = StandartLoginProviderUtils.generateSalt();
+            List<User> users = new List<User>
+            {
+                new User { Id = Guid.NewGuid().ToString(), Email = "vasek@example.com", Salt = salt, SaltedAndHashedPassword = StandartLoginProviderUtils.hash("parusina", salt) },
+                new User { Id = Guid.NewGuid().ToString(), Email = "parus@parus.ru", Salt = salt, SaltedAndHashedPassword = StandartLoginProviderUtils.hash("parusina", salt) },
+            };
 
-        //    foreach (User user in users)
-        //    {
-        //        context.Set<User>().Add(user);
-        //    }
-
-        //    base.Seed(context);
-        //}
+            foreach (User user in users)
+            {
+                context.Set<User>().Add(user);
+            }
+            context.SaveChanges();
+            base.Seed(context);
+        }
     }
 }
 

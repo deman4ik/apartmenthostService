@@ -23,10 +23,13 @@ namespace appartmenthostService.Models
 
         public appartmenthostContext() : base(connectionStringName)
         {
-        } 
+        }
 
+        public DbSet<Apartment> Apartments { get; set; }
         public DbSet<Advert> Adverts { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Profile> Profile { get; set; }
+        public DbSet<Picture> Pictures { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

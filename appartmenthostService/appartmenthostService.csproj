@@ -80,6 +80,7 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Web.Http">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
@@ -196,6 +197,9 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\AdvertController.cs" />
+    <Compile Include="DataObjects\Apartment.cs" />
+    <Compile Include="DataObjects\Picture.cs" />
+    <Compile Include="DataObjects\Profile.cs" />
     <Compile Include="DataObjects\User.cs" />
     <Compile Include="DataObjects\Advert.cs" />
     <Compile Include="Models\appartmenthostContext.cs" />
