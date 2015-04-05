@@ -189,6 +189,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Authentication\FBCredentials.cs" />
+    <Compile Include="Authentication\FBLoginAuthenticationProvider.cs" />
+    <Compile Include="Authentication\FBLoginProvider.cs" />
     <Compile Include="Authentication\StandartLoginProvider.cs" />
     <Compile Include="Authentication\StandartLoginProviderCredentials.cs" />
     <Compile Include="Authentication\StandartLoginProviderUtils.cs" />
@@ -200,6 +203,8 @@
     <Compile Include="DataObjects\Apartment.cs" />
     <Compile Include="DataObjects\Picture.cs" />
     <Compile Include="DataObjects\Profile.cs" />
+    <Compile Include="DataObjects\Reservation.cs" />
+    <Compile Include="DataObjects\SocialAccount.cs" />
     <Compile Include="DataObjects\User.cs" />
     <Compile Include="DataObjects\Advert.cs" />
     <Compile Include="Models\appartmenthostContext.cs" />

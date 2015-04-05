@@ -18,6 +18,7 @@ namespace appartmenthostService
             ConfigOptions options = new ConfigOptions();
             options.LoginProviders.Remove(typeof(AzureActiveDirectoryLoginProvider));
             options.LoginProviders.Add(typeof(AzureActiveDirectoryExtendedLoginProvider));
+            options.LoginProviders.Add(typeof(FBLoginProvider));
             // Use this class to set WebAPI configuration options
             HttpConfiguration config = ServiceConfig.Initialize(new ConfigBuilder(options));
 

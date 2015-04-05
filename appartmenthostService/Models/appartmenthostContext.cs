@@ -27,7 +27,9 @@ namespace appartmenthostService.Models
 
         public DbSet<Apartment> Apartments { get; set; }
         public DbSet<Advert> Adverts { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<SocialAccount> SocialAccounts { get; set; }
         public DbSet<Profile> Profile { get; set; }
         public DbSet<Picture> Pictures { get; set; }
 
