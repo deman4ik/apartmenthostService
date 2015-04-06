@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Web.Http;
 using appartmenthostService.Authentication;
-using appartmenthostService.DataObjects;
+using appartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 using appartmenthostService.Models;

@@ -1,4 +1,4 @@
-﻿using appartmenthostService.DataObjects;
+﻿using appartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace appartmenthostService.Helpers

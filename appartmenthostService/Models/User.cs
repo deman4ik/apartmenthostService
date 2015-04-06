@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Mobile.Service;
 
-namespace appartmenthostService.DataObjects
+namespace appartmenthostService.Models
 {
     public class User : EntityData
     {
@@ -23,12 +23,11 @@ namespace appartmenthostService.DataObjects
             this.ReviewComments = new HashSet<ReviewComment>();
 
         }
-        public string Username { get; set; }
         public string Email { get; set; }
         public byte[] Salt { get; set; }
         public byte[] SaltedAndHashedPassword { get; set; }
 
-        public virtual Profile Profile { get; set; }
+     //   public virtual Profile Profile { get; set; }
         public ICollection<Notification> Notifications { get; set; } 
         public ICollection<Favorite> Favorites { get; set; } 
         public ICollection<SocialAccount> SocialAccounts { get; set; } 

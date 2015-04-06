@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Web.Http;
 using appartmenthostService.Authentication;
-using appartmenthostService.DataObjects;
+using appartmenthostService.Models;
 using appartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;

@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Web.Http;
 using appartmenthostService.Authentication;
 using Microsoft.WindowsAzure.Mobile.Service;
-using appartmenthostService.DataObjects;
+using appartmenthostService.Models;
 using appartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service.Security.Providers;
 
@@ -30,21 +30,34 @@ namespace appartmenthostService
         }
     }
 
-    public class appartmenthostInitializer : ClearDatabaseSchemaIfModelChanges<appartmenthostContext>
+    public class appartmenthostInitializer : DropCreateDatabaseAlways<appartmenthostContext>//ClearDatabaseSchemaIfModelChanges<appartmenthostContext>
     {
         protected override void Seed(appartmenthostContext context)
         {
             byte[] salt = StandartLoginProviderUtils.generateSalt();
+            string id1 = Guid.NewGuid().ToString();
+            string id2 = Guid.NewGuid().ToString(); 
             List<User> users = new List<User>
             {
-                new User { Id = Guid.NewGuid().ToString(), Email = "vasek@example.com", Salt = salt, SaltedAndHashedPassword = StandartLoginProviderUtils.hash("parusina", salt) },
-                new User { Id = Guid.NewGuid().ToString(), Email = "parus@parus.ru", Salt = salt, SaltedAndHashedPassword = StandartLoginProviderUtils.hash("parusina", salt) },
+                new User { Id = id1, Email = "vasek@example.com", Salt = salt, SaltedAndHashedPassword = StandartLoginProviderUtils.hash("parusina", salt) },
+                new User { Id = id2, Email = "parus@parus.ru", Salt = salt, SaltedAndHashedPassword = StandartLoginProviderUtils.hash("parusina", salt) },
             };
 
+            List<Profile> profiles = new List<Profile>
+            {
+                new Profile {Id = id1, FirstName = "Vasek", LastName = "Pupkin"},
+                new Profile {Id = id2, FirstName = "Parus", LastName = "Parusina"},
+            };
             foreach (User user in users)
             {
                 context.Set<User>().Add(user);
             }
+
+            foreach (Profile profile in profiles)
+            {
+                context.Set<Profile>().Add(profile);
+            }
+
             context.SaveChanges();
             base.Seed(context);
         }

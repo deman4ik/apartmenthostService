@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Mobile.Service;
 
-namespace appartmenthostService.DataObjects
+namespace appartmenthostService.Models
 {
     public class Review : EntityData
     {

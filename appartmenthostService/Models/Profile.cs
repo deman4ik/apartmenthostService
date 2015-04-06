@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.WindowsAzure.Mobile.Service;
 
 
-namespace appartmenthostService.DataObjects
+namespace appartmenthostService.Models
 {
     public class Profile : EntityData
     {
-        [Key, ForeignKey("User")]
+        //[Key, ForeignKey("User")]
         public string UserId { get; set; }
 
         [Required]

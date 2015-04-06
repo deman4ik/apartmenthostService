@@ -3,7 +3,6 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Tables;
-using appartmenthostService.DataObjects;
 
 namespace appartmenthostService.Models
 {
@@ -24,14 +23,18 @@ namespace appartmenthostService.Models
         public appartmenthostContext() : base(connectionStringName)
         {
         }
-
+        
         public DbSet<Apartment> Apartments { get; set; }
         public DbSet<Advert> Adverts { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<ReviewComment> ReviewComments { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<SocialAccount> SocialAccounts { get; set; }
         public DbSet<Profile> Profile { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
         public DbSet<Picture> Pictures { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
