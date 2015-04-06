@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.OData;
+using appartmenthostService.Attributes;
 using Microsoft.WindowsAzure.Mobile.Service;
 using appartmenthostService.DataObjects;
 using appartmenthostService.Models;
@@ -26,6 +27,7 @@ namespace appartmenthostService.Controllers
         }
 
         // GET tables/Advert
+        [QueryableExpand("Apartments")]
         public IQueryable<Advert> GetAllAdverts()
         {
             // Get the logged in user
@@ -36,6 +38,7 @@ namespace appartmenthostService.Controllers
         }
 
         // GET tables/Advert/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        [QueryableExpand("Apartments")]
         public SingleResult<Advert> GetAdvert(string id)
         {
             return Lookup(id);

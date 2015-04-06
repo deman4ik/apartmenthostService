@@ -189,6 +189,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Attributes\QueryableExpandAttribute.cs" />
     <Compile Include="Authentication\FBCredentials.cs" />
     <Compile Include="Authentication\FBLoginAuthenticationProvider.cs" />
     <Compile Include="Authentication\FBLoginProvider.cs" />
