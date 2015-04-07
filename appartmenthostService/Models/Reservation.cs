@@ -7,9 +7,7 @@ namespace appartmenthostService.Models
 {
     public class Reservation : EntityData
     {
-        [Required]
         public string AdvertId { get; set; }
-        [Required]
         public string UserId { get; set; }
         [Required]
         public string Status { get; set; }

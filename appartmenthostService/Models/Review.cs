@@ -15,13 +15,10 @@ namespace appartmenthostService.Models
         {
             this.ReviewComments = new HashSet<ReviewComment>();
         }
-        [Required]
         public string UserId { get; set; }
-        [Required]
         public string AdvertiserId { get; set; }
         public string Type { get; set; }
         public string Text { get; set; }
-        [Required]
         public double Rating { get; set; }
 
         [ForeignKey("UserId")]

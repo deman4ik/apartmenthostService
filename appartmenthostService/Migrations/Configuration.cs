@@ -9,7 +9,7 @@ namespace appartmenthostService.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(appartmenthostService.Models.appartmenthostContext context)

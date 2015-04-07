@@ -11,11 +11,8 @@ namespace appartmenthostService.Models
 {
     public class ReviewComment : EntityData
     {
-        [Required]
         public string UserId { get; set; }
-        [Required]
         public string ReviewId { get; set; }
-        [Required]
         public string Text { get; set; }
 
         [ForeignKey("UserId")]

@@ -47,6 +47,17 @@ namespace appartmenthostService.Models
             modelBuilder.Conventions.Add(
                 new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(
                     "ServiceTableColumn", (property, attributes) => attributes.Single().ColumnType.ToString()));
+
+
+            // User + Profile
+            // Configure StudentId as PK for StudentAddress
+            modelBuilder.Entity<Profile>()
+                .HasKey(e => e.UserId);
+
+            // Configure StudentId as FK for StudentAddress
+            modelBuilder.Entity<User>()
+                        .HasOptional(s => s.Profile) // Mark StudentAddress is optional for Student
+                        .WithRequired(ad => ad.User); // Create inverse relationship
         }
     }
 

@@ -23,6 +23,7 @@ namespace appartmenthostService.Controllers
         public HttpResponseMessage Post(LoginRequest loginRequest)
         {
            appartmenthostContext context = new appartmenthostContext();
+            
             User user = context.Users.Where(a => a.Email == loginRequest.email).SingleOrDefault();
             if (user != null)
             {

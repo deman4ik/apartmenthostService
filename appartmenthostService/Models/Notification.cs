@@ -11,7 +11,6 @@ namespace appartmenthostService.Models
 {
     public class Notification : EntityData
     {
-        [Required]
         public string UserId { get; set; }
         public string PictureId { get; set; }
         public string Text { get; set; }

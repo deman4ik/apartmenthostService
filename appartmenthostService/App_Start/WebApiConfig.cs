@@ -30,8 +30,8 @@ namespace appartmenthostService
         }
     }
 
-    public class appartmenthostInitializer : DropCreateDatabaseAlways<appartmenthostContext>//ClearDatabaseSchemaIfModelChanges<appartmenthostContext>
-    {
+    public class appartmenthostInitializer : DropCreateDatabaseAlways<appartmenthostContext> //ClearDatabaseSchemaIfModelChanges
+    { 
         protected override void Seed(appartmenthostContext context)
         {
             byte[] salt = StandartLoginProviderUtils.generateSalt();
@@ -58,7 +58,7 @@ namespace appartmenthostService
                 context.Set<Profile>().Add(profile);
             }
 
-            context.SaveChanges();
+            //context.SaveChanges();
             base.Seed(context);
         }
     }

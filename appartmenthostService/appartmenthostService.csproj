@@ -203,10 +203,6 @@
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\AdvertController.cs" />
     <Compile Include="DataObjects\UserDTO.cs" />
-    <Compile Include="Migrations\201504061649017_Initial.cs" />
-    <Compile Include="Migrations\201504061649017_Initial.Designer.cs">
-      <DependentUpon>201504061649017_Initial.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Apartment.cs" />
     <Compile Include="Models\Favorite.cs" />
@@ -245,11 +241,6 @@
   <ItemGroup>
     <None Include="Properties\PublishProfiles\appartmenthost - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\appartmenthost - Web Deploy.pubxml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201504061649017_Initial.resx">
-      <DependentUpon>201504061649017_Initial.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

@@ -11,10 +11,8 @@ namespace appartmenthostService.Models
 {
     public class SocialAccount : EntityData
     {
-        [Required]
         public string UserId { get; set; }
         public string Provider { get; set; }
-        [Required]
         public string SocialId { get; set; }
 
         [ForeignKey("UserId")]

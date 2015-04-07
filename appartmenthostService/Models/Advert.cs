@@ -17,7 +17,6 @@ namespace appartmenthostService.Models
         [Required]
         public string Name { get; set; }
 
-        [Required]
         public string UserId { get; set; }
 
         public string DefaultPictureId { get; set; }

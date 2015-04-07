@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.WindowsAzure.Mobile.Service;
 
 namespace appartmenthostService.Models
@@ -27,7 +22,7 @@ namespace appartmenthostService.Models
         public byte[] Salt { get; set; }
         public byte[] SaltedAndHashedPassword { get; set; }
 
-     //   public virtual Profile Profile { get; set; }
+        public virtual Profile Profile { get; set; }
         public ICollection<Notification> Notifications { get; set; } 
         public ICollection<Favorite> Favorites { get; set; } 
         public ICollection<SocialAccount> SocialAccounts { get; set; } 
