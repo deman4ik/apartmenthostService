@@ -7,6 +7,7 @@ using appartmenthostService.Attributes;
 using Microsoft.WindowsAzure.Mobile.Service;
 using appartmenthostService.Models;
 using appartmenthostService.Models;
+using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace appartmenthostService.Controllers
 {
@@ -23,13 +24,18 @@ namespace appartmenthostService.Controllers
        // [QueryableExpand("User")]
         public IQueryable<Apartment> GetAllApartment()
         {
-            return Query(); 
+
+            var currentUser = User as ServiceUser;
+
+            return Query().Where(a => a.UserId == currentUser.Id);
+           
         }
 
         // GET tables/Apartment/48D68C86-6EA6-4C25-AA33-223FC9A27959
        // [QueryableExpand("User")]
         public SingleResult<Apartment> GetApartment(string id)
         {
+
             return Lookup(id);
         }
 

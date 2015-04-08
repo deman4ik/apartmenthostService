@@ -30,10 +30,6 @@ namespace appartmenthostService.Controllers
        // [QueryableExpand("Apartments")]
         public IQueryable<Advert> GetAllAdverts()
         {
-            // Get the logged in user
-           // var currentUser = User as ServiceUser;
-
-            //return Query().Where(advert => advert.UserId == currentUser.Id);
             return Query();
         }
 
