@@ -15,9 +15,7 @@ namespace appartmenthostService.Models
         public string ReviewId { get; set; }
         public string Text { get; set; }
 
-        [ForeignKey("UserId")]
         public virtual User User { get; set; }
-        [ForeignKey("ReviewId")]
         public virtual Review Review { get; set; }
     }
 }

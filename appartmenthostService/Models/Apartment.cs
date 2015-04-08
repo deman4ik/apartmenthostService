@@ -7,13 +7,13 @@ namespace appartmenthostService.Models
 {
     public class Apartment : EntityData
     {
-        [Required]
+
         public string Name { get; set; }
 
-        [Required]
-        public string OwnerId { get; set; }
 
-        [Required]
+        public string UserId { get; set; }
+
+
         public decimal Price { get; set; }
 
         public decimal PriceTotal { get; set; }
@@ -28,8 +28,7 @@ namespace appartmenthostService.Models
 
         public string Сohabitation { get; set; }
 
-        [ForeignKey("OwnerId")]
-        public virtual User Owner { get; set; }
+        public virtual User User { get; set; }
         public virtual ICollection<Advert> Adverts { get; set; }
         public virtual ICollection<Picture> Pictures { get; set; } 
     }

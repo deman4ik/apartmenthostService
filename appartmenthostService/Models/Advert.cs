@@ -12,16 +12,14 @@ namespace appartmenthostService.Models
         {
             this.Pictures = new HashSet<Picture>();
             this.Favorites = new HashSet<Favorite>();
-            this.Notifications = new HashSet<Notification>();
+            this.Reservations = new HashSet<Reservation>();
         }
-        [Required]
         public string Name { get; set; }
 
         public string UserId { get; set; }
 
         public string DefaultPictureId { get; set; }
 
-        [Required]
         public string Type { get; set; }
 
 
@@ -33,11 +31,11 @@ namespace appartmenthostService.Models
 
         public DateTime DateTo { get; set; }
 
-        [ForeignKey("UserId")]
-        public virtual User Owner { get; set; }
+        public virtual User User { get; set; }
         public virtual Apartment Apartment { get; set;}
     public ICollection<Picture> Pictures { get; set; }
     public ICollection<Favorite> Favorites { get; set; }
-    public ICollection<Notification> Notifications { get; set; }
+    public ICollection<Reservation> Reservations { get; set; } 
+
     }
 }

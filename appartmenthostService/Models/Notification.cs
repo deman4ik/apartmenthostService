@@ -21,9 +21,7 @@ namespace appartmenthostService.Models
         public bool SendMail { get; set; }
         
 
-        [ForeignKey("UserId")]
         public virtual User User { get; set; }
-        [ForeignKey("PictureId")]
         public virtual Picture Picture { get; set; }
     }
 }

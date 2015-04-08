@@ -8,12 +8,9 @@ namespace appartmenthostService.Models
 {
     public class Profile : EntityData
     {
-        [Key, ForeignKey("User")]
         public string UserId { get; set; }
 
-        [Required]
         public string FirstName { get; set; }
-        [Required]
         public string LastName { get; set; }
         public string Gender { get; set; }
         public DateTime Birthday { get; set; }
@@ -24,7 +21,6 @@ namespace appartmenthostService.Models
         public string PictureId { get; set; }
 
         public virtual User User { get; set; }
-        [ForeignKey("PictureId")]
         public virtual Picture Picture { get; set; }
     }
 }

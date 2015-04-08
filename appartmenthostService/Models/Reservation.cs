@@ -9,15 +9,12 @@ namespace appartmenthostService.Models
     {
         public string AdvertId { get; set; }
         public string UserId { get; set; }
-        [Required]
         public string Status { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
 
 
-        [ForeignKey("AdvertId")]
         public Advert Advert { get; set; }
-        [ForeignKey("UserId")]
         public User User { get; set; }
     }
 }

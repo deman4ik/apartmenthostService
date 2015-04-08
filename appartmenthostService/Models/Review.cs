@@ -21,9 +21,7 @@ namespace appartmenthostService.Models
         public string Text { get; set; }
         public double Rating { get; set; }
 
-        [ForeignKey("UserId")]
         public virtual User User { get; set; }
-        [ForeignKey("AdvertiserId")]
         public virtual User Advertiser { get; set; }
 
         public ICollection<ReviewComment> ReviewComments { get; set; } 

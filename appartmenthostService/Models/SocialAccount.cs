@@ -15,7 +15,6 @@ namespace appartmenthostService.Models
         public string Provider { get; set; }
         public string SocialId { get; set; }
 
-        [ForeignKey("UserId")]
         public User User { get; set; }
     }
 }

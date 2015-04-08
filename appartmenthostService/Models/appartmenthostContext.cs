@@ -48,16 +48,142 @@ namespace appartmenthostService.Models
                 new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(
                     "ServiceTableColumn", (property, attributes) => attributes.Single().ColumnType.ToString()));
 
-
+            /***********************
+             *       User          *
+             ***********************/       
             // User + Profile
-            // Configure StudentId as PK for StudentAddress
             modelBuilder.Entity<Profile>()
                 .HasKey(e => e.UserId);
 
-            // Configure StudentId as FK for StudentAddress
+
             modelBuilder.Entity<User>()
-                        .HasOptional(s => s.Profile) // Mark StudentAddress is optional for Student
-                        .WithRequired(ad => ad.User); // Create inverse relationship
+                        .HasOptional(s => s.Profile) 
+                        .WithRequired(ad => ad.User)
+                        .WillCascadeOnDelete(false); 
+
+            // User + Social Account
+            modelBuilder.Entity<User>()
+                       .HasMany<SocialAccount>(s => s.SocialAccounts)
+                       .WithRequired(s => s.User)
+                       .HasForeignKey(s => s.UserId)
+                       .WillCascadeOnDelete(false);
+
+            // User + Apartment
+            modelBuilder.Entity<User>()
+                       .HasMany<Apartment>(s => s.Apartments)
+                       .WithRequired(s => s.User)
+                       .HasForeignKey(s => s.UserId)
+                       .WillCascadeOnDelete(false);
+
+            // User + Advert
+            modelBuilder.Entity<User>()
+                       .HasMany<Advert>(s => s.Adverts)
+                       .WithRequired(s => s.User)
+                       .HasForeignKey(s => s.UserId)
+                       .WillCascadeOnDelete(false);
+
+            // User + Favorite
+            modelBuilder.Entity<User>()
+                      .HasMany<Favorite>(s => s.Favorites)
+                      .WithRequired(s => s.User)
+                      .HasForeignKey(s => s.UserId)
+                      .WillCascadeOnDelete(false);
+
+            // User + Notification
+            modelBuilder.Entity<User>()
+                      .HasMany<Notification>(s => s.Notifications)
+                      .WithRequired(s => s.User)
+                      .HasForeignKey(s => s.UserId)
+                      .WillCascadeOnDelete(false);
+
+            // User + Reservation
+            modelBuilder.Entity<User>()
+                .HasMany<Reservation>(s => s.Reservations)
+                .WithRequired(s => s.User)
+                .HasForeignKey(s => s.UserId)
+                .WillCascadeOnDelete(false);
+
+            // User + Review
+            modelBuilder.Entity<User>()
+               .HasMany<Review>(s => s.Reviews)
+               .WithRequired(s => s.User)
+               .HasForeignKey(s => s.UserId)
+               .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<User>()
+              .HasMany<Review>(s => s.AdvertiserReviews)
+              .WithRequired(s => s.Advertiser)
+              .HasForeignKey(s => s.AdvertiserId)
+                .WillCascadeOnDelete(false);
+
+            // User + ReviewComment
+            modelBuilder.Entity<User>()
+               .HasMany<ReviewComment>(s => s.ReviewComments)
+               .WithRequired(s => s.User)
+               .HasForeignKey(s => s.UserId)
+               .WillCascadeOnDelete(false);
+            
+            
+            //Apartment
+            modelBuilder.Entity<Apartment>()
+              .HasMany<Advert>(s => s.Adverts)
+              .WithOptional(s => s.Apartment)
+              .HasForeignKey(s => s.ApartmentId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Apartment>()
+                  .HasMany<Picture>(s => s.Pictures)
+                  .WithMany(c => c.Apartments)
+                  .Map(cs =>
+                  {
+                      cs.MapLeftKey("ApartmentRefId");
+                      cs.MapRightKey("PictureRefId");
+                      cs.ToTable("ApartmentPicture");
+                  });
+
+            // Advert
+
+            modelBuilder.Entity<Advert>()
+              .HasMany<Favorite>(s => s.Favorites)
+              .WithRequired(s => s.Advert)
+              .HasForeignKey(s => s.AdvertId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Advert>()
+             .HasMany<Reservation>(s => s.Reservations)
+             .WithRequired(s => s.Advert)
+             .HasForeignKey(s => s.AdvertId)
+               .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Advert>()
+                  .HasMany<Picture>(s => s.Pictures)
+                  .WithMany(c => c.Adverts)
+                  .Map(cs =>
+                  {
+                      cs.MapLeftKey("AdvertRefId");
+                      cs.MapRightKey("PictureRefId");
+                      cs.ToTable("AdvertPicture");
+                  });
+
+            // Review
+
+            modelBuilder.Entity<Review>()
+             .HasMany<ReviewComment>(s => s.ReviewComments)
+             .WithRequired(s => s.Review)
+             .HasForeignKey(s => s.ReviewId)
+               .WillCascadeOnDelete(false);
+
+            // Picture + Profile
+            modelBuilder.Entity<Picture>()
+               .HasMany<Profile>(s => s.Profiles)
+               .WithOptional(s => s.Picture)
+               .HasForeignKey(s => s.PictureId);
+
+            // Picture + Notification
+            modelBuilder.Entity<Picture>()
+               .HasMany<Notification>(s => s.Notifications)
+               .WithOptional(s => s.Picture)
+               .HasForeignKey(s => s.PictureId);
         }
     }
 
