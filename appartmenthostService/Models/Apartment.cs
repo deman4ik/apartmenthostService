@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.WindowsAzure.Mobile.Service;
 
 namespace appartmenthostService.Models
 {
     public class Apartment : EntityData
     {
-
+        public Apartment()
+        {
+            this.Adverts = new HashSet<Advert>();
+            this.Pictures = new HashSet<Picture>();
+        }
         public string Name { get; set; }
 
 

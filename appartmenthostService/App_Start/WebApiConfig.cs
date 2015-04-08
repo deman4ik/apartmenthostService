@@ -30,7 +30,7 @@ namespace appartmenthostService
         }
     }
 
-    public class appartmenthostInitializer : DropCreateDatabaseAlways<appartmenthostContext> //ClearDatabaseSchemaIfModelChanges
+    public class appartmenthostInitializer : ClearDatabaseSchemaAlways<appartmenthostContext> //ClearDatabaseSchemaIfModelChanges
     { 
         protected override void Seed(appartmenthostContext context)
         {
@@ -43,20 +43,20 @@ namespace appartmenthostService
                 new User { Id = id2, Email = "parus@parus.ru", Salt = salt, SaltedAndHashedPassword = StandartLoginProviderUtils.hash("parusina", salt) },
             };
 
-            List<Profile> profiles = new List<Profile>
-            {
-                new Profile {Id = id1, FirstName = "Vasek", LastName = "Pupkin"},
-                new Profile {Id = id2, FirstName = "Parus", LastName = "Parusina"},
-            };
+            //List<Profile> profiles = new List<Profile>
+            //{
+            //    new Profile {Id = id1, FirstName = "Vasek", LastName = "Pupkin"},
+            //    new Profile {Id = id2, FirstName = "Parus", LastName = "Parusina"},
+            //};
             foreach (User user in users)
             {
                 context.Set<User>().Add(user);
             }
 
-            foreach (Profile profile in profiles)
-            {
-                context.Set<Profile>().Add(profile);
-            }
+            //foreach (Profile profile in profiles)
+            //{
+            //    context.Set<Profile>().Add(profile);
+            //}
 
             //context.SaveChanges();
             base.Seed(context);

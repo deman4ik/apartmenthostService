@@ -52,12 +52,9 @@ namespace appartmenthostService.Models
              *       User          *
              ***********************/       
             // User + Profile
-            modelBuilder.Entity<Profile>()
-                .HasKey(e => e.UserId);
-
 
             modelBuilder.Entity<User>()
-                        .HasOptional(s => s.Profile) 
+                        .HasOptional(s => s.Profile)
                         .WithRequired(ad => ad.User)
                         .WillCascadeOnDelete(false); 
 
@@ -144,16 +141,18 @@ namespace appartmenthostService.Models
             // Advert
 
             modelBuilder.Entity<Advert>()
+ .HasMany<Reservation>(s => s.Reservations)
+ .WithRequired(s => s.Advert)
+ .HasForeignKey(s => s.AdvertId)
+   .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Advert>()
               .HasMany<Favorite>(s => s.Favorites)
               .WithRequired(s => s.Advert)
               .HasForeignKey(s => s.AdvertId)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Advert>()
-             .HasMany<Reservation>(s => s.Reservations)
-             .WithRequired(s => s.Advert)
-             .HasForeignKey(s => s.AdvertId)
-               .WillCascadeOnDelete(false);
+
 
             modelBuilder.Entity<Advert>()
                   .HasMany<Picture>(s => s.Pictures)
