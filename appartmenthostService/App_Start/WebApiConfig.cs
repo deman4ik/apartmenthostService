@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Web.Http;
+using appartmenthostService.App_Start;
 using appartmenthostService.Authentication;
 using appartmenthostService.Helpers;
 using Microsoft.WindowsAzure.Mobile.Service;
@@ -34,35 +33,11 @@ namespace appartmenthostService
         }
     }
 
-    public class appartmenthostInitializer : ClearDatabaseSchemaAlways<appartmenthostContext> //ClearDatabaseSchemaIfModelChanges
+    public class appartmenthostInitializer : DropCreateDatabaseAlways<appartmenthostContext> //ClearDatabaseSchemaIfModelChanges //ClearDatabaseSchemaAlways
     { 
         protected override void Seed(appartmenthostContext context)
         {
-            byte[] salt = StandartLoginProviderUtils.generateSalt();
-            string id1 = Guid.NewGuid().ToString();
-            string id2 = Guid.NewGuid().ToString(); 
-            List<User> users = new List<User>
-            {
-                new User { Id = id1, Email = "vasek@example.com", Salt = salt, SaltedAndHashedPassword = StandartLoginProviderUtils.hash("parusina", salt) },
-                new User { Id = id2, Email = "parus@parus.ru", Salt = salt, SaltedAndHashedPassword = StandartLoginProviderUtils.hash("parusina", salt) },
-            };
-
-            //List<Profile> profiles = new List<Profile>
-            //{
-            //    new Profile {Id = id1, FirstName = "Vasek", LastName = "Pupkin"},
-            //    new Profile {Id = id2, FirstName = "Parus", LastName = "Parusina"},
-            //};
-            foreach (User user in users)
-            {
-                context.Set<User>().Add(user);
-            }
-
-            //foreach (Profile profile in profiles)
-            //{
-            //    context.Set<Profile>().Add(profile);
-            //}
-
-            //context.SaveChanges();
+            TestDBPopulator.Populate(context);
             base.Seed(context);
         }
     }

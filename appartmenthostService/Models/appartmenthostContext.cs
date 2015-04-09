@@ -184,6 +184,7 @@ namespace appartmenthostService.Models
                .WithOptional(s => s.Picture)
                .HasForeignKey(s => s.PictureId);
         }
+
     }
 
 }

@@ -8,6 +8,8 @@ namespace appartmenthostService.DataObjects
 {
     public class AdvertDTO
     {
+        public string Id { get; set; }
+
         public string Name { get; set; }
 
         public string UserId { get; set; }

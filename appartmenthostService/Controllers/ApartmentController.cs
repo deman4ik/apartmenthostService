@@ -10,6 +10,7 @@ using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace appartmenthostService.Controllers
 {
+    [AuthorizeLevel(AuthorizationLevel.User)]
     public class ApartmentController : TableController<Apartment>
     {
         appartmenthostContext context = new appartmenthostContext();
@@ -29,6 +30,7 @@ namespace appartmenthostService.Controllers
 
             return Query().Where(a => a.UserId == currentUser.Id).Select(x => new ApartmentDTO()
             {
+                Id = x.Id,
                 Name = x.Name,
                 UserId = x.UserId,
                 Price = x.Price,
@@ -51,6 +53,7 @@ namespace appartmenthostService.Controllers
             var currentUser = User as ServiceUser;
             var result = Lookup(id).Queryable.Where(a => a.UserId == currentUser.Id).Select(x => new ApartmentDTO()
             {
+                Id = x.Id,
                 Name = x.Name,
                 UserId = x.UserId,
                 Price = x.Price,
