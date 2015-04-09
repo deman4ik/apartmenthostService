@@ -5,6 +5,7 @@ namespace appartmenthostService.Models
 {
     public class Apartment : EntityData
     {
+
         public Apartment()
         {
             this.Adverts = new HashSet<Advert>();
@@ -15,6 +16,7 @@ namespace appartmenthostService.Models
 
         public string UserId { get; set; }
 
+        public string Сohabitation { get; set; }
 
         public decimal Price { get; set; }
 
@@ -22,13 +24,13 @@ namespace appartmenthostService.Models
 
         public string Adress { get; set; }
 
-        public decimal X { get; set; }
+        public decimal? Latitude { get; set; }
 
-        public decimal Y { get; set; }
+        public decimal? Longitude { get; set; }
 
-        public decimal Rating { get; set; }
+        public decimal? Rating { get; set; }
 
-        public string Сohabitation { get; set; }
+        
 
         public virtual User User { get; set; }
         public virtual ICollection<Advert> Adverts { get; set; }

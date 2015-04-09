@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Web.Http;
 using appartmenthostService.Authentication;
-using appartmenthostService.Models;
 using appartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;

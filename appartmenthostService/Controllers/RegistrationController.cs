@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text.RegularExpressions;
 using System.Web.Http;
 using appartmenthostService.Authentication;
 using appartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
-using appartmenthostService.Models;
 
 namespace appartmenthostService.Controllers
 {

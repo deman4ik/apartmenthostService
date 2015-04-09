@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Web.Http;
 using appartmenthostService.Authentication;
+using appartmenthostService.Helpers;
 using Microsoft.WindowsAzure.Mobile.Service;
 using appartmenthostService.Models;
-using appartmenthostService.Models;
+using AutoMapper;
 using Microsoft.WindowsAzure.Mobile.Service.Security.Providers;
 
 namespace appartmenthostService
@@ -25,7 +26,10 @@ namespace appartmenthostService
             // To display errors in the browser during development, uncomment the following
             // line. Comment it out again when you deploy your service for production use.
             config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
-            
+            Mapper.Initialize(cfg =>
+            {
+                DTOMapper.CreateMapping(cfg);
+            });
             Database.SetInitializer(new appartmenthostInitializer());
         }
     }
