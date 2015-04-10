@@ -21,7 +21,7 @@ namespace appartmenthostService.Controllers
         {
            appartmenthostContext context = new appartmenthostContext();
             
-            User user = context.Users.Where(a => a.Email == loginRequest.email).SingleOrDefault();
+            User user = context.Users.SingleOrDefault(a => a.Email == loginRequest.email);
             if (user != null)
             {
                 byte[] incoming = StandartLoginProviderUtils.hash(loginRequest.password, user.Salt);

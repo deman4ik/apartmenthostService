@@ -30,7 +30,7 @@ namespace appartmenthostService.Models
 
         public decimal? Rating { get; set; }
 
-        
+        public string Cohabitation { get; set; }
 
         public virtual User User { get; set; }
         public virtual ICollection<Advert> Adverts { get; set; }

@@ -8,7 +8,7 @@ using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace appartmenthostService.Controllers
 {
-     [AuthorizeLevel(AuthorizationLevel.Anonymous)]
+     
     public class AdvertController : TableController<Advert>
     {
          appartmenthostContext context = new appartmenthostContext();
@@ -21,10 +21,12 @@ namespace appartmenthostService.Controllers
 
         // GET tables/Advert
        // [QueryableExpand("Apartments")]
+        [AuthorizeLevel(AuthorizationLevel.Anonymous)]
         public IQueryable<AdvertDTO> GetAllAdverts()
         {
             return Query().Select(x => new AdvertDTO()
             {
+                Id = x.Id,
                 Name = x.Name,
                 UserId = x.UserId,
                 DefaultPictureId = x.DefaultPictureId,
@@ -33,17 +35,18 @@ namespace appartmenthostService.Controllers
                 ApartmentId = x.ApartmentId,
                 DateFrom = x.DateFrom,
                 DateTo = x.DateTo,
-                User =  new UserDTO()
+                User = new UserDTO()
                 {
-                    Email = x.User.Email,
+                    Id = x.Id,
                     FirstName = x.User.Profile.FirstName,
                     LastName = x.User.Profile.LastName,
                     Gender = x.User.Profile.Gender,
-                    Phone = x.User.Profile.ContactKind,
+                    Phone = x.User.Profile.Phone,
                     PictureId = x.User.Profile.PictureId
                 },
                 Apartment = new ApartmentDTO()
                 {
+                    Id = x.Id,
                     Name = x.Apartment.Name,
                     UserId = x.Apartment.UserId,
                     Price = x.Apartment.Price,
@@ -60,6 +63,7 @@ namespace appartmenthostService.Controllers
 
         // GET tables/Advert/48D68C86-6EA6-4C25-AA33-223FC9A27959
        // [QueryableExpand("Apartments")]
+        [AuthorizeLevel(AuthorizationLevel.Anonymous)]
         public SingleResult<Advert> GetAdvert(string id)
         {
             return Lookup(id);

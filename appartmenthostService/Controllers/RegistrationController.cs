@@ -20,7 +20,7 @@ namespace appartmenthostService.Controllers
         {
             if (!StandartLoginProviderUtils.IsEmailValid(registrationRequest.email))
             {
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid username (at least 4 chars, alphanumeric only)");
+                return this.Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid email");
             }
             else if (registrationRequest.password.Length < 8)
             {
@@ -28,10 +28,10 @@ namespace appartmenthostService.Controllers
             }
 
             appartmenthostContext context = new appartmenthostContext();
-            User user = context.Users.Where(a => a.Email == registrationRequest.email).SingleOrDefault();
+            User user = context.Users.SingleOrDefault(a => a.Email == registrationRequest.email);
             if (user != null)
             {
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest, "Username already exists");
+                return this.Request.CreateResponse(HttpStatusCode.BadRequest, "User with such email already exists");
             }
             else
             {
