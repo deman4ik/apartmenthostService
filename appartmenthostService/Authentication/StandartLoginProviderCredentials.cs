@@ -13,5 +13,7 @@ namespace appartmenthostService.Authentication
             : base(StandartLoginProvider.ProviderName)
         {
         }
+
+        public string Email { get; set; }
     }
 }

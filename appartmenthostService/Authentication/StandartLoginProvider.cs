@@ -13,7 +13,7 @@ namespace appartmenthostService.Authentication
 {
     public class StandartLoginProvider : LoginProvider
     {
-        public const string ProviderName = "custom";
+        public const string ProviderName = "standart";
 
         public override string Name
         {
@@ -49,14 +49,19 @@ namespace appartmenthostService.Authentication
                 throw new ArgumentNullException("claimsIdentity");
             }
 
-            string username = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string email = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string userId = this.TokenHandler.CreateUserId(this.Name, email);
+            //
+            //User user = context.Users.SingleOrDefault(u => u.Email == email);
             StandartLoginProviderCredentials credentials = new StandartLoginProviderCredentials
             {
-                UserId = this.TokenHandler.CreateUserId(this.Name, username)
+               UserId = userId
+               
             };
-
+            AuthUtils.CreateAccount(this.Name, email, userId, email);
             return credentials;
         }
+
 
     }
 }

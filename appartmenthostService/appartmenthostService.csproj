@@ -196,7 +196,7 @@
     <Compile Include="Authentication\FBLoginProvider.cs" />
     <Compile Include="Authentication\StandartLoginProvider.cs" />
     <Compile Include="Authentication\StandartLoginProviderCredentials.cs" />
-    <Compile Include="Authentication\StandartLoginProviderUtils.cs" />
+    <Compile Include="Authentication\AuthUtils.cs" />
     <Compile Include="Authentication\LoginRequest.cs" />
     <Compile Include="Authentication\RegistrationRequest.cs" />
     <Compile Include="Controllers\ApartmentController.cs" />
@@ -217,7 +217,7 @@
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\Review.cs" />
     <Compile Include="Models\ReviewComment.cs" />
-    <Compile Include="Models\SocialAccount.cs" />
+    <Compile Include="Models\Account.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Advert.cs" />
     <Compile Include="Helpers\Helper.cs" />

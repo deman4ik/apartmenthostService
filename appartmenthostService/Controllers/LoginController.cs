@@ -24,9 +24,9 @@ namespace appartmenthostService.Controllers
             User user = context.Users.SingleOrDefault(a => a.Email == loginRequest.email);
             if (user != null)
             {
-                byte[] incoming = StandartLoginProviderUtils.hash(loginRequest.password, user.Salt);
+                byte[] incoming = AuthUtils.hash(loginRequest.password, user.Salt);
 
-                if (StandartLoginProviderUtils.slowEquals(incoming, user.SaltedAndHashedPassword))
+                if (AuthUtils.slowEquals(incoming, user.SaltedAndHashedPassword))
                 {
                     ClaimsIdentity claimsIdentity = new ClaimsIdentity();
                     claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, loginRequest.email));

@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.OData;
+using appartmenthostService.Authentication;
 using appartmenthostService.DataObjects;
 using Microsoft.WindowsAzure.Mobile.Service;
 using appartmenthostService.Models;
@@ -27,14 +29,13 @@ namespace appartmenthostService.Controllers
         {
 
             var currentUser = User as ServiceUser;
-
-            return Query().Where(a => a.UserId == currentUser.Id).Select(x => new ApartmentDTO()
+            var account = context.Accounts.SingleOrDefault(a => a.AccountId == currentUser.Id);
+            return Query().Where(a => a.UserId == account.UserId).Select(x => new ApartmentDTO()
             {
                 Id = x.Id,
                 Name = x.Name,
                 UserId = x.UserId,
                 Price = x.Price,
-                PriceTotal = x.PriceTotal,
                 Cohabitation = x.Сohabitation,
                 Adress = x.Adress,
                 Latitude = x.Latitude,
@@ -51,13 +52,13 @@ namespace appartmenthostService.Controllers
         public SingleResult<ApartmentDTO> GetApartment(string id)
         {
             var currentUser = User as ServiceUser;
-            var result = Lookup(id).Queryable.Where(a => a.UserId == currentUser.Id).Select(x => new ApartmentDTO()
+            var account = context.Accounts.SingleOrDefault(a => a.AccountId == currentUser.Id);
+            var result = Lookup(id).Queryable.Where(a => a.UserId == account.UserId).Select(x => new ApartmentDTO()
             {
                 Id = x.Id,
                 Name = x.Name,
                 UserId = x.UserId,
                 Price = x.Price,
-                PriceTotal = x.PriceTotal,
                 Cohabitation = x.Сohabitation,
                 Adress = x.Adress,
                 Latitude = x.Latitude,
@@ -69,24 +70,24 @@ namespace appartmenthostService.Controllers
         }
 
 
-        // PATCH tables/Apartment/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        //public Task<Apartment> PatchApartment(string id, Delta<Apartment> patch)
-        //{
-        //    return UpdateAsync(id, patch);
-        //}
+         // PATCH tables/Apartment/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public Task<Apartment> PatchApartment(string id, Delta<Apartment> patch)
+        {
+            return UpdateAsync(id, patch);
+        }
 
-       // // POST tables/Apartment
-       // public async Task<IHttpActionResult> PostApartment(Apartment item)
-       // {
-       //     Apartment current = await InsertAsync(item);
-       //     return CreatedAtRoute("Tables", new { id = current.Id }, current);
-       // }
+        // POST tables/Apartment
+        public async Task<IHttpActionResult> PostApartment(Apartment item)
+        {
+            Apartment current = await InsertAsync(item);
+            return CreatedAtRoute("Tables", new { id = current.Id }, current);
+        }
 
-       // // DELETE tables/Apartment/48D68C86-6EA6-4C25-AA33-223FC9A27959
-       // public Task DeleteApartment(string id)
-       // {
-       //      return DeleteAsync(id);
-       // }
+        // DELETE tables/Apartment/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public Task DeleteApartment(string id)
+        {
+             return DeleteAsync(id);
+        }
 
     }
 }

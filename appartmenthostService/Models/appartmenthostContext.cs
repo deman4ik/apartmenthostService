@@ -30,7 +30,7 @@ namespace appartmenthostService.Models
         public DbSet<Review> Reviews { get; set; }
         public DbSet<ReviewComment> ReviewComments { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<SocialAccount> SocialAccounts { get; set; }
+        public DbSet<Account> Accounts { get; set; }
         public DbSet<Profile> Profile { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Picture> Pictures { get; set; }
@@ -58,9 +58,9 @@ namespace appartmenthostService.Models
                         .WithRequired(ad => ad.User)
                         .WillCascadeOnDelete(false); 
 
-            // User + Social Account
+            // User + Account
             modelBuilder.Entity<User>()
-                       .HasMany<SocialAccount>(s => s.SocialAccounts)
+                       .HasMany<Account>(s => s.Accounts)
                        .WithRequired(s => s.User)
                        .HasForeignKey(s => s.UserId)
                        .WillCascadeOnDelete(false);

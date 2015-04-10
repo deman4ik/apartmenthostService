@@ -20,8 +20,6 @@ namespace appartmenthostService.Models
 
         public decimal Price { get; set; }
 
-        public decimal PriceTotal { get; set; }
-
         public string Adress { get; set; }
 
         public decimal? Latitude { get; set; }

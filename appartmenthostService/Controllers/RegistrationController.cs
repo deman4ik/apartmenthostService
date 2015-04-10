@@ -18,7 +18,7 @@ namespace appartmenthostService.Controllers
         // POST api/CustomRegistration
         public HttpResponseMessage Post(RegistrationRequest registrationRequest)
         {
-            if (!StandartLoginProviderUtils.IsEmailValid(registrationRequest.email))
+            if (!AuthUtils.IsEmailValid(registrationRequest.email))
             {
                 return this.Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid email");
             }
@@ -35,13 +35,13 @@ namespace appartmenthostService.Controllers
             }
             else
             {
-                byte[] salt = StandartLoginProviderUtils.generateSalt();
+                byte[] salt = AuthUtils.generateSalt();
                 User newUser = new User
                 {
                     Id = Guid.NewGuid().ToString(),
                     Email = registrationRequest.email,
                     Salt = salt,
-                    SaltedAndHashedPassword = StandartLoginProviderUtils.hash(registrationRequest.password, salt)
+                    SaltedAndHashedPassword = AuthUtils.hash(registrationRequest.password, salt)
                 };
                 context.Users.Add(newUser);
                 context.SaveChanges();

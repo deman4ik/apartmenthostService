@@ -9,7 +9,7 @@ namespace appartmenthostService.Models
         {
             this.Notifications = new HashSet<Notification>();
             this.Favorites = new HashSet<Favorite>();
-            this.SocialAccounts = new HashSet<SocialAccount>();
+            this.Accounts = new HashSet<Account>();
             this.Apartments = new HashSet<Apartment>();
             this.Adverts = new HashSet<Advert>();
             this.Reservations = new HashSet<Reservation>();
@@ -25,7 +25,7 @@ namespace appartmenthostService.Models
         public virtual Profile Profile { get; set; }
         public ICollection<Notification> Notifications { get; set; } 
         public ICollection<Favorite> Favorites { get; set; } 
-        public ICollection<SocialAccount> SocialAccounts { get; set; } 
+        public ICollection<Account> Accounts { get; set; } 
         public ICollection<Apartment> Apartments { get; set; }
         public ICollection<Advert> Adverts { get; set; }
         public ICollection<Reservation> Reservations { get; set; }

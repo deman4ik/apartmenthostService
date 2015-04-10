@@ -44,14 +44,17 @@ namespace appartmenthostService.Authentication
             Console.WriteLine(name.Value);
             Console.WriteLine(claimsIdentity.FindFirst(ClaimTypes.Name));
             Console.WriteLine(claimsIdentity.FindFirst(ClaimTypes.Email));
+            string email = claimsIdentity.FindFirst(ClaimTypes.Email).ToString();
+            string userId = this.TokenHandler.CreateUserId(this.Name, name != null
+                ? name.Value
+                : null);
             FBCredentials credentials = new FBCredentials
             {
-                UserId = this.TokenHandler.CreateUserId(this.Name, name != null ?
-                    name.Value : null),
+                UserId = userId,
                 AccessToken = providerAccessToken != null ?
                     providerAccessToken.Value : null
             };
-
+            AuthUtils.CreateAccount(this.Name, userId, name.Value, email);
             return credentials;
         }
 

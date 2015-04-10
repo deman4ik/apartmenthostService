@@ -33,7 +33,7 @@ namespace appartmenthostService
         }
     }
 
-    public class appartmenthostInitializer : DropCreateDatabaseAlways<appartmenthostContext> //ClearDatabaseSchemaIfModelChanges //ClearDatabaseSchemaAlways
+    public class appartmenthostInitializer : ClearDatabaseSchemaAlways<appartmenthostContext> 
     { 
         protected override void Seed(appartmenthostContext context)
         {

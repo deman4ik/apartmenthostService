@@ -9,11 +9,12 @@ using Microsoft.WindowsAzure.Mobile.Service;
 
 namespace appartmenthostService.Models
 {
-    public class SocialAccount : EntityData
+    public class Account : EntityData
     {
         public string UserId { get; set; }
+        public string AccountId { get; set; }
         public string Provider { get; set; }
-        public string SocialId { get; set; }
+        public string ProviderId { get; set; }
 
         public User User { get; set; }
     }
