@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 using Newtonsoft.Json.Linq;
 using Owin;
+
 
 namespace appartmenthostService.Authentication
 {
@@ -55,13 +58,11 @@ namespace appartmenthostService.Authentication
             //User user = context.Users.SingleOrDefault(u => u.Email == email);
             StandartLoginProviderCredentials credentials = new StandartLoginProviderCredentials
             {
-               UserId = userId
-               
+                UserId = userId
             };
             AuthUtils.CreateAccount(this.Name, email, userId, email);
             return credentials;
         }
-
 
     }
 }
