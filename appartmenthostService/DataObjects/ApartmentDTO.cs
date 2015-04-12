@@ -9,7 +9,10 @@ namespace appartmenthostService.DataObjects
 {
     public class ApartmentDTO
     {
-
+        public ApartmentDTO()
+        {
+            this.PropsVals = new List<PropVal>();
+        }
         public string Id { get; set; }
 
         public string Name { get; set; }

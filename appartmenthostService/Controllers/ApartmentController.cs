@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -30,6 +31,14 @@ namespace appartmenthostService.Controllers
 
             var currentUser = User as ServiceUser;
             var account = context.Accounts.SingleOrDefault(a => a.AccountId == currentUser.Id);
+            //var props = context.Props.Where(p => p.Tables.Any(t => t.Name == "Apartment")).ToList();
+
+            //List<PropValDTO> propValsList = new List<PropValDTO>();
+
+            //foreach (var prop in props)
+            //{
+            //    var propVals = context.PropVals.Where(pv => pv.PropId)
+            //}
             return Query().Where(a => a.UserId == account.UserId).Select(x => new ApartmentDTO()
             {
                 Id = x.Id,
@@ -41,6 +50,7 @@ namespace appartmenthostService.Controllers
                 Latitude = x.Latitude,
                 Longitude = x.Longitude,
                 Rating = x.Rating,
+                PropsVals =
             });
            
         }

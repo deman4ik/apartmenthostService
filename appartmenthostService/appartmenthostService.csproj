@@ -208,6 +208,7 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DataObjects\AdvertDTO.cs" />
     <Compile Include="DataObjects\ApartmentDTO.cs" />
+    <Compile Include="DataObjects\PropValDTO.cs" />
     <Compile Include="DataObjects\UserDTO.cs" />
     <Compile Include="Helpers\DTOMapper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
