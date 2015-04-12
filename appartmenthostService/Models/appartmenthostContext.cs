@@ -35,7 +35,10 @@ namespace appartmenthostService.Models
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
-
+        public DbSet<Table> Tables { get; set; }
+        public DbSet<Prop> Props { get; set; }
+        public DbSet<PropVal> PropVals { get; set; }
+        
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             string schema = ServiceSettingsDictionary.GetSchemaName();
@@ -50,48 +53,48 @@ namespace appartmenthostService.Models
 
             /***********************
              *       User          *
-             ***********************/       
+             ***********************/
             // User + Profile
 
             modelBuilder.Entity<User>()
-                        .HasOptional(s => s.Profile)
-                        .WithRequired(ad => ad.User)
-                        .WillCascadeOnDelete(false); 
+                .HasOptional(s => s.Profile)
+                .WithRequired(ad => ad.User)
+                .WillCascadeOnDelete(false);
 
             // User + Account
             modelBuilder.Entity<User>()
-                       .HasMany<Account>(s => s.Accounts)
-                       .WithRequired(s => s.User)
-                       .HasForeignKey(s => s.UserId)
-                       .WillCascadeOnDelete(false);
+                .HasMany<Account>(s => s.Accounts)
+                .WithRequired(s => s.User)
+                .HasForeignKey(s => s.UserId)
+                .WillCascadeOnDelete(false);
 
             // User + Apartment
             modelBuilder.Entity<User>()
-                       .HasMany<Apartment>(s => s.Apartments)
-                       .WithRequired(s => s.User)
-                       .HasForeignKey(s => s.UserId)
-                       .WillCascadeOnDelete(false);
+                .HasMany<Apartment>(s => s.Apartments)
+                .WithRequired(s => s.User)
+                .HasForeignKey(s => s.UserId)
+                .WillCascadeOnDelete(false);
 
             // User + Advert
             modelBuilder.Entity<User>()
-                       .HasMany<Advert>(s => s.Adverts)
-                       .WithRequired(s => s.User)
-                       .HasForeignKey(s => s.UserId)
-                       .WillCascadeOnDelete(false);
+                .HasMany<Advert>(s => s.Adverts)
+                .WithRequired(s => s.User)
+                .HasForeignKey(s => s.UserId)
+                .WillCascadeOnDelete(false);
 
             // User + Favorite
             modelBuilder.Entity<User>()
-                      .HasMany<Favorite>(s => s.Favorites)
-                      .WithRequired(s => s.User)
-                      .HasForeignKey(s => s.UserId)
-                      .WillCascadeOnDelete(false);
+                .HasMany<Favorite>(s => s.Favorites)
+                .WithRequired(s => s.User)
+                .HasForeignKey(s => s.UserId)
+                .WillCascadeOnDelete(false);
 
             // User + Notification
             modelBuilder.Entity<User>()
-                      .HasMany<Notification>(s => s.Notifications)
-                      .WithRequired(s => s.User)
-                      .HasForeignKey(s => s.UserId)
-                      .WillCascadeOnDelete(false);
+                .HasMany<Notification>(s => s.Notifications)
+                .WithRequired(s => s.User)
+                .HasForeignKey(s => s.UserId)
+                .WillCascadeOnDelete(false);
 
             // User + Reservation
             modelBuilder.Entity<User>()
@@ -102,87 +105,104 @@ namespace appartmenthostService.Models
 
             // User + Review
             modelBuilder.Entity<User>()
-               .HasMany<Review>(s => s.Reviews)
-               .WithRequired(s => s.User)
-               .HasForeignKey(s => s.UserId)
-               .WillCascadeOnDelete(false);
+                .HasMany<Review>(s => s.Reviews)
+                .WithRequired(s => s.User)
+                .HasForeignKey(s => s.UserId)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<User>()
-              .HasMany<Review>(s => s.AdvertiserReviews)
-              .WithRequired(s => s.Advertiser)
-              .HasForeignKey(s => s.AdvertiserId)
+                .HasMany<Review>(s => s.AdvertiserReviews)
+                .WithRequired(s => s.Advertiser)
+                .HasForeignKey(s => s.AdvertiserId)
                 .WillCascadeOnDelete(false);
 
             // User + ReviewComment
             modelBuilder.Entity<User>()
-               .HasMany<ReviewComment>(s => s.ReviewComments)
-               .WithRequired(s => s.User)
-               .HasForeignKey(s => s.UserId)
-               .WillCascadeOnDelete(false);
-            
-            
+                .HasMany<ReviewComment>(s => s.ReviewComments)
+                .WithRequired(s => s.User)
+                .HasForeignKey(s => s.UserId)
+                .WillCascadeOnDelete(false);
+
+
             //Apartment
             modelBuilder.Entity<Apartment>()
-              .HasMany<Advert>(s => s.Adverts)
-              .WithOptional(s => s.Apartment)
-              .HasForeignKey(s => s.ApartmentId)
+                .HasMany<Advert>(s => s.Adverts)
+                .WithOptional(s => s.Apartment)
+                .HasForeignKey(s => s.ApartmentId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Apartment>()
-                  .HasMany<Picture>(s => s.Pictures)
-                  .WithMany(c => c.Apartments)
-                  .Map(cs =>
-                  {
-                      cs.MapLeftKey("ApartmentRefId");
-                      cs.MapRightKey("PictureRefId");
-                      cs.ToTable("ApartmentPicture");
-                  });
+                .HasMany<Picture>(s => s.Pictures)
+                .WithMany(c => c.Apartments)
+                .Map(cs =>
+                {
+                    cs.MapLeftKey("ApartmentRefId");
+                    cs.MapRightKey("PictureRefId");
+                    cs.ToTable("ApartmentPicture");
+                });
 
             // Advert
 
             modelBuilder.Entity<Advert>()
- .HasMany<Reservation>(s => s.Reservations)
- .WithRequired(s => s.Advert)
- .HasForeignKey(s => s.AdvertId)
-   .WillCascadeOnDelete(false);
+                .HasMany<Reservation>(s => s.Reservations)
+                .WithRequired(s => s.Advert)
+                .HasForeignKey(s => s.AdvertId)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Advert>()
-              .HasMany<Favorite>(s => s.Favorites)
-              .WithRequired(s => s.Advert)
-              .HasForeignKey(s => s.AdvertId)
+                .HasMany<Favorite>(s => s.Favorites)
+                .WithRequired(s => s.Advert)
+                .HasForeignKey(s => s.AdvertId)
                 .WillCascadeOnDelete(false);
 
 
-
             modelBuilder.Entity<Advert>()
-                  .HasMany<Picture>(s => s.Pictures)
-                  .WithMany(c => c.Adverts)
-                  .Map(cs =>
-                  {
-                      cs.MapLeftKey("AdvertRefId");
-                      cs.MapRightKey("PictureRefId");
-                      cs.ToTable("AdvertPicture");
-                  });
+                .HasMany<Picture>(s => s.Pictures)
+                .WithMany(c => c.Adverts)
+                .Map(cs =>
+                {
+                    cs.MapLeftKey("AdvertRefId");
+                    cs.MapRightKey("PictureRefId");
+                    cs.ToTable("AdvertPicture");
+                });
 
             // Review
 
             modelBuilder.Entity<Review>()
-             .HasMany<ReviewComment>(s => s.ReviewComments)
-             .WithRequired(s => s.Review)
-             .HasForeignKey(s => s.ReviewId)
-               .WillCascadeOnDelete(false);
+                .HasMany<ReviewComment>(s => s.ReviewComments)
+                .WithRequired(s => s.Review)
+                .HasForeignKey(s => s.ReviewId)
+                .WillCascadeOnDelete(false);
 
             // Picture + Profile
             modelBuilder.Entity<Picture>()
-               .HasMany<Profile>(s => s.Profiles)
-               .WithOptional(s => s.Picture)
-               .HasForeignKey(s => s.PictureId);
+                .HasMany<Profile>(s => s.Profiles)
+                .WithOptional(s => s.Picture)
+                .HasForeignKey(s => s.PictureId);
 
             // Picture + Notification
             modelBuilder.Entity<Picture>()
-               .HasMany<Notification>(s => s.Notifications)
-               .WithOptional(s => s.Picture)
-               .HasForeignKey(s => s.PictureId);
+                .HasMany<Notification>(s => s.Notifications)
+                .WithOptional(s => s.Picture)
+                .HasForeignKey(s => s.PictureId);
+
+            // Table + Prop
+            modelBuilder.Entity<Table>()
+               .HasMany<Prop>(s => s.Props)
+               .WithMany(c => c.Tables)
+               .Map(cs =>
+               {
+                   cs.MapLeftKey("TableRefId");
+                   cs.MapRightKey("PropRefId");
+                   cs.ToTable("TableProp");
+               });
+
+            // Prop + PropVal
+            modelBuilder.Entity<Prop>()
+                .HasMany<PropVal>(s => s.PropVals)
+                .WithRequired(s => s.Prop)
+                .HasForeignKey(s => s.PropId);
+
         }
 
     }

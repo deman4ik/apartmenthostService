@@ -216,10 +216,13 @@
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Picture.cs" />
     <Compile Include="Models\Profile.cs" />
+    <Compile Include="Models\Prop.cs" />
+    <Compile Include="Models\PropVal.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\Review.cs" />
     <Compile Include="Models\ReviewComment.cs" />
     <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\Table.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Advert.cs" />
     <Compile Include="Helpers\Helper.cs" />

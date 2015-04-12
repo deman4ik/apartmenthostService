@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using appartmenthostService.Models;
 
 namespace appartmenthostService.DataObjects
 {
@@ -28,5 +29,7 @@ namespace appartmenthostService.DataObjects
         public decimal? Rating { get; set; }
 
         public string Cohabitation { get; set; }
+
+        public ICollection<PropVal> PropsVals { get; set; } 
     }
 }

@@ -18,6 +18,15 @@ namespace appartmenthostService.App_Start
 
             PopulateApartments(context);
             context.SaveChanges();
+
+            PopulateTables(context);
+            context.SaveChanges();
+
+            PopulateProps(context);
+            context.SaveChanges();
+
+            PopulatePropVals(context);
+            context.SaveChanges();
         }
 
         public static void PopulateUsers(appartmenthostContext context)
@@ -118,6 +127,50 @@ namespace appartmenthostService.App_Start
             {
                 context.Set<Apartment>().Add(apartment);
             }
+        }
+
+        public static void PopulateTables(appartmenthostContext context)
+        {
+            Table table = new Table()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = "Apartment"
+            };
+
+            context.Set<Table>().Add(table);
+
+        }
+
+        public static void PopulateProps(appartmenthostContext context)
+        {
+            Table table = context.Tables.SingleOrDefault(t => t.Name == "Apartment");
+            Prop prop = new Prop()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = "Тип жилья",
+                Type = "Str",
+                Tables = new List<Table>() { table }
+            };
+            context.Set<Prop>().Add(prop);
+        }
+
+        public static void PopulatePropVals(appartmenthostContext context)
+        {
+          //  Table table = context.Tables.SingleOrDefault(t => t.Name == "Apartment");
+            Prop prop = context.Props.SingleOrDefault(p => p.Tables.Any(t => t.Name == "Apartment") && p.Name == "Тип Жилья");
+            Apartment apartment = context.Apartments.SingleOrDefault(a => a.Name == "Офис Парус");
+            
+            
+            PropVal propVal =  new PropVal()
+            {
+                Id = Guid.NewGuid().ToString(),
+                PropId = prop.Id,
+                TableItemId = apartment.Id,
+                StrValue = "Офис"
+                
+            };
+            prop.PropVals.Add(propVal);
+            context.Entry(prop).State = System.Data.Entity.EntityState.Modified;  
         }
     }
 }
