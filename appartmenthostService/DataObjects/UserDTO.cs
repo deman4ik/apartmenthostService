@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace appartmenthostService.DataObjects
 {
     public class UserDTO
     {
+        public UserDTO()
+        {
+            this.PropsVals = new List<PropValDTO>();
+        }
         public string Id { get; set; }
         public string Email { get; set; }
         public string FirstName { get; set; }
@@ -15,5 +20,6 @@ namespace appartmenthostService.DataObjects
         public string ContactKind { get; set; }
         public string Description { get; set; }
         public string PictureId { get; set; }
+        public ICollection<PropValDTO> PropsVals { get; set; } 
     }
 }

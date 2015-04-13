@@ -36,7 +36,7 @@ namespace appartmenthostService.Models
     
      public ICollection<Picture> Pictures { get; set; }
     public ICollection<Favorite> Favorites { get; set; }
-    public ICollection<Reservation> Reservations { get; set; } 
+    public ICollection<Reservation> Reservations { get; set; }
 
     }
 }

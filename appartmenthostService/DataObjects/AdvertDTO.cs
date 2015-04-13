@@ -8,6 +8,10 @@ namespace appartmenthostService.DataObjects
 {
     public class AdvertDTO
     {
+        public AdvertDTO() 
+        {
+            this.PropsVals = new List<PropValDTO>();
+        }
         public string Id { get; set; }
 
         public string Name { get; set; }
@@ -29,5 +33,6 @@ namespace appartmenthostService.DataObjects
 
         public virtual UserDTO User { get; set; }
         public virtual ApartmentDTO Apartment { get; set; }
+        public ICollection<PropValDTO> PropsVals { get; set; } 
     }
 }

@@ -17,5 +17,7 @@ namespace appartmenthostService.Models
         public bool BoolValue { get; set; }
 
         public virtual Prop Prop { get; set; }
+        public virtual Apartment Apartment { get; set; }
+        public virtual Advert Advert { get; set; }
     }
 }

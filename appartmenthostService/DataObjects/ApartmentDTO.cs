@@ -11,7 +11,7 @@ namespace appartmenthostService.DataObjects
     {
         public ApartmentDTO()
         {
-            this.PropsVals = new List<PropVal>();
+            this.PropsVals = new List<PropValDTO>();
         }
         public string Id { get; set; }
 
@@ -33,6 +33,6 @@ namespace appartmenthostService.DataObjects
 
         public string Cohabitation { get; set; }
 
-        public ICollection<PropVal> PropsVals { get; set; } 
+        public ICollection<PropValDTO> PropsVals { get; set; } 
     }
 }

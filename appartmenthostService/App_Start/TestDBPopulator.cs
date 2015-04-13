@@ -131,19 +131,42 @@ namespace appartmenthostService.App_Start
 
         public static void PopulateTables(appartmenthostContext context)
         {
-            Table table = new Table()
+            List<Table> tables = new List<Table>()
             {
-                Id = Guid.NewGuid().ToString(),
-                Name = "Apartment"
+                new Table()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = Const.Apartment
+                },
+                new Table()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = Const.Advert
+                },
+                new Table()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = Const.Profile
+                },
+                new Table()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = Const.Reservation
+                },
+
             };
 
-            context.Set<Table>().Add(table);
+            foreach (var table in tables)
+            {
+                context.Set<Table>().Add(table);
+            }
+            
 
         }
 
         public static void PopulateProps(appartmenthostContext context)
         {
-            Table table = context.Tables.SingleOrDefault(t => t.Name == "Apartment");
+            Table table = context.Tables.SingleOrDefault(t => t.Name == Const.Apartment);
             Prop prop = new Prop()
             {
                 Id = Guid.NewGuid().ToString(),

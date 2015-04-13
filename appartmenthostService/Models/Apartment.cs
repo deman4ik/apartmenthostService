@@ -31,7 +31,7 @@ namespace appartmenthostService.Models
         public string Cohabitation { get; set; }
 
         public virtual User User { get; set; }
-        public virtual ICollection<Advert> Adverts { get; set; }
-        public virtual ICollection<Picture> Pictures { get; set; } 
+        public ICollection<Advert> Adverts { get; set; }
+        public ICollection<Picture> Pictures { get; set; }
     }
 }

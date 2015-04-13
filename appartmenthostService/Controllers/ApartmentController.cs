@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -7,8 +8,10 @@ using System.Web.Http.Controllers;
 using System.Web.Http.OData;
 using appartmenthostService.Authentication;
 using appartmenthostService.DataObjects;
+using appartmenthostService.Helpers;
 using Microsoft.WindowsAzure.Mobile.Service;
 using appartmenthostService.Models;
+using AutoMapper.QueryableExtensions;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace appartmenthostService.Controllers
@@ -31,14 +34,7 @@ namespace appartmenthostService.Controllers
 
             var currentUser = User as ServiceUser;
             var account = context.Accounts.SingleOrDefault(a => a.AccountId == currentUser.Id);
-            //var props = context.Props.Where(p => p.Tables.Any(t => t.Name == "Apartment")).ToList();
 
-            //List<PropValDTO> propValsList = new List<PropValDTO>();
-
-            //foreach (var prop in props)
-            //{
-            //    var propVals = context.PropVals.Where(pv => pv.PropId)
-            //}
             return Query().Where(a => a.UserId == account.UserId).Select(x => new ApartmentDTO()
             {
                 Id = x.Id,
@@ -50,7 +46,22 @@ namespace appartmenthostService.Controllers
                 Latitude = x.Latitude,
                 Longitude = x.Longitude,
                 Rating = x.Rating,
-                PropsVals =
+                PropsVals = context.PropVals.Where(
+                                                     pv => pv.TableItemId == x.Id
+                                                  && pv.Prop.Tables.Any(t => t.Name == Const.Apartment)
+                                                                                     ).Select(pdto => new PropValDTO()
+                                                                                     {
+                                                                                         Name = pdto.Prop.Name,
+                                                                                         Type = pdto.Prop.Type,
+                                                                                         StrValue = pdto.StrValue,
+                                                                                         NumValue = pdto.NumValue,
+                                                                                         DateValue = pdto.DateValue,
+                                                                                         BoolValue = pdto.BoolValue
+
+                                                                                     }
+                                                                                     
+                                                                                     ).ToList()
+
             });
            
         }
@@ -73,7 +84,22 @@ namespace appartmenthostService.Controllers
                 Adress = x.Adress,
                 Latitude = x.Latitude,
                 Longitude = x.Longitude,
-                Rating = x.Rating
+                Rating = x.Rating,
+                 PropsVals = context.PropVals.Where(
+                                                     pv => pv.TableItemId == x.Id
+                                                  && pv.Prop.Tables.Any(t => t.Name == Const.Apartment)
+                                                                                     ).Select(pdto => new PropValDTO()
+                                                                                     {
+                                                                                         Name = pdto.Prop.Name,
+                                                                                         Type = pdto.Prop.Type,
+                                                                                         StrValue = pdto.StrValue,
+                                                                                         NumValue = pdto.NumValue,
+                                                                                         DateValue = pdto.DateValue,
+                                                                                         BoolValue = pdto.BoolValue
+
+                                                                                     }
+                                                                                     
+                                                                                     ).ToList()
                 
             });
             return SingleResult<ApartmentDTO>.Create(result);

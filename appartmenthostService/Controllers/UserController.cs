@@ -16,8 +16,12 @@ namespace appartmenthostService.Controllers
     {
 
         public ApiServices Services { get; set; }
+
         appartmenthostContext context = new appartmenthostContext();
+
         // GET api/User
+        [Route("api/User")]
+        [HttpGet]
         public IQueryable<UserDTO> GetCurrentUser()
         {
             var currentUser = User as ServiceUser;
