@@ -8,7 +8,7 @@ using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace appartmenthostService.Controllers
 {
-     
+    [AuthorizeLevel(AuthorizationLevel.Application)]
     public class AdvertController : TableController<Advert>
     {
          appartmenthostContext context = new appartmenthostContext();

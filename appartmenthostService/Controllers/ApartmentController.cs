@@ -16,7 +16,8 @@ using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace appartmenthostService.Controllers
 {
-    [AuthorizeLevel(AuthorizationLevel.User)]
+    
+    [AuthorizeLevel(AuthorizationLevel.Application)]
     public class ApartmentController : TableController<Apartment>
     {
         appartmenthostContext context = new appartmenthostContext();
@@ -29,6 +30,7 @@ namespace appartmenthostService.Controllers
 
         // GET tables/Apartment
        // [QueryableExpand("User")]
+        [AuthorizeLevel(AuthorizationLevel.User)]
         public IQueryable<ApartmentDTO> GetAllApartment()
         {
 
@@ -70,6 +72,7 @@ namespace appartmenthostService.Controllers
 
         // GET tables/Apartment/48D68C86-6EA6-4C25-AA33-223FC9A27959
         // [QueryableExpand("User")]
+        [AuthorizeLevel(AuthorizationLevel.User)]
         public SingleResult<ApartmentDTO> GetApartment(string id)
         {
             var currentUser = User as ServiceUser;
@@ -107,12 +110,14 @@ namespace appartmenthostService.Controllers
 
 
          // PATCH tables/Apartment/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        [AuthorizeLevel(AuthorizationLevel.User)]
         public Task<Apartment> PatchApartment(string id, Delta<Apartment> patch)
         {
             return UpdateAsync(id, patch);
         }
 
         // POST tables/Apartment
+        [AuthorizeLevel(AuthorizationLevel.User)]
         public async Task<IHttpActionResult> PostApartment(Apartment item)
         {
             Apartment current = await InsertAsync(item);
@@ -120,6 +125,7 @@ namespace appartmenthostService.Controllers
         }
 
         // DELETE tables/Apartment/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        [AuthorizeLevel(AuthorizationLevel.User)]
         public Task DeleteApartment(string id)
         {
              return DeleteAsync(id);

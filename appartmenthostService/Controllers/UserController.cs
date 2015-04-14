@@ -12,6 +12,8 @@ using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace appartmenthostService.Controllers
 {
+
+    [AuthorizeLevel(AuthorizationLevel.Application)]
     public class UserController : ApiController
     {
 
@@ -22,6 +24,7 @@ namespace appartmenthostService.Controllers
         // GET api/User
         [Route("api/User")]
         [HttpGet]
+        [AuthorizeLevel(AuthorizationLevel.User)]
         public IQueryable<UserDTO> GetCurrentUser()
         {
             var currentUser = User as ServiceUser;

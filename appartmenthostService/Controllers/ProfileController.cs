@@ -11,7 +11,8 @@ using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace appartmenthostService.Controllers
 {
-    [AuthorizeLevel(AuthorizationLevel.User)]
+    
+    [AuthorizeLevel(AuthorizationLevel.Application)]
     public class ProfileController : TableController<Profile>
     {
         appartmenthostContext context = new appartmenthostContext();
@@ -23,12 +24,14 @@ namespace appartmenthostService.Controllers
         }
 
         // GET tables/Profile
+        [AuthorizeLevel(AuthorizationLevel.User)]
         public IQueryable<UserDTO> GetAllProfile()
         {
             return Query().Project().To<UserDTO>();
         }
 
         // GET tables/Profile/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        [AuthorizeLevel(AuthorizationLevel.User)]
         public SingleResult<UserDTO> GetProfile(string id)
         {
             var result = Lookup(id).Queryable.Project().To<UserDTO>();

@@ -10,13 +10,14 @@ using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace appartmenthostService.Controllers
 {
-    [AuthorizeLevel(AuthorizationLevel.Anonymous)]
+    [AuthorizeLevel(AuthorizationLevel.Application)]
     public class StandartLoginController : ApiController
     {
         public ApiServices Services { get; set; }
         public IServiceTokenHandler handler { get; set; }
 
         // POST api/CustomLogin
+        [AuthorizeLevel(AuthorizationLevel.Anonymous)]
         public HttpResponseMessage Post(LoginRequest loginRequest)
         {
            appartmenthostContext context = new appartmenthostContext();

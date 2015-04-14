@@ -10,12 +10,14 @@ using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace appartmenthostService.Controllers
 {
-    [AuthorizeLevel(AuthorizationLevel.Anonymous)]
+    
+    [AuthorizeLevel(AuthorizationLevel.Application)]
     public class StandartRegistrationController : ApiController
     {
         public ApiServices Services { get; set; }
 
         // POST api/CustomRegistration
+        [AuthorizeLevel(AuthorizationLevel.Anonymous)]
         public HttpResponseMessage Post(RegistrationRequest registrationRequest)
         {
             if (!AuthUtils.IsEmailValid(registrationRequest.email))
