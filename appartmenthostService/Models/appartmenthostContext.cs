@@ -38,6 +38,8 @@ namespace appartmenthostService.Models
         public DbSet<Table> Tables { get; set; }
         public DbSet<Prop> Props { get; set; }
         public DbSet<PropVal> PropVals { get; set; }
+        public DbSet<Dictionary> Dictionaries { get; set; }
+        public DbSet<DictionaryItem> DictionaryItems { get; set; }
         
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -203,6 +205,11 @@ namespace appartmenthostService.Models
                 .WithRequired(s => s.Prop)
                 .HasForeignKey(s => s.PropId);
 
+            // Dictionary + Dictionary Items
+            modelBuilder.Entity<Dictionary>()
+                .HasMany<DictionaryItem>(s => s.DictionaryItems)
+                .WithRequired(s => s.Dictionary)
+                .HasForeignKey(s => s.DictionaryId);
         }
 
     }

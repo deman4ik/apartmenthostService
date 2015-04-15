@@ -215,6 +215,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Apartment.cs" />
     <Compile Include="Models\Dictionary.cs" />
+    <Compile Include="Models\DictionaryItem.cs" />
     <Compile Include="Models\Favorite.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Picture.cs" />

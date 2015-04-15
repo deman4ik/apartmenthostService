@@ -6,14 +6,12 @@ using Microsoft.WindowsAzure.Mobile.Service;
 
 namespace appartmenthostService.Models
 {
-    public class Dictionary : EntityData
+    public class DictionaryItem : EntityData
     {
-        public Dictionary()
-        {
-            this.DictionaryItems = new HashSet<DictionaryItem>();
-        }
+        public string DictionaryId { get; set; }
         public string Name { get; set; }
+        public string Value { get; set; }
 
-        public ICollection<DictionaryItem> DictionaryItems { get; set; } 
+        public virtual Dictionary Dictionary { get; set; }
     }
 }
