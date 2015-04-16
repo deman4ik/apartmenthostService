@@ -19,6 +19,8 @@ namespace appartmenthostService.Models
         public string Description { get; set; }
         public string PictureId { get; set; }
 
+        public string Lang { get; set; }
+
         public virtual User User { get; set; }
         public virtual Picture Picture { get; set; }
     }

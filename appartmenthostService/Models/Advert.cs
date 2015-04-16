@@ -16,6 +16,8 @@ namespace appartmenthostService.Models
         }
         public string Name { get; set; }
 
+        
+
         public string UserId { get; set; }
 
         public string DefaultPictureId { get; set; }
@@ -30,6 +32,8 @@ namespace appartmenthostService.Models
         public DateTime DateFrom { get; set; }
 
         public DateTime DateTo { get; set; }
+
+        public string Lang { get; set; }
 
         public virtual User User { get; set; }
         public virtual Apartment Apartment { get; set;}

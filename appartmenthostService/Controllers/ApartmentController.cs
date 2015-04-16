@@ -50,11 +50,11 @@ namespace appartmenthostService.Controllers
                 Rating = x.Rating,
                 PropsVals = context.PropVals.Where(
                                                      pv => pv.TableItemId == x.Id
-                                                  && pv.Prop.Tables.Any(t => t.Name == Const.Apartment)
+                                                  && pv.Prop.Tables.Any(t => t.Name == ConstTable.ApartmentTable)
                                                                                      ).Select(pdto => new PropValDTO()
                                                                                      {
                                                                                          Name = pdto.Prop.Name,
-                                                                                         Type = pdto.Prop.Type,
+                                                                                         Type = pdto.Prop.DataType,
                                                                                          StrValue = pdto.StrValue,
                                                                                          NumValue = pdto.NumValue,
                                                                                          DateValue = pdto.DateValue,
@@ -90,11 +90,11 @@ namespace appartmenthostService.Controllers
                 Rating = x.Rating,
                  PropsVals = context.PropVals.Where(
                                                      pv => pv.TableItemId == x.Id
-                                                  && pv.Prop.Tables.Any(t => t.Name == Const.Apartment)
+                                                  && pv.Prop.Tables.Any(t => t.Name == ConstTable.ApartmentTable)
                                                                                      ).Select(pdto => new PropValDTO()
                                                                                      {
                                                                                          Name = pdto.Prop.Name,
-                                                                                         Type = pdto.Prop.Type,
+                                                                                         Type = pdto.Prop.DataType,
                                                                                          StrValue = pdto.StrValue,
                                                                                          NumValue = pdto.NumValue,
                                                                                          DateValue = pdto.DateValue,

@@ -14,7 +14,7 @@ namespace appartmenthostService.Models
         public string UserId { get; set; }
         public string ReviewId { get; set; }
         public string Text { get; set; }
-
+        public string Lang { get; set; }
         public virtual User User { get; set; }
         public virtual Review Review { get; set; }
     }

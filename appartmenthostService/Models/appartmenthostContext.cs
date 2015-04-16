@@ -205,11 +205,25 @@ namespace appartmenthostService.Models
                 .WithRequired(s => s.Prop)
                 .HasForeignKey(s => s.PropId);
 
+           
             // Dictionary + Dictionary Items
             modelBuilder.Entity<Dictionary>()
                 .HasMany<DictionaryItem>(s => s.DictionaryItems)
                 .WithRequired(s => s.Dictionary)
                 .HasForeignKey(s => s.DictionaryId);
+            
+            // Dictionary + Prop
+            modelBuilder.Entity<Dictionary>()
+                .HasMany<Prop>(s => s.Props)
+                .WithOptional(s => s.Dictionary)
+                .HasForeignKey(s => s.DictionaryId);
+
+            // DictionaryItem + PropVal
+            modelBuilder.Entity<DictionaryItem>()
+                .HasMany<PropVal>(s => s.PropVals)
+                .WithOptional(s => s.DictionaryItem)
+                .HasForeignKey(s => s.DictionaryItemId);
+
         }
 
     }

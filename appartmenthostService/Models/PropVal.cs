@@ -15,9 +15,14 @@ namespace appartmenthostService.Models
         public decimal? NumValue { get; set; }
         public DateTime? DateValue { get; set; }
         public bool BoolValue { get; set; }
+        public string DictionaryItemId { get; set; }
+
+        public string Lang { get; set; }
 
         public virtual Prop Prop { get; set; }
+        public virtual DictionaryItem DictionaryItem { get; set; }
         public virtual Apartment Apartment { get; set; }
         public virtual Advert Advert { get; set; }
+
     }
 }

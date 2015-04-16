@@ -22,6 +22,12 @@ namespace appartmenthostService.App_Start
             PopulateTables(context);
             context.SaveChanges();
 
+            PopulateDictionaries(context);
+            context.SaveChanges();
+
+            PopulateDictionaryItems(context);
+            context.SaveChanges();
+
             PopulateProps(context);
             context.SaveChanges();
 
@@ -49,7 +55,8 @@ namespace appartmenthostService.App_Start
                                                    ContactKind = "Email",
                                                    Description = "Пуповичи 100 лет на рынке недвижимости!",
                                                    Gender = "Male",
-                                                   Phone = "+79998887766"               
+                                                   Phone = "+79998887766",
+                                                   Lang = ConstLang.RU
                                                 } 
                         },
 
@@ -65,7 +72,8 @@ namespace appartmenthostService.App_Start
                                                    ContactKind = "Phone",
                                                    Description = "Информационные Системы Управления",
                                                    Gender = "Male",
-                                                   Phone = "+74957777777"               
+                                                   Phone = "+74957777777",
+                                                   Lang = ConstLang.RU
                                                  }  
                         },
           };
@@ -95,7 +103,8 @@ namespace appartmenthostService.App_Start
                     Adress = "Россия, Москва, Бутово, 1-я Горловская ул., 4, строение 21",
                     Latitude = new decimal(55.548484), 
                     Longitude = new decimal(37.581806),
-                    Rating = new decimal(3.5)
+                    Rating = new decimal(3.5),
+                    Lang = ConstLang.RU
                 },
                  new Apartment()
                 {
@@ -107,7 +116,8 @@ namespace appartmenthostService.App_Start
                     Adress = "Россия, Москва, Ясенево, Соловьиный пр., 18",
                     Latitude = new decimal(55.604284), 
                     Longitude = new decimal(37.554516),
-                    Rating = new decimal(4.3)
+                    Rating = new decimal(4.3),
+                    Lang = ConstLang.RU
                 },
                 new Apartment()
                 {
@@ -119,7 +129,8 @@ namespace appartmenthostService.App_Start
                     Adress = "Россия, Москва, Алексеевский, Ярославская ул., 10к4",
                     Latitude = new decimal(55.819068), 
                     Longitude = new decimal(37.649776),
-                    Rating = new decimal(2.7)
+                    Rating = new decimal(2.7),
+                    Lang = ConstLang.RU
                 }
             };
 
@@ -136,22 +147,22 @@ namespace appartmenthostService.App_Start
                 new Table()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = Const.Apartment
+                    Name = ConstTable.ApartmentTable
                 },
                 new Table()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = Const.Advert
+                    Name = ConstTable.AdvertTable
                 },
                 new Table()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = Const.Profile
+                    Name = ConstTable.ProfileTable
                 },
                 new Table()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = Const.Reservation
+                    Name = ConstTable.ReservationTable
                 },
 
             };
@@ -164,15 +175,62 @@ namespace appartmenthostService.App_Start
 
         }
 
+        public static void PopulateDictionaries(appartmenthostContext context)
+        {
+            //ApartmentType
+            List<Dictionary> dictionaries = new List<Dictionary>()
+            {
+                new Dictionary()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = ConstProp.ApartmentType
+                }
+            };
+
+            foreach (var dictionary in dictionaries)
+            {
+                context.Set<Dictionary>().Add(dictionary);
+            }
+        }
+
+        public static void PopulateDictionaryItems(appartmenthostContext context)
+        {
+            //ApartmentType
+            Dictionary apartmentTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.ApartmentType);
+            List<DictionaryItem> dictionaryItems = new List<DictionaryItem>();
+
+            foreach (var apartmentType in ConstDicValsRU.ApartmentTypesList)
+            {
+                dictionaryItems.Add(new DictionaryItem()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    DictionaryId = apartmentTypeDic.Name,
+                    StrValue = apartmentType,
+                    Lang = ConstLang.RU
+                    
+                });
+            }
+                
+            foreach (var dictonaryItem in dictionaryItems)
+            {
+                context.Set<DictionaryItem>().Add(dictonaryItem);
+            }
+            
+        }
         public static void PopulateProps(appartmenthostContext context)
         {
-            Table table = context.Tables.SingleOrDefault(t => t.Name == Const.Apartment);
+            Table apartmentTable = context.Tables.SingleOrDefault(t => t.Name == ConstTable.ApartmentTable);
+            Dictionary apartmentTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.ApartmentType);
             Prop prop = new Prop()
             {
                 Id = Guid.NewGuid().ToString(),
-                Name = "Тип жилья",
-                Type = "Str",
-                Tables = new List<Table>() { table }
+                Name = ConstProp.ApartmentType,
+                DataType = ConstDataType.Str,
+                Type = Const.Custom,
+                DictionaryId = apartmentTypeDic.Id,
+                Dictionary = apartmentTypeDic,
+                Tables = new List<Table>() { apartmentTable }
+
             };
             context.Set<Prop>().Add(prop);
         }
@@ -180,16 +238,20 @@ namespace appartmenthostService.App_Start
         public static void PopulatePropVals(appartmenthostContext context)
         {
           //  Table table = context.Tables.SingleOrDefault(t => t.Name == "Apartment");
-            Prop prop = context.Props.SingleOrDefault(p => p.Tables.Any(t => t.Name == "Apartment") && p.Name == "Тип Жилья");
+            Prop prop = context.Props.SingleOrDefault(p => p.Tables.Any(t => t.Name == ConstTable.ApartmentTable) && p.Name == ConstProp.ApartmentType);
             Apartment apartment = context.Apartments.SingleOrDefault(a => a.Name == "Офис Парус");
+            Dictionary apartmentTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.ApartmentType);
+            DictionaryItem officeItem =
+                context.DictionaryItems.SingleOrDefault(i => i.Dictionary == apartmentTypeDic && i.Name == "Офис");
             
-            
+
             PropVal propVal =  new PropVal()
             {
                 Id = Guid.NewGuid().ToString(),
                 PropId = prop.Id,
                 TableItemId = apartment.Id,
-                StrValue = "Офис"
+                DictionaryItemId = officeItem.Id,
+                DictionaryItem = officeItem
                 
             };
             prop.PropVals.Add(propVal);

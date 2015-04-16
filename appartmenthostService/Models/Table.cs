@@ -15,6 +15,7 @@ namespace appartmenthostService.Models
         }
         public string Name { get; set; }
 
+
         public ICollection<Prop> Props { get; set; } 
     }
 }

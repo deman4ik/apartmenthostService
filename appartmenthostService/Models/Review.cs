@@ -21,6 +21,8 @@ namespace appartmenthostService.Models
         public string Text { get; set; }
         public double Rating { get; set; }
 
+        public string Lang { get; set; }
+
         public virtual User User { get; set; }
         public virtual User Advertiser { get; set; }
 

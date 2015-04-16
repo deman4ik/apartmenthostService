@@ -202,12 +202,14 @@
     <Compile Include="Authentication\RegistrationRequest.cs" />
     <Compile Include="Controllers\ApartmentController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MetadataController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\AdvertController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DataObjects\AdvertDTO.cs" />
     <Compile Include="DataObjects\ApartmentDTO.cs" />
+    <Compile Include="DataObjects\MetadataItem.cs" />
     <Compile Include="DataObjects\PropValDTO.cs" />
     <Compile Include="DataObjects\UserDTO.cs" />
     <Compile Include="Helpers\Const.cs" />

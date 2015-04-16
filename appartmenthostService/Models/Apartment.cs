@@ -30,6 +30,8 @@ namespace appartmenthostService.Models
 
         public string Cohabitation { get; set; }
 
+        public string Lang { get; set; }
+
         public virtual User User { get; set; }
         public ICollection<Advert> Adverts { get; set; }
         public ICollection<Picture> Pictures { get; set; }
