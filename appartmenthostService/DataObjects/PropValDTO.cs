@@ -13,6 +13,6 @@ namespace appartmenthostService.DataObjects
         public string StrValue { get; set; }
         public decimal? NumValue { get; set; }
         public DateTime? DateValue { get; set; }
-        public bool BoolValue { get; set; }
+        public bool? BoolValue { get; set; }
     }
 }

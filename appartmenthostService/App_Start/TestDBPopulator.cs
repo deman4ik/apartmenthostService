@@ -13,26 +13,34 @@ namespace appartmenthostService.App_Start
     {
         public static void Populate(appartmenthostContext context)
         {
-            PopulateUsers(context);
-            context.SaveChanges();
+            try
+            {
+                PopulateUsers(context);
+                context.SaveChanges();
 
-            PopulateApartments(context);
-            context.SaveChanges();
+                PopulateApartments(context);
+                context.SaveChanges();
 
-            PopulateTables(context);
-            context.SaveChanges();
+                PopulateTables(context);
+                context.SaveChanges();
 
-            PopulateDictionaries(context);
-            context.SaveChanges();
+                PopulateDictionaries(context);
+                context.SaveChanges();
 
-            PopulateDictionaryItems(context);
-            context.SaveChanges();
+                PopulateDictionaryItems(context);
+                context.SaveChanges();
 
-            PopulateProps(context);
-            context.SaveChanges();
+                PopulateProps(context);
+                context.SaveChanges();
 
-            PopulatePropVals(context);
-            context.SaveChanges();
+                PopulatePropVals(context);
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw e;
+            }
         }
 
         public static void PopulateUsers(appartmenthostContext context)
@@ -206,8 +214,8 @@ namespace appartmenthostService.App_Start
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = apartmentTypeDic.Name,
                     StrValue = apartmentType,
-                    Lang = ConstLang.RU
-                    
+                    Lang = ConstLang.RU,
+                    Dictionary = apartmentTypeDic
                 });
             }
                 
@@ -242,7 +250,7 @@ namespace appartmenthostService.App_Start
             Apartment apartment = context.Apartments.SingleOrDefault(a => a.Name == "Офис Парус");
             Dictionary apartmentTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.ApartmentType);
             DictionaryItem officeItem =
-                context.DictionaryItems.SingleOrDefault(i => i.Dictionary == apartmentTypeDic && i.Name == "Офис");
+                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == apartmentTypeDic.Id && i.Name == "Офис");
             
 
             PropVal propVal =  new PropVal()
@@ -251,7 +259,9 @@ namespace appartmenthostService.App_Start
                 PropId = prop.Id,
                 TableItemId = apartment.Id,
                 DictionaryItemId = officeItem.Id,
-                DictionaryItem = officeItem
+                Prop = prop,
+                DictionaryItem = officeItem,
+                Apartment = apartment
                 
             };
             prop.PropVals.Add(propVal);
