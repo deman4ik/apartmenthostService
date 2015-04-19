@@ -28,7 +28,7 @@ namespace appartmenthostService.Models
 
         public decimal? Rating { get; set; }
 
-        public string Cohabitation { get; set; }
+        public string CohabitationType { get; set; }
 
         public string Lang { get; set; }
 

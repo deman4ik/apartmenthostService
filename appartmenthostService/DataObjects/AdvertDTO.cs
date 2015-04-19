@@ -31,6 +31,10 @@ namespace appartmenthostService.DataObjects
 
         public DateTime DateTo { get; set; }
 
+        public DateTimeOffset? CreatedAt { get; set; }
+
+        public DateTimeOffset? UpdatedAt { get; set; }
+
         public virtual UserDTO User { get; set; }
         public virtual ApartmentDTO Apartment { get; set; }
         public ICollection<PropValDTO> PropsVals { get; set; } 

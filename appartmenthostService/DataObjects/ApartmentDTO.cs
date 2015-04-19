@@ -19,8 +19,6 @@ namespace appartmenthostService.DataObjects
 
         public string UserId { get; set; }
 
-        public string Сohabitation { get; set; }
-
         public decimal Price { get; set; }
 
         public string Adress { get; set; }
@@ -31,7 +29,11 @@ namespace appartmenthostService.DataObjects
 
         public decimal? Rating { get; set; }
 
-        public string Cohabitation { get; set; }
+        public string CohabitationType { get; set; }
+
+        public DateTimeOffset? CreatedAt { get; set; }
+
+        public DateTimeOffset? UpdatedAt { get; set; }
 
         public ICollection<PropValDTO> PropsVals { get; set; } 
     }

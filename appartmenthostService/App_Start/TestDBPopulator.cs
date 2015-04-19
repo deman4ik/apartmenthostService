@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using appartmenthostService.Authentication;
+using appartmenthostService.DataObjects;
 using appartmenthostService.Helpers;
 using appartmenthostService.Models;
 
@@ -13,8 +16,7 @@ namespace appartmenthostService.App_Start
     {
         public static void Populate(appartmenthostContext context)
         {
-            try
-            {
+
                 PopulateUsers(context);
                 context.SaveChanges();
 
@@ -35,12 +37,7 @@ namespace appartmenthostService.App_Start
 
                 PopulatePropVals(context);
                 context.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw e;
-            }
+
         }
 
         public static void PopulateUsers(appartmenthostContext context)
@@ -106,7 +103,7 @@ namespace appartmenthostService.App_Start
                     Id = Guid.NewGuid().ToString(),
                     Name = "Пупович Плаза",
                     UserId = user1.Id,
-                    Cohabitation = "Раздельное",
+                    CohabitationType = "Раздельное",
                    Price = 2000,
                     Adress = "Россия, Москва, Бутово, 1-я Горловская ул., 4, строение 21",
                     Latitude = new decimal(55.548484), 
@@ -119,7 +116,7 @@ namespace appartmenthostService.App_Start
                     Id = Guid.NewGuid().ToString(),
                     Name = "Пупович Ясенево",
                     UserId = user1.Id,
-                    Cohabitation = "Совместное",
+                    CohabitationType = "Совместное",
                     Price = 1000,
                     Adress = "Россия, Москва, Ясенево, Соловьиный пр., 18",
                     Latitude = new decimal(55.604284), 
@@ -132,7 +129,7 @@ namespace appartmenthostService.App_Start
                     Id = Guid.NewGuid().ToString(),
                     Name = "Офис Парус",
                     UserId = user2.Id,
-                    Cohabitation = "Совместное",
+                    CohabitationType = "Совместное",
                     Price = 3000,
                     Adress = "Россия, Москва, Алексеевский, Ярославская ул., 10к4",
                     Latitude = new decimal(55.819068), 
@@ -192,6 +189,11 @@ namespace appartmenthostService.App_Start
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = ConstProp.ApartmentType
+                },
+                new Dictionary()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = ConstProp.CohabitationType
                 }
             };
 
@@ -203,22 +205,35 @@ namespace appartmenthostService.App_Start
 
         public static void PopulateDictionaryItems(appartmenthostContext context)
         {
+            List<DictionaryItem> dictionaryItems = new List<DictionaryItem>();
             //ApartmentType
             Dictionary apartmentTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.ApartmentType);
-            List<DictionaryItem> dictionaryItems = new List<DictionaryItem>();
-
-            foreach (var apartmentType in ConstDicValsRU.ApartmentTypesList)
+            foreach (var apartmentType in ConstDicValsRU.ApartmentTypesList())
             {
                 dictionaryItems.Add(new DictionaryItem()
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = apartmentTypeDic.Name,
-                    StrValue = apartmentType,
+                    Name = apartmentType.Key,
+                    StrValue = apartmentType.Value,
                     Lang = ConstLang.RU,
                     Dictionary = apartmentTypeDic
                 });
             }
-                
+
+            Dictionary cohabitationTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.CohabitationType);
+            foreach (var cohabitationType in ConstDicValsRU.CohabitationTypesList())
+            {
+                dictionaryItems.Add(new DictionaryItem()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    DictionaryId = cohabitationTypeDic.Name,
+                    Name = cohabitationType.Key,
+                    StrValue = cohabitationType.Value,
+                    Lang = ConstLang.RU,
+                    Dictionary = cohabitationTypeDic
+                });
+            }  
             foreach (var dictonaryItem in dictionaryItems)
             {
                 context.Set<DictionaryItem>().Add(dictonaryItem);
@@ -227,9 +242,14 @@ namespace appartmenthostService.App_Start
         }
         public static void PopulateProps(appartmenthostContext context)
         {
+            List<Prop> propsList = new List<Prop>();
+
+            // Apartment
             Table apartmentTable = context.Tables.SingleOrDefault(t => t.Name == ConstTable.ApartmentTable);
             Dictionary apartmentTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.ApartmentType);
-            Prop prop = new Prop()
+            Dictionary cohabitationTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.CohabitationType);
+           // Custom : ApartmentType
+            propsList.Add(new Prop()
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = ConstProp.ApartmentType,
@@ -239,33 +259,56 @@ namespace appartmenthostService.App_Start
                 Dictionary = apartmentTypeDic,
                 Tables = new List<Table>() { apartmentTable }
 
-            };
-            context.Set<Prop>().Add(prop);
+            });
+            // Base : CohabitationType
+            propsList.Add(new Prop()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = ConstProp.CohabitationType,
+                DataType = ConstDataType.Str,
+                Type = Const.Base,
+                DictionaryId = cohabitationTypeDic.Id,
+                Dictionary = cohabitationTypeDic,
+                Tables = new List<Table>() { apartmentTable }
+
+            });
+
+            foreach (var prop in propsList)
+            {
+                context.Set<Prop>().Add(prop);
+            }
+           
         }
 
         public static void PopulatePropVals(appartmenthostContext context)
         {
           //  Table table = context.Tables.SingleOrDefault(t => t.Name == "Apartment");
+            
             Prop prop = context.Props.SingleOrDefault(p => p.Tables.Any(t => t.Name == ConstTable.ApartmentTable) && p.Name == ConstProp.ApartmentType);
             Apartment apartment = context.Apartments.SingleOrDefault(a => a.Name == "Офис Парус");
             Dictionary apartmentTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.ApartmentType);
             DictionaryItem officeItem =
-                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == apartmentTypeDic.Id && i.Name == "Офис");
-            
+                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == apartmentTypeDic.Id && i.Name == "Office");
 
-            PropVal propVal =  new PropVal()
+            List<PropVal> propVals = new List<PropVal>();
+          propVals.Add(new PropVal()
             {
                 Id = Guid.NewGuid().ToString(),
                 PropId = prop.Id,
                 TableItemId = apartment.Id,
                 DictionaryItemId = officeItem.Id,
+                Lang = ConstLang.RU,
                 Prop = prop,
                 DictionaryItem = officeItem,
                 Apartment = apartment
                 
-            };
-            prop.PropVals.Add(propVal);
-            context.Entry(prop).State = System.Data.Entity.EntityState.Modified;  
+            });
+
+            foreach (var propVal in propVals)
+            {
+                context.PropVals.Add(propVal);
+            }
+
         }
     }
 }

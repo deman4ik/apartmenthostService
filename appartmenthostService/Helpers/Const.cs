@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
 
@@ -16,6 +17,10 @@ namespace appartmenthostService.Helpers
         public const string Num = "Num";
         public const string Date = "Date";
         public const string Bool = "Bool";
+        public const string UserCollection = "UserCollection";
+        public const string PropValCollection = "PropValCollection";
+        public const string ApartmentCollection = "ApartmentCollection";
+        public const string AdvertCollection = "AdverCollection";
     }
     public static class ConstTable
     {
@@ -28,6 +33,7 @@ namespace appartmenthostService.Helpers
     public static class ConstProp
     {
         public const string ApartmentType = "ApartmentType";
+        public const string CohabitationType = "CohabitationType";
     }
 
   
@@ -39,13 +45,24 @@ namespace appartmenthostService.Helpers
 
     public static class ConstDicValsRU
     {
-        public static List<string> ApartmentTypesList = new List<string>()
+        public static Dictionary<string, string> ApartmentTypesList()
         {
-            "Дом",
-            "Квартира",
-            "Комната",
-            "Офис",
-            "Номер"
-        };
+         Dictionary<string, string> ApartmentTypesDic = new Dictionary<string, string>();
+         ApartmentTypesDic.Add("House","Дом");
+         ApartmentTypesDic.Add("Flat", "Квартира");
+         ApartmentTypesDic.Add("Room", "Комната");
+         ApartmentTypesDic.Add("Office", "Офис");
+         ApartmentTypesDic.Add("Hotel Room", "Номер");
+
+            return ApartmentTypesDic;
+        }
+
+        public static Dictionary<string, string> CohabitationTypesList()
+        {
+            Dictionary<string,string> CohabitationTypesDic = new Dictionary<string, string>();
+            CohabitationTypesDic.Add("Separate residence","Раздельное");
+            CohabitationTypesDic.Add("Cohabitation", "Совместное");
+            return CohabitationTypesDic;
+        }
     }
 }

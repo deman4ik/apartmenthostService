@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Web.Http;
 using appartmenthostService.DataObjects;
+using appartmenthostService.Helpers;
 using appartmenthostService.Models;
+using AutoMapper.Internal;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 using Newtonsoft.Json;
@@ -19,44 +22,116 @@ namespace appartmenthostService.Controllers
     public class MetadataController : ApiController
     {
         public ApiServices Services { get; set; }
-
+        appartmenthostContext context = new appartmenthostContext();
         // GET api/Metadata/Apartment
          [Route("api/Metadata/Apartment")]
         public string GetApartment()
         {
-            ApartmentDTO apartment = new ApartmentDTO();
-             List<MetadataItem> apartmentItems = apartment.GetType().GetProperties().Select(prop => new MetadataItem()
+             Metadata apartmentMetadata = new Metadata();
+             apartmentMetadata.Items = typeof(ApartmentDTO).GetProperties().Select(prop => new MetadataItem()
              {
-                 Type = prop.PropertyType.Name,
+                 Type = Helper.GetTypeName(prop),
                  Name = prop.Name
              }).ToList();
-             return JsonConvert.SerializeObject(apartmentItems);
+             apartmentMetadata.Props = context.Props.AsQueryable().Where(p => p.Tables.Any(t => t.Name == ConstTable.ApartmentTable)).Select(prop => new PropDTO()
+             {
+                 Id = prop.Id,
+                 CreatedAt = prop.CreatedAt,
+                 UpdatedAt = prop.UpdatedAt,
+                 Name = prop.Name,
+                 DataType = prop.DataType,
+                 Type = prop.Type,
+                 DictionaryName = prop.Dictionary.Name,
+                 DictionaryId = prop.DictionaryId,
+                 DictionaryItems = context.DictionaryItems.Where(di => di.DictionaryId == prop.DictionaryId).Select(dicitem => new DictionaryItemDTO()
+                 {
+                     Id = dicitem.Id,
+                     CreatedAt = dicitem.CreatedAt,
+                     UpdatedAt = dicitem.UpdatedAt,
+                     DictionaryId = dicitem.Id,
+                     Name = dicitem.Name,
+                     StrValue = dicitem.StrValue,
+                     NumValue = dicitem.NumValue,
+                     DateValue = dicitem.DateValue,
+                     BoolValue = dicitem.BoolValue,
+                     Lang = dicitem.Lang
+                 }).ToList()
+             }).ToList();
+             return JsonConvert.SerializeObject(apartmentMetadata);
         }
 
          // GET api/Metadata/Advert
          [Route("api/Metadata/Advert")]
          public string GetAdvert()
          {
-             AdvertDTO advert = new AdvertDTO();
-             List<MetadataItem> advertItems = advert.GetType().GetProperties().Select(prop => new MetadataItem()
+             Metadata advertMetadata = new Metadata();
+             advertMetadata.Items = typeof(AdvertDTO).GetProperties().Select(prop => new MetadataItem()
              {
-                 Type = prop.PropertyType.Name,
+                 Type = Helper.GetTypeName(prop),
                  Name = prop.Name
              }).ToList();
-             return JsonConvert.SerializeObject(advertItems);
+             advertMetadata.Props = context.Props.AsQueryable().Where(p => p.Tables.Any(t => t.Name == ConstTable.AdvertTable)).Select(prop => new PropDTO()
+             {
+                 Id = prop.Id,
+                 CreatedAt = prop.CreatedAt,
+                 UpdatedAt = prop.UpdatedAt,
+                 Name = prop.Name,
+                 DataType = prop.DataType,
+                 Type = prop.Type,
+                 DictionaryName = prop.Dictionary.Name,
+                 DictionaryId = prop.DictionaryId,
+                 DictionaryItems = context.DictionaryItems.Where(di => di.DictionaryId == prop.DictionaryId).Select(dicitem => new DictionaryItemDTO()
+                 {
+                     Id = dicitem.Id,
+                     CreatedAt = dicitem.CreatedAt,
+                     UpdatedAt = dicitem.UpdatedAt,
+                     DictionaryId = dicitem.Id,
+                     Name = dicitem.Name,
+                     StrValue = dicitem.StrValue,
+                     NumValue = dicitem.NumValue,
+                     DateValue = dicitem.DateValue,
+                     BoolValue = dicitem.BoolValue,
+                     Lang = dicitem.Lang
+                 }).ToList()
+             }).ToList();
+             return JsonConvert.SerializeObject(advertMetadata);
          }
 
          // GET api/Metadata/User
          [Route("api/Metadata/User")]
          public string GetUser()
          {
-             UserDTO user = new UserDTO();
-             List<MetadataItem> userItems = user.GetType().GetProperties().Select(prop => new MetadataItem()
+             Metadata userMetadata = new Metadata();
+             userMetadata.Items = typeof(UserDTO).GetProperties().Select(prop => new MetadataItem()
              {
-                 Type = prop.PropertyType.Name,
+                 Type = Helper.GetTypeName(prop),
                  Name = prop.Name
              }).ToList();
-             return JsonConvert.SerializeObject(userItems);
+             userMetadata.Props = context.Props.AsQueryable().Where(p => p.Tables.Any(t => t.Name == ConstTable.ProfileTable)).Select(prop => new PropDTO()
+             {
+                 Id = prop.Id,
+                 CreatedAt = prop.CreatedAt,
+                 UpdatedAt = prop.UpdatedAt,
+                 Name = prop.Name,
+                 DataType = prop.DataType,
+                 Type = prop.Type,
+                 DictionaryName = prop.Dictionary.Name,
+                 DictionaryId = prop.DictionaryId,
+                 DictionaryItems = context.DictionaryItems.Where(di => di.DictionaryId == prop.DictionaryId).Select(dicitem => new DictionaryItemDTO()
+                 {
+                     Id = dicitem.Id,
+                     CreatedAt = dicitem.CreatedAt,
+                     UpdatedAt = dicitem.UpdatedAt,
+                     DictionaryId = dicitem.Id,
+                     Name = dicitem.Name,
+                     StrValue = dicitem.StrValue,
+                     NumValue = dicitem.NumValue,
+                     DateValue = dicitem.DateValue,
+                     BoolValue = dicitem.BoolValue,
+                     Lang = dicitem.Lang
+                 }).ToList()
+             }).ToList();
+             return JsonConvert.SerializeObject(userMetadata);
          }
     }
 }

@@ -20,6 +20,9 @@ namespace appartmenthostService.DataObjects
         public string ContactKind { get; set; }
         public string Description { get; set; }
         public string PictureId { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
+
+        public DateTimeOffset? UpdatedAt { get; set; }
         public ICollection<PropValDTO> PropsVals { get; set; } 
     }
 }
