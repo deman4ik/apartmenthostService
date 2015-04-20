@@ -201,8 +201,11 @@
     <Compile Include="Authentication\LoginRequest.cs" />
     <Compile Include="Authentication\RegistrationRequest.cs" />
     <Compile Include="Controllers\ApartmentController.cs" />
+    <Compile Include="Controllers\DictionaryController.cs" />
+    <Compile Include="Controllers\DictionaryItemController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MetadataController.cs" />
+    <Compile Include="Controllers\PropController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\AdvertController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
