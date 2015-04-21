@@ -50,7 +50,6 @@ namespace appartmenthostService.Controllers
                     Name = x.Apartment.Name,
                     UserId = x.Apartment.UserId,
                     Price = x.Apartment.Price,
-                    CohabitationType = x.Apartment.Сohabitation,
                     Adress = x.Apartment.Adress,
                     Latitude = x.Apartment.Latitude,
                     Longitude = x.Apartment.Longitude,

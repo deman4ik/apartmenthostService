@@ -29,8 +29,6 @@ namespace appartmenthostService.DataObjects
 
         public decimal? Rating { get; set; }
 
-        public string CohabitationType { get; set; }
-
         public DateTimeOffset? CreatedAt { get; set; }
 
         public DateTimeOffset? UpdatedAt { get; set; }

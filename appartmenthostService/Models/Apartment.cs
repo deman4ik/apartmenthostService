@@ -16,8 +16,6 @@ namespace appartmenthostService.Models
 
         public string UserId { get; set; }
 
-        public string Сohabitation { get; set; }
-
         public decimal Price { get; set; }
 
         public string Adress { get; set; }
@@ -27,8 +25,6 @@ namespace appartmenthostService.Models
         public decimal? Longitude { get; set; }
 
         public decimal? Rating { get; set; }
-
-        public string CohabitationType { get; set; }
 
         public string Lang { get; set; }
 

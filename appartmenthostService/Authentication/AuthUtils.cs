@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using appartmenthostService.Models;
+using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace appartmenthostService.Authentication
 {
@@ -110,6 +111,12 @@ namespace appartmenthostService.Authentication
             
             
             
+        }
+
+        public static Account GetUserAccount(ServiceUser user)
+        {
+            appartmenthostContext context = new appartmenthostContext();
+            return context.Accounts.AsQueryable().SingleOrDefault(a => a.AccountId == user.Id);
         }
     }
 }

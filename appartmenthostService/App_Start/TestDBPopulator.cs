@@ -103,7 +103,6 @@ namespace appartmenthostService.App_Start
                     Id = Guid.NewGuid().ToString(),
                     Name = "Пупович Плаза",
                     UserId = user1.Id,
-                    CohabitationType = "Раздельное",
                    Price = 2000,
                     Adress = "Россия, Москва, Бутово, 1-я Горловская ул., 4, строение 21",
                     Latitude = new decimal(55.548484), 
@@ -116,7 +115,6 @@ namespace appartmenthostService.App_Start
                     Id = Guid.NewGuid().ToString(),
                     Name = "Пупович Ясенево",
                     UserId = user1.Id,
-                    CohabitationType = "Совместное",
                     Price = 1000,
                     Adress = "Россия, Москва, Ясенево, Соловьиный пр., 18",
                     Latitude = new decimal(55.604284), 
@@ -129,7 +127,6 @@ namespace appartmenthostService.App_Start
                     Id = Guid.NewGuid().ToString(),
                     Name = "Офис Парус",
                     UserId = user2.Id,
-                    CohabitationType = "Совместное",
                     Price = 3000,
                     Adress = "Россия, Москва, Алексеевский, Ярославская ул., 10к4",
                     Latitude = new decimal(55.819068), 
@@ -254,7 +251,6 @@ namespace appartmenthostService.App_Start
                 Id = Guid.NewGuid().ToString(),
                 Name = ConstProp.ApartmentType,
                 DataType = ConstDataType.Str,
-                Type = Const.Custom,
                 DictionaryId = apartmentTypeDic.Id,
                 Dictionary = apartmentTypeDic,
                 Tables = new List<Table>() { apartmentTable }
@@ -266,7 +262,6 @@ namespace appartmenthostService.App_Start
                 Id = Guid.NewGuid().ToString(),
                 Name = ConstProp.CohabitationType,
                 DataType = ConstDataType.Str,
-                Type = Const.Base,
                 DictionaryId = cohabitationTypeDic.Id,
                 Dictionary = cohabitationTypeDic,
                 Tables = new List<Table>() { apartmentTable }
@@ -284,26 +279,73 @@ namespace appartmenthostService.App_Start
         {
           //  Table table = context.Tables.SingleOrDefault(t => t.Name == "Apartment");
             
-            Prop prop = context.Props.SingleOrDefault(p => p.Tables.Any(t => t.Name == ConstTable.ApartmentTable) && p.Name == ConstProp.ApartmentType);
-            Apartment apartment = context.Apartments.SingleOrDefault(a => a.Name == "Офис Парус");
-            Dictionary apartmentTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.ApartmentType);
-            DictionaryItem officeItem =
-                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == apartmentTypeDic.Id && i.Name == "Office");
+            Prop propApartmentType = context.Props.SingleOrDefault(p => p.Tables.Any(t => t.Name == ConstTable.ApartmentTable) && p.Name == ConstProp.ApartmentType);
+            Apartment apartmentOffice = context.Apartments.SingleOrDefault(a => a.Name == "Офис Парус");
+            Dictionary dicApartmentType = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.ApartmentType);
+            DictionaryItem dicItemOffice =
+                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicApartmentType.Id && i.Name == "Office");
 
+
+            Prop propCohab = context.Props.SingleOrDefault(p => p.Tables.Any(t => t.Name == ConstTable.ApartmentTable) && p.Name == ConstProp.CohabitationType);
+            Apartment apartmentPlaza = context.Apartments.SingleOrDefault(a => a.Name == "Пупович Плаза");
+            Apartment apartmentYasenevo = context.Apartments.SingleOrDefault(a => a.Name == "Пупович Ясенево");
+            Dictionary dicCohab = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.CohabitationType);
+            DictionaryItem dicItemSepRes =
+                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicCohab.Id && i.Name == "Separate residence");
+            DictionaryItem dicItemCohab =
+                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicCohab.Id && i.Name == "Cohabitation");
             List<PropVal> propVals = new List<PropVal>();
           propVals.Add(new PropVal()
             {
                 Id = Guid.NewGuid().ToString(),
-                PropId = prop.Id,
-                TableItemId = apartment.Id,
-                DictionaryItemId = officeItem.Id,
+                PropId = propApartmentType.Id,
+                TableItemId = apartmentOffice.Id,
+                DictionaryItemId = dicItemOffice.Id,
                 Lang = ConstLang.RU,
-                Prop = prop,
-                DictionaryItem = officeItem,
-                Apartment = apartment
+                Prop = propApartmentType,
+                DictionaryItem = dicItemOffice,
+                Apartment = apartmentOffice
                 
             });
 
+          propVals.Add(new PropVal()
+          {
+              Id = Guid.NewGuid().ToString(),
+              PropId = propCohab.Id,
+              TableItemId = apartmentOffice.Id,
+              DictionaryItemId = dicItemCohab.Id,
+              Lang = ConstLang.RU,
+              Prop = propCohab,
+              DictionaryItem = dicItemCohab,
+              Apartment = apartmentOffice
+
+          });
+
+          propVals.Add(new PropVal()
+          {
+              Id = Guid.NewGuid().ToString(),
+              PropId = propCohab.Id,
+              TableItemId = apartmentPlaza.Id,
+              DictionaryItemId = dicItemSepRes.Id,
+              Lang = ConstLang.RU,
+              Prop = propCohab,
+              DictionaryItem = dicItemSepRes,
+              Apartment = apartmentPlaza
+
+          });
+
+          propVals.Add(new PropVal()
+          {
+              Id = Guid.NewGuid().ToString(),
+              PropId = propCohab.Id,
+              TableItemId = apartmentYasenevo.Id,
+              DictionaryItemId = dicItemCohab.Id,
+              Lang = ConstLang.RU,
+              Prop = propCohab,
+              DictionaryItem = dicItemCohab,
+              Apartment = apartmentYasenevo
+
+          });
             foreach (var propVal in propVals)
             {
                 context.PropVals.Add(propVal);

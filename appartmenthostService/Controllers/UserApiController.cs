@@ -14,7 +14,7 @@ namespace appartmenthostService.Controllers
 {
 
     [AuthorizeLevel(AuthorizationLevel.Application)]
-    public class UserController : ApiController
+    public class UserApiController : ApiController
     {
 
         public ApiServices Services { get; set; }

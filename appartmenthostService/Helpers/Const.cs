@@ -6,11 +6,6 @@ using System.Web;
 
 namespace appartmenthostService.Helpers
 {
-    public static class Const
-    {
-        public const string Custom = "Custom";
-        public const string Base = "Base";
-    }
     public static class ConstDataType
     {
         public const string Str = "Str";

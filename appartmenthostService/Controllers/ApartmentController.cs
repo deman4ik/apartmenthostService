@@ -34,8 +34,7 @@ namespace appartmenthostService.Controllers
         public IQueryable<ApartmentDTO> GetAllApartment()
         {
 
-            var currentUser = User as ServiceUser;
-            var account = context.Accounts.SingleOrDefault(a => a.AccountId == currentUser.Id);
+            var account = AuthUtils.GetUserAccount(User as ServiceUser);
 
             return Query().Where(a => a.UserId == account.UserId).Select(x => new ApartmentDTO()
             {
@@ -43,11 +42,12 @@ namespace appartmenthostService.Controllers
                 Name = x.Name,
                 UserId = x.UserId,
                 Price = x.Price,
-                CohabitationType = x.Сohabitation,
                 Adress = x.Adress,
                 Latitude = x.Latitude,
                 Longitude = x.Longitude,
                 Rating = x.Rating,
+                CreatedAt = x.CreatedAt,
+                UpdatedAt = x.UpdatedAt,
                 PropsVals = context.PropVals.Where(
                                                      pv => pv.TableItemId == x.Id
                                                   && pv.Prop.Tables.Any(t => t.Name == ConstTable.ApartmentTable)
@@ -58,7 +58,9 @@ namespace appartmenthostService.Controllers
                                                                                          StrValue = pdto.StrValue,
                                                                                          NumValue = pdto.NumValue,
                                                                                          DateValue = pdto.DateValue,
-                                                                                         BoolValue = pdto.BoolValue
+                                                                                         BoolValue = pdto.BoolValue,
+                                                                                         CreatedAt = x.CreatedAt,
+                                                                                         UpdatedAt = x.UpdatedAt
 
                                                                                      }
                                                                                      
@@ -75,61 +77,64 @@ namespace appartmenthostService.Controllers
         [AuthorizeLevel(AuthorizationLevel.User)]
         public SingleResult<ApartmentDTO> GetApartment(string id)
         {
-            var currentUser = User as ServiceUser;
-            var account = context.Accounts.SingleOrDefault(a => a.AccountId == currentUser.Id);
+            var account = AuthUtils.GetUserAccount(User as ServiceUser);
             var result = Lookup(id).Queryable.Where(a => a.UserId == account.UserId).Select(x => new ApartmentDTO()
             {
                 Id = x.Id,
                 Name = x.Name,
                 UserId = x.UserId,
                 Price = x.Price,
-                CohabitationType = x.Сohabitation,
                 Adress = x.Adress,
                 Latitude = x.Latitude,
                 Longitude = x.Longitude,
                 Rating = x.Rating,
+                CreatedAt = x.CreatedAt,
+                UpdatedAt = x.UpdatedAt,
                  PropsVals = context.PropVals.Where(
                                                      pv => pv.TableItemId == x.Id
                                                   && pv.Prop.Tables.Any(t => t.Name == ConstTable.ApartmentTable)
                                                                                      ).Select(pdto => new PropValDTO()
                                                                                      {
+                                                                                         Id = pdto.Id,
                                                                                          Name = pdto.Prop.Name,
+                                                                                         PropId = pdto.PropId,
                                                                                          Type = pdto.Prop.DataType,
                                                                                          StrValue = pdto.StrValue,
                                                                                          NumValue = pdto.NumValue,
                                                                                          DateValue = pdto.DateValue,
-                                                                                         BoolValue = pdto.BoolValue
+                                                                                         BoolValue = pdto.BoolValue,
+                                                                                         DictionaryItemId = pdto.DictionaryItemId
 
                                                                                      }
                                                                                      
                                                                                      ).ToList()
                 
             });
-            return SingleResult<ApartmentDTO>.Create(result);
+            return SingleResult.Create(result);
         }
 
 
-         // PATCH tables/Apartment/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        [AuthorizeLevel(AuthorizationLevel.User)]
-        public Task<Apartment> PatchApartment(string id, Delta<Apartment> patch)
-        {
-            return UpdateAsync(id, patch);
-        }
+        // // PATCH tables/Apartment/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        //[AuthorizeLevel(AuthorizationLevel.User)]
+        //public Task<Apartment> PatchApartment(string id, Delta<Apartment> patch)
+        //{
+        //    return UpdateAsync(id, patch);
+        //}
 
-        // POST tables/Apartment
-        [AuthorizeLevel(AuthorizationLevel.User)]
-        public async Task<IHttpActionResult> PostApartment(Apartment item)
-        {
-            Apartment current = await InsertAsync(item);
-            return CreatedAtRoute("Tables", new { id = current.Id }, current);
-        }
+        //// POST tables/Apartment
+        //[AuthorizeLevel(AuthorizationLevel.User)]
+        //public async Task<IHttpActionResult> PostApartment(Apartment item)
+        //{
+        //    Apartment current = await InsertAsync(item);
+        //    return CreatedAtRoute("Tables", new { id = current.Id }, current);
+        //}
 
-        // DELETE tables/Apartment/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        [AuthorizeLevel(AuthorizationLevel.User)]
-        public Task DeleteApartment(string id)
-        {
-             return DeleteAsync(id);
-        }
+        //// DELETE tables/Apartment/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        //[AuthorizeLevel(AuthorizationLevel.User)]
+        //public Task DeleteApartment(string id)
+        //{
+        //     return DeleteAsync(id);
+        //}
 
     }
 }

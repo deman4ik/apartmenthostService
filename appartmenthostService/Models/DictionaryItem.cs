@@ -12,7 +12,6 @@ namespace appartmenthostService.Models
         {
             this.PropVals = new HashSet<PropVal>();
         }
-        public string Id { get; set; }
         public string DictionaryId { get; set; }
         public string Name { get; set; }
         public string StrValue { get; set; }

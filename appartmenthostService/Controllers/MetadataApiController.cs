@@ -19,7 +19,7 @@ namespace appartmenthostService.Controllers
 {
      
      [AuthorizeLevel(AuthorizationLevel.Application)]
-    public class MetadataController : ApiController
+    public class MetadataApiController : ApiController
     {
         public ApiServices Services { get; set; }
         appartmenthostContext context = new appartmenthostContext();
@@ -40,7 +40,6 @@ namespace appartmenthostService.Controllers
                  UpdatedAt = prop.UpdatedAt,
                  Name = prop.Name,
                  DataType = prop.DataType,
-                 Type = prop.Type,
                  DictionaryName = prop.Dictionary.Name,
                  DictionaryId = prop.DictionaryId,
                  DictionaryItems = context.DictionaryItems.Where(di => di.DictionaryId == prop.DictionaryId).Select(dicitem => new DictionaryItemDTO()
@@ -77,7 +76,6 @@ namespace appartmenthostService.Controllers
                  UpdatedAt = prop.UpdatedAt,
                  Name = prop.Name,
                  DataType = prop.DataType,
-                 Type = prop.Type,
                  DictionaryName = prop.Dictionary.Name,
                  DictionaryId = prop.DictionaryId,
                  DictionaryItems = context.DictionaryItems.Where(di => di.DictionaryId == prop.DictionaryId).Select(dicitem => new DictionaryItemDTO()
@@ -114,7 +112,6 @@ namespace appartmenthostService.Controllers
                  UpdatedAt = prop.UpdatedAt,
                  Name = prop.Name,
                  DataType = prop.DataType,
-                 Type = prop.Type,
                  DictionaryName = prop.Dictionary.Name,
                  DictionaryId = prop.DictionaryId,
                  DictionaryItems = context.DictionaryItems.Where(di => di.DictionaryId == prop.DictionaryId).Select(dicitem => new DictionaryItemDTO()

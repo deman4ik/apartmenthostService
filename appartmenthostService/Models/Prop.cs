@@ -17,7 +17,6 @@ namespace appartmenthostService.Models
 
         public string Name { get; set; }
         public string DataType { get; set; }
-        public string Type { get; set; }
         public string DictionaryId { get; set; }
 
         public virtual Dictionary Dictionary { get; set; }

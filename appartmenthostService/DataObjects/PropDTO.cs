@@ -15,7 +15,6 @@ namespace appartmenthostService.DataObjects
         public string Id { get; set; }
         public string Name { get; set; }
         public string DataType { get; set; }
-        public string Type { get; set; }
         public string DictionaryId { get; set; }
         public string DictionaryName { get; set; }
         public DateTimeOffset? CreatedAt { get; set; }
