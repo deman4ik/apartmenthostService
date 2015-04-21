@@ -20,6 +20,6 @@ namespace appartmenthostService.DataObjects
         public string Lang { get; set; }
         public DateTimeOffset? CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
-        
+        public DictionaryItemDTO DictionaryItem { get; set; }
     }
 }

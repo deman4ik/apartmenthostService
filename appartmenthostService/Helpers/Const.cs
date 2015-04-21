@@ -40,24 +40,27 @@ namespace appartmenthostService.Helpers
 
     public static class ConstDicValsRU
     {
-        public static Dictionary<string, string> ApartmentTypesList()
+        public static List<string> ApartmentTypesList()
         {
-         Dictionary<string, string> ApartmentTypesDic = new Dictionary<string, string>();
-         ApartmentTypesDic.Add("House","Дом");
-         ApartmentTypesDic.Add("Flat", "Квартира");
-         ApartmentTypesDic.Add("Room", "Комната");
-         ApartmentTypesDic.Add("Office", "Офис");
-         ApartmentTypesDic.Add("Hotel Room", "Номер");
+         List<string> list = new List<string>();
+         list.Add("House");
+         list.Add("Flat");
+         list.Add("Room");
+         list.Add("Office");
+         list.Add("Hotel Room");
 
-            return ApartmentTypesDic;
+         return list;
         }
 
-        public static Dictionary<string, string> CohabitationTypesList()
+        public static List<string> CohabitationTypesList()
         {
-            Dictionary<string,string> CohabitationTypesDic = new Dictionary<string, string>();
-            CohabitationTypesDic.Add("Separate residence","Раздельное");
-            CohabitationTypesDic.Add("Cohabitation", "Совместное");
-            return CohabitationTypesDic;
+            List<string> list = new List<string>();
+            list.Add("Separate residence");
+            list.Add("Cohabitation");
+
+
+            return list;
         }
+ 
     }
 }

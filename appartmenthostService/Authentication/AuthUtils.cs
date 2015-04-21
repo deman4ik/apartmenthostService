@@ -116,7 +116,7 @@ namespace appartmenthostService.Authentication
         public static Account GetUserAccount(ServiceUser user)
         {
             appartmenthostContext context = new appartmenthostContext();
-            return context.Accounts.AsQueryable().SingleOrDefault(a => a.AccountId == user.Id);
+            return context.Accounts.SingleOrDefault(a => a.AccountId == user.Id);
         }
     }
 }

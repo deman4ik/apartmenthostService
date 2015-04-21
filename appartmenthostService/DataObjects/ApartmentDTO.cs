@@ -28,6 +28,8 @@ namespace appartmenthostService.DataObjects
         public decimal? Longitude { get; set; }
 
         public decimal? Rating { get; set; }
+        
+        public string Lang { get; set; }
 
         public DateTimeOffset? CreatedAt { get; set; }
 

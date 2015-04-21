@@ -211,8 +211,7 @@ namespace appartmenthostService.App_Start
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = apartmentTypeDic.Name,
-                    Name = apartmentType.Key,
-                    StrValue = apartmentType.Value,
+                    StrValue = apartmentType,
                     Lang = ConstLang.RU,
                     Dictionary = apartmentTypeDic
                 });
@@ -225,8 +224,7 @@ namespace appartmenthostService.App_Start
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = cohabitationTypeDic.Name,
-                    Name = cohabitationType.Key,
-                    StrValue = cohabitationType.Value,
+                    StrValue = cohabitationType,
                     Lang = ConstLang.RU,
                     Dictionary = cohabitationTypeDic
                 });
@@ -283,7 +281,7 @@ namespace appartmenthostService.App_Start
             Apartment apartmentOffice = context.Apartments.SingleOrDefault(a => a.Name == "Офис Парус");
             Dictionary dicApartmentType = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.ApartmentType);
             DictionaryItem dicItemOffice =
-                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicApartmentType.Id && i.Name == "Office");
+                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicApartmentType.Id && i.StrValue == "Office");
 
 
             Prop propCohab = context.Props.SingleOrDefault(p => p.Tables.Any(t => t.Name == ConstTable.ApartmentTable) && p.Name == ConstProp.CohabitationType);
@@ -291,9 +289,9 @@ namespace appartmenthostService.App_Start
             Apartment apartmentYasenevo = context.Apartments.SingleOrDefault(a => a.Name == "Пупович Ясенево");
             Dictionary dicCohab = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.CohabitationType);
             DictionaryItem dicItemSepRes =
-                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicCohab.Id && i.Name == "Separate residence");
+                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicCohab.Id && i.StrValue == "Separate residence");
             DictionaryItem dicItemCohab =
-                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicCohab.Id && i.Name == "Cohabitation");
+                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicCohab.Id && i.StrValue == "Cohabitation");
             List<PropVal> propVals = new List<PropVal>();
           propVals.Add(new PropVal()
             {

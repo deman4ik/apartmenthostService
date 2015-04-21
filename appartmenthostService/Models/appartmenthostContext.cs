@@ -143,6 +143,12 @@ namespace appartmenthostService.Models
                     cs.ToTable("ApartmentPicture");
                 });
 
+            modelBuilder.Entity<Apartment>()
+                .HasMany<PropVal>(s => s.PropVals)
+                .WithOptional(s => s.Apartment)
+                .HasForeignKey(s => s.TableItemId)
+                .WillCascadeOnDelete(false);
+
             // Advert
 
             modelBuilder.Entity<Advert>()

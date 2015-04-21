@@ -10,6 +10,7 @@ namespace appartmenthostService.Models
         {
             this.Adverts = new HashSet<Advert>();
             this.Pictures = new HashSet<Picture>();
+            this.PropVals = new HashSet<PropVal>();
         }
         public string Name { get; set; }
 
@@ -31,5 +32,6 @@ namespace appartmenthostService.Models
         public virtual User User { get; set; }
         public ICollection<Advert> Adverts { get; set; }
         public ICollection<Picture> Pictures { get; set; }
+        public ICollection<PropVal> PropVals { get; set; } 
     }
 }

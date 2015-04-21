@@ -12,37 +12,24 @@ namespace appartmenthostService.Helpers
         public static string GetTypeName(PropertyInfo type)
         {
             if (type.PropertyType == typeof (string))
-            {
                 return ConstDataType.Str;
-            }
-            if (type.PropertyType == typeof(decimal?) || type.PropertyType == typeof(decimal) || type.PropertyType == typeof(int?) || type.PropertyType == typeof(float?) || type.PropertyType == typeof(int) || type.PropertyType == typeof(float))
-            {
+            if (type.PropertyType == typeof (decimal?) || type.PropertyType == typeof (decimal) ||
+                type.PropertyType == typeof (int?) || type.PropertyType == typeof (float?) ||
+                type.PropertyType == typeof (int) || type.PropertyType == typeof (float))
                 return ConstDataType.Num;
-            }
-            if (type.PropertyType == typeof(DateTime?) || type.PropertyType == typeof(DateTimeOffset?) || type.PropertyType == typeof(DateTime) || type.PropertyType == typeof(DateTimeOffset))
-            {
+            if (type.PropertyType == typeof (DateTime?) || type.PropertyType == typeof (DateTimeOffset?) ||
+                type.PropertyType == typeof (DateTime) || type.PropertyType == typeof (DateTimeOffset))
                 return ConstDataType.Date;
-            }
-            if (type.PropertyType == typeof(bool?) || type.PropertyType == typeof(bool))
-            {
+            if (type.PropertyType == typeof (bool?) || type.PropertyType == typeof (bool))
                 return ConstDataType.Bool;
-            }
-            if (type.PropertyType == typeof(ICollection<PropValDTO>))
-            {
+            if (type.PropertyType == typeof (ICollection<PropValDTO>))
                 return ConstDataType.PropValCollection;
-            }
-            if (type.PropertyType == typeof(ICollection<UserDTO>))
-            {
+            if (type.PropertyType == typeof (ICollection<UserDTO>))
                 return ConstDataType.UserCollection;
-            }
-            if (type.PropertyType == typeof(ICollection<ApartmentDTO>))
-            {
+            if (type.PropertyType == typeof (ICollection<ApartmentDTO>))
                 return ConstDataType.ApartmentCollection;
-            }
-            if (type.PropertyType == typeof(ICollection<AdvertDTO>))
-            {
+            if (type.PropertyType == typeof (ICollection<AdvertDTO>))
                 return ConstDataType.AdvertCollection;
-            }
             return type.PropertyType.Name;
 
         }
