@@ -88,7 +88,11 @@ namespace appartmenthostService.App_Start
             {
                 context.Set<User>().Add(user);
             }
-           
+
+            context.SaveChanges();
+
+            AuthUtils.CreateAccount("standart", "parus@parus.ru", "standart:parus@parus.ru", "parus@parus.ru");
+
         }
 
         public static void PopulateApartments(appartmenthostContext context)
