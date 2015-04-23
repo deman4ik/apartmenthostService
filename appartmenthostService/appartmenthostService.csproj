@@ -218,6 +218,7 @@
     <Compile Include="DataObjects\MetadataItem.cs" />
     <Compile Include="DataObjects\PropDTO.cs" />
     <Compile Include="DataObjects\PropValDTO.cs" />
+    <Compile Include="DataObjects\ResponseDTO.cs" />
     <Compile Include="DataObjects\UserDTO.cs" />
     <Compile Include="Helpers\Const.cs" />
     <Compile Include="Helpers\DTOMapper.cs" />
@@ -262,8 +263,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\PublishProfiles\appartmenthost - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\appartmenthost - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\apartmenthost - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\apartmenthost - Web Deploy.pubxml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

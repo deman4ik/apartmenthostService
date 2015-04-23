@@ -147,7 +147,7 @@ namespace appartmenthostService.Models
                 .HasMany<PropVal>(s => s.PropVals)
                 .WithOptional(s => s.Apartment)
                 .HasForeignKey(s => s.TableItemId)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             // Advert
 

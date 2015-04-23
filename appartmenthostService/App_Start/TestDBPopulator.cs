@@ -43,8 +43,8 @@ namespace appartmenthostService.App_Start
         public static void PopulateUsers(appartmenthostContext context)
         {
             byte[] salt = AuthUtils.generateSalt();
-            string id1 = Guid.NewGuid().ToString();
-            string id2 = Guid.NewGuid().ToString();
+            string id1 = "u1";
+            string id2 = "u2";
             List<User> users = new List<User>
             {
 
@@ -104,7 +104,7 @@ namespace appartmenthostService.App_Start
             {
                 new Apartment()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = "ap1",
                     Name = "Пупович Плаза",
                     UserId = user1.Id,
                    Price = 2000,
@@ -116,7 +116,7 @@ namespace appartmenthostService.App_Start
                 },
                  new Apartment()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = "ap2",
                     Name = "Пупович Ясенево",
                     UserId = user1.Id,
                     Price = 1000,
@@ -128,7 +128,7 @@ namespace appartmenthostService.App_Start
                 },
                 new Apartment()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = "ap3",
                     Name = "Офис Парус",
                     UserId = user2.Id,
                     Price = 3000,
