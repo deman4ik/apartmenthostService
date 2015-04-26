@@ -15,7 +15,7 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class ProfileController : TableController<Profile>
     {
-        appartmenthostContext context = new appartmenthostContext();
+        apartmenthostContext context = new apartmenthostContext();
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);

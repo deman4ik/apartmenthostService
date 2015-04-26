@@ -33,9 +33,10 @@ namespace apartmenthostService
         }
     }
 
-    public class appartmenthostInitializer : ClearDatabaseSchemaAlways<appartmenthostContext> 
+    public class appartmenthostInitializer : ClearDatabaseSchemaAlways<apartmenthostContext> // DropCreateDatabaseAlways<apartmenthostContext>
+
     { 
-        protected override void Seed(appartmenthostContext context)
+        protected override void Seed(apartmenthostContext context)
         {
             TestDBPopulator.Populate(context);
             base.Seed(context);

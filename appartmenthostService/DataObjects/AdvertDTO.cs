@@ -18,10 +18,7 @@ namespace apartmenthostService.DataObjects
 
         public string UserId { get; set; }
 
-        public string DefaultPictureId { get; set; }
-
         public string Type { get; set; }
-
 
         public string Description { get; set; }
 

@@ -34,7 +34,7 @@ namespace apartmenthostService.Controllers
                 return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.REG_INVALID_PASSWORD, respList));
             }
 
-            appartmenthostContext context = new appartmenthostContext();
+            apartmenthostContext context = new apartmenthostContext();
             User user = context.Users.SingleOrDefault(a => a.Email == registrationRequest.email);
             if (user != null)
             {

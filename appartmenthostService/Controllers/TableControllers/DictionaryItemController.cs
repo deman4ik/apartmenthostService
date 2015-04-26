@@ -15,7 +15,7 @@ namespace apartmenthostService.Controllers
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
-            appartmenthostContext context = new appartmenthostContext();
+            apartmenthostContext context = new apartmenthostContext();
             DomainManager = new EntityDomainManager<DictionaryItem>(context, Request, Services);
         }
 

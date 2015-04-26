@@ -22,7 +22,7 @@ namespace apartmenthostService.Controllers
     public class MetadataApiController : ApiController
     {
         public ApiServices Services { get; set; }
-        appartmenthostContext context = new appartmenthostContext();
+        apartmenthostContext context = new apartmenthostContext();
         // GET api/Metadata/Apartment
          [Route("api/Metadata/Apartment")]
         public string GetApartment()

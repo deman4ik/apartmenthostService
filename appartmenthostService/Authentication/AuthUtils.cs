@@ -71,7 +71,7 @@ namespace apartmenthostService.Authentication
 
         public static void CreateAccount(string providerName, string providerId, string accountId, string email)
         {
-            appartmenthostContext context = new appartmenthostContext();
+            apartmenthostContext context = new apartmenthostContext();
             Account account =
                         
                             context.Accounts.SingleOrDefault(
@@ -115,7 +115,7 @@ namespace apartmenthostService.Authentication
 
         public static Account GetUserAccount(ServiceUser user)
         {
-            appartmenthostContext context = new appartmenthostContext();
+            apartmenthostContext context = new apartmenthostContext();
             return context.Accounts.SingleOrDefault(a => a.AccountId == user.Id);
         }
     }

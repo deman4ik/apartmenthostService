@@ -6,7 +6,7 @@ using Microsoft.WindowsAzure.Mobile.Service.Tables;
 
 namespace apartmenthostService.Models
 {
-    public class appartmenthostContext : DbContext
+    public class apartmenthostContext : DbContext
     {
         // You can add custom code to this file. Changes will not be overwritten.
         // 
@@ -20,7 +20,7 @@ namespace apartmenthostService.Models
         // Web.config, is the same as the service name when hosted in Azure.
         private const string connectionStringName = "Name=MS_TableConnectionString";
 
-        public appartmenthostContext() : base(connectionStringName)
+        public apartmenthostContext() : base(connectionStringName)
         {
         }
         

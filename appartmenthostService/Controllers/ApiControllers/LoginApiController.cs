@@ -21,7 +21,7 @@ namespace apartmenthostService.Controllers
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
         public HttpResponseMessage Post(LoginRequest loginRequest)
         {
-           appartmenthostContext context = new appartmenthostContext();
+           apartmenthostContext context = new apartmenthostContext();
             
             User user = context.Users.SingleOrDefault(a => a.Email == loginRequest.email);
             if (user != null)

@@ -19,7 +19,7 @@ namespace apartmenthostService.Controllers
     public class ApartmentApiController : ApiController
     {
         public ApiServices Services { get; set; }
-        appartmenthostContext context = new appartmenthostContext();
+        apartmenthostContext context = new apartmenthostContext();
         
         // POST api/Apartment/48D68C86-6EA6-4C25-AA33-223FC9A27959
         [Route("api/Apartment")]
@@ -58,7 +58,7 @@ namespace apartmenthostService.Controllers
             // Check Current User
             var currentUser = User as ServiceUser;
                 if (currentUser == null)
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.UNAUTH));
+                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.UNAUTH));
             var account = AuthUtils.GetUserAccount(currentUser);
                 if (account == null)
                 {
@@ -166,7 +166,7 @@ namespace apartmenthostService.Controllers
 
                  // Check Current User
                  var currentUser = User as ServiceUser;
-                 if (currentUser == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.UNAUTH));
+                 if (currentUser == null) return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.UNAUTH));
                  var account = AuthUtils.GetUserAccount(currentUser);
                  if (account == null)
                  {

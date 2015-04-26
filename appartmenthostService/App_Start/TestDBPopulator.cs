@@ -14,7 +14,7 @@ namespace apartmenthostService.App_Start
 {
     public class TestDBPopulator
     {
-        public static void Populate(appartmenthostContext context)
+        public static void Populate(apartmenthostContext context)
         {
 
                 PopulateUsers(context);
@@ -40,7 +40,7 @@ namespace apartmenthostService.App_Start
 
         }
 
-        public static void PopulateUsers(appartmenthostContext context)
+        public static void PopulateUsers(apartmenthostContext context)
         {
             byte[] salt = AuthUtils.generateSalt();
             string id1 = "u1";
@@ -95,7 +95,7 @@ namespace apartmenthostService.App_Start
 
         }
 
-        public static void PopulateApartments(appartmenthostContext context)
+        public static void PopulateApartments(apartmenthostContext context)
         {
             User user1 = context.Users.SingleOrDefault(u => u.Email == "vasek@example.com");
             User user2 = context.Users.SingleOrDefault(u => u.Email == "parus@parus.ru");
@@ -146,7 +146,7 @@ namespace apartmenthostService.App_Start
             }
         }
 
-        public static void PopulateTables(appartmenthostContext context)
+        public static void PopulateTables(apartmenthostContext context)
         {
             List<Table> tables = new List<Table>()
             {
@@ -181,7 +181,7 @@ namespace apartmenthostService.App_Start
 
         }
 
-        public static void PopulateDictionaries(appartmenthostContext context)
+        public static void PopulateDictionaries(apartmenthostContext context)
         {
             //ApartmentType
             List<Dictionary> dictionaries = new List<Dictionary>()
@@ -204,7 +204,7 @@ namespace apartmenthostService.App_Start
             }
         }
 
-        public static void PopulateDictionaryItems(appartmenthostContext context)
+        public static void PopulateDictionaryItems(apartmenthostContext context)
         {
             List<DictionaryItem> dictionaryItems = new List<DictionaryItem>();
             //ApartmentType
@@ -239,7 +239,7 @@ namespace apartmenthostService.App_Start
             }
             
         }
-        public static void PopulateProps(appartmenthostContext context)
+        public static void PopulateProps(apartmenthostContext context)
         {
             List<Prop> propsList = new List<Prop>();
 
@@ -277,7 +277,7 @@ namespace apartmenthostService.App_Start
            
         }
 
-        public static void PopulatePropVals(appartmenthostContext context)
+        public static void PopulatePropVals(apartmenthostContext context)
         {
           //  Table table = context.Tables.SingleOrDefault(t => t.Name == "Apartment");
             

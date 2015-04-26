@@ -240,7 +240,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Advert.cs" />
     <Compile Include="Helpers\Helper.cs" />
-    <Compile Include="Models\appartmenthostContext.cs" />
+    <Compile Include="Models\apartmenthostContext.cs" />
     <Compile Include="ScheduledJobs\SampleJob.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

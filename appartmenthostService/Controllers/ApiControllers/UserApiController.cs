@@ -19,7 +19,7 @@ namespace apartmenthostService.Controllers
 
         public ApiServices Services { get; set; }
 
-        appartmenthostContext context = new appartmenthostContext();
+        apartmenthostContext context = new apartmenthostContext();
 
         // GET api/User
         [Route("api/User")]

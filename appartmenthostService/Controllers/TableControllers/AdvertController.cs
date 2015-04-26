@@ -11,7 +11,7 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class AdvertController : TableController<Advert>
     {
-         appartmenthostContext context = new appartmenthostContext();
+         apartmenthostContext context = new apartmenthostContext();
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
@@ -29,7 +29,6 @@ namespace apartmenthostService.Controllers
                 Id = x.Id,
                 Name = x.Name,
                 UserId = x.UserId,
-                DefaultPictureId = x.DefaultPictureId,
                 Type = x.Type,
                 Description = x.Description,
                 ApartmentId = x.ApartmentId,
