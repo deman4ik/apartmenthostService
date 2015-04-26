@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using Microsoft.WindowsAzure.Mobile.Service;
 
-namespace appartmenthostService.Models
+namespace apartmenthostService.Models
 {
     public class Dictionary : EntityData
     {

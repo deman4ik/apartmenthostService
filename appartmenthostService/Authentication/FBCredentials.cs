@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
-namespace appartmenthostService.Authentication
+namespace apartmenthostService.Authentication
 {
     public class FBCredentials : ProviderCredentials
     {

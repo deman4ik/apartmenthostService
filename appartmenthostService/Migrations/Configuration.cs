@@ -1,18 +1,18 @@
-namespace appartmenthostService.Migrations
+namespace apartmenthostService.Migrations
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<appartmenthostService.Models.appartmenthostContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<apartmenthostService.Models.appartmenthostContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(appartmenthostService.Models.appartmenthostContext context)
+        protected override void Seed(apartmenthostService.Models.appartmenthostContext context)
         {
             //  This method will be called after migrating to the latest version.
 

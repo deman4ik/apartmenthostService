@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using appartmenthostService.Models;
+using apartmenthostService.Models;
 
-namespace appartmenthostService.DataObjects
+namespace apartmenthostService.DataObjects
 {
     public class AdvertDTO
     {

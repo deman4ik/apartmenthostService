@@ -6,14 +6,14 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
-using appartmenthostService.DataObjects;
+using apartmenthostService.DataObjects;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 using Newtonsoft.Json.Linq;
 using Owin;
 
 
-namespace appartmenthostService.Authentication
+namespace apartmenthostService.Authentication
 {
     public class StandartLoginProvider : LoginProvider
     {

@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Controllers;
-using appartmenthostService.DataObjects;
+using apartmenthostService.DataObjects;
 using Microsoft.WindowsAzure.Mobile.Service;
-using appartmenthostService.Models;
+using apartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
-namespace appartmenthostService.Controllers
+namespace apartmenthostService.Controllers
 {
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class AdvertController : TableController<Advert>

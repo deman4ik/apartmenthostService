@@ -6,16 +6,16 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Web.Http;
-using appartmenthostService.DataObjects;
-using appartmenthostService.Helpers;
-using appartmenthostService.Models;
+using apartmenthostService.DataObjects;
+using apartmenthostService.Helpers;
+using apartmenthostService.Models;
 using AutoMapper.Internal;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace appartmenthostService.Controllers
+namespace apartmenthostService.Controllers
 {
      
      [AuthorizeLevel(AuthorizationLevel.Application)]

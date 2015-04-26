@@ -1,14 +1,14 @@
 ﻿using System.Data.Entity;
 using System.Web.Http;
-using appartmenthostService.App_Start;
-using appartmenthostService.Authentication;
-using appartmenthostService.Helpers;
+using apartmenthostService.App_Start;
+using apartmenthostService.Authentication;
+using apartmenthostService.Helpers;
 using Microsoft.WindowsAzure.Mobile.Service;
-using appartmenthostService.Models;
+using apartmenthostService.Models;
 using AutoMapper;
 using Microsoft.WindowsAzure.Mobile.Service.Security.Providers;
 
-namespace appartmenthostService
+namespace apartmenthostService
 {
     public static class WebApiConfig
     {

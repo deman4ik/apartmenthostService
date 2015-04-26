@@ -6,7 +6,7 @@ using Microsoft.WindowsAzure.Mobile.Service.Security;
 using Newtonsoft.Json.Linq;
 using Owin;
 
-namespace appartmenthostService.Authentication
+namespace apartmenthostService.Authentication
 {
     public class FBLoginProvider : LoginProvider
     {

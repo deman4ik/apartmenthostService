@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
 
-namespace appartmenthostService.Helpers
+namespace apartmenthostService.Helpers
 {
     public static class ConstDataType
     {

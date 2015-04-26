@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Tables;
 
-namespace appartmenthostService.Models
+namespace apartmenthostService.Models
 {
     public class appartmenthostContext : DbContext
     {

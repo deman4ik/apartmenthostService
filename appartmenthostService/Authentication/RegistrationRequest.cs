@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace appartmenthostService.Authentication
+namespace apartmenthostService.Authentication
 {
     public class RegistrationRequest
     {

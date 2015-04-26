@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.WindowsAzure.Mobile.Service;
 
-namespace appartmenthostService.Models
+namespace apartmenthostService.Models
 {
     public class Favorite : EntityData
     {

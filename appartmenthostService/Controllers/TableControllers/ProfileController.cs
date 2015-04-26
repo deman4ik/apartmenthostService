@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.OData;
-using appartmenthostService.DataObjects;
+using apartmenthostService.DataObjects;
 using Microsoft.WindowsAzure.Mobile.Service;
-using appartmenthostService.Models;
+using apartmenthostService.Models;
 using AutoMapper.QueryableExtensions;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
-namespace appartmenthostService.Controllers
+namespace apartmenthostService.Controllers
 {
     
     [AuthorizeLevel(AuthorizationLevel.Application)]

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.WindowsAzure.Mobile.Service;
 
-namespace appartmenthostService.Models
+namespace apartmenthostService.Models
 {
     public class Picture : EntityData
     {

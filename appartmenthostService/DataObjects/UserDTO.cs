@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace appartmenthostService.DataObjects
+namespace apartmenthostService.DataObjects
 {
     public class UserDTO
     {

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using appartmenthostService.DataObjects;
-using appartmenthostService.Models;
+using apartmenthostService.DataObjects;
+using apartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
-namespace appartmenthostService.Helpers
+namespace apartmenthostService.Helpers
 {
     public class Helper
     {

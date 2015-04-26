@@ -5,12 +5,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using appartmenthostService.Authentication;
-using appartmenthostService.DataObjects;
-using appartmenthostService.Helpers;
-using appartmenthostService.Models;
+using apartmenthostService.Authentication;
+using apartmenthostService.DataObjects;
+using apartmenthostService.Helpers;
+using apartmenthostService.Models;
 
-namespace appartmenthostService.App_Start
+namespace apartmenthostService.App_Start
 {
     public class TestDBPopulator
     {

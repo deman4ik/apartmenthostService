@@ -4,10 +4,10 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.OData;
 using Microsoft.WindowsAzure.Mobile.Service;
-using appartmenthostService.Models;
+using apartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
-namespace appartmenthostService.Controllers
+namespace apartmenthostService.Controllers
 {
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class DictionaryItemController : TableController<DictionaryItem>

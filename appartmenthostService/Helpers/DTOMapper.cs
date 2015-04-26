@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using appartmenthostService.DataObjects;
-using appartmenthostService.Models;
+using apartmenthostService.DataObjects;
+using apartmenthostService.Models;
 using AutoMapper;
 
-namespace appartmenthostService.Helpers
+namespace apartmenthostService.Helpers
 {
     public class DTOMapper
     {

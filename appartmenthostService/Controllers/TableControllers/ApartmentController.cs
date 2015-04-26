@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.OData;
-using appartmenthostService.Authentication;
-using appartmenthostService.DataObjects;
-using appartmenthostService.Helpers;
+using apartmenthostService.Authentication;
+using apartmenthostService.DataObjects;
+using apartmenthostService.Helpers;
 using Microsoft.WindowsAzure.Mobile.Service;
-using appartmenthostService.Models;
+using apartmenthostService.Models;
 using AutoMapper.QueryableExtensions;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
-namespace appartmenthostService.Controllers
+namespace apartmenthostService.Controllers
 {
     
     [AuthorizeLevel(AuthorizationLevel.Application)]

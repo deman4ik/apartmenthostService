@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using appartmenthostService.Models;
+using apartmenthostService.Models;
 
-namespace appartmenthostService.DataObjects
+namespace apartmenthostService.DataObjects
 {
     public class ApartmentDTO
     {
