@@ -4,13 +4,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using appartmenthostService.DataObjects;
-using appartmenthostService.Models;
+using apartmenthostService.DataObjects;
+using apartmenthostService.Models;
 using AutoMapper.QueryableExtensions;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
-namespace appartmenthostService.Controllers
+namespace apartmenthostService.Controllers
 {
 
     [AuthorizeLevel(AuthorizationLevel.Application)]
@@ -28,7 +28,9 @@ namespace appartmenthostService.Controllers
         public IQueryable<UserDTO> GetCurrentUser()
         {
             var currentUser = User as ServiceUser;
+            if (currentUser == null) return null;
             var account = context.Accounts.SingleOrDefault(a => a.AccountId == currentUser.Id);
+            if (account == null) return null;
             var result = context.Profile.Where(p => p.Id == account.UserId).Project().To<UserDTO>();
             return result;
         }

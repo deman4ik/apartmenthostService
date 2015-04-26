@@ -3,12 +3,13 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Web.Http;
-using appartmenthostService.Authentication;
-using appartmenthostService.Models;
+using apartmenthostService.Authentication;
+using apartmenthostService.DataObjects;
+using apartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
-namespace appartmenthostService.Controllers
+namespace apartmenthostService.Controllers
 {
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class StandartLoginController : ApiController
@@ -35,7 +36,7 @@ namespace appartmenthostService.Controllers
                     return this.Request.CreateResponse(HttpStatusCode.OK, loginResult);
                 }
             }
-            return this.Request.CreateResponse(HttpStatusCode.Unauthorized, "Invalid email or password");
+            return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.LOGIN_INVALID_EMAIL_PASS));
         }
     }
 }

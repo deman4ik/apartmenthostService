@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using appartmenthostService.Authentication;
-using appartmenthostService.Models;
+using apartmenthostService.Authentication;
+using apartmenthostService.DataObjects;
+using apartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
-namespace appartmenthostService.Controllers
+namespace apartmenthostService.Controllers
 {
     
     [AuthorizeLevel(AuthorizationLevel.Application)]
@@ -20,20 +22,24 @@ namespace appartmenthostService.Controllers
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
         public HttpResponseMessage Post(RegistrationRequest registrationRequest)
         {
+            var respList = new List<string>();
             if (!AuthUtils.IsEmailValid(registrationRequest.email))
             {
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid email");
+                respList.Add(registrationRequest.email);
+                return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.REG_INVALID_EMAIL, respList));
             }
             else if (registrationRequest.password.Length < 8)
             {
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid password (at least 8 chars required)");
+                respList.Add(registrationRequest.password);
+                return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.REG_INVALID_PASSWORD, respList));
             }
 
             appartmenthostContext context = new appartmenthostContext();
             User user = context.Users.SingleOrDefault(a => a.Email == registrationRequest.email);
             if (user != null)
             {
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest, "User with such email already exists");
+                respList.Add(registrationRequest.email);
+                return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.REG_EXISTS_EMAIL, respList));
             }
             else
             {
@@ -47,7 +53,8 @@ namespace appartmenthostService.Controllers
                 };
                 context.Users.Add(newUser);
                 context.SaveChanges();
-                return this.Request.CreateResponse(HttpStatusCode.Created);
+                respList.Add(newUser.Id);
+                return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.CREATED,respList));
             }
         }
     }

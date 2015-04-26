@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
 
-namespace appartmenthostService.DataObjects
+namespace apartmenthostService.DataObjects
 {
     /************************************************************************
      *          Стандартный ответ сервиса                                   *
@@ -46,13 +46,24 @@ namespace appartmenthostService.DataObjects
         public const string USER_EXISTS = "USER_EXISTS"; // Объект уже существует
         public const string USER_DEPENDENCY = "USER_DEPENDENCY"; // Объект не может быть изменен/удален т.к. зависит от другого объекта.  
 
+        //Registration
+        public const string REG_INVALID_EMAIL = "REG_INVALID_EMAIL"; // Не верный email
+        public const string REG_INVALID_PASSWORD = "REG_INVALID_PASSWORD"; // Не верный пароль
+        public const string REG_EXISTS_EMAIL = "REG_EXISTS_EMAIL"; // Пользователь с таким email уже существует
+
+        //Login
+        public const string LOGIN_INVALID_EMAIL_PASS = "LOGIN_INVALID_EMAIL_PASS"; // Не верный логин или пароль
+
+
         //Apartment
         public const string APARTMENT_NULL = "APARTMENT_NULL"; // Пустой объект запроса
         public const string APARTMENT_NOTFOUND = "APARTMENT_NOTFOUND"; // Объект не найден
-        public const string APARTMENT_PROP_NOTFOUND = "APARTMENT_PROP_NOTFOUND"; // Объект не найден
+        public const string APARTMENT_PROP_NOTFOUND = "APARTMENT_PROP_NOTFOUND"; // Свойство объекта не найденл
+        public const string APARTMENT_PROPVAL_NOTFOUND = "APARTMENT_PROPVAL_NOTFOUND"; // Значение свойства объекта не найдено
         public const string APARTMENT_REQUIRED = "APARTMENT_REQUIRED"; // Не заполнено обязательно поле
         public const string APARTMENT_EXISTS = "APARTMENT_EXISTS"; // Объект уже существует
         public const string APARTMENT_DEPENDENCY = "APARTMENT_DEPENDENCY"; // Объект не может быть изменен/удален т.к. зависит от другого объекта.  
+        public const string APARTMENT_WRONG_USER = "APARTMENT_WRONG_USER"; // Объект не может быть изменен/удален другим пользователем
 
 
         //Advert
