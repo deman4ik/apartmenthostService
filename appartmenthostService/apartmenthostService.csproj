@@ -200,6 +200,7 @@
     <Compile Include="Authentication\AuthUtils.cs" />
     <Compile Include="Authentication\LoginRequest.cs" />
     <Compile Include="Authentication\RegistrationRequest.cs" />
+    <Compile Include="Controllers\AdvertApiController.cs" />
     <Compile Include="Controllers\ApiControllers\ApartmentApiController.cs" />
     <Compile Include="Controllers\TableControllers\ApartmentController.cs" />
     <Compile Include="Controllers\TableControllers\DictionaryController.cs" />
