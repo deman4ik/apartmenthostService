@@ -103,7 +103,7 @@ namespace apartmenthostService.Controllers
                 {
                     Id = Guid.NewGuid().ToString(),
                     PropId = pv.PropId,
-                    TableItemId = apartmentGuid,
+                    ApartmentItemId = apartmentGuid,
                     StrValue = pv.StrValue,
                     NumValue = pv.NumValue,
                     DateValue = pv.DateValue,

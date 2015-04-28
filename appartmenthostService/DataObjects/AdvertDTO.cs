@@ -18,8 +18,6 @@ namespace apartmenthostService.DataObjects
 
         public string UserId { get; set; }
 
-        public string Type { get; set; }
-
         public string Description { get; set; }
 
         public string ApartmentId { get; set; }
@@ -32,8 +30,11 @@ namespace apartmenthostService.DataObjects
 
         public DateTimeOffset? UpdatedAt { get; set; }
 
+        public string Lang { get; set; }
+
         public virtual UserDTO User { get; set; }
         public virtual ApartmentDTO Apartment { get; set; }
         public ICollection<PropValDTO> PropsVals { get; set; } 
+
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,11 +17,15 @@ namespace apartmenthostService.App_Start
     {
         public static void Populate(apartmenthostContext context)
         {
-
+            try
+            {
                 PopulateUsers(context);
                 context.SaveChanges();
 
                 PopulateApartments(context);
+                context.SaveChanges();
+
+                PopulateAdverts(context);
                 context.SaveChanges();
 
                 PopulateTables(context);
@@ -37,6 +42,13 @@ namespace apartmenthostService.App_Start
 
                 PopulatePropVals(context);
                 context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("!!!!!!!!!!!!!!!!!!");
+                System.Diagnostics.Debug.WriteLine(e.InnerException);
+                System.Diagnostics.Debug.WriteLine("!!!!!!!!!!!!!!!!!!");
+            }
 
         }
 
@@ -146,6 +158,62 @@ namespace apartmenthostService.App_Start
             }
         }
 
+        public static void PopulateAdverts(apartmenthostContext context)
+        {
+            User user1 = context.Users.SingleOrDefault(u => u.Email == "vasek@example.com");
+            User user2 = context.Users.SingleOrDefault(u => u.Email == "parus@parus.ru");
+            Apartment apartment1 = context.Apartments.SingleOrDefault(a => a.Id == "ap1");
+            Apartment apartment2 = context.Apartments.SingleOrDefault(a => a.Id == "ap2");
+            Apartment apartment3 = context.Apartments.SingleOrDefault(a => a.Id == "ap3");
+
+            List<Advert> adverts = new List<Advert>()
+            {
+                new Advert()
+                {
+                    Id = "a1",
+                    Name = "Пупович хата в Ясенево",
+                    UserId = user1.Id,
+                    Description = "Великолепное жилье в центре Бутово. Комфортно и уютно. Из окна не видно помойки! Уже хорошо!",
+                    ApartmentId = apartment1.Id,
+                    DateFrom = new DateTime(2015,5,1),
+                    DateTo = new DateTime(2015,5,31),
+                    Lang = ConstLang.RU,
+                    User = user1,
+                    Apartment = apartment1
+                },
+                new Advert()
+                {
+                    Id = "a2",
+                    Name = "Пупович Плаза в Бутово",
+                    UserId = user1.Id,
+                    Description = "Квартирка на Соловьином. Жить можно, но не долго. Из окна почти ничего не видно, только стенку морга.",
+                    ApartmentId = apartment2.Id,
+                    DateFrom = new DateTime(2015,5,10),
+                    DateTo = new DateTime(2015,6,30),
+                    Lang = ConstLang.RU,
+                    User = user1,
+                    Apartment = apartment2
+                },
+                new Advert()
+                {
+                    Id = "a3",
+                    Name = "Офис совместно с Парус",
+                    UserId = user2.Id,
+                    Description = "Бизнес центр ААА-класса. Многоуровневая паркова. Бесплатное питание. У нас есть печеньки!",
+                    ApartmentId = apartment3.Id,
+                    DateFrom = new DateTime(2015,4,30),
+                    DateTo = new DateTime(2015,12,31),
+                    Lang = ConstLang.RU,
+                    User = user2,
+                    Apartment = apartment3
+                },
+            };
+
+            foreach (var advert in adverts)
+            {
+                context.Set<Advert>().Add(advert);
+            }
+        }
         public static void PopulateTables(apartmenthostContext context)
         {
             List<Table> tables = new List<Table>()
@@ -301,12 +369,13 @@ namespace apartmenthostService.App_Start
             {
                 Id = Guid.NewGuid().ToString(),
                 PropId = propApartmentType.Id,
-                TableItemId = apartmentOffice.Id,
+                ApartmentItemId = apartmentOffice.Id,
                 DictionaryItemId = dicItemOffice.Id,
                 Lang = ConstLang.RU,
                 Prop = propApartmentType,
                 DictionaryItem = dicItemOffice,
-                Apartment = apartmentOffice
+                Apartment = apartmentOffice,
+                Advert = null
                 
             });
 
@@ -314,12 +383,13 @@ namespace apartmenthostService.App_Start
           {
               Id = Guid.NewGuid().ToString(),
               PropId = propCohab.Id,
-              TableItemId = apartmentOffice.Id,
+              ApartmentItemId = apartmentOffice.Id,
               DictionaryItemId = dicItemCohab.Id,
               Lang = ConstLang.RU,
               Prop = propCohab,
               DictionaryItem = dicItemCohab,
-              Apartment = apartmentOffice
+              Apartment = apartmentOffice,
+              Advert = null
 
           });
 
@@ -327,12 +397,13 @@ namespace apartmenthostService.App_Start
           {
               Id = Guid.NewGuid().ToString(),
               PropId = propCohab.Id,
-              TableItemId = apartmentPlaza.Id,
+              ApartmentItemId = apartmentPlaza.Id,
               DictionaryItemId = dicItemSepRes.Id,
               Lang = ConstLang.RU,
               Prop = propCohab,
               DictionaryItem = dicItemSepRes,
-              Apartment = apartmentPlaza
+              Apartment = apartmentPlaza,
+              Advert = null
 
           });
 
@@ -340,12 +411,13 @@ namespace apartmenthostService.App_Start
           {
               Id = Guid.NewGuid().ToString(),
               PropId = propCohab.Id,
-              TableItemId = apartmentYasenevo.Id,
+              ApartmentItemId = apartmentYasenevo.Id,
               DictionaryItemId = dicItemCohab.Id,
               Lang = ConstLang.RU,
               Prop = propCohab,
               DictionaryItem = dicItemCohab,
-              Apartment = apartmentYasenevo
+              Apartment = apartmentYasenevo,
+              Advert = null
 
           });
             foreach (var propVal in propVals)

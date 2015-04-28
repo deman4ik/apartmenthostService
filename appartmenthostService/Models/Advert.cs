@@ -18,9 +18,6 @@ namespace apartmenthostService.Models
 
         public string UserId { get; set; }
 
-        public string Type { get; set; }
-
-
         public string Description { get; set; }
 
         public string ApartmentId { get; set; }
@@ -37,6 +34,7 @@ namespace apartmenthostService.Models
      public ICollection<Picture> Pictures { get; set; }
     public ICollection<Favorite> Favorites { get; set; }
     public ICollection<Reservation> Reservations { get; set; }
+    public ICollection<PropVal> PropVals { get; set; } 
 
     }
 }

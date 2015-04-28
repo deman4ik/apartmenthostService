@@ -61,9 +61,6 @@ namespace apartmenthostService.Controllers
                             DateValue = pdto.DateValue,
                             BoolValue = pdto.BoolValue,
                             DictionaryItemId = pdto.DictionaryItemId,
-                            Lang = pdto.Lang,
-                            CreatedAt = x.CreatedAt,
-                            UpdatedAt = x.UpdatedAt,
                             DictionaryItem = new DictionaryItemDTO()
                             {
                                 StrValue = pdto.DictionaryItem.StrValue,
@@ -112,9 +109,6 @@ namespace apartmenthostService.Controllers
                             DateValue = pdto.DateValue,
                             BoolValue = pdto.BoolValue,
                             DictionaryItemId = pdto.DictionaryItemId,
-                            Lang = pdto.Lang,
-                            CreatedAt = x.CreatedAt,
-                            UpdatedAt = x.UpdatedAt,
                             DictionaryItem = new DictionaryItemDTO()
                             {
                                 StrValue = pdto.DictionaryItem.StrValue,

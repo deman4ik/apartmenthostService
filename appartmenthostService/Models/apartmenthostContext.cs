@@ -146,7 +146,7 @@ namespace apartmenthostService.Models
             modelBuilder.Entity<Apartment>()
                 .HasMany<PropVal>(s => s.PropVals)
                 .WithOptional(s => s.Apartment)
-                .HasForeignKey(s => s.TableItemId)
+                .HasForeignKey(s => s.ApartmentItemId)
                 .WillCascadeOnDelete(true);
 
             // Advert
@@ -173,6 +173,12 @@ namespace apartmenthostService.Models
                     cs.MapRightKey("PictureRefId");
                     cs.ToTable("AdvertPicture");
                 });
+
+            modelBuilder.Entity<Advert>()
+                .HasMany<PropVal>(s => s.PropVals)
+                .WithOptional(s => s.Advert)
+                .HasForeignKey(s => s.AdvertItemId)
+                .WillCascadeOnDelete(true);
 
             // Review
 

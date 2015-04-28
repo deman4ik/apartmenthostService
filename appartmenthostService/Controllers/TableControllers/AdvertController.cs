@@ -29,19 +29,18 @@ namespace apartmenthostService.Controllers
                 Id = x.Id,
                 Name = x.Name,
                 UserId = x.UserId,
-                Type = x.Type,
                 Description = x.Description,
                 ApartmentId = x.ApartmentId,
                 DateFrom = x.DateFrom,
                 DateTo = x.DateTo,
+                Lang = x.Lang,
                 User = new UserDTO()
                 {
                     Id = x.Id,
                     FirstName = x.User.Profile.FirstName,
                     LastName = x.User.Profile.LastName,
                     Gender = x.User.Profile.Gender,
-                    Phone = x.User.Profile.Phone,
-                    PictureId = x.User.Profile.PictureId
+                    Phone = x.User.Profile.Phone
                 },
                 Apartment = new ApartmentDTO()
                 {
@@ -52,8 +51,48 @@ namespace apartmenthostService.Controllers
                     Adress = x.Apartment.Adress,
                     Latitude = x.Apartment.Latitude,
                     Longitude = x.Apartment.Longitude,
-                    Rating = x.Apartment.Rating
-                }
+                    Rating = x.Apartment.Rating,
+                    PropsVals = x.Apartment.PropVals
+                      .Select(appdto => new PropValDTO()
+                      {
+                          Id = appdto.Id,
+                          PropId = appdto.PropId,
+                          Name = appdto.Prop.Name,
+                          Type = appdto.Prop.DataType,
+                          StrValue = appdto.StrValue,
+                          NumValue = appdto.NumValue,
+                          DateValue = appdto.DateValue,
+                          BoolValue = appdto.BoolValue,
+                          DictionaryItemId = appdto.DictionaryItemId,
+                          DictionaryItem = new DictionaryItemDTO()
+                          {
+                              StrValue = appdto.DictionaryItem.StrValue,
+                              NumValue = appdto.DictionaryItem.NumValue,
+                              DateValue = appdto.DictionaryItem.DateValue,
+                              BoolValue = appdto.DictionaryItem.BoolValue
+                          }
+                      }).ToList()
+                },
+                PropsVals = x.PropVals
+                      .Select(pdto => new PropValDTO()
+                      {
+                          Id = pdto.Id,
+                          PropId = pdto.PropId,
+                          Name = pdto.Prop.Name,
+                          Type = pdto.Prop.DataType,
+                          StrValue = pdto.StrValue,
+                          NumValue = pdto.NumValue,
+                          DateValue = pdto.DateValue,
+                          BoolValue = pdto.BoolValue,
+                          DictionaryItemId = pdto.DictionaryItemId,
+                          DictionaryItem = new DictionaryItemDTO()
+                          {
+                              StrValue = pdto.DictionaryItem.StrValue,
+                              NumValue = pdto.DictionaryItem.NumValue,
+                              DateValue = pdto.DictionaryItem.DateValue,
+                              BoolValue = pdto.DictionaryItem.BoolValue
+                          }
+                      }).ToList()
 
             });
         }
@@ -61,9 +100,80 @@ namespace apartmenthostService.Controllers
         // GET tables/Advert/48D68C86-6EA6-4C25-AA33-223FC9A27959
        // [QueryableExpand("Apartments")]
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
-        public SingleResult<Advert> GetAdvert(string id)
+        public SingleResult<AdvertDTO> GetAdvert(string id)
         {
-            return Lookup(id);
+            var result = Lookup(id).Queryable.Select(x => new AdvertDTO()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                UserId = x.UserId,
+                Description = x.Description,
+                ApartmentId = x.ApartmentId,
+                DateFrom = x.DateFrom,
+                DateTo = x.DateTo,
+                Lang = x.Lang,
+                User = new UserDTO()
+                {
+                    Id = x.Id,
+                    FirstName = x.User.Profile.FirstName,
+                    LastName = x.User.Profile.LastName,
+                    Gender = x.User.Profile.Gender,
+                    Phone = x.User.Profile.Phone
+                },
+                Apartment = new ApartmentDTO()
+                {
+                    Id = x.Id,
+                    Name = x.Apartment.Name,
+                    UserId = x.Apartment.UserId,
+                    Price = x.Apartment.Price,
+                    Adress = x.Apartment.Adress,
+                    Latitude = x.Apartment.Latitude,
+                    Longitude = x.Apartment.Longitude,
+                    Rating = x.Apartment.Rating,
+                    PropsVals = x.Apartment.PropVals
+                      .Select(appdto => new PropValDTO()
+                      {
+                          Id = appdto.Id,
+                          PropId = appdto.PropId,
+                          Name = appdto.Prop.Name,
+                          Type = appdto.Prop.DataType,
+                          StrValue = appdto.StrValue,
+                          NumValue = appdto.NumValue,
+                          DateValue = appdto.DateValue,
+                          BoolValue = appdto.BoolValue,
+                          DictionaryItemId = appdto.DictionaryItemId,
+                          DictionaryItem = new DictionaryItemDTO()
+                          {
+                              StrValue = appdto.DictionaryItem.StrValue,
+                              NumValue = appdto.DictionaryItem.NumValue,
+                              DateValue = appdto.DictionaryItem.DateValue,
+                              BoolValue = appdto.DictionaryItem.BoolValue
+                          }
+                      }).ToList()
+                },
+                PropsVals = x.PropVals
+                      .Select(pdto => new PropValDTO()
+                      {
+                          Id = pdto.Id,
+                          PropId = pdto.PropId,
+                          Name = pdto.Prop.Name,
+                          Type = pdto.Prop.DataType,
+                          StrValue = pdto.StrValue,
+                          NumValue = pdto.NumValue,
+                          DateValue = pdto.DateValue,
+                          BoolValue = pdto.BoolValue,
+                          DictionaryItemId = pdto.DictionaryItemId,
+                          DictionaryItem = new DictionaryItemDTO()
+                          {
+                              StrValue = pdto.DictionaryItem.StrValue,
+                              NumValue = pdto.DictionaryItem.NumValue,
+                              DateValue = pdto.DictionaryItem.DateValue,
+                              BoolValue = pdto.DictionaryItem.BoolValue
+                          }
+                      }).ToList()
+
+            });
+            return SingleResult.Create(result);
         }
 
     }

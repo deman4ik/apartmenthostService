@@ -10,7 +10,8 @@ namespace apartmenthostService.Models
     public class PropVal : EntityData
     {
         public string PropId { get; set; }
-        public string TableItemId { get; set; }
+        public string ApartmentItemId { get; set; }
+        public string AdvertItemId { get; set; }
         public string StrValue { get; set; }
         public decimal? NumValue { get; set; }
         public DateTime? DateValue { get; set; }
