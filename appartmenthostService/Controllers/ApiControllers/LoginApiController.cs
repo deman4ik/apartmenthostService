@@ -35,8 +35,9 @@ namespace apartmenthostService.Controllers
                     LoginResult loginResult = new StandartLoginProvider(handler).CreateLoginResult(claimsIdentity, Services.Settings.MasterKey);
                     return this.Request.CreateResponse(HttpStatusCode.OK, loginResult);
                 }
+                return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_LOGIN_INVALID_PASS));
             }
-            return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.LOGIN_INVALID_EMAIL_PASS));
+            return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_LOGIN_INVALID_EMAIL));
         }
     }
 }

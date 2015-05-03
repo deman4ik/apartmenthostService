@@ -178,7 +178,7 @@ namespace apartmenthostService.Models
                 .HasMany<PropVal>(s => s.PropVals)
                 .WithOptional(s => s.Advert)
                 .HasForeignKey(s => s.AdvertItemId)
-                .WillCascadeOnDelete(true);
+                .WillCascadeOnDelete(false);
 
             // Review
 

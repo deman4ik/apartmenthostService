@@ -18,7 +18,7 @@ namespace apartmenthostService.Models
         public string ContactKind { get; set; }
         public string Description { get; set; }
         public string PictureId { get; set; }
-
+        public decimal Rating { get; set; }
         public string Lang { get; set; }
 
         public virtual User User { get; set; }

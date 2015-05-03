@@ -9,5 +9,7 @@ namespace apartmenthostService.DataObjects
     {
         public string Type { get; set; }
         public string Name { get; set; }
+        public int Visible { get; set; }
+        public int Required { get; set; }
     }
 }

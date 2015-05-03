@@ -26,12 +26,12 @@ namespace apartmenthostService.Controllers
             if (!AuthUtils.IsEmailValid(registrationRequest.email))
             {
                 respList.Add(registrationRequest.email);
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.REG_INVALID_EMAIL, respList));
+                return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_REG_INVALID_EMAIL, respList));
             }
             else if (registrationRequest.password.Length < 8)
             {
                 respList.Add(registrationRequest.password);
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.REG_INVALID_PASSWORD, respList));
+                return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_REG_INVALID_PASSWORD, respList));
             }
 
             apartmenthostContext context = new apartmenthostContext();
@@ -39,7 +39,7 @@ namespace apartmenthostService.Controllers
             if (user != null)
             {
                 respList.Add(registrationRequest.email);
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.REG_EXISTS_EMAIL, respList));
+                return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_REG_EXISTS_EMAIL, respList));
             }
             else
             {
@@ -54,7 +54,7 @@ namespace apartmenthostService.Controllers
                 context.Users.Add(newUser);
                 context.SaveChanges();
                 respList.Add(newUser.Id);
-                return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.CREATED,respList));
+                return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
             }
         }
     }

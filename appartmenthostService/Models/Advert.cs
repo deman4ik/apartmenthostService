@@ -26,6 +26,10 @@ namespace apartmenthostService.Models
 
         public DateTime DateTo { get; set; }
 
+        public decimal PriceDay { get; set; }
+
+        public decimal PricePeriod { get; set; }
+        
         public string Lang { get; set; }
 
         public virtual User User { get; set; }

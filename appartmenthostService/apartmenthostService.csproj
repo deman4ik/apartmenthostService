@@ -191,6 +191,7 @@
   <ItemGroup>
     <Compile Include="App_Start\TestDBPopulator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Attributes\MetadataAttribute.cs" />
     <Compile Include="Attributes\QueryableExpandAttribute.cs" />
     <Compile Include="Authentication\FBCredentials.cs" />
     <Compile Include="Authentication\FBLoginAuthenticationProvider.cs" />
@@ -200,7 +201,7 @@
     <Compile Include="Authentication\AuthUtils.cs" />
     <Compile Include="Authentication\LoginRequest.cs" />
     <Compile Include="Authentication\RegistrationRequest.cs" />
-    <Compile Include="Controllers\AdvertApiController.cs" />
+    <Compile Include="Controllers\ApiControllers\AdvertApiController.cs" />
     <Compile Include="Controllers\ApiControllers\ApartmentApiController.cs" />
     <Compile Include="Controllers\TableControllers\ApartmentController.cs" />
     <Compile Include="Controllers\TableControllers\DictionaryController.cs" />

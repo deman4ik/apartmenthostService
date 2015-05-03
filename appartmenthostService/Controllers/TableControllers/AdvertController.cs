@@ -33,6 +33,8 @@ namespace apartmenthostService.Controllers
                 ApartmentId = x.ApartmentId,
                 DateFrom = x.DateFrom,
                 DateTo = x.DateTo,
+                PriceDay = x.PriceDay,
+                PricePeriod = x.PricePeriod,
                 Lang = x.Lang,
                 User = new UserDTO()
                 {
@@ -47,11 +49,9 @@ namespace apartmenthostService.Controllers
                     Id = x.Id,
                     Name = x.Apartment.Name,
                     UserId = x.Apartment.UserId,
-                    Price = x.Apartment.Price,
                     Adress = x.Apartment.Adress,
                     Latitude = x.Apartment.Latitude,
                     Longitude = x.Apartment.Longitude,
-                    Rating = x.Apartment.Rating,
                     PropsVals = x.Apartment.PropVals
                       .Select(appdto => new PropValDTO()
                       {
@@ -111,6 +111,8 @@ namespace apartmenthostService.Controllers
                 ApartmentId = x.ApartmentId,
                 DateFrom = x.DateFrom,
                 DateTo = x.DateTo,
+                PriceDay = x.PriceDay,
+                PricePeriod = x.PricePeriod,
                 Lang = x.Lang,
                 User = new UserDTO()
                 {
@@ -125,11 +127,9 @@ namespace apartmenthostService.Controllers
                     Id = x.Id,
                     Name = x.Apartment.Name,
                     UserId = x.Apartment.UserId,
-                    Price = x.Apartment.Price,
                     Adress = x.Apartment.Adress,
                     Latitude = x.Apartment.Latitude,
                     Longitude = x.Apartment.Longitude,
-                    Rating = x.Apartment.Rating,
                     PropsVals = x.Apartment.PropVals
                       .Select(appdto => new PropValDTO()
                       {

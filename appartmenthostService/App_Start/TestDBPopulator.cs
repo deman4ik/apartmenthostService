@@ -48,6 +48,7 @@ namespace apartmenthostService.App_Start
                 System.Diagnostics.Debug.WriteLine("!!!!!!!!!!!!!!!!!!");
                 System.Diagnostics.Debug.WriteLine(e.InnerException);
                 System.Diagnostics.Debug.WriteLine("!!!!!!!!!!!!!!!!!!");
+                System.Diagnostics.Debug.WriteLine(e);
             }
 
         }
@@ -73,6 +74,7 @@ namespace apartmenthostService.App_Start
                                                    Description = "Пуповичи 100 лет на рынке недвижимости!",
                                                    Gender = "Male",
                                                    Phone = "+79998887766",
+                                                   Rating = 4,
                                                    Lang = ConstLang.RU
                                                 } 
                         },
@@ -90,6 +92,7 @@ namespace apartmenthostService.App_Start
                                                    Description = "Информационные Системы Управления",
                                                    Gender = "Male",
                                                    Phone = "+74957777777",
+                                                   Rating = 5,
                                                    Lang = ConstLang.RU
                                                  }  
                         },
@@ -119,11 +122,9 @@ namespace apartmenthostService.App_Start
                     Id = "ap1",
                     Name = "Пупович Плаза",
                     UserId = user1.Id,
-                   Price = 2000,
                     Adress = "Россия, Москва, Бутово, 1-я Горловская ул., 4, строение 21",
                     Latitude = new decimal(55.548484), 
                     Longitude = new decimal(37.581806),
-                    Rating = new decimal(3.5),
                     Lang = ConstLang.RU
                 },
                  new Apartment()
@@ -131,11 +132,9 @@ namespace apartmenthostService.App_Start
                     Id = "ap2",
                     Name = "Пупович Ясенево",
                     UserId = user1.Id,
-                    Price = 1000,
                     Adress = "Россия, Москва, Ясенево, Соловьиный пр., 18",
                     Latitude = new decimal(55.604284), 
                     Longitude = new decimal(37.554516),
-                    Rating = new decimal(4.3),
                     Lang = ConstLang.RU
                 },
                 new Apartment()
@@ -143,11 +142,9 @@ namespace apartmenthostService.App_Start
                     Id = "ap3",
                     Name = "Офис Парус",
                     UserId = user2.Id,
-                    Price = 3000,
                     Adress = "Россия, Москва, Алексеевский, Ярославская ул., 10к4",
                     Latitude = new decimal(55.819068), 
                     Longitude = new decimal(37.649776),
-                    Rating = new decimal(2.7),
                     Lang = ConstLang.RU
                 }
             };
@@ -177,9 +174,9 @@ namespace apartmenthostService.App_Start
                     ApartmentId = apartment1.Id,
                     DateFrom = new DateTime(2015,5,1),
                     DateTo = new DateTime(2015,5,31),
-                    Lang = ConstLang.RU,
-                    User = user1,
-                    Apartment = apartment1
+                    PriceDay = 968,
+                    PricePeriod = 30000,
+                    Lang = ConstLang.RU
                 },
                 new Advert()
                 {
@@ -190,9 +187,9 @@ namespace apartmenthostService.App_Start
                     ApartmentId = apartment2.Id,
                     DateFrom = new DateTime(2015,5,10),
                     DateTo = new DateTime(2015,6,30),
-                    Lang = ConstLang.RU,
-                    User = user1,
-                    Apartment = apartment2
+                    PriceDay = 1000,
+                    PricePeriod = 50000,
+                    Lang = ConstLang.RU
                 },
                 new Advert()
                 {
@@ -203,9 +200,9 @@ namespace apartmenthostService.App_Start
                     ApartmentId = apartment3.Id,
                     DateFrom = new DateTime(2015,4,30),
                     DateTo = new DateTime(2015,12,31),
-                    Lang = ConstLang.RU,
-                    User = user2,
-                    Apartment = apartment3
+                    PriceDay = 1500,
+                    PricePeriod = 60000,
+                    Lang = ConstLang.RU
                 },
             };
 
@@ -263,7 +260,12 @@ namespace apartmenthostService.App_Start
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = ConstProp.CohabitationType
-                }
+                },
+                 new Dictionary()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = ConstProp.ApartmentOptions
+                },
             };
 
             foreach (var dictionary in dictionaries)
@@ -282,25 +284,36 @@ namespace apartmenthostService.App_Start
                 dictionaryItems.Add(new DictionaryItem()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    DictionaryId = apartmentTypeDic.Name,
+                    DictionaryId = apartmentTypeDic.Id,
                     StrValue = apartmentType,
-                    Lang = ConstLang.RU,
-                    Dictionary = apartmentTypeDic
+                    Lang = ConstLang.RU
                 });
             }
-
+            //CohabitationType
             Dictionary cohabitationTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.CohabitationType);
             foreach (var cohabitationType in ConstDicValsRU.CohabitationTypesList())
             {
                 dictionaryItems.Add(new DictionaryItem()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    DictionaryId = cohabitationTypeDic.Name,
+                    DictionaryId = cohabitationTypeDic.Id,
                     StrValue = cohabitationType,
-                    Lang = ConstLang.RU,
-                    Dictionary = cohabitationTypeDic
+                    Lang = ConstLang.RU
                 });
-            }  
+            }
+
+            //ApartmentOptions
+            Dictionary apartmentOptionDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.ApartmentOptions);
+            foreach (var apartmentOption in ConstDicValsRU.ApartmentOptionsList())
+            {
+                dictionaryItems.Add(new DictionaryItem()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    DictionaryId = apartmentOptionDic.Id,
+                    StrValue = apartmentOption,
+                    Lang = ConstLang.RU
+                });
+            }
             foreach (var dictonaryItem in dictionaryItems)
             {
                 context.Set<DictionaryItem>().Add(dictonaryItem);
@@ -313,8 +326,10 @@ namespace apartmenthostService.App_Start
 
             // Apartment
             Table apartmentTable = context.Tables.SingleOrDefault(t => t.Name == ConstTable.ApartmentTable);
+            Table advertTable = context.Tables.SingleOrDefault(t => t.Name == ConstTable.AdvertTable);
             Dictionary apartmentTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.ApartmentType);
             Dictionary cohabitationTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.CohabitationType);
+            Dictionary apartmentOptionDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.ApartmentOptions);
            // Custom : ApartmentType
             propsList.Add(new Prop()
             {
@@ -338,6 +353,18 @@ namespace apartmenthostService.App_Start
 
             });
 
+            // Base : ApartmentOption
+            propsList.Add(new Prop()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = ConstProp.ApartmentOptions,
+                DataType = ConstDataType.Str,
+                DictionaryId = apartmentOptionDic.Id,
+                Dictionary = apartmentOptionDic,
+                Tables = new List<Table>() { advertTable }
+
+            });
+
             foreach (var prop in propsList)
             {
                 context.Set<Prop>().Add(prop);
@@ -354,6 +381,8 @@ namespace apartmenthostService.App_Start
             Dictionary dicApartmentType = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.ApartmentType);
             DictionaryItem dicItemOffice =
                 context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicApartmentType.Id && i.StrValue == "Office");
+            DictionaryItem dicItemFlat =
+                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicApartmentType.Id && i.StrValue == "Flat");
 
 
             Prop propCohab = context.Props.SingleOrDefault(p => p.Tables.Any(t => t.Name == ConstTable.ApartmentTable) && p.Name == ConstProp.CohabitationType);
@@ -364,33 +393,60 @@ namespace apartmenthostService.App_Start
                 context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicCohab.Id && i.StrValue == "Separate residence");
             DictionaryItem dicItemCohab =
                 context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicCohab.Id && i.StrValue == "Cohabitation");
+
+
+            Prop propApartmentOption = context.Props.SingleOrDefault(p => p.Name == ConstProp.ApartmentOptions);
+            Advert advertYasenevo = context.Adverts.SingleOrDefault(a => a.Id == "a1");
+            Advert advertPlaza = context.Adverts.SingleOrDefault(a => a.Id == "a2");
+            Advert advertOffice = context.Adverts.SingleOrDefault(a => a.Id == "a3");
+            Dictionary dicOption = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.ApartmentOptions);
+            DictionaryItem dicItemParking =
+               context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicOption.Id && i.StrValue == "Parking");
+            DictionaryItem dicItemСoncierge =
+               context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicOption.Id && i.StrValue == "Сoncierge");
+            DictionaryItem dicItemRefrigerator =
+               context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicOption.Id && i.StrValue == "Refrigerator");
+            DictionaryItem dicItemWM =
+               context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicOption.Id && i.StrValue == "Washing machine");
+            DictionaryItem dicItemAC =
+               context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicOption.Id && i.StrValue == "Air conditioning");
+
             List<PropVal> propVals = new List<PropVal>();
+            //ApartmentType
           propVals.Add(new PropVal()
             {
                 Id = Guid.NewGuid().ToString(),
                 PropId = propApartmentType.Id,
                 ApartmentItemId = apartmentOffice.Id,
                 DictionaryItemId = dicItemOffice.Id,
-                Lang = ConstLang.RU,
-                Prop = propApartmentType,
-                DictionaryItem = dicItemOffice,
-                Apartment = apartmentOffice,
-                Advert = null
-                
+                Lang = ConstLang.RU,  
             });
 
+          propVals.Add(new PropVal()
+          {
+              Id = Guid.NewGuid().ToString(),
+              PropId = propApartmentType.Id,
+              ApartmentItemId = apartmentPlaza.Id,
+              DictionaryItemId = dicItemFlat.Id,
+              Lang = ConstLang.RU
+          });
+
+          propVals.Add(new PropVal()
+          {
+              Id = Guid.NewGuid().ToString(),
+              PropId = propApartmentType.Id,
+              ApartmentItemId = apartmentYasenevo.Id,
+              DictionaryItemId = dicItemFlat.Id,
+              Lang = ConstLang.RU
+          });
+          //CohabType
           propVals.Add(new PropVal()
           {
               Id = Guid.NewGuid().ToString(),
               PropId = propCohab.Id,
               ApartmentItemId = apartmentOffice.Id,
               DictionaryItemId = dicItemCohab.Id,
-              Lang = ConstLang.RU,
-              Prop = propCohab,
-              DictionaryItem = dicItemCohab,
-              Apartment = apartmentOffice,
-              Advert = null
-
+              Lang = ConstLang.RU
           });
 
           propVals.Add(new PropVal()
@@ -399,12 +455,7 @@ namespace apartmenthostService.App_Start
               PropId = propCohab.Id,
               ApartmentItemId = apartmentPlaza.Id,
               DictionaryItemId = dicItemSepRes.Id,
-              Lang = ConstLang.RU,
-              Prop = propCohab,
-              DictionaryItem = dicItemSepRes,
-              Apartment = apartmentPlaza,
-              Advert = null
-
+              Lang = ConstLang.RU
           });
 
           propVals.Add(new PropVal()
@@ -413,12 +464,71 @@ namespace apartmenthostService.App_Start
               PropId = propCohab.Id,
               ApartmentItemId = apartmentYasenevo.Id,
               DictionaryItemId = dicItemCohab.Id,
-              Lang = ConstLang.RU,
-              Prop = propCohab,
-              DictionaryItem = dicItemCohab,
-              Apartment = apartmentYasenevo,
-              Advert = null
+              Lang = ConstLang.RU
+          });
 
+          // ApartmentOption
+          propVals.Add(new PropVal()
+          {
+              Id = Guid.NewGuid().ToString(),
+              PropId = propApartmentOption.Id,
+              AdvertItemId = advertPlaza.Id,
+              DictionaryItemId = dicItemParking.Id,
+              Lang = ConstLang.RU
+          });
+
+          propVals.Add(new PropVal()
+          {
+              Id = Guid.NewGuid().ToString(),
+              PropId = propApartmentOption.Id,
+              AdvertItemId = advertPlaza.Id,
+              DictionaryItemId = dicItemСoncierge.Id,
+              Lang = ConstLang.RU
+          });
+
+          propVals.Add(new PropVal()
+          {
+              Id = Guid.NewGuid().ToString(),
+              PropId = propApartmentOption.Id,
+              AdvertItemId = advertPlaza.Id,
+              DictionaryItemId = dicItemRefrigerator.Id,
+              Lang = ConstLang.RU
+          });
+
+          propVals.Add(new PropVal()
+          {
+              Id = Guid.NewGuid().ToString(),
+              PropId = propApartmentOption.Id,
+              AdvertItemId = advertPlaza.Id,
+              DictionaryItemId = dicItemWM.Id,
+              Lang = ConstLang.RU
+          });
+
+          propVals.Add(new PropVal()
+          {
+              Id = Guid.NewGuid().ToString(),
+              PropId = propApartmentOption.Id,
+              AdvertItemId = advertPlaza.Id,
+              DictionaryItemId = dicItemAC.Id,
+              Lang = ConstLang.RU
+          });
+
+          propVals.Add(new PropVal()
+          {
+              Id = Guid.NewGuid().ToString(),
+              PropId = propApartmentOption.Id,
+              AdvertItemId = advertOffice.Id,
+              DictionaryItemId = dicItemСoncierge.Id,
+              Lang = ConstLang.RU
+          });
+
+          propVals.Add(new PropVal()
+          {
+              Id = Guid.NewGuid().ToString(),
+              PropId = propApartmentOption.Id,
+              AdvertItemId = advertYasenevo.Id,
+              DictionaryItemId = dicItemRefrigerator.Id,
+              Lang = ConstLang.RU
           });
             foreach (var propVal in propVals)
             {

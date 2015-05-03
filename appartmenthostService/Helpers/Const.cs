@@ -29,6 +29,7 @@ namespace apartmenthostService.Helpers
     {
         public const string ApartmentType = "ApartmentType";
         public const string CohabitationType = "CohabitationType";
+        public const string ApartmentOptions = "ApartmentOptions";
     }
 
   
@@ -61,6 +62,18 @@ namespace apartmenthostService.Helpers
 
             return list;
         }
- 
+
+        public static List<string> ApartmentOptionsList()
+        {
+            List<string> list = new List<string>();
+            list.Add("Parking");
+            list.Add("Сoncierge");
+            list.Add("Refrigerator");
+            list.Add("Washing machine");
+            list.Add("Air conditioning");
+
+
+            return list;
+        }
     }
 }

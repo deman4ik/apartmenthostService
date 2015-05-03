@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using apartmenthostService.Attributes;
 using Microsoft.WindowsAzure.Mobile.Service;
 
 namespace apartmenthostService.Models
@@ -12,12 +13,10 @@ namespace apartmenthostService.Models
             this.Pictures = new HashSet<Picture>();
             this.PropVals = new HashSet<PropVal>();
         }
+        
         public string Name { get; set; }
 
-
         public string UserId { get; set; }
-
-        public decimal Price { get; set; }
 
         public string Adress { get; set; }
 
@@ -25,13 +24,14 @@ namespace apartmenthostService.Models
 
         public decimal? Longitude { get; set; }
 
-        public decimal? Rating { get; set; }
-
         public string Lang { get; set; }
 
         public virtual User User { get; set; }
+
         public ICollection<Advert> Adverts { get; set; }
+
         public ICollection<Picture> Pictures { get; set; }
+
         public ICollection<PropVal> PropVals { get; set; } 
     }
 }

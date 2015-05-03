@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Web.Http;
+using apartmenthostService.Attributes;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
 using apartmenthostService.Models;
@@ -25,14 +27,18 @@ namespace apartmenthostService.Controllers
         apartmenthostContext context = new apartmenthostContext();
         // GET api/Metadata/Apartment
          [Route("api/Metadata/Apartment")]
-        public string GetApartment()
+        public Metadata GetApartment()
         {
              Metadata apartmentMetadata = new Metadata();
              apartmentMetadata.Items = typeof(ApartmentDTO).GetProperties().Select(prop => new MetadataItem()
              {
                  Type = Helper.GetTypeName(prop),
-                 Name = prop.Name
+                 Name = prop.Name,
+                 Visible = (int)Helper.GetAttributeValue(typeof(ApartmentDTO), prop.Name, typeof(MetadataAttribute),"Visible"),
+                 Required = (int)Helper.GetAttributeValue(typeof(ApartmentDTO), prop.Name, typeof(MetadataAttribute), "Required")
+
              }).ToList();
+
              apartmentMetadata.Props = context.Props.AsQueryable().Where(p => p.Tables.Any(t => t.Name == ConstTable.ApartmentTable)).Select(prop => new PropDTO()
              {
                  Id = prop.Id,
@@ -55,18 +61,20 @@ namespace apartmenthostService.Controllers
                      Lang = dicitem.Lang
                  }).ToList()
              }).ToList();
-             return JsonConvert.SerializeObject(apartmentMetadata);
+             return apartmentMetadata;
         }
 
          // GET api/Metadata/Advert
          [Route("api/Metadata/Advert")]
-         public string GetAdvert()
+         public Metadata GetAdvert()
          {
              Metadata advertMetadata = new Metadata();
              advertMetadata.Items = typeof(AdvertDTO).GetProperties().Select(prop => new MetadataItem()
              {
                  Type = Helper.GetTypeName(prop),
-                 Name = prop.Name
+                 Name = prop.Name,
+                 Visible = (int)Helper.GetAttributeValue(typeof(AdvertDTO), prop.Name, typeof(MetadataAttribute), "Visible"),
+                 Required = (int)Helper.GetAttributeValue(typeof(AdvertDTO), prop.Name, typeof(MetadataAttribute), "Required")
              }).ToList();
              advertMetadata.Props = context.Props.AsQueryable().Where(p => p.Tables.Any(t => t.Name == ConstTable.AdvertTable)).Select(prop => new PropDTO()
              {
@@ -90,18 +98,20 @@ namespace apartmenthostService.Controllers
                      Lang = dicitem.Lang
                  }).ToList()
              }).ToList();
-             return JsonConvert.SerializeObject(advertMetadata);
+             return advertMetadata;
          }
 
          // GET api/Metadata/User
          [Route("api/Metadata/User")]
-         public string GetUser()
+         public Metadata GetUser()
          {
              Metadata userMetadata = new Metadata();
              userMetadata.Items = typeof(UserDTO).GetProperties().Select(prop => new MetadataItem()
              {
                  Type = Helper.GetTypeName(prop),
-                 Name = prop.Name
+                 Name = prop.Name,
+                 Visible = (int)Helper.GetAttributeValue(typeof(UserDTO), prop.Name, typeof(MetadataAttribute), "Visible"),
+                 Required = (int)Helper.GetAttributeValue(typeof(UserDTO), prop.Name, typeof(MetadataAttribute), "Required")
              }).ToList();
              userMetadata.Props = context.Props.AsQueryable().Where(p => p.Tables.Any(t => t.Name == ConstTable.ProfileTable)).Select(prop => new PropDTO()
              {
@@ -125,7 +135,7 @@ namespace apartmenthostService.Controllers
                      Lang = dicitem.Lang
                  }).ToList()
              }).ToList();
-             return JsonConvert.SerializeObject(userMetadata);
+             return userMetadata;
          }
     }
 }

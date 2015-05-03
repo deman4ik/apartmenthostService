@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using apartmenthostService.Helpers;
 using Newtonsoft.Json;
 
 namespace apartmenthostService.DataObjects
@@ -27,73 +28,74 @@ namespace apartmenthostService.DataObjects
     public static class RespH
     {
         //Success
-        public const string DONE = "DONE";
-        public const string CREATED = "CREATED";
-        public const string UPDATED = "UPDATED";
-        public const string DELETED = "DELETED";
+        public const string SRV_DONE = "SRV_DONE";
+        public const string SRV_CREATED = "SRV_CREATED";
+        public const string SRV_UPDATED = "SRV_UPDATED";
+        public const string SRV_DELETED = "SRV_DELETED";
 
         //Error
-        public const string EXCEPTION = "EXCEPTION";
+        public const string SRV_EXCEPTION = "SRV_EXCEPTION";
 
         //User
-        public const string UNAUTH = "UNAUTH"; // Пользователь не авторизован
-        public const string FORBIDDEN = "FORBIDDEN"; // Пользователю запрещено выполнение этого действия
+        public const string SRV_UNAUTH = "SRV_UNAUTH"; // Пользователь не авторизован
+        public const string SRV_FORBIDDEN = "SRV_FORBIDDEN"; // Пользователю запрещено выполнение этого действия
 
-        public const string USER_NULL = "USER_NULL"; // Пустой объект запроса
-        public const string USER_NOTFOUND = "USER_NOTFOUND"; // Объект не найден
-        public const string USER_PROP_NOTFOUND = "USER_PROP_NOTFOUND"; // Объект не найден
-        public const string USER_REQUIRED = "USER_REQUIRED"; // Не заполнено обязательно поле
-        public const string USER_EXISTS = "USER_EXISTS"; // Объект уже существует
-        public const string USER_DEPENDENCY = "USER_DEPENDENCY"; // Объект не может быть изменен/удален т.к. зависит от другого объекта.  
+        public const string SRV_USER_NULL = "SRV_USER_NULL"; // Пустой объект запроса
+        public const string SRV_USER_NOTFOUND = "SRV_USER_NOTFOUND"; // Объект не найден
+        public const string SRV_USER_PROP_NOTFOUND = "SRV_USER_PROP_NOTFOUND"; // Объект не найден
+        public const string SRV_USER_REQUIRED = "SRV_USER_REQUIRED"; // Не заполнено обязательно поле
+        public const string SRV_USER_EXISTS = "SRV_USER_EXISTS"; // Объект уже существует
+        public const string SRV_USER_DEPENDENCY = "SRV_USER_DEPENDENCY"; // Объект не может быть изменен/удален т.к. зависит от другого объекта.  
 
         //Registration
-        public const string REG_INVALID_EMAIL = "REG_INVALID_EMAIL"; // Не верный email
-        public const string REG_INVALID_PASSWORD = "REG_INVALID_PASSWORD"; // Не верный пароль
-        public const string REG_EXISTS_EMAIL = "REG_EXISTS_EMAIL"; // Пользователь с таким email уже существует
+        public const string SRV_REG_INVALID_EMAIL = "SRV_REG_INVALID_EMAIL"; // Не верный email
+        public const string SRV_REG_INVALID_PASSWORD = "SRV_REG_INVALID_PASSWORD"; // Не верный пароль
+        public const string SRV_REG_EXISTS_EMAIL = "SRV_REG_EXISTS_EMAIL"; // Пользователь с таким email уже существует
 
         //Login
-        public const string LOGIN_INVALID_EMAIL_PASS = "LOGIN_INVALID_EMAIL_PASS"; // Не верный логин или пароль
-
+        public const string SRV_LOGIN_INVALID_EMAIL = "SRV_LOGIN_INVALID_EMAIL"; // Не верный логин 
+        public const string SRV_LOGIN_INVALID_PASS = "SRV_LOGIN_INVALID_PASS"; // Не верный пароль
 
         //Apartment
-        public const string APARTMENT_NULL = "APARTMENT_NULL"; // Пустой объект запроса
-        public const string APARTMENT_NOTFOUND = "APARTMENT_NOTFOUND"; // Объект не найден
-        public const string APARTMENT_PROP_NOTFOUND = "APARTMENT_PROP_NOTFOUND"; // Свойство объекта не найденл
-        public const string APARTMENT_PROPVAL_NOTFOUND = "APARTMENT_PROPVAL_NOTFOUND"; // Значение свойства объекта не найдено
-        public const string APARTMENT_REQUIRED = "APARTMENT_REQUIRED"; // Не заполнено обязательно поле
-        public const string APARTMENT_EXISTS = "APARTMENT_EXISTS"; // Объект уже существует
-        public const string APARTMENT_DEPENDENCY = "APARTMENT_DEPENDENCY"; // Объект не может быть изменен/удален т.к. зависит от другого объекта.  
-        public const string APARTMENT_WRONG_USER = "APARTMENT_WRONG_USER"; // Объект не может быть изменен/удален другим пользователем
-
+        public const string SRV_APARTMENT_NULL = "SRV_APARTMENT_NULL"; // Пустой объект запроса
+        public const string SRV_APARTMENT_NOTFOUND = "SRV_APARTMENT_NOTFOUND"; // Объект не найден
+        public const string SRV_APARTMENT_PROP_NOTFOUND = "SRV_APARTMENT_PROP_NOTFOUND"; // Свойство объекта не найденл
+        public const string SRV_APARTMENT_PROPVAL_NOTFOUND = "SRV_APARTMENT_PROPVAL_NOTFOUND"; // Значение свойства объекта не найдено
+        public const string SRV_APARTMENT_REQUIRED = "SRV_APARTMENT_REQUIRED"; // Не заполнено обязательно поле
+        public const string SRV_APARTMENT_EXISTS = "SRV_APARTMENT_EXISTS"; // Объект уже существует
+        public const string SRV_APARTMENT_DEPENDENCY = "SRV_APARTMENT_DEPENDENCY"; // Объект не может быть изменен/удален т.к. зависит от другого объекта.  
+        public const string SRV_APARTMENT_WRONG_USER = "SRV_APARTMENT_WRONG_USER"; // Объект не может быть изменен/удален другим пользователем
 
         //Advert
-        public const string ADVERT_NULL = "ADVERT_NULL"; // Пустой объект запроса
-        public const string ADVERT_NOTFOUND = "ADVERT_NOTFOUND"; // Объект не найден
-        public const string ADVERT_PROP_NOTFOUND = "ADVERT_PROP_NOTFOUND"; // Объект не найден
-        public const string ADVERT_REQUIRED = "ADVERT_REQUIRED"; // Не заполнено обязательно поле
-        public const string ADVERT_EXISTS = "ADVERT_EXISTS"; // Объект уже существует
-        public const string ADVERT_DEPENDENCY = "ADVERT_DEPENDENCY"; // Объект не может быть изменен/удален т.к. зависит от другого объекта.  
+        public const string SRV_ADVERT_NULL = "SRV_ADVERT_NULL"; // Пустой объект запроса
+        public const string SRV_ADVERT_NOTFOUND = "SRV_ADVERT_NOTFOUND"; // Объект не найден
+        public const string SRV_ADVERT_PROP_NOTFOUND = "SRV_ADVERT_PROP_NOTFOUND"; // Объект не найден
+        public const string SRV_ADVERT_REQUIRED = "SRV_ADVERT_REQUIRED"; // Не заполнено обязательно поле
+        public const string SRV_ADVERT_EXISTS = "SRV_ADVERT_EXISTS"; // Объект уже существует
+        public const string SRV_ADVERT_DEPENDENCY = "SRV_ADVERT_DEPENDENCY"; // Объект не может быть изменен/удален т.к. зависит от другого объекта.  
 
         //Dictionary
-        public const string DICTIONARY_NULL = "DICTIONARY_NULL"; // Пустой объект запроса
-        public const string DICTIONARY_NOTFOUND = "DICTIONARY_NOTFOUND"; // Объект не найден
-        public const string DICTIONARY_REQUIRED = "DICTIONARY_REQUIRED"; // Не заполнено обязательно поле
-        public const string DICTIONARY_EXISTS = "DICTIONARY_EXISTS"; // Объект уже существует
-        public const string DICTIONARY_DEPENDENCY = "DICTIONARY_DEPENDENCY"; // Объект не может быть изменен/удален т.к. зависит от другого объекта.  
-        //Dictionary Item
-        public const string DICTIONARYITEM_NULL = "DICTIONARYITEM_NULL"; // Пустой объект запроса
-        public const string DICTIONARYITEM_NOTFOUND = "DICTIONARYITEM_NOTFOUND"; // Объект не найден
-        public const string DICTIONARYITEM_REQUIRED = "DICTIONARYITEM_REQUIRED"; // Не заполнено обязательно поле
-        public const string DICTIONARYITEM_EXISTS = "DICTIONARYITEM_EXISTS"; // Объект уже существует
-        public const string DICTIONARYITEM_DEPENDENCY = "DICTIONARYITEM_DEPENDENCY"; // Объект не может быть изменен/удален т.к. зависит от другого объекта.  
+        public const string SRV_DICTIONARY_NULL = "SRV_DICTIONARY_NULL"; // Пустой объект запроса
+        public const string SRV_DICTIONARY_NOTFOUND = "SRV_DICTIONARY_NOTFOUND"; // Объект не найден
+        public const string SRV_DICTIONARY_REQUIRED = "SRV_DICTIONARY_REQUIRED"; // Не заполнено обязательно поле
+        public const string SRV_DICTIONARY_EXISTS = "SRV_DICTIONARY_EXISTS"; // Объект уже существует
+        public const string SRV_DICTIONARY_DEPENDENCY = "SRV_DICTIONARY_DEPENDENCY"; // Объект не может быть изменен/удален т.к. зависит от другого объекта.  
 
-        public static string Create(string code, List<string> data = null)
+        //Dictionary Item
+        public const string SRV_DICTIONARYITEM_NULL = "SRV_DICTIONARYITEM_NULL"; // Пустой объект запроса
+        public const string SRV_DICTIONARYITEM_NOTFOUND = "SRV_DICTIONARYITEM_NOTFOUND"; // Объект не найден
+        public const string SRV_DICTIONARYITEM_REQUIRED = "SRV_DICTIONARYITEM_REQUIRED"; // Не заполнено обязательно поле
+        public const string SRV_DICTIONARYITEM_EXISTS = "SRV_DICTIONARYITEM_EXISTS"; // Объект уже существует
+        public const string SRV_DICTIONARYITEM_DEPENDENCY = "SRV_DICTIONARYITEM_DEPENDENCY"; // Объект не может быть изменен/удален т.к. зависит от другого объекта.  
+
+        public static ResponseDTO Create(string code, List<string> data = null)
         {
-            return JsonConvert.SerializeObject(new ResponseDTO()
+            
+            return new ResponseDTO()
             {
                 Code = code,
                 Data = data
-            });
+            };
         }
     }
 
