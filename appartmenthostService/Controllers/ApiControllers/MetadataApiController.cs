@@ -74,7 +74,7 @@ namespace apartmenthostService.Controllers
                  
                  Name = prop.Name,
                  Type = Helper.GetTypeName(prop),
-                 DataType = (string)Helper.GetAttributeValue(typeof(ApartmentDTO), prop.Name, typeof(MetadataAttribute), ConstMetaDataProp.DataType),
+                 DataType = (string)Helper.GetAttributeValue(typeof(AdvertDTO), prop.Name, typeof(MetadataAttribute), ConstMetaDataProp.DataType),
                  Visible = (bool)Helper.GetAttributeValue(typeof(AdvertDTO), prop.Name, typeof(MetadataAttribute), ConstMetaDataProp.Visible),
                  Required = (bool)Helper.GetAttributeValue(typeof(AdvertDTO), prop.Name, typeof(MetadataAttribute), ConstMetaDataProp.Required)
              }).ToList();
@@ -110,7 +110,7 @@ namespace apartmenthostService.Controllers
              {
                  Name = prop.Name,
                  Type = Helper.GetTypeName(prop),
-                 DataType = (string)Helper.GetAttributeValue(typeof(ApartmentDTO), prop.Name, typeof(MetadataAttribute), ConstMetaDataProp.DataType),
+                 DataType = (string)Helper.GetAttributeValue(typeof(UserDTO), prop.Name, typeof(MetadataAttribute), ConstMetaDataProp.DataType),
                  Visible = (bool)Helper.GetAttributeValue(typeof(UserDTO), prop.Name, typeof(MetadataAttribute), ConstMetaDataProp.Visible),
                  Required = (bool)Helper.GetAttributeValue(typeof(UserDTO), prop.Name, typeof(MetadataAttribute), ConstMetaDataProp.Required)
              }).ToList();
