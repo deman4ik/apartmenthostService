@@ -14,24 +14,24 @@ namespace apartmenthostService.Helpers
         public static string GetTypeName(PropertyInfo type)
         {
             if (type.PropertyType == typeof (string))
-                return ConstDataType.Str;
+                return ConstType.Str;
             if (type.PropertyType == typeof (decimal?) || type.PropertyType == typeof (decimal) ||
                 type.PropertyType == typeof (int?) || type.PropertyType == typeof (float?) ||
                 type.PropertyType == typeof (int) || type.PropertyType == typeof (float))
-                return ConstDataType.Num;
+                return ConstType.Num;
             if (type.PropertyType == typeof (DateTime?) || type.PropertyType == typeof (DateTimeOffset?) ||
                 type.PropertyType == typeof (DateTime) || type.PropertyType == typeof (DateTimeOffset))
-                return ConstDataType.Date;
+                return ConstType.Date;
             if (type.PropertyType == typeof (bool?) || type.PropertyType == typeof (bool))
-                return ConstDataType.Bool;
+                return ConstType.Bool;
             if (type.PropertyType == typeof (ICollection<PropValDTO>))
-                return ConstDataType.PropValCollection;
+                return ConstType.PropValCollection;
             if (type.PropertyType == typeof (ICollection<UserDTO>))
-                return ConstDataType.UserCollection;
+                return ConstType.UserCollection;
             if (type.PropertyType == typeof (ICollection<ApartmentDTO>))
-                return ConstDataType.ApartmentCollection;
+                return ConstType.ApartmentCollection;
             if (type.PropertyType == typeof (ICollection<AdvertDTO>))
-                return ConstDataType.AdvertCollection;
+                return ConstType.AdvertCollection;
             return type.PropertyType.Name;
 
         }

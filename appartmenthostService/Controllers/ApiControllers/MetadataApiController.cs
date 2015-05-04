@@ -32,28 +32,28 @@ namespace apartmenthostService.Controllers
              Metadata apartmentMetadata = new Metadata();
              apartmentMetadata.Items = typeof(ApartmentDTO).GetProperties().Select(prop => new MetadataItem()
              {
-                 Type = Helper.GetTypeName(prop),
                  Name = prop.Name,
-                 Visible = (int)Helper.GetAttributeValue(typeof(ApartmentDTO), prop.Name, typeof(MetadataAttribute),"Visible"),
-                 Required = (int)Helper.GetAttributeValue(typeof(ApartmentDTO), prop.Name, typeof(MetadataAttribute), "Required")
+                 Type = Helper.GetTypeName(prop),
+                 DataType = (string)Helper.GetAttributeValue(typeof(ApartmentDTO), prop.Name, typeof(MetadataAttribute), ConstMetaDataProp.DataType),
+                 Visible = (bool)Helper.GetAttributeValue(typeof(ApartmentDTO), prop.Name, typeof(MetadataAttribute), ConstMetaDataProp.Visible),
+                 Required = (bool)Helper.GetAttributeValue(typeof(ApartmentDTO), prop.Name, typeof(MetadataAttribute), ConstMetaDataProp.Required),
+                 
 
              }).ToList();
 
              apartmentMetadata.Props = context.Props.AsQueryable().Where(p => p.Tables.Any(t => t.Name == ConstTable.ApartmentTable)).Select(prop => new PropDTO()
              {
                  Id = prop.Id,
-                 CreatedAt = prop.CreatedAt,
-                 UpdatedAt = prop.UpdatedAt,
                  Name = prop.Name,
+                 Type = prop.Type,
                  DataType = prop.DataType,
+                 Visbile = prop.Visbile,
+                 Required = prop.Required,
                  DictionaryName = prop.Dictionary.Name,
                  DictionaryId = prop.DictionaryId,
                  DictionaryItems = context.DictionaryItems.Where(di => di.DictionaryId == prop.DictionaryId).Select(dicitem => new DictionaryItemDTO()
                  {
                      Id = dicitem.Id,
-                     CreatedAt = dicitem.CreatedAt,
-                     UpdatedAt = dicitem.UpdatedAt,
-                     DictionaryId = dicitem.Id,
                      StrValue = dicitem.StrValue,
                      NumValue = dicitem.NumValue,
                      DateValue = dicitem.DateValue,
@@ -71,26 +71,26 @@ namespace apartmenthostService.Controllers
              Metadata advertMetadata = new Metadata();
              advertMetadata.Items = typeof(AdvertDTO).GetProperties().Select(prop => new MetadataItem()
              {
-                 Type = Helper.GetTypeName(prop),
+                 
                  Name = prop.Name,
-                 Visible = (int)Helper.GetAttributeValue(typeof(AdvertDTO), prop.Name, typeof(MetadataAttribute), "Visible"),
-                 Required = (int)Helper.GetAttributeValue(typeof(AdvertDTO), prop.Name, typeof(MetadataAttribute), "Required")
+                 Type = Helper.GetTypeName(prop),
+                 DataType = (string)Helper.GetAttributeValue(typeof(ApartmentDTO), prop.Name, typeof(MetadataAttribute), ConstMetaDataProp.DataType),
+                 Visible = (bool)Helper.GetAttributeValue(typeof(AdvertDTO), prop.Name, typeof(MetadataAttribute), ConstMetaDataProp.Visible),
+                 Required = (bool)Helper.GetAttributeValue(typeof(AdvertDTO), prop.Name, typeof(MetadataAttribute), ConstMetaDataProp.Required)
              }).ToList();
              advertMetadata.Props = context.Props.AsQueryable().Where(p => p.Tables.Any(t => t.Name == ConstTable.AdvertTable)).Select(prop => new PropDTO()
              {
                  Id = prop.Id,
-                 CreatedAt = prop.CreatedAt,
-                 UpdatedAt = prop.UpdatedAt,
                  Name = prop.Name,
+                 Type = prop.Type,
                  DataType = prop.DataType,
+                 Visbile = prop.Visbile,
+                 Required = prop.Required,
                  DictionaryName = prop.Dictionary.Name,
                  DictionaryId = prop.DictionaryId,
                  DictionaryItems = context.DictionaryItems.Where(di => di.DictionaryId == prop.DictionaryId).Select(dicitem => new DictionaryItemDTO()
                  {
                      Id = dicitem.Id,
-                     CreatedAt = dicitem.CreatedAt,
-                     UpdatedAt = dicitem.UpdatedAt,
-                     DictionaryId = dicitem.Id,
                      StrValue = dicitem.StrValue,
                      NumValue = dicitem.NumValue,
                      DateValue = dicitem.DateValue,
@@ -108,26 +108,25 @@ namespace apartmenthostService.Controllers
              Metadata userMetadata = new Metadata();
              userMetadata.Items = typeof(UserDTO).GetProperties().Select(prop => new MetadataItem()
              {
-                 Type = Helper.GetTypeName(prop),
                  Name = prop.Name,
-                 Visible = (int)Helper.GetAttributeValue(typeof(UserDTO), prop.Name, typeof(MetadataAttribute), "Visible"),
-                 Required = (int)Helper.GetAttributeValue(typeof(UserDTO), prop.Name, typeof(MetadataAttribute), "Required")
+                 Type = Helper.GetTypeName(prop),
+                 DataType = (string)Helper.GetAttributeValue(typeof(ApartmentDTO), prop.Name, typeof(MetadataAttribute), ConstMetaDataProp.DataType),
+                 Visible = (bool)Helper.GetAttributeValue(typeof(UserDTO), prop.Name, typeof(MetadataAttribute), ConstMetaDataProp.Visible),
+                 Required = (bool)Helper.GetAttributeValue(typeof(UserDTO), prop.Name, typeof(MetadataAttribute), ConstMetaDataProp.Required)
              }).ToList();
              userMetadata.Props = context.Props.AsQueryable().Where(p => p.Tables.Any(t => t.Name == ConstTable.ProfileTable)).Select(prop => new PropDTO()
              {
                  Id = prop.Id,
-                 CreatedAt = prop.CreatedAt,
-                 UpdatedAt = prop.UpdatedAt,
                  Name = prop.Name,
+                 Type = prop.Type,
                  DataType = prop.DataType,
+                 Visbile = prop.Visbile,
+                 Required = prop.Required,
                  DictionaryName = prop.Dictionary.Name,
                  DictionaryId = prop.DictionaryId,
                  DictionaryItems = context.DictionaryItems.Where(di => di.DictionaryId == prop.DictionaryId).Select(dicitem => new DictionaryItemDTO()
                  {
                      Id = dicitem.Id,
-                     CreatedAt = dicitem.CreatedAt,
-                     UpdatedAt = dicitem.UpdatedAt,
-                     DictionaryId = dicitem.Id,
                      StrValue = dicitem.StrValue,
                      NumValue = dicitem.NumValue,
                      DateValue = dicitem.DateValue,

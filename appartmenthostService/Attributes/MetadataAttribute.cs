@@ -8,7 +8,8 @@ namespace apartmenthostService.Attributes
 {
    public class MetadataAttribute : Attribute
    {
-       public int Visible { get; set; }
-       public int Required { get; set; }
+       public string DataType { get; set; }
+       public bool Visible { get; set; }
+       public bool Required { get; set; }
    }
 }

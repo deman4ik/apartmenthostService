@@ -335,7 +335,10 @@ namespace apartmenthostService.App_Start
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = ConstProp.ApartmentType,
-                DataType = ConstDataType.Str,
+                Type = ConstType.Str,
+                DataType = ConstDataType.List,
+                Visbile = true,
+                Required = true,
                 DictionaryId = apartmentTypeDic.Id,
                 Dictionary = apartmentTypeDic,
                 Tables = new List<Table>() { apartmentTable }
@@ -346,7 +349,10 @@ namespace apartmenthostService.App_Start
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = ConstProp.CohabitationType,
-                DataType = ConstDataType.Str,
+                Type = ConstType.Str,
+                Visbile = true,
+                Required = true,
+                DataType = ConstDataType.List,
                 DictionaryId = cohabitationTypeDic.Id,
                 Dictionary = cohabitationTypeDic,
                 Tables = new List<Table>() { apartmentTable }
@@ -358,7 +364,10 @@ namespace apartmenthostService.App_Start
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = ConstProp.ApartmentOptions,
-                DataType = ConstDataType.Str,
+                Type = ConstType.Str,
+                Visbile = true,
+                Required = false,
+                DataType = ConstDataType.Multibox,
                 DictionaryId = apartmentOptionDic.Id,
                 Dictionary = apartmentOptionDic,
                 Tables = new List<Table>() { advertTable }

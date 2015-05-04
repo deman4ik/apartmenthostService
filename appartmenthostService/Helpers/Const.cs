@@ -6,7 +6,7 @@ using System.Web;
 
 namespace apartmenthostService.Helpers
 {
-    public static class ConstDataType
+    public static class ConstType
     {
         public const string Str = "Str";
         public const string Num = "Num";
@@ -32,6 +32,25 @@ namespace apartmenthostService.Helpers
         public const string ApartmentOptions = "ApartmentOptions";
     }
 
+    public static class ConstMetaDataProp
+    {
+        public const string Visible = "Visible";
+        public const string Required = "Required";
+        public const string DataType = "DataType";
+    }
+    public static class ConstDataType
+    {
+        public const string Text = "Text";
+        public const string Date = "Date";
+        public const string List = "List";
+        public const string Multibox = "Multibox";
+        public const string Email = "Email";
+        public const string Phone = "Phone";
+        public const string Adress = "Adress";
+        public const string Price = "Price";
+        public const string Rating = "Rating";
+        public const string Image = "Image";
+    }
   
     public static class ConstLang
     {
