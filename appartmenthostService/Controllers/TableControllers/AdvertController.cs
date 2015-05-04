@@ -38,7 +38,7 @@ namespace apartmenthostService.Controllers
                 Lang = x.Lang,
                 User = new UserDTO()
                 {
-                    Id = x.Id,
+                    Id = x.User.Profile.Id,
                     FirstName = x.User.Profile.FirstName,
                     LastName = x.User.Profile.LastName,
                     Gender = x.User.Profile.Gender,
@@ -46,7 +46,7 @@ namespace apartmenthostService.Controllers
                 },
                 Apartment = new ApartmentDTO()
                 {
-                    Id = x.Id,
+                    Id = x.Apartment.Id,
                     Name = x.Apartment.Name,
                     UserId = x.Apartment.UserId,
                     Adress = x.Apartment.Adress,
@@ -116,7 +116,7 @@ namespace apartmenthostService.Controllers
                 Lang = x.Lang,
                 User = new UserDTO()
                 {
-                    Id = x.Id,
+                    Id = x.User.Profile.Id,
                     FirstName = x.User.Profile.FirstName,
                     LastName = x.User.Profile.LastName,
                     Gender = x.User.Profile.Gender,
@@ -124,7 +124,7 @@ namespace apartmenthostService.Controllers
                 },
                 Apartment = new ApartmentDTO()
                 {
-                    Id = x.Id,
+                    Id = x.Apartment.Id,
                     Name = x.Apartment.Name,
                     UserId = x.Apartment.UserId,
                     Adress = x.Apartment.Adress,

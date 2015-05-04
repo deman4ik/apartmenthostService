@@ -49,12 +49,12 @@ namespace apartmenthostService.Controllers
                 }
 
             // Check Apartment not Exist
-            var currentApartmentCount = context.Apartments.Count(a => a.Name == apartment.Name);
-                if (currentApartmentCount > 0)
-                {
-                    respList.Add(apartment.Name);
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_EXISTS, respList));
-                }
+            //var currentApartmentCount = context.Apartments.Count(a => a.Name == apartment.Name);
+            //    if (currentApartmentCount > 0)
+            //    {
+            //        respList.Add(apartment.Name);
+            //        return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_EXISTS, respList));
+            //    }
             // Check Current User
             var currentUser = User as ServiceUser;
                 if (currentUser == null)
@@ -188,13 +188,13 @@ namespace apartmenthostService.Controllers
                          RespH.Create(RespH.SRV_APARTMENT_WRONG_USER, respList));
                  }
 
-                 // Check Apartment not Exist
-                 var currentApartmentCount = context.Apartments.Count(a => a.Name == apartment.Name && a.Id != id);
-                 if (currentApartmentCount > 0)
-                 {
-                     respList.Add(apartment.Name);
-                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_EXISTS, respList));
-                 }
+                 // Check Apartment not already Exists
+                 //var currentApartmentCount = context.Apartments.Count(a => a.Name == apartment.Name && a.Id != id);
+                 //if (currentApartmentCount > 0)
+                 //{
+                 //    respList.Add(apartment.Name);
+                 //    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_EXISTS, respList));
+                 //}
 
                   
                  // Check Properties Exists

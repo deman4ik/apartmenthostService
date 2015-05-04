@@ -20,7 +20,7 @@ namespace apartmenthostService.DataObjects
         [Metadata(Visible = false, Required = false)]
         public string Id { get; set; }
 
-        // [GET][POST][PUT] - {Uniq}{NN} - Наименование жилья
+        // [GET][POST][PUT] - {NN} - Наименование жилья
         [Metadata(Visible = true, Required = true, DataType = ConstDataType.Text)]
         public string Name { get; set; }
 
