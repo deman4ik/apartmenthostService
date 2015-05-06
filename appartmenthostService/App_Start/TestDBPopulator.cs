@@ -172,8 +172,8 @@ namespace apartmenthostService.App_Start
                     UserId = user1.Id,
                     Description = "Великолепное жилье в центре Бутово. Комфортно и уютно. Из окна не видно помойки! Уже хорошо!",
                     ApartmentId = apartment1.Id,
-                    DateFrom = new DateTime(2015,5,1),
-                    DateTo = new DateTime(2015,5,31),
+                    DateFrom = new DateTimeOffset(2015,5,1,0,0,0,new TimeSpan(3,0,0)),
+                    DateTo = new DateTimeOffset(2015,5,31,0,0,0,new TimeSpan(3,0,0)),
                     PriceDay = 968,
                     PricePeriod = 30000,
                     Lang = ConstLang.RU
@@ -185,8 +185,8 @@ namespace apartmenthostService.App_Start
                     UserId = user1.Id,
                     Description = "Квартирка на Соловьином. Жить можно, но не долго. Из окна почти ничего не видно, только стенку морга.",
                     ApartmentId = apartment2.Id,
-                    DateFrom = new DateTime(2015,5,10),
-                    DateTo = new DateTime(2015,6,30),
+                    DateFrom = new DateTimeOffset(2015,5,10,0,0,0,new TimeSpan(3,0,0)),
+                    DateTo = new DateTimeOffset(2015,6,30,0,0,0,new TimeSpan(3,0,0)),
                     PriceDay = 1000,
                     PricePeriod = 50000,
                     Lang = ConstLang.RU
@@ -198,8 +198,8 @@ namespace apartmenthostService.App_Start
                     UserId = user2.Id,
                     Description = "Бизнес центр ААА-класса. Многоуровневая паркова. Бесплатное питание. У нас есть печеньки!",
                     ApartmentId = apartment3.Id,
-                    DateFrom = new DateTime(2015,4,30),
-                    DateTo = new DateTime(2015,12,31),
+                    DateFrom = new DateTimeOffset(2015,4,30,0,0,0,new TimeSpan(3,0,0)),
+                    DateTo = new DateTimeOffset(2015,12,31,0,0,0,new TimeSpan(3,0,0)),
                     PriceDay = 1500,
                     PricePeriod = 60000,
                     Lang = ConstLang.RU

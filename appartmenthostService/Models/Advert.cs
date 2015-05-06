@@ -12,6 +12,7 @@ namespace apartmenthostService.Models
         {
             this.Pictures = new HashSet<Picture>();
             this.Favorites = new HashSet<Favorite>();
+            this.Dates = new HashSet<AdvertDate>();
             this.Reservations = new HashSet<Reservation>();
         }
         public string Name { get; set; }
@@ -22,9 +23,9 @@ namespace apartmenthostService.Models
 
         public string ApartmentId { get; set; }
 
-        public DateTime DateFrom { get; set; }
+        public DateTimeOffset DateFrom { get; set; }
 
-        public DateTime DateTo { get; set; }
+        public DateTimeOffset DateTo { get; set; }
 
         public decimal PriceDay { get; set; }
 
@@ -34,11 +35,12 @@ namespace apartmenthostService.Models
 
         public virtual User User { get; set; }
         public virtual Apartment Apartment { get; set;}
-    
-     public ICollection<Picture> Pictures { get; set; }
-    public ICollection<Favorite> Favorites { get; set; }
-    public ICollection<Reservation> Reservations { get; set; }
-    public ICollection<PropVal> PropVals { get; set; } 
+
+        public ICollection<AdvertDate> Dates { get; set; }
+        public ICollection<Reservation> Reservations { get; set; } 
+        public ICollection<Picture> Pictures { get; set; }
+        public ICollection<Favorite> Favorites { get; set; }
+        public ICollection<PropVal> PropVals { get; set; } 
 
     }
 }

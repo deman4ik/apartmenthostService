@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.WindowsAzure.Mobile.Service;
@@ -10,11 +11,10 @@ namespace apartmenthostService.Models
         public string AdvertId { get; set; }
         public string UserId { get; set; }
         public string Status { get; set; }
-        public DateTime DateFrom { get; set; }
-        public DateTime DateTo { get; set; }
 
+        public virtual Advert Advert { get; set; }
+        public virtual User User { get; set; }
+        public ICollection<AdvertDate> Dates { get; set; } 
 
-        public Advert Advert { get; set; }
-        public User User { get; set; }
     }
 }

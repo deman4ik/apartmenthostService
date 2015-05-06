@@ -37,11 +37,11 @@ namespace apartmenthostService.DataObjects
 
         // [GET][POST][PUT] - {NN} - Дата с
         [Metadata(Visible = true, Required = true, DataType = ConstDataType.Date)]
-        public DateTime DateFrom { get; set; }
+        public DateTimeOffset DateFrom { get; set; }
 
         // [GET][POST][PUT] - {NN} - Дата по
         [Metadata(Visible = true, Required = true, DataType = ConstDataType.Date)]
-        public DateTime DateTo { get; set; }
+        public DateTimeOffset DateTo { get; set; }
 
         // [GET][POST][PUT] - {NN} - Цена за сутки
         [Metadata(Visible = true, Required = true, DataType = ConstDataType.Price)]
@@ -73,7 +73,7 @@ namespace apartmenthostService.DataObjects
 
         // [GET][POST][PUT] - {NN} -Список дополнительных колонок(PropVal)
         [Metadata(Visible = false, Required = false)]
-        public ICollection<PropValDTO> PropsVals { get; set; } 
+        public ICollection<PropValDTO> PropsVals { get; set; }
 
     }
 }

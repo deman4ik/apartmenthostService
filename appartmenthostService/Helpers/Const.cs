@@ -96,4 +96,12 @@ namespace apartmenthostService.Helpers
             return list;
         }
     }
+
+    public static class ConstReservStatus
+    {
+        public const string Pending = "Pending";
+        public const string Accepted = "Accepted";
+        public const string Declined = "Declined";
+        
+    }
 }

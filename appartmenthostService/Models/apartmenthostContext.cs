@@ -152,16 +152,22 @@ namespace apartmenthostService.Models
             // Advert
 
             modelBuilder.Entity<Advert>()
+                .HasMany<AdvertDate>(s => s.Dates)
+                .WithRequired(s => s.Advert)
+                .HasForeignKey(s => s.AdvertId)
+                .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<Advert>()
                 .HasMany<Reservation>(s => s.Reservations)
                 .WithRequired(s => s.Advert)
                 .HasForeignKey(s => s.AdvertId)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Advert>()
                 .HasMany<Favorite>(s => s.Favorites)
                 .WithRequired(s => s.Advert)
                 .HasForeignKey(s => s.AdvertId)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
 
             modelBuilder.Entity<Advert>()
@@ -179,6 +185,13 @@ namespace apartmenthostService.Models
                 .WithOptional(s => s.Advert)
                 .HasForeignKey(s => s.AdvertItemId)
                 .WillCascadeOnDelete(true);
+
+            // Reservation
+            modelBuilder.Entity<Reservation>()
+                .HasMany<AdvertDate>(s => s.Dates)
+                .WithOptional(s => s.Reservation)
+                .HasForeignKey(s => s.ReservationId)
+                .WillCascadeOnDelete(false);
 
             // Review
 

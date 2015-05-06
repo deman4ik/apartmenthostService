@@ -60,10 +60,10 @@ namespace apartmenthostService.Controllers
                 }
 
                 // Check Dates
-                if (DateTime.Compare(advert.DateFrom, advert.DateTo) >= 0)
+                if (DateTimeOffset.Compare(advert.DateFrom, advert.DateTo) >= 0)
                 {
-                    respList.Add(advert.DateFrom.ToShortDateString());
-                    respList.Add(advert.DateTo.ToShortDateString());
+                    respList.Add(advert.DateFrom.ToLocalTime().ToString());
+                    respList.Add(advert.DateTo.ToLocalTime().ToString());
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ADVERT_WRONG_DATE, respList));
              
                 }
@@ -182,10 +182,10 @@ namespace apartmenthostService.Controllers
                 }
 
                 // Check Dates
-                if (DateTime.Compare(advert.DateFrom, advert.DateTo) >= 0)
+                if (DateTimeOffset.Compare(advert.DateFrom, advert.DateTo) >= 0)
                 {
-                    respList.Add(advert.DateFrom.ToShortDateString());
-                    respList.Add(advert.DateTo.ToShortDateString());
+                    respList.Add(advert.DateFrom.ToLocalTime().ToString());
+                    respList.Add(advert.DateTo.ToLocalTime().ToString());
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ADVERT_WRONG_DATE, respList));
 
                 }
