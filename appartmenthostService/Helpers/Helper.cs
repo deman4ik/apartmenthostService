@@ -25,13 +25,13 @@ namespace apartmenthostService.Helpers
             if (type.PropertyType == typeof (bool?) || type.PropertyType == typeof (bool))
                 return ConstType.Bool;
             if (type.PropertyType == typeof (ICollection<PropValDTO>))
-                return ConstType.PropValCollection;
-            if (type.PropertyType == typeof (ICollection<UserDTO>))
-                return ConstType.UserCollection;
-            if (type.PropertyType == typeof (ICollection<ApartmentDTO>))
-                return ConstType.ApartmentCollection;
-            if (type.PropertyType == typeof (ICollection<AdvertDTO>))
-                return ConstType.AdvertCollection;
+                return ConstType.PropCollection;
+            if (type.PropertyType == typeof(UserDTO))
+                return ConstType.User;
+            if (type.PropertyType == typeof(ApartmentDTO))
+                return ConstType.Apartment;
+            if (type.PropertyType == typeof(AdvertDTO))
+                return ConstType.Advert;
             return type.PropertyType.Name;
 
         }

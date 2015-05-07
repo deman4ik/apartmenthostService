@@ -13,10 +13,11 @@ namespace apartmenthostService.Helpers
         public const string Num = "Num";
         public const string Date = "Date";
         public const string Bool = "Bool";
-        public const string UserCollection = "UserCollection";
-        public const string PropValCollection = "PropValCollection";
-        public const string ApartmentCollection = "ApartmentCollection";
-        public const string AdvertCollection = "AdverCollection";
+        public const string User = "User";
+        public const string Apartment = "Apartment";
+        public const string Advert = "Advert";
+        public const string PropCollection = "PropCollection";
+
     }
     public static class ConstTable
     {
@@ -24,6 +25,22 @@ namespace apartmenthostService.Helpers
         public const string AdvertTable = "Advert";
         public const string ProfileTable = "Profile";
         public const string ReservationTable = "Reservation";
+
+
+        public static string GetTableByObjectType(string type)
+        {
+            switch (type)
+            {
+                case ConstType.Apartment:
+                    return ApartmentTable;
+                case ConstType.Advert:
+                    return AdvertTable;
+                case ConstType.User:
+                    return ProfileTable;
+                default:
+                    return null;
+            }
+        }
     }
 
     public static class ConstProp
@@ -52,7 +69,7 @@ namespace apartmenthostService.Helpers
         public const string Rating = "Rating";
         public const string Image = "Image";
     }
-  
+
     public static class ConstLang
     {
         public const string RU = "RU";
@@ -63,14 +80,14 @@ namespace apartmenthostService.Helpers
     {
         public static List<string> ApartmentTypesList()
         {
-         List<string> list = new List<string>();
-         list.Add("House");
-         list.Add("Flat");
-         list.Add("Room");
-         list.Add("Office");
-         list.Add("Hotel Room");
+            List<string> list = new List<string>();
+            list.Add("House");
+            list.Add("Flat");
+            list.Add("Room");
+            list.Add("Office");
+            list.Add("Hotel Room");
 
-         return list;
+            return list;
         }
 
         public static List<string> CohabitationTypesList()
@@ -102,6 +119,6 @@ namespace apartmenthostService.Helpers
         public const string Pending = "Pending";
         public const string Accepted = "Accepted";
         public const string Declined = "Declined";
-        
+
     }
 }

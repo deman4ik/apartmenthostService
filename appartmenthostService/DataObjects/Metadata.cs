@@ -11,9 +11,8 @@ namespace apartmenthostService.DataObjects
         public Metadata()
         {
             this.Items = new List<MetadataItem>();
-            this.Props = new List<PropDTO>();
         }
-        public ICollection<MetadataItem> Items { get; set; }
-        public ICollection<PropDTO> Props { get; set; } 
+        public string Name { get; set; }
+        public ICollection<MetadataItem> Items { get; set; } 
     }
 }

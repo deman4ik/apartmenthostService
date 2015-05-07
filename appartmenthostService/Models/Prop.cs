@@ -18,8 +18,12 @@ namespace apartmenthostService.Models
         public string Name { get; set; }
         public string Type { get; set; }
         public string DataType { get; set; }
-        public bool Visbile { get; set; }
+        public bool Visible { get; set; }
         public bool Required { get; set; }
+        public bool Get { get; set; }
+        public bool Post { get; set; }
+        public bool Put { get; set; }
+        public bool Delete { get; set; }
         public string DictionaryId { get; set; }
 
         public virtual Dictionary Dictionary { get; set; }
