@@ -11,6 +11,10 @@ namespace apartmenthostService.Helpers
 {
     public class Helper
     {
+        public static string GetItemName(string name)
+        {
+            return "MD_ITM_" + name.ToUpper();
+        }
         public static string GetTypeName(PropertyInfo type)
         {
             if (type.PropertyType == typeof (string))

@@ -11,8 +11,5 @@ namespace apartmenthostService.Attributes
    public class MetadataAttribute : Attribute
    {
        public string DataType { get; set; }
-       public bool Visible { get; set; }
-       public bool RequiredForm { get; set; }
-       public bool RequiredTransfer { get; set; }
    }
 }

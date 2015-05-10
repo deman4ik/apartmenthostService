@@ -1,0 +1,14 @@
+﻿using System;
+
+
+namespace apartmenthostService.Attributes
+{
+    [AttributeUsage(AttributeTargets.Property)]
+    public class DeleteRuleAttribute : Attribute
+    {
+        public bool Visible { get; set; }
+        public bool RequiredForm { get; set; }
+        public bool RequiredTransfer { get; set; }
+        public int Order { get; set; }
+    }
+}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Linq;
 using System.Web.Http;
 using apartmenthostService.Attributes;
@@ -35,7 +36,7 @@ namespace apartmenthostService.Controllers
         [Route("api/Metadata/User")]
         public Metadata GetUser()
         {
-            return GetMetadata(ConstType.User,typeof(UserDTO));
+            return GetMetadata(ConstType.User, typeof(UserDTO));
         }
 
         private Metadata GetMetadata(string objectType, Type type)
@@ -45,20 +46,16 @@ namespace apartmenthostService.Controllers
                 Name = objectType,
                 Items = type.GetProperties().Select(prop => new MetadataItem()
                 {
-                    Name = prop.Name,
+                    Name = Helper.GetItemName(prop.Name),
                     Type = Helper.GetTypeName(prop),
                     DataType =
                         (string)
                             Helper.GetAttributeValue(type, prop.Name, typeof(MetadataAttribute),
                                 ConstMetaDataProp.DataType),
-                    Visible =
-                        (bool)
-                            Helper.GetAttributeValue(type, prop.Name, typeof(MetadataAttribute),
-                                ConstMetaDataProp.Visible),
-                    Required =
-                        (bool)
-                            Helper.GetAttributeValue(type, prop.Name, typeof(MetadataAttribute),
-                                ConstMetaDataProp.Required),
+                    GetRule = GetMetadataRule(type,typeof(GetRuleAttribute),prop.Name),
+                    PostRule = GetMetadataRule(type, typeof(PostRuleAttribute), prop.Name),
+                    PutRule = GetMetadataRule(type, typeof(PutRuleAttribute), prop.Name),
+                    DeleteRule = GetMetadataRule(type, typeof(DeleteRuleAttribute), prop.Name),
                     Metadata = GetSubMetadata(Helper.GetTypeName(prop), objectType)
                 }).ToList()
             };
@@ -81,8 +78,9 @@ namespace apartmenthostService.Controllers
                             Name = prop.Name,
                             Type = prop.Type,
                             DataType = prop.DataType,
-                            Visible = prop.Visible,
-                            Required = prop.Required,
+                            GetRule = prop.GetRule,
+                            PostRule = prop.PostRule,
+                            DeleteRule = prop.DeleteRule,
                             DictionaryName = prop.Dictionary.Name,
                             DictionaryId = prop.DictionaryId,
                             DictionaryItems =
@@ -121,6 +119,22 @@ namespace apartmenthostService.Controllers
                 default:
                     return null;
             }
+        }
+
+        private MetadataRule GetMetadataRule(Type objType, Type atrType, string propName)
+        {
+            return new MetadataRule()
+            {
+                Order = (int)Helper.GetAttributeValue(objType, propName, atrType,
+                                ConstMetaDataProp.Order),
+                RequiredForm = (bool)Helper.GetAttributeValue(objType, propName, atrType,
+                ConstMetaDataProp.RequiredForm),
+                RequiredTransfer = (bool)Helper.GetAttributeValue(objType, propName, atrType,
+                ConstMetaDataProp.RequiredTransfer),
+                Visible = (bool)Helper.GetAttributeValue(objType, propName, atrType,
+                ConstMetaDataProp.Visible)
+
+            };
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using apartmenthostService.DataObjects;
 using Microsoft.WindowsAzure.Mobile.Service;
 
 namespace apartmenthostService.Models
@@ -18,12 +19,10 @@ namespace apartmenthostService.Models
         public string Name { get; set; }
         public string Type { get; set; }
         public string DataType { get; set; }
-        public bool Visible { get; set; }
-        public bool Required { get; set; }
-        public bool Get { get; set; }
-        public bool Post { get; set; }
-        public bool Put { get; set; }
-        public bool Delete { get; set; }
+        public MetadataRule GetRule { get; set; }
+        public MetadataRule PostRule { get; set; }
+        public MetadataRule PutRule { get; set; }
+        public MetadataRule DeleteRule { get; set; }
         public string DictionaryId { get; set; }
 
         public virtual Dictionary Dictionary { get; set; }

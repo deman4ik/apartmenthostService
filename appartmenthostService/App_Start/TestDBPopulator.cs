@@ -285,8 +285,7 @@ namespace apartmenthostService.App_Start
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = apartmentTypeDic.Id,
-                    StrValue = apartmentType,
-                    Lang = ConstLang.RU
+                    StrValue = apartmentType
                 });
             }
             //CohabitationType
@@ -297,8 +296,7 @@ namespace apartmenthostService.App_Start
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = cohabitationTypeDic.Id,
-                    StrValue = cohabitationType,
-                    Lang = ConstLang.RU
+                    StrValue = cohabitationType
                 });
             }
 
@@ -310,8 +308,7 @@ namespace apartmenthostService.App_Start
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = apartmentOptionDic.Id,
-                    StrValue = apartmentOption,
-                    Lang = ConstLang.RU
+                    StrValue = apartmentOption
                 });
             }
             foreach (var dictonaryItem in dictionaryItems)
@@ -337,8 +334,38 @@ namespace apartmenthostService.App_Start
                 Name = ConstProp.ApartmentType,
                 Type = ConstType.Str,
                 DataType = ConstDataType.List,
-                Visible = true,
-                Required = true,
+                GetRule = new MetadataRule()
+                {
+                    Order = 1,
+                    RequiredForm = false,
+                    RequiredTransfer = false,
+                    Visible = true
+
+                },
+                PostRule = new MetadataRule()
+                {
+                    Order = 1,
+                    RequiredForm = true,
+                    RequiredTransfer = true,
+                    Visible = true
+
+                },
+                PutRule = new MetadataRule()
+                {
+                    Order = 1,
+                    RequiredForm = true,
+                    RequiredTransfer = false,
+                    Visible = true
+
+                },
+                DeleteRule = new MetadataRule()
+                {
+                    Order = 0,
+                    RequiredForm = false,
+                    RequiredTransfer = false,
+                    Visible = false
+
+                },
                 DictionaryId = apartmentTypeDic.Id,
                 Dictionary = apartmentTypeDic,
                 Tables = new List<Table>() { apartmentTable }
@@ -350,8 +377,38 @@ namespace apartmenthostService.App_Start
                 Id = Guid.NewGuid().ToString(),
                 Name = ConstProp.CohabitationType,
                 Type = ConstType.Str,
-                Visible = true,
-                Required = true,
+                GetRule = new MetadataRule()
+                {
+                    Order = 2,
+                    RequiredForm = false,
+                    RequiredTransfer = false,
+                    Visible = true
+
+                },
+                PostRule = new MetadataRule()
+                {
+                    Order = 2,
+                    RequiredForm = true,
+                    RequiredTransfer = true,
+                    Visible = true
+
+                },
+                PutRule = new MetadataRule()
+                {
+                    Order = 2,
+                    RequiredForm = true,
+                    RequiredTransfer = false,
+                    Visible = true
+
+                },
+                DeleteRule = new MetadataRule()
+                {
+                    Order = 0,
+                    RequiredForm = false,
+                    RequiredTransfer = false,
+                    Visible = false
+
+                },
                 DataType = ConstDataType.List,
                 DictionaryId = cohabitationTypeDic.Id,
                 Dictionary = cohabitationTypeDic,
@@ -365,8 +422,38 @@ namespace apartmenthostService.App_Start
                 Id = Guid.NewGuid().ToString(),
                 Name = ConstProp.ApartmentOptions,
                 Type = ConstType.Str,
-                Visible = true,
-                Required = false,
+                GetRule = new MetadataRule()
+                {
+                    Order = 3,
+                    RequiredForm = false,
+                    RequiredTransfer = false,
+                    Visible = true
+
+                },
+                PostRule = new MetadataRule()
+                {
+                    Order = 3,
+                    RequiredForm = false,
+                    RequiredTransfer = false,
+                    Visible = true
+
+                },
+                PutRule = new MetadataRule()
+                {
+                    Order = 3,
+                    RequiredForm = false,
+                    RequiredTransfer = false,
+                    Visible = true
+
+                },
+                DeleteRule = new MetadataRule()
+                {
+                    Order = 0,
+                    RequiredForm = false,
+                    RequiredTransfer = false,
+                    Visible = false
+
+                },
                 DataType = ConstDataType.Multibox,
                 DictionaryId = apartmentOptionDic.Id,
                 Dictionary = apartmentOptionDic,

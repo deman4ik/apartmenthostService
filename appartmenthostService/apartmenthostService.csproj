@@ -191,7 +191,11 @@
   <ItemGroup>
     <Compile Include="App_Start\TestDBPopulator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Attributes\DeleteRuleAttribute.cs" />
+    <Compile Include="Attributes\GetRuleAttribute.cs" />
     <Compile Include="Attributes\MetadataAttribute.cs" />
+    <Compile Include="Attributes\PostRuleAttribute.cs" />
+    <Compile Include="Attributes\PutRuleAttribute.cs" />
     <Compile Include="Attributes\QueryableExpandAttribute.cs" />
     <Compile Include="Authentication\FBCredentials.cs" />
     <Compile Include="Authentication\FBLoginAuthenticationProvider.cs" />
@@ -218,6 +222,7 @@
     <Compile Include="DataObjects\DictionaryItemDTO.cs" />
     <Compile Include="DataObjects\Metadata.cs" />
     <Compile Include="DataObjects\MetadataItem.cs" />
+    <Compile Include="DataObjects\MetadataRule.cs" />
     <Compile Include="DataObjects\PropDTO.cs" />
     <Compile Include="DataObjects\PropValDTO.cs" />
     <Compile Include="DataObjects\ResponseDTO.cs" />

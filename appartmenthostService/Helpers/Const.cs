@@ -45,15 +45,17 @@ namespace apartmenthostService.Helpers
 
     public static class ConstProp
     {
-        public const string ApartmentType = "ApartmentType";
-        public const string CohabitationType = "CohabitationType";
-        public const string ApartmentOptions = "ApartmentOptions";
+        public const string ApartmentType = "MD_PRP_APARTMENTTYPE";
+        public const string CohabitationType = "MD_PRP_COHABITATIONTYPE";
+        public const string ApartmentOptions = "MD_PRP_APARTMENTOPTIONS";
     }
 
     public static class ConstMetaDataProp
     {
         public const string Visible = "Visible";
-        public const string Required = "Required";
+        public const string RequiredForm = "RequiredForm";
+        public const string RequiredTransfer = "RequiredTransfer";
+        public const string Order = "Order";
         public const string DataType = "DataType";
     }
     public static class ConstDataType
@@ -68,6 +70,11 @@ namespace apartmenthostService.Helpers
         public const string Price = "Price";
         public const string Rating = "Rating";
         public const string Image = "Image";
+        public const string Id = "Id";
+        public const string Apartment = "Apartment";
+        public const string User = "User";
+        public const string PropVals = "PropVals";
+        public const string Lang = "Lang";
     }
 
     public static class ConstLang
@@ -81,11 +88,11 @@ namespace apartmenthostService.Helpers
         public static List<string> ApartmentTypesList()
         {
             List<string> list = new List<string>();
-            list.Add("House");
-            list.Add("Flat");
-            list.Add("Room");
-            list.Add("Office");
-            list.Add("Hotel Room");
+            list.Add("DVAL_HOUSE");
+            list.Add("DVAL_FLAT");
+            list.Add("DVAL_ROOM");
+            list.Add("DVAL_OFFICE");
+            list.Add("DVAL_HOTEL_ROOM");
 
             return list;
         }
@@ -93,8 +100,8 @@ namespace apartmenthostService.Helpers
         public static List<string> CohabitationTypesList()
         {
             List<string> list = new List<string>();
-            list.Add("Separate residence");
-            list.Add("Cohabitation");
+            list.Add("DVAL_SEPARATE_RESIDENCE");
+            list.Add("DVAL_COHABITATION");
 
 
             return list;
@@ -103,11 +110,11 @@ namespace apartmenthostService.Helpers
         public static List<string> ApartmentOptionsList()
         {
             List<string> list = new List<string>();
-            list.Add("Parking");
-            list.Add("Сoncierge");
-            list.Add("Refrigerator");
-            list.Add("Washing machine");
-            list.Add("Air conditioning");
+            list.Add("DVAL_PARKING");
+            list.Add("DVAL_СONCIERGE");
+            list.Add("DVAL_REFRIGERATOR");
+            list.Add("DVAL_WASHING_MACHINE");
+            list.Add("DVAL_AIR_CONDITIONING");
 
 
             return list;
