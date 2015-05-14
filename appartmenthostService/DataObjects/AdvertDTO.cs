@@ -61,7 +61,7 @@ namespace apartmenthostService.DataObjects
         [PostRule(Order = 3, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PutRule(Order = 3, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        public DateTimeOffset DateFrom { get; set; }
+        public DateTime DateFrom { get; set; }
 
         // [GET][POST][PUT] - {NN} - Дата по
         [Metadata(DataType = ConstDataType.Date)]
@@ -69,7 +69,7 @@ namespace apartmenthostService.DataObjects
         [PostRule(Order = 4, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PutRule(Order = 4, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        public DateTimeOffset DateTo { get; set; }
+        public DateTime DateTo { get; set; }
 
         // [GET][POST][PUT] - {NN} - Цена за сутки
         [Metadata(DataType = ConstDataType.Price)]

@@ -77,6 +77,11 @@ namespace apartmenthostService.DataObjects
         public const string SRV_ADVERT_WRONG_USER = "SRV_ADVERT_WRONG_USER"; // Объект не может быть изменен/удален другим пользователем
         public const string SRV_ADVERT_WRONG_DATE = "SRV_ADVERT_WRONG_DATE"; // Дата С должна быть меньше Даты ПО
 
+        //Reservation
+        public const string SRV_RESERVATION_NULL = "SRV_RESERVATION_NULL"; //Пустой объект запроса
+        public const string SRV_RESERVATION_NOTFOUND = "SRV_RESERVATION_NOTFOUND"; // Объект не найден
+        public const string SRV_RESERVATION_WRONG_DATE = "SRV_RESERVATION_WRONG_DATE"; // Дата С должна быть меньше Даты ПО
+        public const string SRV_RESERVATION_UNAVAILABLE_DATE = "SRV_RESERVATION_UNAVAILABLE_DATE"; // Даты недоступны
         //Dictionary
         public const string SRV_DICTIONARY_NULL = "SRV_DICTIONARY_NULL"; // Пустой объект запроса
         public const string SRV_DICTIONARY_NOTFOUND = "SRV_DICTIONARY_NOTFOUND"; // Объект не найден

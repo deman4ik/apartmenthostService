@@ -12,6 +12,7 @@ namespace apartmenthostService.Models
         public string PropId { get; set; }
         public string ApartmentItemId { get; set; }
         public string AdvertItemId { get; set; }
+        public string ReservationItemId { get; set; }
         public string StrValue { get; set; }
         public decimal? NumValue { get; set; }
         public DateTime? DateValue { get; set; }
@@ -24,6 +25,7 @@ namespace apartmenthostService.Models
         public virtual DictionaryItem DictionaryItem { get; set; }
         public virtual Apartment Apartment { get; set; }
         public virtual Advert Advert { get; set; }
+        public virtual Reservation Reservation { get; set; }
 
     }
 }

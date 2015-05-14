@@ -72,7 +72,9 @@ namespace apartmenthostService.Helpers
         public const string Image = "Image";
         public const string Id = "Id";
         public const string Apartment = "Apartment";
+        public const string Advert = "Advert";
         public const string User = "User";
+        public const string Reservation = "Reservation";
         public const string PropVals = "PropVals";
         public const string Lang = "Lang";
     }

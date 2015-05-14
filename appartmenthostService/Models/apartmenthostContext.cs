@@ -180,6 +180,18 @@ namespace apartmenthostService.Models
                 .HasForeignKey(s => s.AdvertItemId)
                 .WillCascadeOnDelete(true);
 
+            // Reservation
+            modelBuilder.Entity<Reservation>()
+                .HasMany<ReservationComment>(s => s.Comments)
+                .WithRequired(s => s.Reservation)
+                .HasForeignKey(s => s.ReservationId)
+                .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<Reservation>()
+                .HasMany<PropVal>(s => s.PropVals)
+                .WithOptional(s => s.Reservation)
+                .HasForeignKey(s => s.ReservationItemId)
+                .WillCascadeOnDelete(true);
 
             // Review
 

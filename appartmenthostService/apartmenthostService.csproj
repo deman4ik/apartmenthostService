@@ -59,6 +59,9 @@
     </VisualStudio>
   </ProjectExtensions>
   <ItemGroup>
+    <Reference Include="Itenso.TimePeriod">
+      <HintPath>..\packages\TimePeriodLibrary.NET.2.0.0\lib\net35\Desktop.Release\Itenso.TimePeriod.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Owin.Host.SystemWeb">
       <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
     </Reference>
@@ -207,6 +210,7 @@
     <Compile Include="Authentication\RegistrationRequest.cs" />
     <Compile Include="Controllers\ApiControllers\AdvertApiController.cs" />
     <Compile Include="Controllers\ApiControllers\ApartmentApiController.cs" />
+    <Compile Include="Controllers\ApiControllers\ReservationApiController.cs" />
     <Compile Include="Controllers\TableControllers\ApartmentController.cs" />
     <Compile Include="Controllers\TableControllers\DictionaryController.cs" />
     <Compile Include="Controllers\TableControllers\DictionaryItemController.cs" />
@@ -225,6 +229,7 @@
     <Compile Include="DataObjects\MetadataRule.cs" />
     <Compile Include="DataObjects\PropDTO.cs" />
     <Compile Include="DataObjects\PropValDTO.cs" />
+    <Compile Include="DataObjects\ReservationDTO.cs" />
     <Compile Include="DataObjects\ResponseDTO.cs" />
     <Compile Include="DataObjects\UserDTO.cs" />
     <Compile Include="Helpers\Const.cs" />
@@ -240,6 +245,7 @@
     <Compile Include="Models\Prop.cs" />
     <Compile Include="Models\PropVal.cs" />
     <Compile Include="Models\Reservation.cs" />
+    <Compile Include="Models\ReservationComment.cs" />
     <Compile Include="Models\Review.cs" />
     <Compile Include="Models\ReviewComment.cs" />
     <Compile Include="Models\Account.cs" />
