@@ -198,6 +198,8 @@ namespace apartmenthostService.Controllers
                     } 
                 }
 
+                return null;
+
             }
             catch (Exception ex)
             {

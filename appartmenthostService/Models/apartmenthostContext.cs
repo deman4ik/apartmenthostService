@@ -147,7 +147,7 @@ namespace apartmenthostService.Models
                 .HasMany<PropVal>(s => s.PropVals)
                 .WithOptional(s => s.Apartment)
                 .HasForeignKey(s => s.ApartmentItemId)
-                .WillCascadeOnDelete(true);
+                .WillCascadeOnDelete(false);
 
             // Advert
 
@@ -155,13 +155,13 @@ namespace apartmenthostService.Models
                 .HasMany<Reservation>(s => s.Reservations)
                 .WithRequired(s => s.Advert)
                 .HasForeignKey(s => s.AdvertId)
-                .WillCascadeOnDelete(true);
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Advert>()
                 .HasMany<Favorite>(s => s.Favorites)
                 .WithRequired(s => s.Advert)
                 .HasForeignKey(s => s.AdvertId)
-                .WillCascadeOnDelete(true);
+                .WillCascadeOnDelete(false);
 
 
             modelBuilder.Entity<Advert>()
@@ -178,20 +178,20 @@ namespace apartmenthostService.Models
                 .HasMany<PropVal>(s => s.PropVals)
                 .WithOptional(s => s.Advert)
                 .HasForeignKey(s => s.AdvertItemId)
-                .WillCascadeOnDelete(true);
+                .WillCascadeOnDelete(false);
 
             // Reservation
             modelBuilder.Entity<Reservation>()
                 .HasMany<ReservationComment>(s => s.Comments)
                 .WithRequired(s => s.Reservation)
                 .HasForeignKey(s => s.ReservationId)
-                .WillCascadeOnDelete(true);
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Reservation>()
                 .HasMany<PropVal>(s => s.PropVals)
                 .WithOptional(s => s.Reservation)
                 .HasForeignKey(s => s.ReservationItemId)
-                .WillCascadeOnDelete(true);
+                .WillCascadeOnDelete(false);
 
             // Review
 

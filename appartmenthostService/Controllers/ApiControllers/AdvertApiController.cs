@@ -6,7 +6,9 @@ using System.Net.Http;
 using System.Web.Http;
 using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
+using apartmenthostService.Helpers;
 using apartmenthostService.Models;
+using LinqKit;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
@@ -17,6 +19,56 @@ namespace apartmenthostService.Controllers
     {
         public ApiServices Services { get; set; }
         private apartmenthostContext context = new apartmenthostContext();
+
+        ///// <summary>
+        ///// GET api/Adverts/
+        ///// </summary>
+        //[Route("api/Adverts")]
+        //[AuthorizeLevel(AuthorizationLevel.User)]
+        //[HttpGet]
+        //public HttpResponseMessage GetAdverts(List<RequestDTO> requestList)
+        //{
+        //    try
+        //    { 
+        //        var advertPredicate = PredicateBuilder.True<Advert>();
+        //        var apartmentPredicate = PredicateBuilder.True<Apartment>();
+        //        var userPredicate = PredicateBuilder.True<Profile>();
+
+        //        if (requestList != null)
+        //        {
+
+        //            foreach (var request in requestList)
+        //            {
+        //                switch (request.Name)
+        //                {
+        //                   case ConstType.Advert :
+        //                        foreach (var param in request.Params)
+        //                        {
+                                    
+        //                        }
+
+        //                        break;
+
+        //                    case ConstType.Apartment :
+
+        //                        break;
+
+        //                    case ConstType.User :
+
+        //                        break;
+        //                } 
+        //            }
+        //        }
+                
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        System.Diagnostics.Debug.WriteLine(ex.InnerException);
+        //        return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+        //            RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
+        //    }
+        //}
 
         /// <summary>
         /// POST api/Advert/48D68C86-6EA6-4C25-AA33-223FC9A27959
