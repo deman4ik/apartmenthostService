@@ -11,6 +11,7 @@ using apartmenthostService.Models;
 using LinqKit;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
+using Newtonsoft.Json;
 
 namespace apartmenthostService.Controllers
 {
@@ -20,56 +21,56 @@ namespace apartmenthostService.Controllers
         public ApiServices Services { get; set; }
         private apartmenthostContext context = new apartmenthostContext();
 
-        ///// <summary>
-        ///// GET api/Adverts/
-        ///// </summary>
-        //[Route("api/Adverts")]
-        //[AuthorizeLevel(AuthorizationLevel.User)]
+        //[Route("api/Advert")]
         //[HttpGet]
-        //public HttpResponseMessage GetAdverts(List<RequestDTO> requestList)
+        //public HttpResponseMessage GetAdvert()
         //{
-        //    try
-        //    { 
-        //        var advertPredicate = PredicateBuilder.True<Advert>();
-        //        var apartmentPredicate = PredicateBuilder.True<Apartment>();
-        //        var userPredicate = PredicateBuilder.True<Profile>();
+            
+        //    var dic = new Dictionary<string, string>();
+        //    var propsvals = context.PropVals.Where(p => p.AdvertItemId == "a1").Select(appdto => new PropValDTO()
+        //              {
 
-        //        if (requestList != null)
-        //        {
+        //                  Name = appdto.Prop.Name,
 
-        //            foreach (var request in requestList)
-        //            {
-        //                switch (request.Name)
-        //                {
-        //                   case ConstType.Advert :
-        //                        foreach (var param in request.Params)
-        //                        {
-                                    
-        //                        }
+        //                  DictionaryItem = new DictionaryItemDTO()
+        //                  {
+        //                      StrValue = appdto.DictionaryItem.StrValue,
+        //                  }
+        //              });
 
-        //                        break;
+  
+        //   var multiprops = propsvals.GroupBy(p => p.Name)
+        //        .Where(g => g.Count() > 1)
+        //        .Select(y => y.Key)
+        //        .ToList();
 
-        //                    case ConstType.Apartment :
-
-        //                        break;
-
-        //                    case ConstType.User :
-
-        //                        break;
-        //                } 
-        //            }
-        //        }
-                
-
-        //    }
-        //    catch (Exception ex)
+        //   var singleprops = propsvals.GroupBy(p => p.Name)
+        //       .Where(g => g.Count() == 1)
+        //       .Select(y => y.Key)
+        //       .ToList();
+        //    var vals = new List<string>();
+        //    foreach (var prop in multiprops)
         //    {
-        //        System.Diagnostics.Debug.WriteLine(ex.InnerException);
-        //        return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-        //            RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
+        //        var pvs = propsvals.Where(p => p.Name == prop);
+        //        foreach (var pv in pvs)
+        //        {
+        //           vals.Add(pv.DictionaryItem.StrValue); 
+        //        }
+        //        dic.Add(prop,JsonConvert.SerializeObject(vals));
         //    }
-        //}
 
+        //    foreach (var prop in singleprops)
+        //    {
+        //        var pv = propsvals.SingleOrDefault(p => p.Name == prop);
+        //        dic.Add(prop, pv.DictionaryItem.StrValue);
+        //    }
+        //    //foreach (var propval in propsvals)
+        //    //{
+        //    //   dic.Add(propval.Name, propval.DictionaryItem.StrValue); 
+        //    //}
+        //    var resp = JsonConvert.SerializeObject(dic, Formatting.Indented);
+        //    return this.Request.CreateResponse(HttpStatusCode.OK, resp); 
+        //}
         /// <summary>
         /// POST api/Advert/48D68C86-6EA6-4C25-AA33-223FC9A27959
         /// </summary>

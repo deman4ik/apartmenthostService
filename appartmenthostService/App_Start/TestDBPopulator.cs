@@ -476,9 +476,9 @@ namespace apartmenthostService.App_Start
             Apartment apartmentOffice = context.Apartments.SingleOrDefault(a => a.Name == "Офис Парус");
             Dictionary dicApartmentType = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.ApartmentType);
             DictionaryItem dicItemOffice =
-                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicApartmentType.Id && i.StrValue == "Office");
+                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicApartmentType.Id && i.StrValue == "DVAL_OFFICE");
             DictionaryItem dicItemFlat =
-                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicApartmentType.Id && i.StrValue == "Flat");
+                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicApartmentType.Id && i.StrValue == "DVAL_FLAT");
 
 
             Prop propCohab = context.Props.SingleOrDefault(p => p.Tables.Any(t => t.Name == ConstTable.ApartmentTable) && p.Name == ConstProp.CohabitationType);
@@ -486,9 +486,9 @@ namespace apartmenthostService.App_Start
             Apartment apartmentYasenevo = context.Apartments.SingleOrDefault(a => a.Name == "Пупович Ясенево");
             Dictionary dicCohab = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.CohabitationType);
             DictionaryItem dicItemSepRes =
-                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicCohab.Id && i.StrValue == "Separate residence");
+                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicCohab.Id && i.StrValue == "DVAL_SEPARATE_RESIDENCE");
             DictionaryItem dicItemCohab =
-                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicCohab.Id && i.StrValue == "Cohabitation");
+                context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicCohab.Id && i.StrValue == "DVAL_COHABITATION");
 
 
             Prop propApartmentOption = context.Props.SingleOrDefault(p => p.Name == ConstProp.ApartmentOptions);
@@ -497,15 +497,15 @@ namespace apartmenthostService.App_Start
             Advert advertOffice = context.Adverts.SingleOrDefault(a => a.Id == "a3");
             Dictionary dicOption = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.ApartmentOptions);
             DictionaryItem dicItemParking =
-               context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicOption.Id && i.StrValue == "Parking");
+               context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicOption.Id && i.StrValue == "DVAL_PARKING");
             DictionaryItem dicItemСoncierge =
-               context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicOption.Id && i.StrValue == "Сoncierge");
+               context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicOption.Id && i.StrValue == "DVAL_СONCIERGE");
             DictionaryItem dicItemRefrigerator =
-               context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicOption.Id && i.StrValue == "Refrigerator");
+               context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicOption.Id && i.StrValue == "DVAL_REFRIGERATOR");
             DictionaryItem dicItemWM =
-               context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicOption.Id && i.StrValue == "Washing machine");
+               context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicOption.Id && i.StrValue == "DVAL_WASHING_MACHINE");
             DictionaryItem dicItemAC =
-               context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicOption.Id && i.StrValue == "Air conditioning");
+               context.DictionaryItems.SingleOrDefault(i => i.DictionaryId == dicOption.Id && i.StrValue == "DVAL_AIR_CONDITIONING");
 
             List<PropVal> propVals = new List<PropVal>();
             //ApartmentType
