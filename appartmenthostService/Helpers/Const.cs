@@ -21,9 +21,9 @@ namespace apartmenthostService.Helpers
     }
     public static class ConstTable
     {
-        public const string ApartmentTable = "Apartment";
-        public const string AdvertTable = "Advert";
-        public const string ProfileTable = "Profile";
+        public const string ApartmentTable   = "Apartment";
+        public const string AdvertTable      = "Advert";
+        public const string ProfileTable     = "Profile";
         public const string ReservationTable = "Reservation";
 
 
@@ -45,9 +45,6 @@ namespace apartmenthostService.Helpers
 
     public static class ConstProp
     {
-        public const string ApartmentType = "MD_PRP_APARTMENTTYPE";
-        public const string CohabitationType = "MD_PRP_COHABITATIONTYPE";
-        public const string ApartmentOptions = "MD_PRP_APARTMENTOPTIONS";
     }
 
     public static class ConstMetaDataProp
@@ -57,26 +54,36 @@ namespace apartmenthostService.Helpers
         public const string RequiredTransfer = "RequiredTransfer";
         public const string Order = "Order";
         public const string DataType = "DataType";
+        public const string Dictionary = "Dictionary";
+        public const string Multi = "Multi";
+    }
+
+    public static class ConstDictionary
+    {
+        public const string Gender = "D_GENDER";
+        public const string ApartmentType = "D_APARTMENTTYPE";
+        public const string ApartmentOptions = "D_APARTMENTOPTIONS";
+        public const string Cohabitation = "D_COHABITATION";
     }
     public static class ConstDataType
     {
-        public const string Text = "Text";
-        public const string Date = "Date";
-        public const string List = "List";
-        public const string Multibox = "Multibox";
-        public const string Email = "Email";
-        public const string Phone = "Phone";
-        public const string Adress = "Adress";
-        public const string Price = "Price";
-        public const string Rating = "Rating";
-        public const string Image = "Image";
-        public const string Id = "Id";
-        public const string Apartment = "Apartment";
-        public const string Advert = "Advert";
-        public const string User = "User";
-        public const string Reservation = "Reservation";
-        public const string PropVals = "PropVals";
-        public const string Lang = "Lang";
+        public const string Text        = "Text";        // Текстовое поле
+        public const string Date        = "Date";        // Выбора даты
+        public const string List        = "List";        // Выпадающий список или RadioButton
+        public const string Multibox    = "Multibox";    // Выбор нескольких значений 
+        public const string Email       = "Email";       // Поле для ввода email проверка формата 
+        public const string Phone       = "Phone";       // Поле для ввода телефона проверка формата
+        public const string Adress      = "Adress";      // Поле для ввода Адреса автоподставнока
+        public const string Price       = "Price";       // Поле для ввода Цены
+        public const string Rating      = "Rating";      // 5 звезд рейтинга
+        public const string Image       = "Image";       // Отображение картинки по URL 
+        public const string Id          = "Id";          // Уникальный идентификатор
+        public const string Apartment   = "Apartment";   // Объект типа Жилье
+        public const string Advert      = "Advert";      // Объект типа Объявление
+        public const string User        = "User";        // Объект типа Пользователь
+        public const string Reservation = "Reservation"; // Объект типа Бронь
+        public const string PropVals    = "PropVals";    // Список объектов типа Значения свойств
+        public const string Lang        = "Lang";        // Код языка
     }
 
     public static class ConstLang
@@ -87,47 +94,68 @@ namespace apartmenthostService.Helpers
 
     public static class ConstDicValsRU
     {
+        public static List<string> GenderList()
+        {
+            List<string> list = new List<string>();
+            list.Add(ConstVals.Male);
+            list.Add(ConstVals.Female);
+            list.Add(ConstVals.Any);
+            return list; 
+        }
         public static List<string> ApartmentTypesList()
         {
             List<string> list = new List<string>();
-            list.Add("DVAL_HOUSE");
-            list.Add("DVAL_FLAT");
-            list.Add("DVAL_ROOM");
-            list.Add("DVAL_OFFICE");
-            list.Add("DVAL_HOTEL_ROOM");
-
+            list.Add(ConstVals.House);
+            list.Add(ConstVals.Flat);
+            list.Add(ConstVals.Room);
+            list.Add(ConstVals.Office);
+            list.Add(ConstVals.HotelRoom);
             return list;
         }
 
         public static List<string> CohabitationTypesList()
         {
             List<string> list = new List<string>();
-            list.Add("DVAL_SEPARATE_RESIDENCE");
-            list.Add("DVAL_COHABITATION");
-
-
+            list.Add(ConstVals.SeperateResidence);
+            list.Add(ConstVals.Cohabitation);
+            list.Add(ConstVals.Any);
             return list;
         }
 
         public static List<string> ApartmentOptionsList()
         {
             List<string> list = new List<string>();
-            list.Add("DVAL_PARKING");
-            list.Add("DVAL_СONCIERGE");
-            list.Add("DVAL_REFRIGERATOR");
-            list.Add("DVAL_WASHING_MACHINE");
-            list.Add("DVAL_AIR_CONDITIONING");
-
-
+            list.Add(ConstVals.Parking);
+            list.Add(ConstVals.Concierge);
+            list.Add(ConstVals.Refrigerator);
+            list.Add(ConstVals.WashingMachine);
+            list.Add(ConstVals.AirConditioning);
             return list;
         }
     }
 
-    public static class ConstReservStatus
+    public static class ConstVals
     {
-        public const string Pending = "Pending";
-        public const string Accepted = "Accepted";
-        public const string Declined = "Declined";
+        public const string Any               = "DVAL_ANY";                //Любой, не важно
+        public const string Pending           = "DVAL_PENDING";            //Ожидает подтверждения
+        public const string Accepted          = "DVAL_ACCEPTED";           //Одобрено
+        public const string Declined          = "DVAL_DECLINED";           //Отклонено
+        public const string Male              = "DVAL_MALE";               //Мужской
+        public const string Female            = "DVAL_FEMALE";             //Женский
+        public const string House             = "DVAL_HOUSE";              //Дом
+        public const string Flat              = "DVAL_FLAT";               //Квартира
+        public const string Room              = "DVAL_ROOM";               //Комната
+        public const string Office            = "DVAL_OFFICE";             //Офис
+        public const string HotelRoom         = "DVAL_HOTEL_ROOM";         //Гостинечный номер
+        public const string SeperateResidence = "DVAL_SEPARATE_RESIDENCE"; //Раздельное проживание
+        public const string Cohabitation      = "DVAL_COHABITATION";       //Совместное проживание
+        public const string Parking           = "DVAL_PARKING";            //Паркова
+        public const string Concierge         = "DVAL_СONCIERGE";          //Консьерж
+        public const string Refrigerator      = "DVAL_REFRIGERATOR";       //Холодильник
+        public const string WashingMachine    = "DVAL_WASHING_MACHINE";    //Стиральная машина
+        public const string AirConditioning   = "DVAL_AIR_CONDITIONING";   //Кондиционер
+
+
 
     }
 }

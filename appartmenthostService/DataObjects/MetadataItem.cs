@@ -9,8 +9,11 @@ namespace apartmenthostService.DataObjects
     {
         public string Id { get; set; }
         public string Name { get; set; }
+        public string LangName { get; set; }
         public string Type { get; set; }
         public string DataType { get; set; }
+        public string Dictionary { get; set; }
+        public bool Multi { get; set; }
         public MetadataRule GetRule { get; set; }
         public MetadataRule PostRule { get; set; }
         public MetadataRule PutRule { get; set; }

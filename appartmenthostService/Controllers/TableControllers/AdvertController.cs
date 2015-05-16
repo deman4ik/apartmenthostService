@@ -35,6 +35,8 @@ namespace apartmenthostService.Controllers
                 DateTo = x.DateTo,
                 PriceDay = x.PriceDay,
                 PricePeriod = x.PricePeriod,
+                Cohabitation = x.Cohabitation,
+                ResidentGender = x.ResidentGender,
                 Lang = x.Lang,
                 User = new UserDTO()
                 {
@@ -48,51 +50,13 @@ namespace apartmenthostService.Controllers
                 {
                     Id = x.Apartment.Id,
                     Name = x.Apartment.Name,
+                    Type = x.Apartment.Type,
+                    Options = x.Apartment.Options,
                     UserId = x.Apartment.UserId,
                     Adress = x.Apartment.Adress,
                     Latitude = x.Apartment.Latitude,
                     Longitude = x.Apartment.Longitude,
-                    PropsVals = x.Apartment.PropVals
-                      .Select(appdto => new PropValDTO()
-                      {
-                          Id = appdto.Id,
-                          PropId = appdto.PropId,
-                          Name = appdto.Prop.Name,
-                          Type = appdto.Prop.Type,
-                          StrValue = appdto.StrValue,
-                          NumValue = appdto.NumValue,
-                          DateValue = appdto.DateValue,
-                          BoolValue = appdto.BoolValue,
-                          DictionaryItemId = appdto.DictionaryItemId,
-                          DictionaryItem = new DictionaryItemDTO()
-                          {
-                              StrValue = appdto.DictionaryItem.StrValue,
-                              NumValue = appdto.DictionaryItem.NumValue,
-                              DateValue = appdto.DictionaryItem.DateValue,
-                              BoolValue = appdto.DictionaryItem.BoolValue
-                          }
-                      }).ToList()
-                },
-                PropsVals = x.PropVals
-                      .Select(pdto => new PropValDTO()
-                      {
-                          Id = pdto.Id,
-                          PropId = pdto.PropId,
-                          Name = pdto.Prop.Name,
-                          Type = pdto.Prop.Type,
-                          StrValue = pdto.StrValue,
-                          NumValue = pdto.NumValue,
-                          DateValue = pdto.DateValue,
-                          BoolValue = pdto.BoolValue,
-                          DictionaryItemId = pdto.DictionaryItemId,
-                          DictionaryItem = new DictionaryItemDTO()
-                          {
-                              StrValue = pdto.DictionaryItem.StrValue,
-                              NumValue = pdto.DictionaryItem.NumValue,
-                              DateValue = pdto.DictionaryItem.DateValue,
-                              BoolValue = pdto.DictionaryItem.BoolValue
-                          }
-                      }).ToList()
+                }
 
             });
         }
@@ -113,6 +77,8 @@ namespace apartmenthostService.Controllers
                 DateTo = x.DateTo,
                 PriceDay = x.PriceDay,
                 PricePeriod = x.PricePeriod,
+                Cohabitation = x.Cohabitation,
+                ResidentGender = x.ResidentGender,
                 Lang = x.Lang,
                 User = new UserDTO()
                 {
@@ -126,51 +92,13 @@ namespace apartmenthostService.Controllers
                 {
                     Id = x.Apartment.Id,
                     Name = x.Apartment.Name,
+                    Type = x.Apartment.Type,
+                    Options = x.Apartment.Options,
                     UserId = x.Apartment.UserId,
                     Adress = x.Apartment.Adress,
                     Latitude = x.Apartment.Latitude,
                     Longitude = x.Apartment.Longitude,
-                    PropsVals = x.Apartment.PropVals
-                      .Select(appdto => new PropValDTO()
-                      {
-                          Id = appdto.Id,
-                          PropId = appdto.PropId,
-                          Name = appdto.Prop.Name,
-                          Type = appdto.Prop.Type,
-                          StrValue = appdto.StrValue,
-                          NumValue = appdto.NumValue,
-                          DateValue = appdto.DateValue,
-                          BoolValue = appdto.BoolValue,
-                          DictionaryItemId = appdto.DictionaryItemId,
-                          DictionaryItem = new DictionaryItemDTO()
-                          {
-                              StrValue = appdto.DictionaryItem.StrValue,
-                              NumValue = appdto.DictionaryItem.NumValue,
-                              DateValue = appdto.DictionaryItem.DateValue,
-                              BoolValue = appdto.DictionaryItem.BoolValue
-                          }
-                      }).ToList()
-                },
-                PropsVals = x.PropVals
-                      .Select(pdto => new PropValDTO()
-                      {
-                          Id = pdto.Id,
-                          PropId = pdto.PropId,
-                          Name = pdto.Prop.Name,
-                          Type = pdto.Prop.Type,
-                          StrValue = pdto.StrValue,
-                          NumValue = pdto.NumValue,
-                          DateValue = pdto.DateValue,
-                          BoolValue = pdto.BoolValue,
-                          DictionaryItemId = pdto.DictionaryItemId,
-                          DictionaryItem = new DictionaryItemDTO()
-                          {
-                              StrValue = pdto.DictionaryItem.StrValue,
-                              NumValue = pdto.DictionaryItem.NumValue,
-                              DateValue = pdto.DictionaryItem.DateValue,
-                              BoolValue = pdto.DictionaryItem.BoolValue
-                          }
-                      }).ToList()
+                }
 
             });
             return SingleResult.Create(result);

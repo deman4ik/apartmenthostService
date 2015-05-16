@@ -48,6 +48,15 @@ namespace apartmenthostService.Controllers
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_REQUIRED, respList));
                 }
 
+                // Check Apartment Type is not NULL
+                if (String.IsNullOrWhiteSpace(apartment.Type))
+                {
+                    respList.Add("Type");
+                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_REQUIRED, respList));
+                }
+
+                // Check Apartment Type Dictionary
+
             // Check Apartment not Exist
             //var currentApartmentCount = context.Apartments.Count(a => a.Name == apartment.Name);
             //    if (currentApartmentCount > 0)
@@ -67,24 +76,24 @@ namespace apartmenthostService.Controllers
                 }
 
             // Check Properties Exists
-            foreach (var propVal in apartment.PropsVals)
-            {
-                var prop = context.Props.AsQueryable().SingleOrDefault(p => p.Id == propVal.PropId);
-                if (prop == null)
-                {
-                    respList.Add(propVal.PropId);
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_PROP_NOTFOUND, respList));
-                }
-                if (propVal.DictionaryItemId != null)
-                {
-                    var dicItem = context.DictionaryItems.SingleOrDefault(di => di.Id == propVal.DictionaryItemId);
-                    if (dicItem == null)
-                    {
-                        respList.Add(propVal.DictionaryItemId);
-                        return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_DICTIONARYITEM_NOTFOUND, respList));
-                    }
-                }
-            }
+            //foreach (var propVal in apartment.PropsVals)
+            //{
+            //    var prop = context.Props.AsQueryable().SingleOrDefault(p => p.Id == propVal.PropId);
+            //    if (prop == null)
+            //    {
+            //        respList.Add(propVal.PropId);
+            //        return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_PROP_NOTFOUND, respList));
+            //    }
+            //    if (propVal.DictionaryItemId != null)
+            //    {
+            //        var dicItem = context.DictionaryItems.SingleOrDefault(di => di.Id == propVal.DictionaryItemId);
+            //        if (dicItem == null)
+            //        {
+            //            respList.Add(propVal.DictionaryItemId);
+            //            return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_DICTIONARYITEM_NOTFOUND, respList));
+            //        }
+            //    }
+            //}
 
             // Generate 
             string apartmentGuid = Guid.NewGuid().ToString();

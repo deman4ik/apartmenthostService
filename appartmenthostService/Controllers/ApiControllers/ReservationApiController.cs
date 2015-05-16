@@ -76,7 +76,7 @@ namespace apartmenthostService.Controllers
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_RESERVATION_UNAVAILABLE_DATE, respList));
                 }
-                var currentReservations = context.Reservations.Where(r => r.AdvertId == reservation.AdvertId && reservation.Status == ConstReservStatus.Accepted);
+                var currentReservations = context.Reservations.Where(r => r.AdvertId == reservation.AdvertId && reservation.Status == ConstVals.Accepted);
                 foreach (var currentReservation in currentReservations)
                 {
                     TimeRange reservedDates = new TimeRange(currentReservation.DateFrom, currentReservation.DateTo);
@@ -95,7 +95,7 @@ namespace apartmenthostService.Controllers
                     Id = reservationGuid,
                     AdvertId = reservation.AdvertId,
                     UserId = account.UserId,
-                    Status = ConstReservStatus.Pending,
+                    Status = ConstVals.Pending,
                     DateFrom = reservation.DateFrom,
                     DateTo = reservation.DateTo
                 });
@@ -162,7 +162,7 @@ namespace apartmenthostService.Controllers
                 }
 
                 //Check status
-                if (reservation.Status == ConstReservStatus.Accepted)
+                if (reservation.Status == ConstVals.Accepted)
                 {
                     // Check Dates
                     if (DateTime.Compare(reservation.DateFrom, reservation.DateTo) >= 0)
@@ -184,7 +184,7 @@ namespace apartmenthostService.Controllers
                         return this.Request.CreateResponse(HttpStatusCode.BadRequest,
                             RespH.Create(RespH.SRV_RESERVATION_UNAVAILABLE_DATE, respList));
                     }
-                    var currentReservations = context.Reservations.Where(r => r.AdvertId == reservation.AdvertId && reservation.Status == ConstReservStatus.Accepted);
+                    var currentReservations = context.Reservations.Where(r => r.AdvertId == reservation.AdvertId && reservation.Status == ConstVals.Accepted);
                     foreach (var currentReserv in currentReservations)
                     {
                         TimeRange reservedDates = new TimeRange(currentReserv.DateFrom, currentReserv.DateTo);

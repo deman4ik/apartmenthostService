@@ -11,9 +11,14 @@ namespace apartmenthostService.Helpers
 {
     public class Helper
     {
-        public static string GetItemName(string name)
+        public static string GetItemLangName(string name)
         {
             return "MD_ITM_" + name.ToUpper();
+        }
+
+        public static string GetObjectLangName(string name)
+        {
+            return "MD_OBJ_" + name.ToUpper();
         }
         public static string GetTypeName(PropertyInfo type)
         {

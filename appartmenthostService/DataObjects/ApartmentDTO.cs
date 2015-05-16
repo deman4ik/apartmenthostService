@@ -12,11 +12,11 @@ namespace apartmenthostService.DataObjects
     // Жилье
     public class ApartmentDTO
     {
-        public ApartmentDTO()
-        {
-            this.PropsVals = new List<PropValDTO>();
-        }
-        // [GET][PUT][DELETE] - {Uniq}{NN} - Уникальный идентификатор(Apartment)
+        //public ApartmentDTO()
+        //{
+        //    this.PropsVals = new List<PropValDTO>();
+        //}
+        // Уникальный идентификатор
         [Metadata(DataType = ConstDataType.Id)]
         [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PostRule(Order = 0,RequiredForm = false,RequiredTransfer = false, Visible = false)]
@@ -24,7 +24,7 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0,RequiredForm = false, RequiredTransfer = true, Visible = false)]
         public string Id { get; set; }
 
-        // [GET][POST][PUT] - {NN} - Наименование жилья
+        // Наименование жилья
         [Metadata(DataType = ConstDataType.Text)]
         [GetRule(Order = 1, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PostRule(Order = 1, RequiredForm = true, RequiredTransfer = true, Visible = true)]
@@ -32,7 +32,23 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string Name { get; set; }
 
-        // [GET][POST][PUT] - {NN} - Уникальный идентификатор пользователя(User)
+        // Тип жилья
+        [Metadata(DataType = ConstDataType.List, Dictionary = ConstDictionary.ApartmentType)]
+        [GetRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 2, RequiredForm = true, RequiredTransfer = true, Visible = true)]
+        [PutRule(Order = 2, RequiredForm = true, RequiredTransfer = false, Visible = true)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public string Type { get; set; }
+
+        // Дополнительные параметры
+        [Metadata(DataType = ConstDataType.Multibox, Dictionary = ConstDictionary.ApartmentOptions, Multi = true)]
+        [GetRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PutRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public string Options { get; set; }
+
+        // Уникальный идентификатор пользователя(User)
         [Metadata(DataType = ConstDataType.Id)]
         [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
@@ -40,7 +56,7 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string UserId { get; set; }
 
-        // [GET][POST][PUT] - {NN} - Адрес жилья
+        // Адрес жилья
         [Metadata(DataType = ConstDataType.Adress)]
         [GetRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PostRule(Order = 2, RequiredForm = true, RequiredTransfer = true, Visible = true)]
@@ -48,7 +64,7 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string Adress { get; set; }
 
-        // [GET][POST][PUT] - {NN} - Координаты Широта
+        // Координаты Широта
         [Metadata(DataType = null)]
         [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
@@ -56,7 +72,7 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public decimal? Latitude { get; set; }
 
-        // [GET][POST][PUT] - {NN} - Координаты Долгота
+        // Координаты Долгота
         [Metadata(DataType = null)]
         [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
@@ -64,7 +80,7 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public decimal? Longitude { get; set; }
 
-        // [GET][POST][PUT] - {NN} - Язык
+        // Язык
         [Metadata(DataType = ConstDataType.Lang)]
         [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
@@ -72,7 +88,7 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string Lang { get; set; }
 
-        // [GET] - Дата и Время создания объекта
+        // Дата и Время создания объекта
         [Metadata(DataType = ConstDataType.Date)]
         [GetRule(Order = 3, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PostRule(Order = 3, RequiredForm = false, RequiredTransfer = false, Visible = false)]
@@ -80,7 +96,7 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public DateTimeOffset? CreatedAt { get; set; }
 
-        // [GET] - Дата и Время изменения объекта
+        // Дата и Время изменения объекта
         [Metadata(DataType = ConstDataType.Date)]
         [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
@@ -88,12 +104,12 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public DateTimeOffset? UpdatedAt { get; set; }
 
-        // [GET][POST][PUT] - {NN} -Список дополнительных колонок(PropVal)
-        [Metadata(DataType = ConstDataType.PropVals)]
-        [GetRule(Order = 4, RequiredForm = false, RequiredTransfer = true, Visible = true)]
-        [PostRule(Order = 4, RequiredForm = true, RequiredTransfer = true, Visible = true)]
-        [PutRule(Order = 4, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        public ICollection<PropValDTO> PropsVals { get; set; } 
+        // Список дополнительных колонок(PropVal)
+        //[Metadata(DataType = ConstDataType.PropVals)]
+        //[GetRule(Order = 4, RequiredForm = false, RequiredTransfer = true, Visible = true)]
+        //[PostRule(Order = 4, RequiredForm = true, RequiredTransfer = true, Visible = true)]
+        //[PutRule(Order = 4, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        //[DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        //public ICollection<PropValDTO> PropsVals { get; set; } 
     }
 }

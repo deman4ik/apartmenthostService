@@ -29,6 +29,10 @@ namespace apartmenthostService.Models
         public decimal PriceDay { get; set; }
 
         public decimal PricePeriod { get; set; }
+
+        public string Cohabitation { get; set; }
+
+        public string ResidentGender { get; set; }
         
         public string Lang { get; set; }
 

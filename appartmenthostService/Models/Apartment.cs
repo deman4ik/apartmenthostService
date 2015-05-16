@@ -16,6 +16,10 @@ namespace apartmenthostService.Models
         
         public string Name { get; set; }
 
+        public string Type { get; set; }
+
+        public string Options { get; set; }
+
         public string UserId { get; set; }
 
         public string Adress { get; set; }

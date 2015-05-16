@@ -40,34 +40,15 @@ namespace apartmenthostService.Controllers
             {
                 Id = x.Id,
                 Name = x.Name,
+                Type = x.Type,
+                Options = x.Options,
                 UserId = x.UserId,
                 Adress = x.Adress,
                 Latitude = x.Latitude,
                 Longitude = x.Longitude,
                 Lang = x.Lang,
                 CreatedAt = x.CreatedAt,
-                UpdatedAt = x.UpdatedAt,
-                PropsVals = x.PropVals
-                        .Select(pdto => new PropValDTO()
-                          {
-                              Id = pdto.Id,
-                              PropId = pdto.PropId,
-                            Name = pdto.Prop.Name,
-                            Type = pdto.Prop.Type,
-                            StrValue = pdto.StrValue,
-                            NumValue = pdto.NumValue,
-                            DateValue = pdto.DateValue,
-                            BoolValue = pdto.BoolValue,
-                            DictionaryItemId = pdto.DictionaryItemId,
-                            DictionaryItem = new DictionaryItemDTO()
-                            {
-                                StrValue = pdto.DictionaryItem.StrValue,
-                                NumValue = pdto.DictionaryItem.NumValue,
-                                DateValue = pdto.DictionaryItem.DateValue,
-                                BoolValue = pdto.DictionaryItem.BoolValue
-                            }  
-                          }).ToList()
-
+                UpdatedAt = x.UpdatedAt
             });
            
         }
@@ -86,60 +67,19 @@ namespace apartmenthostService.Controllers
             {
                 Id = x.Id,
                 Name = x.Name,
+                Type = x.Type,
+                Options = x.Options,
                 UserId = x.UserId,
                 Adress = x.Adress,
                 Latitude = x.Latitude,
                 Longitude = x.Longitude,
                 Lang = x.Lang,
                 CreatedAt = x.CreatedAt,
-                UpdatedAt = x.UpdatedAt,
-                PropsVals = x.PropVals
-                        .Select(pdto => new PropValDTO()
-                        {
-                            Id = pdto.Id,
-                            PropId = pdto.PropId,
-                            Name = pdto.Prop.Name,
-                            Type = pdto.Prop.Type,
-                            StrValue = pdto.StrValue,
-                            NumValue = pdto.NumValue,
-                            DateValue = pdto.DateValue,
-                            BoolValue = pdto.BoolValue,
-                            DictionaryItemId = pdto.DictionaryItemId,
-                            DictionaryItem = new DictionaryItemDTO()
-                            {
-                                StrValue = pdto.DictionaryItem.StrValue,
-                                NumValue = pdto.DictionaryItem.NumValue,
-                                DateValue = pdto.DictionaryItem.DateValue,
-                                BoolValue = pdto.DictionaryItem.BoolValue
-                            }
-                        }).ToList()
+                UpdatedAt = x.UpdatedAt
 
             });
             return SingleResult.Create(result);
         }
-
-
-        // // PATCH tables/Apartment/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        //[AuthorizeLevel(AuthorizationLevel.User)]
-        //public Task<Apartment> PatchApartment(string id, Delta<Apartment> patch)
-        //{
-        //    return UpdateAsync(id, patch);
-        //}
-
-        //// POST tables/Apartment
-        //[AuthorizeLevel(AuthorizationLevel.User)]
-        //public async Task<IHttpActionResult> PostApartment(Apartment item)
-        //{
-        //    Apartment current = await InsertAsync(item);
-        //    return CreatedAtRoute("Tables", new { id = current.Id }, current);
-        //}
-
-        //// DELETE tables/Apartment/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        //[AuthorizeLevel(AuthorizationLevel.User)]
-        //public Task DeleteApartment(string id)
-        //{
-        //     return DeleteAsync(id);
-        //}
 
     }
 }

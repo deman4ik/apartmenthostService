@@ -254,17 +254,22 @@ namespace apartmenthostService.App_Start
                 new Dictionary()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = ConstProp.ApartmentType
+                    Name = ConstDictionary.ApartmentOptions
                 },
                 new Dictionary()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = ConstProp.CohabitationType
+                    Name = ConstDictionary.ApartmentType
                 },
                  new Dictionary()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = ConstProp.ApartmentOptions
+                    Name = ConstDictionary.Cohabitation
+                },
+                new Dictionary()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = ConstDictionary.Gender
                 },
             };
 
@@ -278,7 +283,7 @@ namespace apartmenthostService.App_Start
         {
             List<DictionaryItem> dictionaryItems = new List<DictionaryItem>();
             //ApartmentType
-            Dictionary apartmentTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.ApartmentType);
+            Dictionary apartmentTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstDictionary.ApartmentType);
             foreach (var apartmentType in ConstDicValsRU.ApartmentTypesList())
             {
                 dictionaryItems.Add(new DictionaryItem()
@@ -289,7 +294,7 @@ namespace apartmenthostService.App_Start
                 });
             }
             //CohabitationType
-            Dictionary cohabitationTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.CohabitationType);
+            Dictionary cohabitationTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstDictionary.Cohabitation);
             foreach (var cohabitationType in ConstDicValsRU.CohabitationTypesList())
             {
                 dictionaryItems.Add(new DictionaryItem()
@@ -301,7 +306,7 @@ namespace apartmenthostService.App_Start
             }
 
             //ApartmentOptions
-            Dictionary apartmentOptionDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstProp.ApartmentOptions);
+            Dictionary apartmentOptionDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstDictionary.ApartmentOptions);
             foreach (var apartmentOption in ConstDicValsRU.ApartmentOptionsList())
             {
                 dictionaryItems.Add(new DictionaryItem()
@@ -309,6 +314,22 @@ namespace apartmenthostService.App_Start
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = apartmentOptionDic.Id,
                     StrValue = apartmentOption
+                });
+            }
+            foreach (var dictonaryItem in dictionaryItems)
+            {
+                context.Set<DictionaryItem>().Add(dictonaryItem);
+            }
+
+            //Gender
+            Dictionary genderDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstDictionary.Gender);
+            foreach (var gender in ConstDicValsRU.GenderList())
+            {
+                dictionaryItems.Add(new DictionaryItem()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    DictionaryId = apartmentOptionDic.Id,
+                    StrValue = gender
                 });
             }
             foreach (var dictonaryItem in dictionaryItems)
