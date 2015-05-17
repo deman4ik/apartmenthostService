@@ -40,6 +40,7 @@ namespace apartmenthostService.Models
         public DbSet<PropVal> PropVals { get; set; }
         public DbSet<Dictionary> Dictionaries { get; set; }
         public DbSet<DictionaryItem> DictionaryItems { get; set; }
+        public DbSet<Article> Article { get; set; }
         
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -181,11 +182,11 @@ namespace apartmenthostService.Models
                 .WillCascadeOnDelete(false);
 
             // Reservation
-            modelBuilder.Entity<Reservation>()
-                .HasMany<ReservationComment>(s => s.Comments)
-                .WithRequired(s => s.Reservation)
-                .HasForeignKey(s => s.ReservationId)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Reservation>()
+            //    .HasMany<ReservationComment>(s => s.Comments)
+            //    .WithRequired(s => s.Reservation)
+            //    .HasForeignKey(s => s.ReservationId)
+            //    .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Reservation>()
                 .HasMany<PropVal>(s => s.PropVals)
