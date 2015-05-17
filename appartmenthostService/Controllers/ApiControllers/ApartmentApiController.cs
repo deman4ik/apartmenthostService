@@ -35,6 +35,9 @@ namespace apartmenthostService.Controllers
 
 
             // Check Apartment Name is not NULL
+                ResponseDTO resp = CheckHelper.isNull(apartment.Name, "Name", RespH.SRV_APARTMENT_REQUIRED);
+                if (resp != null)
+                { return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp); }
                 if (String.IsNullOrWhiteSpace(apartment.Name))
                 {
                     respList.Add("Name");
@@ -101,23 +104,13 @@ namespace apartmenthostService.Controllers
             {
                 Id = apartmentGuid,
                 Name = apartment.Name,
+                Type = apartment.Type,
+                Options = apartment.Options,
                 UserId = account.UserId,
                 Adress = apartment.Adress,
                 Latitude = apartment.Latitude,
                 Longitude = apartment.Longitude,
-                Lang = apartment.Lang,
-                PropVals = apartment.PropsVals.Select(pv => new PropVal()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    PropId = pv.PropId,
-                    ApartmentItemId = apartmentGuid,
-                    StrValue = pv.StrValue,
-                    NumValue = pv.NumValue,
-                    DateValue = pv.DateValue,
-                    BoolValue = pv.BoolValue,
-                    DictionaryItemId = pv.DictionaryItemId,
-                    Lang = apartment.Lang
-                }).ToList()
+                Lang = apartment.Lang
 
             });
 
@@ -207,47 +200,49 @@ namespace apartmenthostService.Controllers
 
                   
                  // Check Properties Exists
-                 foreach (var propVal in apartment.PropsVals)
-                 {
-                     var prop = context.Props.AsQueryable().SingleOrDefault(p => p.Id == propVal.PropId);
-                     if (prop == null)
-                     {
-                         respList.Add(propVal.PropId);
-                         return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_PROP_NOTFOUND, respList));
-                      }
+                 //foreach (var propVal in apartment.PropsVals)
+                 //{
+                 //    var prop = context.Props.AsQueryable().SingleOrDefault(p => p.Id == propVal.PropId);
+                 //    if (prop == null)
+                 //    {
+                 //        respList.Add(propVal.PropId);
+                 //        return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_PROP_NOTFOUND, respList));
+                 //     }
 
-                     if (propVal.DictionaryItemId != null)
-                     {
-                         var dicItem = context.DictionaryItems.SingleOrDefault(di => di.Id == propVal.DictionaryItemId);
-                         if (dicItem == null)
-                         {
-                             respList.Add(propVal.DictionaryItemId);
-                             return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_DICTIONARYITEM_NOTFOUND, respList));
-                         }
-                     }
-                 }
-                     // Update PropVals
-                 foreach (var propVal in apartment.PropsVals)
-                 {
-                     var propValCurrent = context.PropVals.SingleOrDefault(pv => pv.Id == propVal.Id);
-                     if (propValCurrent == null)
-                     {
-                         respList.Add(propVal.Id);
-                         return
-                         this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_PROPVAL_NOTFOUND, respList));
-                    }
-                     propValCurrent.StrValue = propVal.StrValue;
-                     propValCurrent.NumValue = propVal.NumValue;
-                     propValCurrent.DateValue = propVal.DateValue;
-                     propValCurrent.BoolValue = propVal.BoolValue;
-                     propValCurrent.DictionaryItemId = propVal.DictionaryItemId;
-                     propValCurrent.Lang = apartment.Lang;
-                     context.SaveChanges();
-                 }
+                 //    if (propVal.DictionaryItemId != null)
+                 //    {
+                 //        var dicItem = context.DictionaryItems.SingleOrDefault(di => di.Id == propVal.DictionaryItemId);
+                 //        if (dicItem == null)
+                 //        {
+                 //            respList.Add(propVal.DictionaryItemId);
+                 //            return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_DICTIONARYITEM_NOTFOUND, respList));
+                 //        }
+                 //    }
+                 //}
+                 //    // Update PropVals
+                 //foreach (var propVal in apartment.PropsVals)
+                 //{
+                 //    var propValCurrent = context.PropVals.SingleOrDefault(pv => pv.Id == propVal.Id);
+                 //    if (propValCurrent == null)
+                 //    {
+                 //        respList.Add(propVal.Id);
+                 //        return
+                 //        this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_PROPVAL_NOTFOUND, respList));
+                 //   }
+                 //    propValCurrent.StrValue = propVal.StrValue;
+                 //    propValCurrent.NumValue = propVal.NumValue;
+                 //    propValCurrent.DateValue = propVal.DateValue;
+                 //    propValCurrent.BoolValue = propVal.BoolValue;
+                 //    propValCurrent.DictionaryItemId = propVal.DictionaryItemId;
+                 //    propValCurrent.Lang = apartment.Lang;
+                 //    context.SaveChanges();
+                 //}
 
                  // Update Apartment
                  apartmentCurrent.Name = apartment.Name;
                  apartmentCurrent.Adress = apartment.Adress;
+                 apartmentCurrent.Type = apartment.Type;
+                 apartmentCurrent.Options = apartment.Options;
                  apartmentCurrent.Latitude = apartment.Latitude;
                  apartmentCurrent.Longitude = apartment.Longitude;
                  apartmentCurrent.Lang = apartment.Lang;

@@ -7,10 +7,10 @@ namespace apartmenthostService.DataObjects
 {
     public class UserDTO
     {
-        public UserDTO()
-        {
-            this.PropsVals = new List<PropValDTO>();
-        }
+        //public UserDTO()
+        //{
+        //    this.PropsVals = new List<PropValDTO>();
+        //}
         // Уникальный идентификатор(User)
         [Metadata(DataType = ConstDataType.Id)]
         [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]

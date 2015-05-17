@@ -44,26 +44,26 @@ namespace apartmenthostService.Controllers
             Metadata metadata = new Metadata
             {
                 Name = objectType,
-                LangName = Helper.GetObjectLangName(objectType),
+                LangName = MetaHelper.GetObjectLangName(objectType),
                 Items = type.GetProperties().Select(prop => new MetadataItem()
                 {
                     Name = prop.Name,
-                    LangName = Helper.GetItemLangName(prop.Name),
-                    Type = Helper.GetTypeName(prop),
+                    LangName = MetaHelper.GetItemLangName(prop.Name),
+                    Type = MetaHelper.GetTypeName(prop),
                     DataType =
                         (string)
-                            Helper.GetAttributeValue(type, prop.Name, typeof(MetadataAttribute),
+                            MetaHelper.GetAttributeValue(type, prop.Name, typeof(MetadataAttribute),
                                 ConstMetaDataProp.DataType),
                     Dictionary = (string)
-                Helper.GetAttributeValue(type, prop.Name, typeof(MetadataAttribute),
+                MetaHelper.GetAttributeValue(type, prop.Name, typeof(MetadataAttribute),
                     ConstMetaDataProp.Dictionary),
-                    Multi = (bool)Helper.GetAttributeValue(type, prop.Name, typeof(MetadataAttribute),
+                    Multi = (bool)MetaHelper.GetAttributeValue(type, prop.Name, typeof(MetadataAttribute),
                     ConstMetaDataProp.Multi),
                     GetRule = GetMetadataRule(type,typeof(GetRuleAttribute),prop.Name),
                     PostRule = GetMetadataRule(type, typeof(PostRuleAttribute), prop.Name),
                     PutRule = GetMetadataRule(type, typeof(PutRuleAttribute), prop.Name),
                     DeleteRule = GetMetadataRule(type, typeof(DeleteRuleAttribute), prop.Name),
-                    Metadata = GetSubMetadata(Helper.GetTypeName(prop), objectType)
+                    Metadata = GetSubMetadata(MetaHelper.GetTypeName(prop), objectType)
                 }).ToList()
             };
             return metadata;
@@ -132,13 +132,13 @@ namespace apartmenthostService.Controllers
         {
             return new MetadataRule()
             {
-                Order = (int)Helper.GetAttributeValue(objType, propName, atrType,
+                Order = (int)MetaHelper.GetAttributeValue(objType, propName, atrType,
                                 ConstMetaDataProp.Order),
-                RequiredForm = (bool)Helper.GetAttributeValue(objType, propName, atrType,
+                RequiredForm = (bool)MetaHelper.GetAttributeValue(objType, propName, atrType,
                 ConstMetaDataProp.RequiredForm),
-                RequiredTransfer = (bool)Helper.GetAttributeValue(objType, propName, atrType,
+                RequiredTransfer = (bool)MetaHelper.GetAttributeValue(objType, propName, atrType,
                 ConstMetaDataProp.RequiredTransfer),
-                Visible = (bool)Helper.GetAttributeValue(objType, propName, atrType,
+                Visible = (bool)MetaHelper.GetAttributeValue(objType, propName, atrType,
                 ConstMetaDataProp.Visible)
 
             };

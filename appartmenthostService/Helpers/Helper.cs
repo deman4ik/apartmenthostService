@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace apartmenthostService.Helpers
 {
-    public class Helper
+    public class MetaHelper
     {
         public static string GetItemLangName(string name)
         {
@@ -72,5 +72,18 @@ namespace apartmenthostService.Helpers
         }
     }
 
+    public class CheckHelper
+    {
+        public static ResponseDTO isNull(string item, string itemName, string errType)
+        {
+            if (String.IsNullOrWhiteSpace(item))
+            {
+                var respList = new List<string>();
+                respList.Add(itemName);
+                return RespH.Create(errType, respList);
+            }
+            return null;
+        }
+    }
    
 }

@@ -122,24 +122,24 @@ namespace apartmenthostService.Controllers
                 }
 
                 // Check Properties Exists
-                foreach (var propVal in advert.PropsVals)
-                {
-                    var prop = context.Props.AsQueryable().SingleOrDefault(p => p.Id == propVal.PropId);
-                    if (prop == null)
-                    {
-                        respList.Add(propVal.PropId);
-                        return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_PROP_NOTFOUND, respList));
-                    }
-                    if (propVal.DictionaryItemId != null)
-                    {
-                        var dicItem = context.DictionaryItems.SingleOrDefault(di => di.Id == propVal.DictionaryItemId);
-                        if (dicItem == null)
-                        {
-                            respList.Add(propVal.DictionaryItemId);
-                            return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_DICTIONARYITEM_NOTFOUND, respList));
-                        }
-                    }
-                }
+                //foreach (var propVal in advert.PropsVals)
+                //{
+                //    var prop = context.Props.AsQueryable().SingleOrDefault(p => p.Id == propVal.PropId);
+                //    if (prop == null)
+                //    {
+                //        respList.Add(propVal.PropId);
+                //        return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_PROP_NOTFOUND, respList));
+                //    }
+                //    if (propVal.DictionaryItemId != null)
+                //    {
+                //        var dicItem = context.DictionaryItems.SingleOrDefault(di => di.Id == propVal.DictionaryItemId);
+                //        if (dicItem == null)
+                //        {
+                //            respList.Add(propVal.DictionaryItemId);
+                //            return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_DICTIONARYITEM_NOTFOUND, respList));
+                //        }
+                //    }
+                //}
 
                 // Check Apartment Exists
                 //if (String.IsNullOrWhiteSpace(advert.ApartmentId))
@@ -165,24 +165,24 @@ namespace apartmenthostService.Controllers
                 }
 
                 // Check Properties Exists
-                foreach (var propVal in advert.Apartment.PropsVals)
-                {
-                    var prop = context.Props.AsQueryable().SingleOrDefault(p => p.Id == propVal.PropId);
-                    if (prop == null)
-                    {
-                        respList.Add(propVal.PropId);
-                        return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_PROP_NOTFOUND, respList));
-                    }
-                    if (propVal.DictionaryItemId != null)
-                    {
-                        var dicItem = context.DictionaryItems.SingleOrDefault(di => di.Id == propVal.DictionaryItemId);
-                        if (dicItem == null)
-                        {
-                            respList.Add(propVal.DictionaryItemId);
-                            return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_DICTIONARYITEM_NOTFOUND, respList));
-                        }
-                    }
-                }
+                //foreach (var propVal in advert.Apartment.PropsVals)
+                //{
+                //    var prop = context.Props.AsQueryable().SingleOrDefault(p => p.Id == propVal.PropId);
+                //    if (prop == null)
+                //    {
+                //        respList.Add(propVal.PropId);
+                //        return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_PROP_NOTFOUND, respList));
+                //    }
+                //    if (propVal.DictionaryItemId != null)
+                //    {
+                //        var dicItem = context.DictionaryItems.SingleOrDefault(di => di.Id == propVal.DictionaryItemId);
+                //        if (dicItem == null)
+                //        {
+                //            respList.Add(propVal.DictionaryItemId);
+                //            return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_DICTIONARYITEM_NOTFOUND, respList));
+                //        }
+                //    }
+                //}
 
                 // Generate 
                 string advertGuid = Guid.NewGuid().ToString();
@@ -198,28 +198,20 @@ namespace apartmenthostService.Controllers
                     DateTo = advert.DateTo,
                     PriceDay = advert.PriceDay,
                     PricePeriod = advert.PricePeriod,
+                    Cohabitation = advert.Cohabitation,
+                    ResidentGender = advert.ResidentGender,
                     Lang = advert.Lang,
                     Apartment = new Apartment()
                     {
                         Id = apartmentGuid,
                         Name = advert.Apartment.Name,
+                        Type = advert.Apartment.Type,
+                        Options = advert.Apartment.Options,
                         UserId = account.UserId,
                         Adress = advert.Apartment.Adress,
                         Latitude = advert.Apartment.Latitude,
                         Longitude = advert.Apartment.Longitude,
-                        Lang = advert.Lang,
-                        PropVals = advert.Apartment.PropsVals.Select(pv => new PropVal()
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            PropId = pv.PropId,
-                            ApartmentItemId = apartmentGuid,
-                            StrValue = pv.StrValue,
-                            NumValue = pv.NumValue,
-                            DateValue = pv.DateValue,
-                            BoolValue = pv.BoolValue,
-                            DictionaryItemId = pv.DictionaryItemId,
-                            Lang = advert.Lang
-                        }).ToList()
+                        Lang = advert.Lang
 
                     }
                 });
@@ -298,24 +290,24 @@ namespace apartmenthostService.Controllers
                 }
 
                 // Check Properties Exists
-                foreach (var propVal in advert.PropsVals)
-                {
-                    var prop = context.Props.AsQueryable().SingleOrDefault(p => p.Id == propVal.PropId);
-                    if (prop == null)
-                    {
-                        respList.Add(propVal.PropId);
-                        return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_PROP_NOTFOUND, respList));
-                    }
-                    if (propVal.DictionaryItemId != null)
-                    {
-                        var dicItem = context.DictionaryItems.SingleOrDefault(di => di.Id == propVal.DictionaryItemId);
-                        if (dicItem == null)
-                        {
-                            respList.Add(propVal.DictionaryItemId);
-                            return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_DICTIONARYITEM_NOTFOUND, respList));
-                        }
-                    }
-                }
+                //foreach (var propVal in advert.PropsVals)
+                //{
+                //    var prop = context.Props.AsQueryable().SingleOrDefault(p => p.Id == propVal.PropId);
+                //    if (prop == null)
+                //    {
+                //        respList.Add(propVal.PropId);
+                //        return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_PROP_NOTFOUND, respList));
+                //    }
+                //    if (propVal.DictionaryItemId != null)
+                //    {
+                //        var dicItem = context.DictionaryItems.SingleOrDefault(di => di.Id == propVal.DictionaryItemId);
+                //        if (dicItem == null)
+                //        {
+                //            respList.Add(propVal.DictionaryItemId);
+                //            return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_DICTIONARYITEM_NOTFOUND, respList));
+                //        }
+                //    }
+                //}
 
                 
 
@@ -351,61 +343,61 @@ namespace apartmenthostService.Controllers
                  }
 
                  // Check Properties Exists
-                 foreach (var propVal in advert.Apartment.PropsVals)
-                 {
-                     var prop = context.Props.AsQueryable().SingleOrDefault(p => p.Id == propVal.PropId);
-                     if (prop == null)
-                     {
-                         respList.Add(propVal.PropId);
-                         return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_PROP_NOTFOUND, respList));
-                     }
-                     if (propVal.DictionaryItemId != null)
-                     {
-                         var dicItem = context.DictionaryItems.SingleOrDefault(di => di.Id == propVal.DictionaryItemId);
-                         if (dicItem == null)
-                         {
-                             respList.Add(propVal.DictionaryItemId);
-                             return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_DICTIONARYITEM_NOTFOUND, respList));
-                         }
-                     }
-                 }
+                 //foreach (var propVal in advert.Apartment.PropsVals)
+                 //{
+                 //    var prop = context.Props.AsQueryable().SingleOrDefault(p => p.Id == propVal.PropId);
+                 //    if (prop == null)
+                 //    {
+                 //        respList.Add(propVal.PropId);
+                 //        return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_PROP_NOTFOUND, respList));
+                 //    }
+                 //    if (propVal.DictionaryItemId != null)
+                 //    {
+                 //        var dicItem = context.DictionaryItems.SingleOrDefault(di => di.Id == propVal.DictionaryItemId);
+                 //        if (dicItem == null)
+                 //        {
+                 //            respList.Add(propVal.DictionaryItemId);
+                 //            return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_DICTIONARYITEM_NOTFOUND, respList));
+                 //        }
+                 //    }
+                 //}
                 // Update Advert PropVals
-                foreach (var propVal in advert.PropsVals)
-                {
-                    var propValCurrent = context.PropVals.SingleOrDefault(pv => pv.Id == propVal.Id);
-                    if (propValCurrent == null)
-                    {
-                        respList.Add(propVal.Id);
-                        return
-                        this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ADVERT_PROPVAL_NOTFOUND, respList));
-                    }
-                    propValCurrent.StrValue = propVal.StrValue;
-                    propValCurrent.NumValue = propVal.NumValue;
-                    propValCurrent.DateValue = propVal.DateValue;
-                    propValCurrent.BoolValue = propVal.BoolValue;
-                    propValCurrent.DictionaryItemId = propVal.DictionaryItemId;
-                    propValCurrent.Lang = advert.Lang;
-                    context.SaveChanges();
-                }
+                //foreach (var propVal in advert.PropsVals)
+                //{
+                //    var propValCurrent = context.PropVals.SingleOrDefault(pv => pv.Id == propVal.Id);
+                //    if (propValCurrent == null)
+                //    {
+                //        respList.Add(propVal.Id);
+                //        return
+                //        this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ADVERT_PROPVAL_NOTFOUND, respList));
+                //    }
+                //    propValCurrent.StrValue = propVal.StrValue;
+                //    propValCurrent.NumValue = propVal.NumValue;
+                //    propValCurrent.DateValue = propVal.DateValue;
+                //    propValCurrent.BoolValue = propVal.BoolValue;
+                //    propValCurrent.DictionaryItemId = propVal.DictionaryItemId;
+                //    propValCurrent.Lang = advert.Lang;
+                //    context.SaveChanges();
+                //}
 
                 // Update Apartment PropVals
-                foreach (var propVal in advert.Apartment.PropsVals)
-                {
-                    var propValCurrent = context.PropVals.SingleOrDefault(pv => pv.Id == propVal.Id);
-                    if (propValCurrent == null)
-                    {
-                        respList.Add(propVal.Id);
-                        return
-                        this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ADVERT_PROPVAL_NOTFOUND, respList));
-                    }
-                    propValCurrent.StrValue = propVal.StrValue;
-                    propValCurrent.NumValue = propVal.NumValue;
-                    propValCurrent.DateValue = propVal.DateValue;
-                    propValCurrent.BoolValue = propVal.BoolValue;
-                    propValCurrent.DictionaryItemId = propVal.DictionaryItemId;
-                    propValCurrent.Lang = advert.Lang;
-                    context.SaveChanges();
-                }
+                //foreach (var propVal in advert.Apartment.PropsVals)
+                //{
+                //    var propValCurrent = context.PropVals.SingleOrDefault(pv => pv.Id == propVal.Id);
+                //    if (propValCurrent == null)
+                //    {
+                //        respList.Add(propVal.Id);
+                //        return
+                //        this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ADVERT_PROPVAL_NOTFOUND, respList));
+                //    }
+                //    propValCurrent.StrValue = propVal.StrValue;
+                //    propValCurrent.NumValue = propVal.NumValue;
+                //    propValCurrent.DateValue = propVal.DateValue;
+                //    propValCurrent.BoolValue = propVal.BoolValue;
+                //    propValCurrent.DictionaryItemId = propVal.DictionaryItemId;
+                //    propValCurrent.Lang = advert.Lang;
+                //    context.SaveChanges();
+                //}
 
                 // Update Advert
                 advertCurrent.Name = advert.Name;
@@ -414,9 +406,13 @@ namespace apartmenthostService.Controllers
                 advertCurrent.DateTo = advert.DateTo;
                 advertCurrent.PriceDay = advertCurrent.PriceDay;
                 advertCurrent.PricePeriod = advertCurrent.PricePeriod;
+                advertCurrent.Cohabitation = advertCurrent.Cohabitation;
+                advertCurrent.ResidentGender = advertCurrent.ResidentGender;
 
                 // Update Apartment
                 advertCurrent.Apartment.Name = apartment.Name;
+                advertCurrent.Apartment.Type = apartment.Type;
+                advertCurrent.Apartment.Options = apartment.Options;
                 advertCurrent.Apartment.Adress = apartment.Adress;
                 advertCurrent.Apartment.Latitude = apartment.Latitude;
                 advertCurrent.Apartment.Longitude = apartment.Longitude;
@@ -484,7 +480,7 @@ namespace apartmenthostService.Controllers
                     respList.Add(id);
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NOTFOUND, respList));
                 }
-                // Delete Advert with PropVals
+                // Delete Advert
                 context.Adverts.Remove(advert);
                 context.SaveChanges();
                 context.Apartments.Remove(apartment);
