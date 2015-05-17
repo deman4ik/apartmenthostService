@@ -97,6 +97,7 @@ namespace apartmenthostService.Helpers
                 respList.Add(name);
                 return RespH.Create(RespH.SRV_ADVERT_EXISTS, respList);
             }
+            return null;
         }
         public static ResponseDTO isValidDicItem(apartmenthostContext context, string item, string dicName, string itemName, string errType)
         {
