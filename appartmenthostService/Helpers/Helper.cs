@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Models;
@@ -70,6 +71,8 @@ namespace apartmenthostService.Helpers
 
             return null;
         }
+
+        
     }
 
     public class CheckHelper

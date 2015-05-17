@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CodeDom;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using apartmenthostService.Attributes;
@@ -63,6 +64,9 @@ namespace apartmenthostService.Controllers
                     PostRule = GetMetadataRule(type, typeof(PostRuleAttribute), prop.Name),
                     PutRule = GetMetadataRule(type, typeof(PutRuleAttribute), prop.Name),
                     DeleteRule = GetMetadataRule(type, typeof(DeleteRuleAttribute), prop.Name),
+                    DictionaryItems = GetDictionaryItems((string)
+                MetaHelper.GetAttributeValue(type, prop.Name, typeof(MetadataAttribute),
+                    ConstMetaDataProp.Dictionary)),
                     Metadata = GetSubMetadata(MetaHelper.GetTypeName(prop), objectType)
                 }).ToList()
             };
@@ -126,6 +130,22 @@ namespace apartmenthostService.Controllers
                 default:
                     return null;
             }
+        }
+
+        private List<DictionaryItemDTO> GetDictionaryItems(string dictionaryName)
+        {
+            if (!String.IsNullOrWhiteSpace(dictionaryName))
+            {
+                return context.DictionaryItems.Where(di => di.Dictionary.Name == dictionaryName)
+                    .Select(dicitem => new DictionaryItemDTO()
+                    {
+                        StrValue = dicitem.StrValue,
+                        NumValue = dicitem.NumValue,
+                        DateValue = dicitem.DateValue,
+                        BoolValue = dicitem.BoolValue,
+                    }).ToList();
+            }
+            return null;
         }
 
         private MetadataRule GetMetadataRule(Type objType, Type atrType, string propName)
