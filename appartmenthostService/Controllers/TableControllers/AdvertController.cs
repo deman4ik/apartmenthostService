@@ -2,6 +2,7 @@
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using apartmenthostService.DataObjects;
+using apartmenthostService.Helpers;
 using Microsoft.WindowsAzure.Mobile.Service;
 using apartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
@@ -56,7 +57,22 @@ namespace apartmenthostService.Controllers
                     Adress = x.Apartment.Adress,
                     Latitude = x.Apartment.Latitude,
                     Longitude = x.Apartment.Longitude,
-                }
+                },
+                ApprovedReservations = context.Reservations.Where(r => r.AdvertId == x.Id && r.Status == ConstVals.Accepted).Select(rv => new ReservationDTO()
+                {
+                    DateFrom = rv.DateFrom,
+                    DateTo = rv.DateTo,
+                    UserId = rv.UserId,
+                    User = new UserDTO()
+                    {
+                        Email = rv.User.Email,
+                        FirstName = rv.User.Profile.FirstName,
+                        LastName = rv.User.Profile.LastName,
+                        Phone = rv.User.Profile.Phone
+
+                    }
+                }).ToList()
+                
 
             });
         }
@@ -98,7 +114,21 @@ namespace apartmenthostService.Controllers
                     Adress = x.Apartment.Adress,
                     Latitude = x.Apartment.Latitude,
                     Longitude = x.Apartment.Longitude,
-                }
+                },
+                ApprovedReservations = context.Reservations.Where(r => r.AdvertId == x.Id && r.Status == ConstVals.Accepted).Select(rv => new ReservationDTO()
+                {
+                    DateFrom = rv.DateFrom,
+                    DateTo = rv.DateTo,
+                    UserId = rv.UserId,
+                    User = new UserDTO()
+                    {
+                        Email = rv.User.Email,
+                        FirstName = rv.User.Profile.FirstName,
+                        LastName = rv.User.Profile.LastName,
+                        Phone = rv.User.Profile.Phone
+
+                    }
+                }).ToList()
 
             });
             return SingleResult.Create(result);

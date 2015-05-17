@@ -31,7 +31,7 @@ namespace apartmenthostService.DataObjects
         [Metadata(DataType = ConstDataType.Text)]
         [GetRule(Order = 1, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PostRule(Order = 1, RequiredForm = true, RequiredTransfer = true, Visible = true)]
-        [PutRule(Order = 1, RequiredForm = true, RequiredTransfer = false, Visible = true)]
+        [PutRule(Order = 1, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string FirstName { get; set; }
 
@@ -39,7 +39,7 @@ namespace apartmenthostService.DataObjects
         [Metadata(DataType = ConstDataType.Text)]
         [GetRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PostRule(Order = 2, RequiredForm = true, RequiredTransfer = true, Visible = true)]
-        [PutRule(Order = 2, RequiredForm = true, RequiredTransfer = false, Visible = true)]
+        [PutRule(Order = 2, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string LastName { get; set; }
 
@@ -47,7 +47,7 @@ namespace apartmenthostService.DataObjects
         [Metadata(DataType = ConstDataType.List, Dictionary = ConstDictionary.Gender)]
         [GetRule(Order = 3, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PostRule(Order = 3, RequiredForm = true, RequiredTransfer = true, Visible = true)]
-        [PutRule(Order = 3, RequiredForm = true, RequiredTransfer = false, Visible = true)]
+        [PutRule(Order = 3, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string Gender { get; set; }
 
@@ -63,7 +63,7 @@ namespace apartmenthostService.DataObjects
         [Metadata(DataType = ConstDataType.Phone)]
         [GetRule(Order = 5, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PostRule(Order = 5, RequiredForm = true, RequiredTransfer = true, Visible = true)]
-        [PutRule(Order = 5, RequiredForm = true, RequiredTransfer = false, Visible = true)]
+        [PutRule(Order = 5, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string Phone { get; set; }
 

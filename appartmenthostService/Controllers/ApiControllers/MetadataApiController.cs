@@ -40,6 +40,13 @@ namespace apartmenthostService.Controllers
             return GetMetadata(ConstType.User, typeof(UserDTO));
         }
 
+        // GET api/Metadata/Reservation
+        [Route("api/Metadata/Reservation")]
+        public Metadata GetReservation()
+        {
+            return GetMetadata(ConstType.Reservation, typeof(ReservationDTO));
+        }
+
         private Metadata GetMetadata(string objectType, Type type)
         {
             Metadata metadata = new Metadata

@@ -214,6 +214,7 @@
     <Compile Include="Controllers\ApiControllers\AdvertApiController.cs" />
     <Compile Include="Controllers\ApiControllers\ApartmentApiController.cs" />
     <Compile Include="Controllers\ApiControllers\ReservationApiController.cs" />
+    <Compile Include="Controllers\TableControllers\ReservationController.cs" />
     <Compile Include="Controllers\TableControllers\ApartmentController.cs" />
     <Compile Include="Controllers\TableControllers\DictionaryController.cs" />
     <Compile Include="Controllers\TableControllers\DictionaryItemController.cs" />

@@ -62,6 +62,7 @@ namespace apartmenthostService.DataObjects
         public const string SRV_APARTMENT_PROP_NOTFOUND = "SRV_APARTMENT_PROP_NOTFOUND"; // Свойство объекта не найденл
         public const string SRV_APARTMENT_PROPVAL_NOTFOUND = "SRV_APARTMENT_PROPVAL_NOTFOUND"; // Значение свойства объекта не найдено
         public const string SRV_APARTMENT_REQUIRED = "SRV_APARTMENT_REQUIRED"; // Не заполнено обязательно поле
+        public const string SRV_APARTMENT_INVALID_DICITEM = "SRV_APARTMENT_INVALID_DICITEM"; // Не верное значение словаря
         public const string SRV_APARTMENT_EXISTS = "SRV_APARTMENT_EXISTS"; // Объект уже существует
         public const string SRV_APARTMENT_DEPENDENCY = "SRV_APARTMENT_DEPENDENCY"; // Объект не может быть изменен/удален т.к. зависит от другого объекта.  
         public const string SRV_APARTMENT_WRONG_USER = "SRV_APARTMENT_WRONG_USER"; // Объект не может быть изменен/удален другим пользователем
@@ -72,6 +73,7 @@ namespace apartmenthostService.DataObjects
         public const string SRV_ADVERT_PROP_NOTFOUND = "SRV_ADVERT_PROP_NOTFOUND"; // Объект не найден
         public const string SRV_ADVERT_PROPVAL_NOTFOUND = "SRV_ADVERT_PROPVAL_NOTFOUND"; // Значение свойства объекта не найдено
         public const string SRV_ADVERT_REQUIRED = "SRV_ADVERT_REQUIRED"; // Не заполнено обязательно поле
+        public const string SRV_ADVERT_INVALID_DICITEM = "SRV_ADVERT_INVALID_DICITEM"; // Не верное значение словаря
         public const string SRV_ADVERT_EXISTS = "SRV_ADVERT_EXISTS"; // Объект уже существует
         public const string SRV_ADVERT_DEPENDENCY = "SRV_ADVERT_DEPENDENCY"; // Объект не может быть изменен/удален т.к. зависит от другого объекта.  
         public const string SRV_ADVERT_WRONG_USER = "SRV_ADVERT_WRONG_USER"; // Объект не может быть изменен/удален другим пользователем

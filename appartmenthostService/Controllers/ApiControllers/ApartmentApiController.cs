@@ -20,102 +20,67 @@ namespace apartmenthostService.Controllers
     {
         public ApiServices Services { get; set; }
         apartmenthostContext context = new apartmenthostContext();
-        
+
         // POST api/Apartment/48D68C86-6EA6-4C25-AA33-223FC9A27959
         [Route("api/Apartment")]
         [AuthorizeLevel(AuthorizationLevel.User)]
-        [HttpPost] 
+        [HttpPost]
         public HttpResponseMessage PostApartment(ApartmentDTO apartment)
         {
             try
             {
                 var respList = new List<string>();
-            // Check Apartment is not NULL 
+                ResponseDTO resp;
+                // Check Apartment is not NULL 
                 if (apartment == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NULL));
 
 
-            // Check Apartment Name is not NULL
-                ResponseDTO resp = CheckHelper.isNull(apartment.Name, "Name", RespH.SRV_APARTMENT_REQUIRED);
-                if (resp != null)
-                { return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp); }
-                if (String.IsNullOrWhiteSpace(apartment.Name))
-                {
-                    respList.Add("Name");
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_REQUIRED, respList));
-                }
+                // Check Apartment Name is not NULL
+                resp = CheckHelper.isNull(apartment.Name, "Name", RespH.SRV_APARTMENT_REQUIRED);
+                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-            // Check Apartment Adress is not NULL
-                if (String.IsNullOrWhiteSpace(apartment.Adress))
-                {
-                    respList.Add("Adress");
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_REQUIRED, respList));
-                }
+                // Check Apartment Adress is not NULL
+                resp = CheckHelper.isNull(apartment.Adress, "Adress", RespH.SRV_APARTMENT_REQUIRED);
+                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+
 
                 // Check Apartment Type is not NULL
-                if (String.IsNullOrWhiteSpace(apartment.Type))
-                {
-                    respList.Add("Type");
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_REQUIRED, respList));
-                }
+                resp = CheckHelper.isNull(apartment.Type, "Type", RespH.SRV_APARTMENT_REQUIRED);
+                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Apartment Type Dictionary
+                resp = CheckHelper.isValidDicItem(context, apartment.Type, ConstDictionary.ApartmentType, "Type", RespH.SRV_APARTMENT_INVALID_DICITEM);
+                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-            // Check Apartment not Exist
-            //var currentApartmentCount = context.Apartments.Count(a => a.Name == apartment.Name);
-            //    if (currentApartmentCount > 0)
-            //    {
-            //        respList.Add(apartment.Name);
-            //        return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_EXISTS, respList));
-            //    }
-            // Check Current User
-            var currentUser = User as ServiceUser;
+                // Check Current User
+                var currentUser = User as ServiceUser;
                 if (currentUser == null)
                     return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
-            var account = AuthUtils.GetUserAccount(currentUser);
+                var account = AuthUtils.GetUserAccount(currentUser);
                 if (account == null)
                 {
                     respList.Add(currentUser.Id);
                     return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
 
-            // Check Properties Exists
-            //foreach (var propVal in apartment.PropsVals)
-            //{
-            //    var prop = context.Props.AsQueryable().SingleOrDefault(p => p.Id == propVal.PropId);
-            //    if (prop == null)
-            //    {
-            //        respList.Add(propVal.PropId);
-            //        return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_PROP_NOTFOUND, respList));
-            //    }
-            //    if (propVal.DictionaryItemId != null)
-            //    {
-            //        var dicItem = context.DictionaryItems.SingleOrDefault(di => di.Id == propVal.DictionaryItemId);
-            //        if (dicItem == null)
-            //        {
-            //            respList.Add(propVal.DictionaryItemId);
-            //            return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_DICTIONARYITEM_NOTFOUND, respList));
-            //        }
-            //    }
-            //}
+                // Generate 
+                string apartmentGuid = Guid.NewGuid().ToString();
+                context.Set<Apartment>().Add(new Apartment()
+                {
+                    Id = apartmentGuid,
+                    Name = apartment.Name,
+                    Type = apartment.Type,
+                    Options = apartment.Options,
+                    UserId = account.UserId,
+                    Adress = apartment.Adress,
+                    Latitude = apartment.Latitude,
+                    Longitude = apartment.Longitude,
+                    Lang = apartment.Lang
 
-            // Generate 
-            string apartmentGuid = Guid.NewGuid().ToString();
-            context.Set<Apartment>().Add(new Apartment()
-            {
-                Id = apartmentGuid,
-                Name = apartment.Name,
-                Type = apartment.Type,
-                Options = apartment.Options,
-                UserId = account.UserId,
-                Adress = apartment.Adress,
-                Latitude = apartment.Latitude,
-                Longitude = apartment.Longitude,
-                Lang = apartment.Lang
-
-            });
+                });
 
 
-           
+
                 context.SaveChanges();
                 respList.Add(apartmentGuid);
                 return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
@@ -125,8 +90,8 @@ namespace apartmenthostService.Controllers
                 System.Diagnostics.Debug.WriteLine(ex.InnerException);
                 return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
             }
-          
-            
+
+
         }
 
 
@@ -136,191 +101,147 @@ namespace apartmenthostService.Controllers
         [HttpPut]
         public HttpResponseMessage PutApartment(string id, ApartmentDTO apartment)
         {
-             try
-             {
-                 var respList = new List<string>();
-                 // Check Apartment is not NULL 
-                 if (apartment == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NULL));
+            try
+            {
+                var respList = new List<string>();
+                ResponseDTO resp;
+                // Check Apartment is not NULL 
+                if (apartment == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NULL));
 
-                 // Check Current Apartment is not NULL
-                 var apartmentCurrent = context.Apartments.SingleOrDefault(a => a.Id == id);
-                 if (apartmentCurrent == null) 
-                 {
-                 respList.Add(id);
-                 return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NOTFOUND, respList));
-                 }
+                // Check Current Apartment is not NULL
+                var apartmentCurrent = context.Apartments.SingleOrDefault(a => a.Id == id);
+                if (apartmentCurrent == null)
+                {
+                    respList.Add(id);
+                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NOTFOUND, respList));
+                }
 
-                 // Check Apartment Name is not NULL
-                 if (String.IsNullOrWhiteSpace(apartment.Name)) 
-                 {
-                    respList.Add("Name");
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_REQUIRED, respList));
-                 }
+                // Check Apartment Name is not NULL
+                resp = CheckHelper.isNull(apartment.Name, "Name", RespH.SRV_APARTMENT_REQUIRED);
+                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                 // Check Apartment Adress is not NULL
-                 if (String.IsNullOrWhiteSpace(apartment.Adress))
-                 {
-                     respList.Add("Adress");
-                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_REQUIRED, respList));
-                 }
+                // Check Apartment Adress is not NULL
+                resp = CheckHelper.isNull(apartment.Adress, "Adress", RespH.SRV_APARTMENT_REQUIRED);
+                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                 // Check Current User
-                 var currentUser = User as ServiceUser;
-                 if (currentUser == null) return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
-                 var account = AuthUtils.GetUserAccount(currentUser);
-                 if (account == null)
-                 {
-                     respList.Add(currentUser.Id);
-                     return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
-                 }
 
-                 // Check Apartment User
-                 if (apartment.UserId != account.UserId)
-                 {
-                     respList.Add(apartment.UserId);
-                     respList.Add(account.UserId);
-                     return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                         RespH.Create(RespH.SRV_APARTMENT_WRONG_USER, respList));
-                 }
-                 if (apartmentCurrent.UserId != account.UserId)
-                 {
-                     respList.Add(apartmentCurrent.UserId);
-                     respList.Add(account.UserId);
-                     return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                         RespH.Create(RespH.SRV_APARTMENT_WRONG_USER, respList));
-                 }
+                // Check Apartment Type is not NULL
+                resp = CheckHelper.isNull(apartment.Type, "Type", RespH.SRV_APARTMENT_REQUIRED);
+                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                 // Check Apartment not already Exists
-                 //var currentApartmentCount = context.Apartments.Count(a => a.Name == apartment.Name && a.Id != id);
-                 //if (currentApartmentCount > 0)
-                 //{
-                 //    respList.Add(apartment.Name);
-                 //    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_EXISTS, respList));
-                 //}
+                // Check Apartment Type Dictionary
+                resp = CheckHelper.isValidDicItem(context, apartment.Type, ConstDictionary.ApartmentType, "Type", RespH.SRV_APARTMENT_INVALID_DICITEM);
+                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                  
-                 // Check Properties Exists
-                 //foreach (var propVal in apartment.PropsVals)
-                 //{
-                 //    var prop = context.Props.AsQueryable().SingleOrDefault(p => p.Id == propVal.PropId);
-                 //    if (prop == null)
-                 //    {
-                 //        respList.Add(propVal.PropId);
-                 //        return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_PROP_NOTFOUND, respList));
-                 //     }
+                // Check Current User
+                var currentUser = User as ServiceUser;
+                if (currentUser == null) return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
+                var account = AuthUtils.GetUserAccount(currentUser);
+                if (account == null)
+                {
+                    respList.Add(currentUser.Id);
+                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
+                }
 
-                 //    if (propVal.DictionaryItemId != null)
-                 //    {
-                 //        var dicItem = context.DictionaryItems.SingleOrDefault(di => di.Id == propVal.DictionaryItemId);
-                 //        if (dicItem == null)
-                 //        {
-                 //            respList.Add(propVal.DictionaryItemId);
-                 //            return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_DICTIONARYITEM_NOTFOUND, respList));
-                 //        }
-                 //    }
-                 //}
-                 //    // Update PropVals
-                 //foreach (var propVal in apartment.PropsVals)
-                 //{
-                 //    var propValCurrent = context.PropVals.SingleOrDefault(pv => pv.Id == propVal.Id);
-                 //    if (propValCurrent == null)
-                 //    {
-                 //        respList.Add(propVal.Id);
-                 //        return
-                 //        this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_PROPVAL_NOTFOUND, respList));
-                 //   }
-                 //    propValCurrent.StrValue = propVal.StrValue;
-                 //    propValCurrent.NumValue = propVal.NumValue;
-                 //    propValCurrent.DateValue = propVal.DateValue;
-                 //    propValCurrent.BoolValue = propVal.BoolValue;
-                 //    propValCurrent.DictionaryItemId = propVal.DictionaryItemId;
-                 //    propValCurrent.Lang = apartment.Lang;
-                 //    context.SaveChanges();
-                 //}
+                // Check Apartment User
+                if (apartment.UserId != account.UserId)
+                {
+                    respList.Add(apartment.UserId);
+                    respList.Add(account.UserId);
+                    return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_APARTMENT_WRONG_USER, respList));
+                }
+                if (apartmentCurrent.UserId != account.UserId)
+                {
+                    respList.Add(apartmentCurrent.UserId);
+                    respList.Add(account.UserId);
+                    return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_APARTMENT_WRONG_USER, respList));
+                }
 
-                 // Update Apartment
-                 apartmentCurrent.Name = apartment.Name;
-                 apartmentCurrent.Adress = apartment.Adress;
-                 apartmentCurrent.Type = apartment.Type;
-                 apartmentCurrent.Options = apartment.Options;
-                 apartmentCurrent.Latitude = apartment.Latitude;
-                 apartmentCurrent.Longitude = apartment.Longitude;
-                 apartmentCurrent.Lang = apartment.Lang;
+                // Update Apartment
+                apartmentCurrent.Name = apartment.Name;
+                apartmentCurrent.Adress = apartment.Adress;
+                apartmentCurrent.Type = apartment.Type;
+                apartmentCurrent.Options = apartment.Options;
+                apartmentCurrent.Latitude = apartment.Latitude;
+                apartmentCurrent.Longitude = apartment.Longitude;
+                apartmentCurrent.Lang = apartment.Lang;
 
-                 context.SaveChanges();
+                context.SaveChanges();
 
-                 respList.Add(apartment.Id);
-                 return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED, respList));
-             }
-             catch (Exception ex)
-             {
-                 System.Diagnostics.Debug.WriteLine(ex.InnerException);
-                 return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
-             }
+                respList.Add(apartment.Id);
+                return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED, respList));
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.InnerException);
+                return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
+            }
         }
 
-        
+
         // DELETE api/Apartment/48D68C86-6EA6-4C25-AA33-223FC9A27959
         [Route("api/Apartment/{id}")]
         [AuthorizeLevel(AuthorizationLevel.User)]
         [HttpDelete]
         public HttpResponseMessage DeleteApartment(string id)
         {
-             try
-             {
-                 var respList = new List<string>();
-                 var apartment = context.Apartments.SingleOrDefault(a => a.Id == id);
-                 
-                 // Check Apartment is not NULL
-                 if (apartment == null)
-                 {
-                     respList.Add(id);
-                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NOTFOUND, respList));
-                 }
+            try
+            {
+                var respList = new List<string>();
+                var apartment = context.Apartments.SingleOrDefault(a => a.Id == id);
 
-                 // Check Current User
-                 var currentUser = User as ServiceUser;
-                 if (currentUser == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_UNAUTH));
-                 var account = AuthUtils.GetUserAccount(currentUser);
-                 if (account == null)
-                 {
-                     respList.Add(currentUser.Id);
-                     return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
-                 }
+                // Check Apartment is not NULL
+                if (apartment == null)
+                {
+                    respList.Add(id);
+                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NOTFOUND, respList));
+                }
 
-                 // Check Apartment User
-                 if (apartment.UserId != account.UserId)
-                 {
-                     respList.Add(apartment.UserId);
-                     respList.Add(account.UserId);
-                     return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                         RespH.Create(RespH.SRV_APARTMENT_WRONG_USER, respList));
-                  }
+                // Check Current User
+                var currentUser = User as ServiceUser;
+                if (currentUser == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_UNAUTH));
+                var account = AuthUtils.GetUserAccount(currentUser);
+                if (account == null)
+                {
+                    respList.Add(currentUser.Id);
+                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
+                }
 
-                 // Check Adverts with such Apartment
-                 var adverts = context.Adverts.Where(adv => adv.ApartmentId == id).Select(a => a.Id);
-                 if (adverts.Any())
-                 {
-                     foreach (var advert in adverts)
-                     {
-                         respList.Add(advert);
-                     }
-                     return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                         RespH.Create(RespH.SRV_APARTMENT_DEPENDENCY, respList));
-                 }
+                // Check Apartment User
+                if (apartment.UserId != account.UserId)
+                {
+                    respList.Add(apartment.UserId);
+                    respList.Add(account.UserId);
+                    return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_APARTMENT_WRONG_USER, respList));
+                }
+
+                // Check Adverts with such Apartment
+                var adverts = context.Adverts.Where(adv => adv.ApartmentId == id).Select(a => a.Id);
+                if (adverts.Any())
+                {
+                    foreach (var advert in adverts)
+                    {
+                        respList.Add(advert);
+                    }
+                    return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_APARTMENT_DEPENDENCY, respList));
+                }
 
                 // Delete Apartment with PropVals
-                 context.Apartments.Remove(apartment);
-                 context.SaveChanges();
-                 respList.Add(apartment.Id);
-                 return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_DELETED, respList));
+                context.Apartments.Remove(apartment);
+                context.SaveChanges();
+                respList.Add(apartment.Id);
+                return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_DELETED, respList));
 
-             }
-             catch (Exception ex)
-             {
-                 System.Diagnostics.Debug.WriteLine(ex.InnerException);
-                 return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
-             }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.InnerException);
+                return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
+            }
         }
     }
 }

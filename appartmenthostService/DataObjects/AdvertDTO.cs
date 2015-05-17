@@ -28,7 +28,7 @@ namespace apartmenthostService.DataObjects
         [Metadata(DataType = ConstDataType.Text)]
         [GetRule(Order = 1, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PostRule(Order = 1, RequiredForm = true, RequiredTransfer = true, Visible = true)]
-        [PutRule(Order = 1, RequiredForm = true, RequiredTransfer = false, Visible = true)]
+        [PutRule(Order = 1, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string Name { get; set; }
 
@@ -44,7 +44,7 @@ namespace apartmenthostService.DataObjects
         [Metadata(DataType = ConstDataType.Text)]
         [GetRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PostRule(Order = 2, RequiredForm = true, RequiredTransfer = true, Visible = true)]
-        [PutRule(Order = 2, RequiredForm = true, RequiredTransfer = false, Visible = true)]
+        [PutRule(Order = 2, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string Description { get; set; }
 
@@ -91,16 +91,16 @@ namespace apartmenthostService.DataObjects
         // Сожительство
         [Metadata(DataType = ConstDataType.List, Dictionary = ConstDictionary.Cohabitation)]
         [GetRule(Order = 6, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [PostRule(Order = 6, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [PutRule(Order = 6, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 6, RequiredForm = true, RequiredTransfer = true, Visible = true)]
+        [PutRule(Order = 6, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string Cohabitation { get; set; }
 
         // Пол постояльца
         [Metadata(DataType = ConstDataType.List, Dictionary = ConstDictionary.Gender)]
         [GetRule(Order = 6, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [PostRule(Order = 6, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [PutRule(Order = 6, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 6, RequiredForm = true, RequiredTransfer = true, Visible = true)]
+        [PutRule(Order = 6, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string ResidentGender { get; set; }
 
@@ -130,19 +130,27 @@ namespace apartmenthostService.DataObjects
 
         // Объект пользователь
         [Metadata(DataType = ConstDataType.User)]
-        [GetRule(Order = 7, RequiredForm = false, RequiredTransfer = true, Visible = true)]
-        [PostRule(Order = 7, RequiredForm = true, RequiredTransfer = true, Visible = true)]
-        [PutRule(Order = 7, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [GetRule(Order = 7, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 7, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 7, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public virtual UserDTO User { get; set; }
 
         // Объект жилье
         [Metadata(DataType = ConstDataType.Apartment)]
-        [GetRule(Order = 8, RequiredForm = false, RequiredTransfer = true, Visible = true)]
+        [GetRule(Order = 8, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PostRule(Order = 8, RequiredForm = true, RequiredTransfer = true, Visible = true)]
-        [PutRule(Order = 8, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PutRule(Order = 8, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public virtual ApartmentDTO Apartment { get; set; }
+
+        // Бронирование
+        [Metadata(DataType = ConstDataType.ApprovedReservations)]
+        [GetRule(Order = 9, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 9, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 9, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public ICollection<ReservationDTO> ApprovedReservations { get; set; }
 
         // [GET][POST][PUT] - {NN} -Список дополнительных колонок(PropVal)
         //[Metadata(DataType = ConstDataType.PropVals)]

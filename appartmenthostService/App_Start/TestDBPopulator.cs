@@ -290,7 +290,7 @@ namespace apartmenthostService.App_Start
             List<DictionaryItem> dictionaryItems = new List<DictionaryItem>();
             //ApartmentType
             Dictionary apartmentTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstDictionary.ApartmentType);
-            foreach (var apartmentType in ConstDicValsRU.ApartmentTypesList())
+            foreach (var apartmentType in ConstDicVals.ApartmentTypesList())
             {
                 dictionaryItems.Add(new DictionaryItem()
                 {
@@ -301,7 +301,7 @@ namespace apartmenthostService.App_Start
             }
             //CohabitationType
             Dictionary cohabitationTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstDictionary.Cohabitation);
-            foreach (var cohabitationType in ConstDicValsRU.CohabitationTypesList())
+            foreach (var cohabitationType in ConstDicVals.CohabitationTypesList())
             {
                 dictionaryItems.Add(new DictionaryItem()
                 {
@@ -313,7 +313,7 @@ namespace apartmenthostService.App_Start
 
             //ApartmentOptions
             Dictionary apartmentOptionDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstDictionary.ApartmentOptions);
-            foreach (var apartmentOption in ConstDicValsRU.ApartmentOptionsList())
+            foreach (var apartmentOption in ConstDicVals.ApartmentOptionsList())
             {
                 dictionaryItems.Add(new DictionaryItem()
                 {
@@ -329,7 +329,7 @@ namespace apartmenthostService.App_Start
 
             //Gender
             Dictionary genderDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstDictionary.Gender);
-            foreach (var gender in ConstDicValsRU.GenderList())
+            foreach (var gender in ConstDicVals.GenderList())
             {
                 dictionaryItems.Add(new DictionaryItem()
                 {

@@ -28,7 +28,7 @@ namespace apartmenthostService.DataObjects
         [Metadata(DataType = ConstDataType.Text)]
         [GetRule(Order = 1, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PostRule(Order = 1, RequiredForm = true, RequiredTransfer = true, Visible = true)]
-        [PutRule(Order = 1, RequiredForm = true, RequiredTransfer = false, Visible = true)]
+        [PutRule(Order = 1, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string Name { get; set; }
 
@@ -36,7 +36,7 @@ namespace apartmenthostService.DataObjects
         [Metadata(DataType = ConstDataType.List, Dictionary = ConstDictionary.ApartmentType)]
         [GetRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PostRule(Order = 2, RequiredForm = true, RequiredTransfer = true, Visible = true)]
-        [PutRule(Order = 2, RequiredForm = true, RequiredTransfer = false, Visible = true)]
+        [PutRule(Order = 2, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string Type { get; set; }
 
@@ -60,7 +60,7 @@ namespace apartmenthostService.DataObjects
         [Metadata(DataType = ConstDataType.Adress)]
         [GetRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PostRule(Order = 2, RequiredForm = true, RequiredTransfer = true, Visible = true)]
-        [PutRule(Order = 2, RequiredForm = true, RequiredTransfer = false, Visible = true)]
+        [PutRule(Order = 2, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string Adress { get; set; }
 

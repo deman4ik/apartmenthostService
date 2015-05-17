@@ -16,6 +16,7 @@ namespace apartmenthostService.Helpers
         public const string User = "User";
         public const string Apartment = "Apartment";
         public const string Advert = "Advert";
+        public const string Reservation = "Reservation";
         public const string PropCollection = "PropCollection";
 
     }
@@ -82,6 +83,7 @@ namespace apartmenthostService.Helpers
         public const string Advert      = "Advert";      // Объект типа Объявление
         public const string User        = "User";        // Объект типа Пользователь
         public const string Reservation = "Reservation"; // Объект типа Бронь
+        public const string ApprovedReservations = "ApprovedReservations"; //  Список объектов типа Бронь - утвержденные
         public const string PropVals    = "PropVals";    // Список объектов типа Значения свойств
         public const string Lang        = "Lang";        // Код языка
     }
@@ -92,7 +94,7 @@ namespace apartmenthostService.Helpers
         public const string EN = "EN";
     }
 
-    public static class ConstDicValsRU
+    public static class ConstDicVals
     {
         public static List<string> GenderList()
         {

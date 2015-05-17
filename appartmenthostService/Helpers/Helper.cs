@@ -23,18 +23,18 @@ namespace apartmenthostService.Helpers
         }
         public static string GetTypeName(PropertyInfo type)
         {
-            if (type.PropertyType == typeof (string))
+            if (type.PropertyType == typeof(string))
                 return ConstType.Str;
-            if (type.PropertyType == typeof (decimal?) || type.PropertyType == typeof (decimal) ||
-                type.PropertyType == typeof (int?) || type.PropertyType == typeof (float?) ||
-                type.PropertyType == typeof (int) || type.PropertyType == typeof (float))
+            if (type.PropertyType == typeof(decimal?) || type.PropertyType == typeof(decimal) ||
+                type.PropertyType == typeof(int?) || type.PropertyType == typeof(float?) ||
+                type.PropertyType == typeof(int) || type.PropertyType == typeof(float))
                 return ConstType.Num;
-            if (type.PropertyType == typeof (DateTime?) || type.PropertyType == typeof (DateTimeOffset?) ||
-                type.PropertyType == typeof (DateTime) || type.PropertyType == typeof (DateTimeOffset))
+            if (type.PropertyType == typeof(DateTime?) || type.PropertyType == typeof(DateTimeOffset?) ||
+                type.PropertyType == typeof(DateTime) || type.PropertyType == typeof(DateTimeOffset))
                 return ConstType.Date;
-            if (type.PropertyType == typeof (bool?) || type.PropertyType == typeof (bool))
+            if (type.PropertyType == typeof(bool?) || type.PropertyType == typeof(bool))
                 return ConstType.Bool;
-            if (type.PropertyType == typeof (ICollection<PropValDTO>))
+            if (type.PropertyType == typeof(ICollection<PropValDTO>))
                 return ConstType.PropCollection;
             if (type.PropertyType == typeof(UserDTO))
                 return ConstType.User;
@@ -72,7 +72,7 @@ namespace apartmenthostService.Helpers
             return null;
         }
 
-        
+
     }
 
     public class CheckHelper
@@ -87,6 +87,75 @@ namespace apartmenthostService.Helpers
             }
             return null;
         }
+
+        public static ResponseDTO isAdvertExist(apartmenthostContext context, string name, string errType)
+        {
+            var currentAdvertCount = context.Adverts.Count(a => a.Name == name);
+            if (currentAdvertCount > 0)
+            {
+                var respList = new List<string>();
+                respList.Add(name);
+                return RespH.Create(RespH.SRV_ADVERT_EXISTS, respList);
+            }
+        }
+        public static ResponseDTO isValidDicItem(apartmenthostContext context, string item, string dicName, string itemName, string errType)
+        {
+            var dicItem =
+                context.DictionaryItems.SingleOrDefault(di => di.Dictionary.Name == dicName && di.StrValue == item);
+            if (dicItem == null)
+            {
+                var respList = new List<string>();
+                respList.Add(itemName);
+                respList.Add(dicName);
+                return RespH.Create(errType, respList);
+            }
+            return null;
+        }
+
+        public static ResponseDTO isValidDicItem(apartmenthostContext context, decimal item, string dicName, string itemName, string errType)
+        {
+            var dicItem =
+                context.DictionaryItems.SingleOrDefault(di => di.Dictionary.Name == dicName && di.NumValue == item);
+            if (dicItem == null)
+            {
+                var respList = new List<string>();
+                respList.Add(itemName);
+                respList.Add(dicName);
+                return RespH.Create(errType, respList);
+            }
+            return null;
+        }
+
+        public static ResponseDTO isValidDicItem(apartmenthostContext context, DateTime item, string dicName, string itemName, string errType)
+        {
+            var dicItem =
+                context.DictionaryItems.SingleOrDefault(di => di.Dictionary.Name == dicName && di.DateValue == item);
+            if (dicItem == null)
+            {
+                var respList = new List<string>();
+                respList.Add(itemName);
+                respList.Add(dicName);
+                return RespH.Create(errType, respList);
+            }
+            return null;
+        }
+
+        public static ResponseDTO isValidDates(DateTime dateFrom, DateTime dateTo, string errType)
+        {
+            // Check Dates
+            if (String.IsNullOrEmpty(dateFrom.ToString()) && String.IsNullOrEmpty(dateTo.ToString()))
+            {
+                if (DateTimeOffset.Compare(dateFrom, dateTo) >= 0)
+                {
+                    var respList = new List<string>();
+                    respList.Add(dateFrom.ToString());
+                    respList.Add(dateTo.ToString());
+                    return RespH.Create(errType, respList);
+                }
+            }
+            return null;
+        }
+
     }
-   
+
 }
