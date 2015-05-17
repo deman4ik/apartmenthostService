@@ -58,19 +58,19 @@ namespace apartmenthostService.Controllers
                     Latitude = x.Apartment.Latitude,
                     Longitude = x.Apartment.Longitude,
                 },
-                ApprovedReservations = x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new ReservationDTO()
-                {
-                    DateFrom = rv.DateFrom,
-                    DateTo = rv.DateTo,
-                    UserId = rv.UserId,
-                    //User = new UserDTO()
-                    //{
-                    //    Email = rv.User.Email,
-                    //    FirstName = rv.User.Profile.FirstName,
-                    //    LastName = rv.User.Profile.LastName,
-                    //    Phone = rv.User.Profile.Phone
-                    //}
-                }).ToList()
+                //ApprovedReservations = x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new ReservationDTO()
+                //{
+                //    DateFrom = rv.DateFrom,
+                //    DateTo = rv.DateTo,
+                //    UserId = rv.UserId,
+                //    //User = new UserDTO()
+                //    //{
+                //    //    Email = rv.User.Email,
+                //    //    FirstName = rv.User.Profile.FirstName,
+                //    //    LastName = rv.User.Profile.LastName,
+                //    //    Phone = rv.User.Profile.Phone
+                //    //}
+                //}).ToList()
                 
 
             });
@@ -114,19 +114,19 @@ namespace apartmenthostService.Controllers
                     Latitude = x.Apartment.Latitude,
                     Longitude = x.Apartment.Longitude,
                 },
-                ApprovedReservations = x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new ReservationDTO()
-                {
-                    DateFrom = rv.DateFrom,
-                    DateTo = rv.DateTo,
-                    UserId = rv.UserId,
-                    //User = new UserDTO()
-                    //{
-                    //    Email = rv.User.Email,
-                    //    FirstName = rv.User.Profile.FirstName,
-                    //    LastName = rv.User.Profile.LastName,
-                    //    Phone = rv.User.Profile.Phone
-                    //}
-                }).ToList()
+                //ApprovedReservations = x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new ReservationDTO()
+                //{
+                //    DateFrom = rv.DateFrom,
+                //    DateTo = rv.DateTo,
+                //    UserId = rv.UserId,
+                //    //User = new UserDTO()
+                //    //{
+                //    //    Email = rv.User.Email,
+                //    //    FirstName = rv.User.Profile.FirstName,
+                //    //    LastName = rv.User.Profile.LastName,
+                //    //    Phone = rv.User.Profile.Phone
+                //    //}
+                //}).ToList()
 
             });
             return SingleResult.Create(result);
