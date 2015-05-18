@@ -104,6 +104,14 @@ namespace apartmenthostService.Authentication
                 ProviderId = providerId
             };
                 context.Accounts.Add(account);
+
+                var profile = context.Profile.SingleOrDefault(p => p.Id == user.Id);
+                if (profile == null)
+                {
+                    new Profile();
+                    profile.Id = user.Id;
+                    context.Profile.Add(profile);
+                }
                 context.SaveChanges();
 
             }

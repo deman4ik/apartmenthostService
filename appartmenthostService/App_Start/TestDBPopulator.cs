@@ -28,6 +28,12 @@ namespace apartmenthostService.App_Start
                 PopulateAdverts(context);
                 context.SaveChanges();
 
+                PopulateFavorites(context);
+                context.SaveChanges();
+
+                PopulateReservations(context);
+                context.SaveChanges();
+
                 PopulateTables(context);
                 context.SaveChanges();
 
@@ -217,6 +223,64 @@ namespace apartmenthostService.App_Start
                 context.Set<Advert>().Add(advert);
             }
         }
+
+        public static void PopulateFavorites(apartmenthostContext context)
+        {
+            List<Favorite> favorites = new List<Favorite>()
+            {
+                new Favorite()
+                {
+                    Id = "f1",
+                    UserId = "u1",
+                    AdvertId = "a2"
+                    
+                },
+                new Favorite()
+                {
+                    Id = "f2",
+                    UserId = "u2",
+                    AdvertId = "a3"
+                    
+                }
+            };
+            foreach (var favorite in favorites)
+            {
+                context.Set<Favorite>().Add(favorite);
+            }
+        }
+
+        public static void PopulateReservations(apartmenthostContext context)
+        {
+            List<Reservation> reservations = new List<Reservation>()
+            {
+                new Reservation()
+                {
+                    Id = "r1",
+                    UserId = "u1",
+                    AdvertId = "a2",
+                    Status = ConstVals.Accepted,
+                    DateFrom = new DateTime(2015,12,1),
+                    DateTo = new DateTime(2015,12,25)
+
+                    
+                },
+                new Reservation()
+                {
+                    Id = "f2",
+                    UserId = "u2",
+                    AdvertId = "a3",
+                    Status = ConstVals.Pending,
+                    DateFrom = new DateTime(2015,9,1),
+                    DateTo = new DateTime(2015,9,6)
+                    
+                }
+            };
+            foreach (var reservation in reservations)
+            {
+                context.Set<Reservation>().Add(reservation);
+            }
+        }
+
         public static void PopulateTables(apartmenthostContext context)
         {
             List<Table> tables = new List<Table>()

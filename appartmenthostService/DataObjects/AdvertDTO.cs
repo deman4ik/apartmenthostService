@@ -104,6 +104,14 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string ResidentGender { get; set; }
 
+        // Избранное
+        [Metadata(DataType = ConstDataType.Favorite)]
+        [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public bool IsFavorite { get; set; }
+
         // Язык
         [Metadata(DataType = ConstDataType.Lang)]
         [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]

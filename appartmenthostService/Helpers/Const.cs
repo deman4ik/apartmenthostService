@@ -83,6 +83,7 @@ namespace apartmenthostService.Helpers
         public const string Advert      = "Advert";      // Объект типа Объявление
         public const string User        = "User";        // Объект типа Пользователь
         public const string Reservation = "Reservation"; // Объект типа Бронь
+        public const string Favorite    = "Favorite";    // Избранное
         public const string ApprovedReservations = "ApprovedReservations"; //  Список объектов типа Бронь - утвержденные
         public const string PropVals    = "PropVals";    // Список объектов типа Значения свойств
         public const string Lang        = "Lang";        // Код языка

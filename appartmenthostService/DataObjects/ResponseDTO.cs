@@ -42,8 +42,10 @@ namespace apartmenthostService.DataObjects
 
         public const string SRV_USER_NULL = "SRV_USER_NULL"; // Пустой объект запроса
         public const string SRV_USER_NOTFOUND = "SRV_USER_NOTFOUND"; // Объект не найден
+        public const string SRV_USER_INVALID_DICITEM = "SRV_USER_INVALID_DICITEM"; // Не верное значение словаря
         public const string SRV_USER_PROP_NOTFOUND = "SRV_USER_PROP_NOTFOUND"; // Объект не найден
         public const string SRV_USER_REQUIRED = "SRV_USER_REQUIRED"; // Не заполнено обязательно поле
+        public const string SRV_USER_WRONG_USER = "SRV_USER_WRONG_USER"; // Объект не может быть изменен/удален другим пользователем
         public const string SRV_USER_EXISTS = "SRV_USER_EXISTS"; // Объект уже существует
         public const string SRV_USER_DEPENDENCY = "SRV_USER_DEPENDENCY"; // Объект не может быть изменен/удален т.к. зависит от другого объекта.  
 
@@ -81,8 +83,10 @@ namespace apartmenthostService.DataObjects
 
         //Reservation
         public const string SRV_RESERVATION_NULL = "SRV_RESERVATION_NULL"; //Пустой объект запроса
+        public const string SRV_RESERVATION_STATUS_NULL = "SRV_RESERVATION_STATUS_NULL"; //Пустой объект запроса
         public const string SRV_RESERVATION_NOTFOUND = "SRV_RESERVATION_NOTFOUND"; // Объект не найден
         public const string SRV_RESERVATION_WRONG_DATE = "SRV_RESERVATION_WRONG_DATE"; // Дата С должна быть меньше Даты ПО
+        public const string SRV_RESERVATION_WRONG_STATUS = "SRV_RESERVATION_WRONG_STATUS"; // Неверный статус
         public const string SRV_RESERVATION_UNAVAILABLE_DATE = "SRV_RESERVATION_UNAVAILABLE_DATE"; // Даты недоступны
         //Dictionary
         public const string SRV_DICTIONARY_NULL = "SRV_DICTIONARY_NULL"; // Пустой объект запроса

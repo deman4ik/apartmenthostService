@@ -30,7 +30,7 @@ namespace apartmenthostService.DataObjects
         // Имя
         [Metadata(DataType = ConstDataType.Text)]
         [GetRule(Order = 1, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [PostRule(Order = 1, RequiredForm = true, RequiredTransfer = true, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 1, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string FirstName { get; set; }
@@ -38,7 +38,7 @@ namespace apartmenthostService.DataObjects
         // Фамилия
         [Metadata(DataType = ConstDataType.Text)]
         [GetRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [PostRule(Order = 2, RequiredForm = true, RequiredTransfer = true, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 2, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string LastName { get; set; }
@@ -46,7 +46,7 @@ namespace apartmenthostService.DataObjects
         // Пол
         [Metadata(DataType = ConstDataType.List, Dictionary = ConstDictionary.Gender)]
         [GetRule(Order = 3, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [PostRule(Order = 3, RequiredForm = true, RequiredTransfer = true, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 3, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string Gender { get; set; }
@@ -54,7 +54,7 @@ namespace apartmenthostService.DataObjects
         // Дата рождения
         [Metadata(DataType = ConstDataType.Date)]
         [GetRule(Order = 4, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [PostRule(Order = 4, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 4, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public DateTime Birthday { get; set; }
@@ -62,7 +62,7 @@ namespace apartmenthostService.DataObjects
         // Телефон
         [Metadata(DataType = ConstDataType.Phone)]
         [GetRule(Order = 5, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [PostRule(Order = 5, RequiredForm = true, RequiredTransfer = true, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 5, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string Phone { get; set; }
@@ -70,7 +70,7 @@ namespace apartmenthostService.DataObjects
         // Контактный email
         [Metadata(DataType = ConstDataType.Email)]
         [GetRule(Order = 6, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [PostRule(Order = 6, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 6, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string ContactEmail { get; set; }
@@ -78,7 +78,7 @@ namespace apartmenthostService.DataObjects
         // Предпочитаемый вид связи (Email/Телефон)
         [Metadata(DataType = ConstDataType.List)]
         [GetRule(Order = 7, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [PostRule(Order = 7, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 7, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string ContactKind { get; set; }
@@ -86,7 +86,7 @@ namespace apartmenthostService.DataObjects
         // О себе
         [Metadata(DataType = ConstDataType.Text)]
         [GetRule(Order = 8, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [PostRule(Order = 8, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 8, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string Description { get; set; }
@@ -94,7 +94,7 @@ namespace apartmenthostService.DataObjects
         // Уникальный идентификатор картиники(аватар)
         [Metadata(DataType = ConstDataType.Id)]
         [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string PictureId { get; set; }
