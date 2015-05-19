@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using apartmenthostService.Models;
 using apartmenthostService.Attributes;
 using apartmenthostService.Helpers;
+using Newtonsoft.Json;
 
 namespace apartmenthostService.DataObjects
 {
@@ -78,6 +76,7 @@ namespace apartmenthostService.DataObjects
         [PostRule(Order = 5, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [PutRule(Order = 5, RequiredForm = true, RequiredTransfer = false, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public decimal PriceDay { get; set; }
 
         // Цена за период 
@@ -86,6 +85,7 @@ namespace apartmenthostService.DataObjects
         [PostRule(Order = 6, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [PutRule(Order = 6, RequiredForm = true, RequiredTransfer = false, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public decimal PricePeriod { get; set; }
 
         // Сожительство
@@ -110,6 +110,7 @@ namespace apartmenthostService.DataObjects
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public bool IsFavorite { get; set; }
 
         // Язык

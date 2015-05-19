@@ -28,7 +28,6 @@ namespace apartmenthostService.Models
         public DbSet<Advert> Adverts { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Review> Reviews { get; set; }
-        public DbSet<ReviewComment> ReviewComments { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Profile> Profile { get; set; }
@@ -108,23 +107,17 @@ namespace apartmenthostService.Models
 
             // User + Review
             modelBuilder.Entity<User>()
-                .HasMany<Review>(s => s.Reviews)
-                .WithRequired(s => s.User)
-                .HasForeignKey(s => s.UserId)
+                .HasMany<Review>(s => s.OutReviews)
+                .WithRequired(s => s.FromUser)
+                .HasForeignKey(s => s.FromUserId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<User>()
-                .HasMany<Review>(s => s.AdvertiserReviews)
-                .WithRequired(s => s.Advertiser)
-                .HasForeignKey(s => s.AdvertiserId)
+                .HasMany<Review>(s => s.InReviews)
+                .WithRequired(s => s.ToUser)
+                .HasForeignKey(s => s.ToUserId)
                 .WillCascadeOnDelete(false);
 
-            // User + ReviewComment
-            modelBuilder.Entity<User>()
-                .HasMany<ReviewComment>(s => s.ReviewComments)
-                .WithRequired(s => s.User)
-                .HasForeignKey(s => s.UserId)
-                .WillCascadeOnDelete(false);
 
 
             //Apartment
@@ -196,21 +189,11 @@ namespace apartmenthostService.Models
 
             // Review
 
-            modelBuilder.Entity<Review>()
-                .HasMany<ReviewComment>(s => s.ReviewComments)
-                .WithRequired(s => s.Review)
-                .HasForeignKey(s => s.ReviewId)
-                .WillCascadeOnDelete(false);
+
 
             // Picture + Profile
             modelBuilder.Entity<Picture>()
                 .HasMany<Profile>(s => s.Profiles)
-                .WithOptional(s => s.Picture)
-                .HasForeignKey(s => s.PictureId);
-
-            // Picture + Notification
-            modelBuilder.Entity<Picture>()
-                .HasMany<Notification>(s => s.Notifications)
                 .WithOptional(s => s.Picture)
                 .HasForeignKey(s => s.PictureId);
 

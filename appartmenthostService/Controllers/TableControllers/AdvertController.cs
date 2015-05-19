@@ -46,7 +46,7 @@ namespace apartmenthostService.Controllers
                 PricePeriod = x.PricePeriod,
                 Cohabitation = x.Cohabitation,
                 ResidentGender = x.ResidentGender,
-                IsFavorite = x.Favorites.Any(f => f.UserId == userId), 
+                IsFavorite = x.Favorites.Any(f => f.UserId == userId),
                 Lang = x.Lang,
                 User = new UserDTO()
                 {
@@ -148,6 +148,8 @@ namespace apartmenthostService.Controllers
             });
             return SingleResult.Create(result);
         }
+
+
 
     }
 }

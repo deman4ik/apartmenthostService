@@ -16,7 +16,6 @@ namespace apartmenthostService.Models
 
         public virtual Advert Advert { get; set; }
         public virtual User User { get; set; }
-        public ICollection<ReservationComment> Comments { get; set; }
         public ICollection<PropVal> PropVals { get; set; } 
     }
 }

@@ -56,16 +56,15 @@ namespace apartmenthostService.App_Start
         public static void PopulateUsers(apartmenthostContext context)
         {
             byte[] salt = AuthUtils.generateSalt();
-            string id1 = "u1";
-            string id2 = "u2";
+
             List<User> users = new List<User>
             {
 
-                new User { Id = id1,
+                new User { Id = "u2",
                            Email = "vasek@example.com", 
                            Salt = salt, 
                            SaltedAndHashedPassword = AuthUtils.hash("parusina", salt),
-                           Profile = new Profile { Id = id1, 
+                           Profile = new Profile { Id = "u2", 
                                                    FirstName = "Василий", 
                                                    LastName = "Пупович", 
                                                    Birthday = new DateTime(1976,3,23),
@@ -78,12 +77,30 @@ namespace apartmenthostService.App_Start
                                                    Lang = ConstLang.RU
                                                 } 
                         },
+                
+                        new User { Id = "u3",
+                           Email = "lenka@example.com", 
+                           Salt = salt, 
+                           SaltedAndHashedPassword = AuthUtils.hash("parusina", salt),
+                           Profile = new Profile { Id = "u3", 
+                                                   FirstName = "Елена", 
+                                                   LastName = "Пыжович", 
+                                                   Birthday = new DateTime(1976,3,23),
+                                                   ContactEmail = "lenka@example.com",
+                                                   ContactKind = "Email",
+                                                   Description = "Привет. Меня зовут Лена!",
+                                                   Gender = ConstVals.Female,
+                                                   Phone = "+79998987766",
+                                                   Rating = 4,
+                                                   Lang = ConstLang.RU
+                                                } 
+                        },
 
-                new User { Id = id2, 
+                new User { Id = "u1", 
                            Email = "parus@parus.ru", 
                            Salt = salt, 
                            SaltedAndHashedPassword = AuthUtils.hash("parusina", salt),
-                           Profile = new Profile { Id = id2,
+                           Profile = new Profile { Id = "u1",
                                                    FirstName = "ЦИТК",
                                                    LastName = "Парус",
                                                    Birthday = new DateTime(1989,1,1),
@@ -112,18 +129,16 @@ namespace apartmenthostService.App_Start
 
         public static void PopulateApartments(apartmenthostContext context)
         {
-            User user1 = context.Users.SingleOrDefault(u => u.Email == "vasek@example.com");
-            User user2 = context.Users.SingleOrDefault(u => u.Email == "parus@parus.ru");
 
             List<Apartment> apartments = new List<Apartment>()
             {
                 new Apartment()
                 {
-                    Id = "ap1",
+                    Id = "ap2",
                     Name = "Пупович Плаза",
                     Type = ConstVals.House,
                     Options = ConstVals.Parking + ";" + ConstVals.Concierge + ";" + ConstVals.AirConditioning + ";" +ConstVals.WashingMachine+";"+ConstVals.Refrigerator,
-                    UserId = user1.Id,
+                    UserId = "u2",
                     Adress = "Россия, Москва, Бутово, 1-я Горловская ул., 4, строение 21",
                     Latitude = new decimal(55.548484), 
                     Longitude = new decimal(37.581806),
@@ -131,11 +146,11 @@ namespace apartmenthostService.App_Start
                 },
                  new Apartment()
                 {
-                    Id = "ap2",
-                    Name = "Пупович Ясенево",
+                    Id = "ap3",
+                    Name = "Ленкина квартирка в Ясенево",
                     Type = ConstVals.Flat,
                     Options = ConstVals.WashingMachine+";"+ConstVals.Refrigerator,
-                    UserId = user1.Id,
+                    UserId = "u3",
                     Adress = "Россия, Москва, Ясенево, Соловьиный пр., 18",
                     Latitude = new decimal(55.604284), 
                     Longitude = new decimal(37.554516),
@@ -143,11 +158,11 @@ namespace apartmenthostService.App_Start
                 },
                 new Apartment()
                 {
-                    Id = "ap3",
+                    Id = "ap1",
                     Name = "Офис Парус",
                     Type = ConstVals.Office,
                     Options = ConstVals.Parking + ";" + ConstVals.Concierge + ";" + ConstVals.AirConditioning,
-                    UserId = user2.Id,
+                    UserId = "u1",
                     Adress = "Россия, Москва, Алексеевский, Ярославская ул., 10к4",
                     Latitude = new decimal(55.819068), 
                     Longitude = new decimal(37.649776),
@@ -163,36 +178,18 @@ namespace apartmenthostService.App_Start
 
         public static void PopulateAdverts(apartmenthostContext context)
         {
-            User user1 = context.Users.SingleOrDefault(u => u.Email == "vasek@example.com");
-            User user2 = context.Users.SingleOrDefault(u => u.Email == "parus@parus.ru");
-            Apartment apartment1 = context.Apartments.SingleOrDefault(a => a.Id == "ap1");
-            Apartment apartment2 = context.Apartments.SingleOrDefault(a => a.Id == "ap2");
-            Apartment apartment3 = context.Apartments.SingleOrDefault(a => a.Id == "ap3");
+
 
             List<Advert> adverts = new List<Advert>()
             {
-                new Advert()
-                {
-                    Id = "a1",
-                    Name = "Пупович хата в Ясенево",
-                    UserId = user1.Id,
-                    Description = "Великолепное жилье в центре Бутово. Комфортно и уютно. Из окна не видно помойки! Уже хорошо!",
-                    ApartmentId = apartment1.Id,
-                    DateFrom = new DateTime(2015,5,1),
-                    DateTo = new DateTime(2015,5,31),
-                    PriceDay = 968,
-                    PricePeriod = 30000,
-                    Cohabitation = ConstVals.SeperateResidence,
-                    ResidentGender = ConstVals.Male,
-                    Lang = ConstLang.RU
-                },
+                
                 new Advert()
                 {
                     Id = "a2",
                     Name = "Пупович Плаза в Бутово",
-                    UserId = user1.Id,
+                    UserId = "u2",
                     Description = "Квартирка на Соловьином. Жить можно, но не долго. Из окна почти ничего не видно, только стенку морга.",
-                    ApartmentId = apartment2.Id,
+                    ApartmentId = "ap2",
                     DateFrom = new DateTime(2015,5,10),
                     DateTo = new DateTime(2015,6,30),
                     PriceDay = 1000,
@@ -204,10 +201,25 @@ namespace apartmenthostService.App_Start
                 new Advert()
                 {
                     Id = "a3",
+                    Name = "Ленкина квартира в Ясенево",
+                    UserId = "u3",
+                    Description = "Великолепное жилье в центре Бутово. Комфортно и уютно. Из окна не видно помойки! Уже хорошо!",
+                    ApartmentId = "ap3",
+                    DateFrom = new DateTime(2015,5,1),
+                    DateTo = new DateTime(2015,5,31),
+                    PriceDay = 968,
+                    PricePeriod = 30000,
+                    Cohabitation = ConstVals.SeperateResidence,
+                    ResidentGender = ConstVals.Male,
+                    Lang = ConstLang.RU
+                },
+                new Advert()
+                {
+                    Id = "a1",
                     Name = "Офис совместно с Парус",
-                    UserId = user2.Id,
+                    UserId = "u1",
                     Description = "Бизнес центр ААА-класса. Многоуровневая паркова. Бесплатное питание. У нас есть печеньки!",
-                    ApartmentId = apartment3.Id,
+                    ApartmentId = "ap1",
                     DateFrom = new DateTime(2015,4,30),
                     DateTo = new DateTime(2015,12,31),
                     PriceDay = 1500,
@@ -238,8 +250,20 @@ namespace apartmenthostService.App_Start
                 new Favorite()
                 {
                     Id = "f2",
+                    UserId = "u1",
+                    AdvertId = "a3"
+                },
+                new Favorite()
+                {
+                    Id = "f3",
                     UserId = "u2",
                     AdvertId = "a3"
+                },
+                new Favorite()
+                {
+                    Id = "f4",
+                    UserId = "u3",
+                    AdvertId = "a2"
                     
                 }
             };
@@ -266,7 +290,7 @@ namespace apartmenthostService.App_Start
                 },
                 new Reservation()
                 {
-                    Id = "f2",
+                    Id = "r2",
                     UserId = "u2",
                     AdvertId = "a3",
                     Status = ConstVals.Pending,

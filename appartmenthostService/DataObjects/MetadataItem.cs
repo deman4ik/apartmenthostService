@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Newtonsoft.Json;
 
 namespace apartmenthostService.DataObjects
 {
@@ -13,6 +14,7 @@ namespace apartmenthostService.DataObjects
         public string Type { get; set; }
         public string DataType { get; set; }
         public string Dictionary { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public bool Multi { get; set; }
         public MetadataRule GetRule { get; set; }
         public MetadataRule PostRule { get; set; }

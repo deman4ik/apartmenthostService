@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using apartmenthostService.DataObjects;
+﻿using apartmenthostService.DataObjects;
 using apartmenthostService.Models;
 using AutoMapper;
 
@@ -13,7 +8,7 @@ namespace apartmenthostService.Helpers
     {
         public static void CreateMapping(IConfiguration cfg)
         {
-
+            cfg.CreateMap<Notification, NotificationDTO>();
             cfg.CreateMap<Apartment, ApartmentDTO>();
            cfg.CreateMap<Models.Profile, UserDTO>()
                .ForMember(userDTO => userDTO.Email, map => map.MapFrom(profile => profile.User.Email));

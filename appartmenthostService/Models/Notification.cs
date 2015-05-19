@@ -11,17 +11,12 @@ namespace apartmenthostService.Models
 {
     public class Notification : EntityData
     {
+        public string AdvertId { get; set; }
         public string UserId { get; set; }
-        public string PictureId { get; set; }
-        public string Text { get; set; }
-        public string Url { get; set; }
-        public string Icon { get; set; }
         public string Type { get; set; }
+        public string Text { get; set; }
         public bool Readed { get; set; }
-        public bool SendMail { get; set; }
-        
 
         public virtual User User { get; set; }
-        public virtual Picture Picture { get; set; }
     }
 }

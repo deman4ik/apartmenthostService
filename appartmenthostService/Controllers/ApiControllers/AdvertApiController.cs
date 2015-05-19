@@ -96,12 +96,12 @@ namespace apartmenthostService.Controllers
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Advert Cohabitation is not null
-                resp = CheckHelper.isNull(advert.Cohabitation, "Cohabitation", RespH.SRV_ADVERT_REQUIRED);
-                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-
+                //resp = CheckHelper.isNull(advert.Cohabitation, "Cohabitation", RespH.SRV_ADVERT_REQUIRED);
+                //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                if (advert.Cohabitation == null) advert.Cohabitation = ConstVals.Any;
                 // Check Advert Cohabitation Dictionary
-                resp = CheckHelper.isValidDicItem(context, advert.Cohabitation, ConstDictionary.Cohabitation, "Cohabitation", RespH.SRV_ADVERT_INVALID_DICITEM);
-                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                //resp = CheckHelper.isValidDicItem(context, advert.Cohabitation, ConstDictionary.Cohabitation, "Cohabitation", RespH.SRV_ADVERT_INVALID_DICITEM);
+                //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Advert Resident Gender is not null
                 resp = CheckHelper.isNull(advert.ResidentGender, "ResidentGender", RespH.SRV_ADVERT_REQUIRED);
@@ -240,12 +240,12 @@ namespace apartmenthostService.Controllers
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Advert Cohabitation is not null
-                resp = CheckHelper.isNull(advert.Cohabitation, "Cohabitation", RespH.SRV_ADVERT_REQUIRED);
-                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-
+                //resp = CheckHelper.isNull(advert.Cohabitation, "Cohabitation", RespH.SRV_ADVERT_REQUIRED);
+                //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                if (advert.Cohabitation == null) advert.Cohabitation = ConstVals.Any;
                 // Check Advert Cohabitation Dictionary
-                resp = CheckHelper.isValidDicItem(context, advert.Cohabitation, ConstDictionary.Cohabitation, "Cohabitation", RespH.SRV_ADVERT_INVALID_DICITEM);
-                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                //resp = CheckHelper.isValidDicItem(context, advert.Cohabitation, ConstDictionary.Cohabitation, "Cohabitation", RespH.SRV_ADVERT_INVALID_DICITEM);
+                //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Advert Resident Gender is not null
                 resp = CheckHelper.isNull(advert.ResidentGender, "ResidentGender", RespH.SRV_ADVERT_REQUIRED);

@@ -25,6 +25,17 @@ namespace apartmenthostService.DataObjects
 
     }
 
+    public class ResponseBoolDataDTO
+    {
+        /* Тип ответа
+         * Принимает одно из значений класса ResponseTypes */
+        public string Code { get; set; }
+
+        /* Список значений */
+        public List<bool> Data { get; set; }
+
+    }
+
     public static class RespH
     {
         //Success
@@ -88,6 +99,11 @@ namespace apartmenthostService.DataObjects
         public const string SRV_RESERVATION_WRONG_DATE = "SRV_RESERVATION_WRONG_DATE"; // Дата С должна быть меньше Даты ПО
         public const string SRV_RESERVATION_WRONG_STATUS = "SRV_RESERVATION_WRONG_STATUS"; // Неверный статус
         public const string SRV_RESERVATION_UNAVAILABLE_DATE = "SRV_RESERVATION_UNAVAILABLE_DATE"; // Даты недоступны
+
+        //Favorite
+        public const string SRV_FAVORITE_ADVERTID_NULL = "SRV_FAVORITE_ADVERTID_NULL"; //Пустой объект запроса
+        public const string SRV_FAVORITE_WRONG_USER = "SRV_FAVORITE_WRONG_USER"; // Объект не может быть изменен/удален другим пользователем
+        
         //Dictionary
         public const string SRV_DICTIONARY_NULL = "SRV_DICTIONARY_NULL"; // Пустой объект запроса
         public const string SRV_DICTIONARY_NOTFOUND = "SRV_DICTIONARY_NOTFOUND"; // Объект не найден
@@ -106,6 +122,16 @@ namespace apartmenthostService.DataObjects
         {
             
             return new ResponseDTO()
+            {
+                Code = code,
+                Data = data
+            };
+        }
+
+        public static ResponseBoolDataDTO CreateBool(string code, List<bool> data = null)
+        {
+
+            return new ResponseBoolDataDTO()
             {
                 Code = code,
                 Data = data

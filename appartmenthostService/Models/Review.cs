@@ -11,22 +11,16 @@ namespace apartmenthostService.Models
 {
     public class Review : EntityData
     {
-        public Review()
-        {
-            this.ReviewComments = new HashSet<ReviewComment>();
-        }
-        public string UserId { get; set; }
-        public string AdvertiserId { get; set; }
-        public string Type { get; set; }
+
+        public string FromUserId { get; set; }
+        public string ToUserId { get; set; }
         public string Text { get; set; }
         public double Rating { get; set; }
 
-        public string Lang { get; set; }
+        public virtual User FromUser { get; set; }
+        public virtual User ToUser { get; set; }
 
-        public virtual User User { get; set; }
-        public virtual User Advertiser { get; set; }
 
-        public ICollection<ReviewComment> ReviewComments { get; set; } 
 
     }
 }

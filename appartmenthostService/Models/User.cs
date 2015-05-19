@@ -13,9 +13,8 @@ namespace apartmenthostService.Models
             this.Apartments = new HashSet<Apartment>();
             this.Adverts = new HashSet<Advert>();
             this.Reservations = new HashSet<Reservation>();
-            this.Reviews = new HashSet<Review>();
-            this.AdvertiserReviews = new HashSet<Review>();
-            this.ReviewComments = new HashSet<ReviewComment>();
+            this.OutReviews = new HashSet<Review>();
+            this.InReviews = new HashSet<Review>();
 
         }
         public string Email { get; set; }
@@ -29,8 +28,7 @@ namespace apartmenthostService.Models
         public ICollection<Apartment> Apartments { get; set; }
         public ICollection<Advert> Adverts { get; set; }
         public ICollection<Reservation> Reservations { get; set; }
-        public ICollection<Review> Reviews { get; set; }
-        public ICollection<Review> AdvertiserReviews { get; set; }
-        public ICollection<ReviewComment> ReviewComments { get; set; } 
+        public ICollection<Review> OutReviews { get; set; }
+        public ICollection<Review> InReviews { get; set; }
     }
 }
