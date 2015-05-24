@@ -19,7 +19,7 @@ namespace apartmenthostService.Controllers
     public class ApartmentApiController : ApiController
     {
         public ApiServices Services { get; set; }
-        apartmenthostContext context = new apartmenthostContext();
+        readonly apartmenthostContext _context = new apartmenthostContext();
 
         // POST api/Apartment/48D68C86-6EA6-4C25-AA33-223FC9A27959
         [Route("api/Apartment")]
@@ -49,7 +49,7 @@ namespace apartmenthostService.Controllers
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Apartment Type Dictionary
-                resp = CheckHelper.isValidDicItem(context, apartment.Type, ConstDictionary.ApartmentType, "Type", RespH.SRV_APARTMENT_INVALID_DICITEM);
+                resp = CheckHelper.isValidDicItem(_context, apartment.Type, ConstDictionary.ApartmentType, "Type", RespH.SRV_APARTMENT_INVALID_DICITEM);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Current User
@@ -65,7 +65,7 @@ namespace apartmenthostService.Controllers
 
                 // Generate 
                 string apartmentGuid = Guid.NewGuid().ToString();
-                context.Set<Apartment>().Add(new Apartment()
+                _context.Set<Apartment>().Add(new Apartment()
                 {
                     Id = apartmentGuid,
                     Name = apartment.Name,
@@ -81,7 +81,7 @@ namespace apartmenthostService.Controllers
 
 
 
-                context.SaveChanges();
+                _context.SaveChanges();
                 respList.Add(apartmentGuid);
                 return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
             }
@@ -109,7 +109,7 @@ namespace apartmenthostService.Controllers
                 if (apartment == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NULL));
 
                 // Check Current Apartment is not NULL
-                var apartmentCurrent = context.Apartments.SingleOrDefault(a => a.Id == id);
+                var apartmentCurrent = _context.Apartments.SingleOrDefault(a => a.Id == id);
                 if (apartmentCurrent == null)
                 {
                     respList.Add(id);
@@ -130,7 +130,7 @@ namespace apartmenthostService.Controllers
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Apartment Type Dictionary
-                resp = CheckHelper.isValidDicItem(context, apartment.Type, ConstDictionary.ApartmentType, "Type", RespH.SRV_APARTMENT_INVALID_DICITEM);
+                resp = CheckHelper.isValidDicItem(_context, apartment.Type, ConstDictionary.ApartmentType, "Type", RespH.SRV_APARTMENT_INVALID_DICITEM);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Current User
@@ -168,7 +168,7 @@ namespace apartmenthostService.Controllers
                 apartmentCurrent.Longitude = apartment.Longitude;
                 apartmentCurrent.Lang = apartment.Lang;
 
-                context.SaveChanges();
+                _context.SaveChanges();
 
                 respList.Add(apartment.Id);
                 return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED, respList));
@@ -190,7 +190,7 @@ namespace apartmenthostService.Controllers
             try
             {
                 var respList = new List<string>();
-                var apartment = context.Apartments.SingleOrDefault(a => a.Id == id);
+                var apartment = _context.Apartments.SingleOrDefault(a => a.Id == id);
 
                 // Check Apartment is not NULL
                 if (apartment == null)
@@ -219,7 +219,7 @@ namespace apartmenthostService.Controllers
                 }
 
                 // Check Adverts with such Apartment
-                var adverts = context.Adverts.Where(adv => adv.ApartmentId == id).Select(a => a.Id);
+                var adverts = _context.Adverts.Where(adv => adv.ApartmentId == id).Select(a => a.Id);
                 if (adverts.Any())
                 {
                     foreach (var advert in adverts)
@@ -231,8 +231,8 @@ namespace apartmenthostService.Controllers
                 }
 
                 // Delete Apartment with PropVals
-                context.Apartments.Remove(apartment);
-                context.SaveChanges();
+                _context.Apartments.Remove(apartment);
+                _context.SaveChanges();
                 respList.Add(apartment.Id);
                 return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_DELETED, respList));
 

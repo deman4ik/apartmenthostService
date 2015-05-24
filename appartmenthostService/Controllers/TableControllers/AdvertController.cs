@@ -17,12 +17,12 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class AdvertController : TableController<Advert>
     {
-        apartmenthostContext context = new apartmenthostContext();
+        private apartmenthostContext _context;
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
-
-            DomainManager = new EntityDomainManager<Advert>(context, Request, Services);
+            _context = new apartmenthostContext();
+            DomainManager = new EntityDomainManager<Advert>(_context, Request, Services);
         }
 
         // GET tables/Advert
@@ -51,6 +51,8 @@ namespace apartmenthostService.Controllers
                 Cohabitation = x.Cohabitation,
                 ResidentGender = x.ResidentGender,
                 IsFavorite = x.Favorites.Any(f => f.UserId == userId),
+                CreatedAt = x.CreatedAt,
+                UpdatedAt = x.UpdatedAt,
                 Lang = x.Lang,
                 User = new UserDTO()
                 {
@@ -115,6 +117,8 @@ namespace apartmenthostService.Controllers
                 Cohabitation = x.Cohabitation,
                 ResidentGender = x.ResidentGender,
                 IsFavorite = x.Favorites.Any(f => f.UserId == userId),
+                CreatedAt = x.CreatedAt,
+                UpdatedAt = x.UpdatedAt,
                 Lang = x.Lang,
                 User = new UserDTO()
                 {
@@ -177,6 +181,8 @@ namespace apartmenthostService.Controllers
                 //    Cohabitation = advert.Cohabitation,
                 //    ResidentGender = advert.ResidentGender,
                 //    IsFavorite = advert.Favorites.Any(f => f.UserId == userId),
+                //    CreatedAt = advert.CreatedAt,
+                //    UpdatedAt = advert.UpdatedAt,
                 //    Lang = advert.Lang,
 
 

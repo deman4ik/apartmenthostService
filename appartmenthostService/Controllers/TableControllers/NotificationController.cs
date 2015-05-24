@@ -15,11 +15,12 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class NotificationController : TableController<Notification>
     {
+        private apartmenthostContext _context;
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
-            apartmenthostContext context = new apartmenthostContext();
-            DomainManager = new EntityDomainManager<Notification>(context, Request, Services);
+            _context = new apartmenthostContext();
+            DomainManager = new EntityDomainManager<Notification>(_context, Request, Services);
         }
 
         // GET tables/Notification

@@ -12,17 +12,18 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class DictionaryController : TableController<Dictionary>
     {
+        private apartmenthostContext _context;
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
-            apartmenthostContext context = new apartmenthostContext();
-            DomainManager = new EntityDomainManager<Dictionary>(context, Request, Services);
+            _context = new apartmenthostContext();
+            DomainManager = new EntityDomainManager<Dictionary>(_context, Request, Services);
         }
 
         // GET tables/Dictionary
         public IQueryable<Dictionary> GetAllDictionary()
         {
-            return Query(); 
+            return Query();
         }
 
         // GET tables/Dictionary/48D68C86-6EA6-4C25-AA33-223FC9A27959
@@ -34,7 +35,7 @@ namespace apartmenthostService.Controllers
         // PATCH tables/Dictionary/48D68C86-6EA6-4C25-AA33-223FC9A27959
         public Task<Dictionary> PatchDictionary(string id, Delta<Dictionary> patch)
         {
-             return UpdateAsync(id, patch);
+            return UpdateAsync(id, patch);
         }
 
         // POST tables/Dictionary
@@ -47,7 +48,7 @@ namespace apartmenthostService.Controllers
         // DELETE tables/Dictionary/48D68C86-6EA6-4C25-AA33-223FC9A27959
         public Task DeleteDictionary(string id)
         {
-             return DeleteAsync(id);
+            return DeleteAsync(id);
         }
 
     }

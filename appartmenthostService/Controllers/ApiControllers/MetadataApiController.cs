@@ -18,7 +18,7 @@ namespace apartmenthostService.Controllers
     public class MetadataApiController : ApiController
     {
         public ApiServices Services { get; set; }
-        apartmenthostContext context = new apartmenthostContext();
+        readonly apartmenthostContext _context = new apartmenthostContext();
         // GET api/Metadata/Apartment
         [Route("api/Metadata/Apartment")]
         public Metadata GetApartment()
@@ -143,7 +143,7 @@ namespace apartmenthostService.Controllers
         {
             if (!String.IsNullOrWhiteSpace(dictionaryName))
             {
-                return context.DictionaryItems.Where(di => di.Dictionary.Name == dictionaryName)
+                return _context.DictionaryItems.Where(di => di.Dictionary.Name == dictionaryName)
                     .Select(dicitem => new DictionaryItemDTO()
                     {
                         StrValue = dicitem.StrValue,

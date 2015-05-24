@@ -13,12 +13,12 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class ProfileController : TableController<Profile>
     {
-        apartmenthostContext context = new apartmenthostContext();
+        private apartmenthostContext _contex;
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
-            
-            DomainManager = new EntityDomainManager<Profile>(context, Request, Services);
+            _contex = new apartmenthostContext();
+            DomainManager = new EntityDomainManager<Profile>(_contex, Request, Services);
         }
 
         // GET tables/Profile

@@ -16,7 +16,7 @@ namespace apartmenthostService.Controllers
     public class FavoriteApiController : ApiController
     {
         public ApiServices Services { get; set; }
-        private apartmenthostContext context = new apartmenthostContext();
+        private readonly apartmenthostContext _context = new apartmenthostContext();
 
         [Route("api/IsFavorite/{advertId}")]
         [AuthorizeLevel(AuthorizationLevel.User)]
@@ -32,7 +32,7 @@ namespace apartmenthostService.Controllers
             }
             else
             {
-                status = context.Favorites.Any(f => f.AdvertId == advertId && f.UserId == account.UserId);
+                status = _context.Favorites.Any(f => f.AdvertId == advertId && f.UserId == account.UserId);
             }
             return this.Request.CreateResponse(HttpStatusCode.OK, RespH.CreateBool(RespH.SRV_DONE, new List<bool>() { status }));
            
@@ -61,7 +61,7 @@ namespace apartmenthostService.Controllers
                     return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
 
-                var currentAdvertCount = context.Adverts.Count(a => a.Id == advertId);
+                var currentAdvertCount = _context.Adverts.Count(a => a.Id == advertId);
                 if (currentAdvertCount == 0)
                 {
                     respList.Add(advertId);
@@ -70,10 +70,10 @@ namespace apartmenthostService.Controllers
 
                 bool status;
                 var favorite =
-                    context.Favorites.SingleOrDefault(f => f.AdvertId == advertId && f.UserId == account.UserId);
+                    _context.Favorites.SingleOrDefault(f => f.AdvertId == advertId && f.UserId == account.UserId);
                 if (favorite == null)
                 {
-                    context.Set<Favorite>().Add(new Favorite()
+                    _context.Set<Favorite>().Add(new Favorite()
                     {
                         Id = Guid.NewGuid().ToString(),
                         AdvertId = advertId,
@@ -83,10 +83,10 @@ namespace apartmenthostService.Controllers
                 }
                 else
                 {
-                    context.Favorites.Remove(favorite);
+                    _context.Favorites.Remove(favorite);
                     status = false;
                 }
-                context.SaveChanges();
+                _context.SaveChanges();
                 return this.Request.CreateResponse(HttpStatusCode.OK, RespH.CreateBool(RespH.SRV_DONE, new List<bool>(){status}));
             }
             catch (Exception ex)

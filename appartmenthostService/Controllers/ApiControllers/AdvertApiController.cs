@@ -19,7 +19,7 @@ namespace apartmenthostService.Controllers
     public class AdvertApiController : ApiController
     {
         public ApiServices Services { get; set; }
-        private apartmenthostContext context = new apartmenthostContext();
+        private readonly apartmenthostContext _context = new apartmenthostContext();
 
         //[Route("api/Advert")]
         //[HttpGet]
@@ -92,7 +92,7 @@ namespace apartmenthostService.Controllers
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Advert not Already Exists
-                resp = CheckHelper.isAdvertExist(context, advert.Name, RespH.SRV_ADVERT_EXISTS);
+                resp = CheckHelper.isAdvertExist(_context, advert.Name, RespH.SRV_ADVERT_EXISTS);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Advert Cohabitation is not null
@@ -108,7 +108,7 @@ namespace apartmenthostService.Controllers
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Advert Resident Gender Dictionary
-                resp = CheckHelper.isValidDicItem(context, advert.ResidentGender, ConstDictionary.Gender, "ResidentGender", RespH.SRV_ADVERT_INVALID_DICITEM);
+                resp = CheckHelper.isValidDicItem(_context, advert.ResidentGender, ConstDictionary.Gender, "ResidentGender", RespH.SRV_ADVERT_INVALID_DICITEM);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Dates
@@ -138,13 +138,13 @@ namespace apartmenthostService.Controllers
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Apartment Type Dictionary
-                resp = CheckHelper.isValidDicItem(context, advert.Apartment.Type, ConstDictionary.ApartmentType, "Type", RespH.SRV_APARTMENT_INVALID_DICITEM);
+                resp = CheckHelper.isValidDicItem(_context, advert.Apartment.Type, ConstDictionary.ApartmentType, "Type", RespH.SRV_APARTMENT_INVALID_DICITEM);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Generate 
                 string advertGuid = Guid.NewGuid().ToString();
                 string apartmentGuid = Guid.NewGuid().ToString();
-                context.Set<Advert>().Add(new Advert()
+                _context.Set<Advert>().Add(new Advert()
                 {
                     Id = advertGuid,
                     Name = advert.Name,
@@ -173,7 +173,7 @@ namespace apartmenthostService.Controllers
                     }
                 });
 
-                context.SaveChanges();
+                _context.SaveChanges();
                 respList.Add(advertGuid);
                 return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
             }
@@ -204,7 +204,7 @@ namespace apartmenthostService.Controllers
                 if (advert == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ADVERT_NULL));
 
                 // Check Current Advert is not NULL
-                var advertCurrent = context.Adverts.SingleOrDefault(a => a.Id == id);
+                var advertCurrent = _context.Adverts.SingleOrDefault(a => a.Id == id);
                 if (advertCurrent == null)
                 {
                     respList.Add(id);
@@ -236,7 +236,7 @@ namespace apartmenthostService.Controllers
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Advert not Already Exists
-                resp = CheckHelper.isAdvertExist(context, advert.Name, RespH.SRV_ADVERT_EXISTS);
+                resp = CheckHelper.isAdvertExist(_context, advert.Name, RespH.SRV_ADVERT_EXISTS);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Advert Cohabitation is not null
@@ -252,7 +252,7 @@ namespace apartmenthostService.Controllers
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Advert Resident Gender Dictionary
-                resp = CheckHelper.isValidDicItem(context, advert.ResidentGender, ConstDictionary.Gender, "ResidentGender", RespH.SRV_ADVERT_INVALID_DICITEM);
+                resp = CheckHelper.isValidDicItem(_context, advert.ResidentGender, ConstDictionary.Gender, "ResidentGender", RespH.SRV_ADVERT_INVALID_DICITEM);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Dates
@@ -268,7 +268,7 @@ namespace apartmenthostService.Controllers
                     respList.Add("ApartmentId");
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ADVERT_REQUIRED, respList));
                 }
-                var apartment = context.Apartments.SingleOrDefault(a => a.Id == advert.ApartmentId);
+                var apartment = _context.Apartments.SingleOrDefault(a => a.Id == advert.ApartmentId);
                 if (apartment == null)
                 {
                     respList.Add(advert.ApartmentId);
@@ -284,7 +284,7 @@ namespace apartmenthostService.Controllers
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Apartment Type Dictionary
-                resp = CheckHelper.isValidDicItem(context, advert.Apartment.Type, ConstDictionary.ApartmentType, "Type", RespH.SRV_APARTMENT_INVALID_DICITEM);
+                resp = CheckHelper.isValidDicItem(_context, advert.Apartment.Type, ConstDictionary.ApartmentType, "Type", RespH.SRV_APARTMENT_INVALID_DICITEM);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Update Advert
@@ -306,7 +306,7 @@ namespace apartmenthostService.Controllers
                 advertCurrent.Apartment.Longitude = apartment.Longitude;
                 advertCurrent.Apartment.Lang = apartment.Lang;
 
-                context.SaveChanges();
+                _context.SaveChanges();
 
                 respList.Add(advert.Id);
                 return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED, respList));
@@ -331,7 +331,7 @@ namespace apartmenthostService.Controllers
             try
             {
                 var respList = new List<string>();
-                var advert = context.Adverts.SingleOrDefault(a => a.Id == id);
+                var advert = _context.Adverts.SingleOrDefault(a => a.Id == id);
 
                 // Check Advert is not NULL
                 if (advert == null)
@@ -360,7 +360,7 @@ namespace apartmenthostService.Controllers
                         RespH.Create(RespH.SRV_ADVERT_WRONG_USER, respList));
                 }
 
-                var apartment = context.Apartments.SingleOrDefault(a => a.Id == advert.ApartmentId);
+                var apartment = _context.Apartments.SingleOrDefault(a => a.Id == advert.ApartmentId);
 
                 // Check Apartment is not NULL
                 if (apartment == null)
@@ -369,10 +369,10 @@ namespace apartmenthostService.Controllers
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NOTFOUND, respList));
                 }
                 // Delete Advert
-                context.Adverts.Remove(advert);
-                context.SaveChanges();
-                context.Apartments.Remove(apartment);
-                context.SaveChanges();
+                _context.Adverts.Remove(advert);
+                _context.SaveChanges();
+                _context.Apartments.Remove(apartment);
+                _context.SaveChanges();
                 respList.Add(advert.Id);
                 return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_DELETED, respList));
             }

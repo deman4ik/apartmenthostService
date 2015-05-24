@@ -21,7 +21,7 @@ namespace apartmenthostService.Controllers
 
         public ApiServices Services { get; set; }
 
-        apartmenthostContext context = new apartmenthostContext();
+        readonly apartmenthostContext _context = new apartmenthostContext();
 
         // GET api/User
         [Route("api/User")]
@@ -31,9 +31,9 @@ namespace apartmenthostService.Controllers
         {
             var currentUser = User as ServiceUser;
             if (currentUser == null) return null;
-            var account = context.Accounts.SingleOrDefault(a => a.AccountId == currentUser.Id);
+            var account = _context.Accounts.SingleOrDefault(a => a.AccountId == currentUser.Id);
             if (account == null) return null;
-            var result = context.Profile.Where(p => p.Id == account.UserId).Project().To<UserDTO>();
+            var result = _context.Profile.Where(p => p.Id == account.UserId).Project().To<UserDTO>();
             return result;
         }
 
@@ -73,7 +73,7 @@ namespace apartmenthostService.Controllers
                 }
 
                 // Check Current Profile is not NULL
-                var profileCurrent = context.Profile.SingleOrDefault(a => a.Id == currentUser.Id);
+                var profileCurrent = _context.Profile.SingleOrDefault(a => a.Id == currentUser.Id);
                 if (profileCurrent == null)
                 {
                     respList.Add(currentUser.Id);
@@ -97,7 +97,7 @@ namespace apartmenthostService.Controllers
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Gender Dictionary
-                resp = CheckHelper.isValidDicItem(context, profile.Gender, ConstDictionary.Gender, "Gender", RespH.SRV_USER_INVALID_DICITEM);
+                resp = CheckHelper.isValidDicItem(_context, profile.Gender, ConstDictionary.Gender, "Gender", RespH.SRV_USER_INVALID_DICITEM);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 profileCurrent.FirstName = profile.FirstName;
@@ -109,7 +109,7 @@ namespace apartmenthostService.Controllers
                 profileCurrent.ContactKind = profile.ContactKind;
                 profileCurrent.Description = profile.Description;
 
-                context.SaveChanges();
+                _context.SaveChanges();
 
                 respList.Add(profileCurrent.Id);
                 return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED, respList));

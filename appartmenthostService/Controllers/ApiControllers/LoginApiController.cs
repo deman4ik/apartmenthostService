@@ -15,7 +15,7 @@ namespace apartmenthostService.Controllers
     public class StandartLoginController : ApiController
     {
         public ApiServices Services { get; set; }
-        public IServiceTokenHandler handler { get; set; }
+        public IServiceTokenHandler Handler { get; set; }
 
         // POST api/CustomLogin
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
@@ -32,7 +32,7 @@ namespace apartmenthostService.Controllers
                 {
                     ClaimsIdentity claimsIdentity = new ClaimsIdentity();
                     claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, loginRequest.email));
-                    LoginResult loginResult = new StandartLoginProvider(handler).CreateLoginResult(claimsIdentity, Services.Settings.MasterKey);
+                    LoginResult loginResult = new StandartLoginProvider(Handler).CreateLoginResult(claimsIdentity, Services.Settings.MasterKey);
                     return this.Request.CreateResponse(HttpStatusCode.OK, loginResult);
                 }
                 return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_LOGIN_INVALID_PASS));

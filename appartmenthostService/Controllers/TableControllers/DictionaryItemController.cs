@@ -12,11 +12,12 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class DictionaryItemController : TableController<DictionaryItem>
     {
+        private apartmenthostContext _context;
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
-            apartmenthostContext context = new apartmenthostContext();
-            DomainManager = new EntityDomainManager<DictionaryItem>(context, Request, Services);
+            _context = new apartmenthostContext();
+            DomainManager = new EntityDomainManager<DictionaryItem>(_context, Request, Services);
         }
 
         // GET tables/DictionaryItem

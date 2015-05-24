@@ -20,12 +20,12 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class ApartmentController : TableController<Apartment>
     {
-       private apartmenthostContext context;
+       private apartmenthostContext _context;
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
-            this.context = new apartmenthostContext();
-            DomainManager = new EntityDomainManager<Apartment>(context, Request, Services);
+            _context = new apartmenthostContext();
+            DomainManager = new EntityDomainManager<Apartment>(_context, Request, Services);
         }
 
         // GET tables/Apartment
