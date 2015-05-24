@@ -72,7 +72,7 @@ namespace apartmenthostService.DataObjects
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        public virtual UserDTO User { get; set; }
+        public virtual BaseUserDTO User { get; set; }
 
         [Metadata(DataType = ConstDataType.Advert)]
         [GetRule(Order = 6, RequiredForm = false, RequiredTransfer = false, Visible = true)]

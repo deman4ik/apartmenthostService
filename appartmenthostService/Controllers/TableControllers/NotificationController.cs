@@ -28,7 +28,7 @@ namespace apartmenthostService.Controllers
         public IQueryable<NotificationDTO> GetAllNotification()
         {
             var currentUser = User as ServiceUser;
-            var account = AuthUtils.GetUserAccount(currentUser);
+            var account = AuthUtils.GetUserAccount(_context,currentUser);
             if (account == null) return null;
             return Query().Where(a => a.UserId == account.UserId).Project().To<NotificationDTO>(); ; 
         }
@@ -38,7 +38,7 @@ namespace apartmenthostService.Controllers
         public SingleResult<NotificationDTO> GetNotification(string id)
         {
             var currentUser = User as ServiceUser;
-            var account = AuthUtils.GetUserAccount(currentUser);
+            var account = AuthUtils.GetUserAccount(_context,currentUser);
             if (account == null) return null;
             var result = Lookup(id).Queryable.Where(a => a.UserId == account.UserId).Project().To<NotificationDTO>();
             return SingleResult<NotificationDTO>.Create(result);

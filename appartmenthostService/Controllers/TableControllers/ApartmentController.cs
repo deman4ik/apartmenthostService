@@ -34,7 +34,7 @@ namespace apartmenthostService.Controllers
         public IQueryable<ApartmentDTO> GetAllApartment()
         {
             var currentUser = User as ServiceUser;
-            var account = AuthUtils.GetUserAccount(currentUser);
+            var account = AuthUtils.GetUserAccount(_context, currentUser);
             if (account == null) return null;
             return Query().Where(a => a.UserId == account.UserId).Select(x => new ApartmentDTO()
             {
@@ -61,7 +61,7 @@ namespace apartmenthostService.Controllers
         public SingleResult<ApartmentDTO> GetApartment(string id)
         {
             var currentUser = User as ServiceUser;
-            var account = AuthUtils.GetUserAccount(currentUser);
+            var account = AuthUtils.GetUserAccount(_context, currentUser);
             if (account == null) return null;
             var result = Lookup(id).Queryable.Where(a => a.UserId == account.UserId).Select(x => new ApartmentDTO()
             {

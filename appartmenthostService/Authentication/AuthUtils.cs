@@ -11,7 +11,7 @@ using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace apartmenthostService.Authentication
 {
-    public class AuthUtils
+    public static class AuthUtils
     {
         public static string randomString(int size)
         {
@@ -121,9 +121,8 @@ namespace apartmenthostService.Authentication
             
         }
 
-        public static Account GetUserAccount(ServiceUser user)
+        public static Account GetUserAccount(apartmenthostContext context, ServiceUser user)
         {
-            apartmenthostContext context = new apartmenthostContext();
             return context.Accounts.SingleOrDefault(a => a.AccountId == user.Id);
         }
     }

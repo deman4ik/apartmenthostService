@@ -230,6 +230,7 @@
     <Compile Include="Controllers\ApiControllers\UserApiController.cs" />
     <Compile Include="DataObjects\AdvertDTO.cs" />
     <Compile Include="DataObjects\ApartmentDTO.cs" />
+    <Compile Include="DataObjects\BaseUserDTO.cs" />
     <Compile Include="DataObjects\DictionaryItemDTO.cs" />
     <Compile Include="DataObjects\Metadata.cs" />
     <Compile Include="DataObjects\MetadataItem.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="DataObjects\NotificationDTO.cs" />
     <Compile Include="DataObjects\PropDTO.cs" />
     <Compile Include="DataObjects\PropValDTO.cs" />
+    <Compile Include="DataObjects\RelatedAdvertDTO.cs" />
     <Compile Include="DataObjects\RequestDTO.cs" />
     <Compile Include="DataObjects\ReservationDTO.cs" />
     <Compile Include="DataObjects\ResponseDTO.cs" />

@@ -55,7 +55,7 @@ namespace apartmenthostService.Controllers
                 var currentUser = User as ServiceUser;
                 if (currentUser == null)
                     return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
-                var account = AuthUtils.GetUserAccount(currentUser);
+                var account = AuthUtils.GetUserAccount(_context, currentUser);
                 if (account == null)
                 {
                     respList.Add(currentUser.Id);

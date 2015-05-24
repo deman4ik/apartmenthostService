@@ -72,7 +72,7 @@ namespace apartmenthostService.DataObjects
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        public virtual UserDTO FromUser { get; set; }
+        public virtual BaseUserDTO FromUser { get; set; }
 
         // Объект пользователь - Кому был оставлен отзыв
         [Metadata(DataType = ConstDataType.User)]
@@ -80,6 +80,6 @@ namespace apartmenthostService.DataObjects
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        public virtual UserDTO ToUser { get; set; }
+        public virtual BaseUserDTO ToUser { get; set; }
     }
 }

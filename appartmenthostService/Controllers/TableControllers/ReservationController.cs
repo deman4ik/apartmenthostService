@@ -35,12 +35,16 @@ namespace apartmenthostService.Controllers
                 DateTo = r.DateTo,
                 CreatedAt = r.CreatedAt,
                 UpdatedAt = r.UpdatedAt,
-                User = new UserDTO()
+                User = new BaseUserDTO()
                 {
+                    Id = r.User.Profile.Id,
+                    Email =  r.User.Email,
                     FirstName = r.User.Profile.FirstName,
                     LastName = r.User.Profile.LastName,
-                    Gender = r.User.Profile.Gender,
-                    Phone = r.User.Profile.Phone
+                    Rating = r.User.Profile.Rating,
+                    Gender = r.User.Profile.Gender
+                    
+
                 },
                 Advert = new AdvertDTO()
             {
@@ -93,12 +97,14 @@ namespace apartmenthostService.Controllers
                 DateTo = r.DateTo,
                 CreatedAt = r.CreatedAt,
                 UpdatedAt = r.UpdatedAt,
-                User = new UserDTO()
+                User = new BaseUserDTO()
                 {
+                    Id = r.User.Profile.Id,
+                    Email = r.User.Email,
                     FirstName = r.User.Profile.FirstName,
                     LastName = r.User.Profile.LastName,
-                    Gender = r.User.Profile.Gender,
-                    Phone = r.User.Profile.Phone
+                    Rating = r.User.Profile.Rating,
+                    Gender = r.User.Profile.Gender
                 },
                 Advert = new AdvertDTO()
                 {

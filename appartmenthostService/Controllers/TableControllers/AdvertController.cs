@@ -31,7 +31,7 @@ namespace apartmenthostService.Controllers
         public IQueryable<AdvertDTO> GetAllAdverts()
         {
             var currentUser = User as ServiceUser;
-            var account = AuthUtils.GetUserAccount(currentUser);
+            var account = AuthUtils.GetUserAccount(_context, currentUser);
             string userId = null;
             if (account != null)
             {
@@ -60,6 +60,7 @@ namespace apartmenthostService.Controllers
                     FirstName = x.User.Profile.FirstName,
                     LastName = x.User.Profile.LastName,
                     Gender = x.User.Profile.Gender,
+                    Rating = x.User.Profile.Rating,
                     Phone = x.User.Profile.Phone
                 },
                 Apartment = new ApartmentDTO()
@@ -78,13 +79,15 @@ namespace apartmenthostService.Controllers
                     DateFrom = rv.DateFrom,
                     DateTo = rv.DateTo,
                     UserId = rv.UserId,
-                    //User = new UserDTO()
-                    //{
-                    //    Email = rv.User.Email,
-                    //    FirstName = rv.User.Profile.FirstName,
-                    //    LastName = rv.User.Profile.LastName,
-                    //    Phone = rv.User.Profile.Phone
-                    //}
+                    User = new BaseUserDTO()
+                    {
+                        Id = rv.User.Profile.Id,
+                        Email = rv.User.Email,
+                        FirstName = rv.User.Profile.FirstName,
+                        LastName = rv.User.Profile.LastName,
+                        Rating = rv.User.Profile.Rating,
+                        Gender = rv.User.Profile.Gender
+                    }
                 }).ToList()
 
 
@@ -96,8 +99,9 @@ namespace apartmenthostService.Controllers
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
         public SingleResult<AdvertDTO> GetAdvert(string id)
         {
+
             var currentUser = User as ServiceUser;
-            var account = AuthUtils.GetUserAccount(currentUser);
+            var account = AuthUtils.GetUserAccount(_context, currentUser);
             string userId = null;
             if (account != null)
             {
@@ -143,13 +147,15 @@ namespace apartmenthostService.Controllers
                     DateFrom = rv.DateFrom,
                     DateTo = rv.DateTo,
                     UserId = rv.UserId,
-                    //User = new UserDTO()
-                    //{
-                    //    Email = rv.User.Email,
-                    //    FirstName = rv.User.Profile.FirstName,
-                    //    LastName = rv.User.Profile.LastName,
-                    //    Phone = rv.User.Profile.Phone
-                    //}
+                    User = new BaseUserDTO()
+                    {
+                        Id = rv.User.Profile.Id,
+                        Email = rv.User.Email,
+                        FirstName = rv.User.Profile.FirstName,
+                        LastName = rv.User.Profile.LastName,
+                        Rating = rv.User.Profile.Rating,
+                        Gender = rv.User.Profile.Gender
+                    }
                 }).ToList(),
                 Reviews = x.User.InReviews.Select(rev => new ReviewDTO()
                 {
@@ -157,58 +163,54 @@ namespace apartmenthostService.Controllers
                     Rating = rev.Rating,
                     Text = rev.Text,
                     CreatedAt = rev.CreatedAt,
-                    FromUser = new UserDTO()
+                    FromUser = new BaseUserDTO()
                     {
                         Id = rev.FromUser.Profile.Id,
                         Email = rev.FromUser.Email,
                         FirstName = rev.FromUser.Profile.FirstName,
                         LastName = rev.FromUser.Profile.LastName,
-                        Gender = rev.FromUser.Profile.Gender,
-                        Phone = null
+                        Rating = rev.FromUser.Profile.Rating,
+                        Gender = rev.FromUser.Profile.Gender
                     }
                 }).ToList(),
-                //RelatedAdverts = context.Adverts.Where(adv => adv.Id != x.Id && adv.ResidentGender == x.ResidentGender && adv.Apartment.Type == x.Apartment.Type).Take(5).Select(advert => new AdvertDTO()
-                //{
-                //    Id = advert.Id,
-                //    Name = advert.Name,
-                //    UserId = advert.UserId,
-                //    Description = advert.Description,
-                //    ApartmentId = advert.ApartmentId,
-                //    DateFrom = advert.DateFrom,
-                //    DateTo = advert.DateTo,
-                //    PriceDay = advert.PriceDay,
-                //    PricePeriod = advert.PricePeriod,
-                //    Cohabitation = advert.Cohabitation,
-                //    ResidentGender = advert.ResidentGender,
-                //    IsFavorite = advert.Favorites.Any(f => f.UserId == userId),
-                //    CreatedAt = advert.CreatedAt,
-                //    UpdatedAt = advert.UpdatedAt,
-                //    Lang = advert.Lang,
+                RelatedAdverts = _context.Adverts.Where(adv => adv.Id != x.Id && adv.ResidentGender == x.ResidentGender && adv.Apartment.Type == x.Apartment.Type).Take(5).Select(advert => new RelatedAdvertDTO()
+                {
+                    Id = advert.Id,
+                    Name = advert.Name,
+                    UserId = advert.UserId,
+                    Description = advert.Description,
+                    ApartmentId = advert.ApartmentId,
+                    DateFrom = advert.DateFrom,
+                    DateTo = advert.DateTo,
+                    PriceDay = advert.PriceDay,
+                    PricePeriod = advert.PricePeriod,
+                    Cohabitation = advert.Cohabitation,
+                    ResidentGender = advert.ResidentGender,
+                    IsFavorite = advert.Favorites.Any(f => f.UserId == userId),
+                    CreatedAt = advert.CreatedAt,
+                    Lang = advert.Lang,
 
 
-                //    Apartment = new ApartmentDTO()
-                //    {
-                //        Id = advert.Apartment.Id,
-                //        Name = advert.Apartment.Name,
-                //        Type = advert.Apartment.Type,
-                //        Options = advert.Apartment.Options,
-                //        UserId = advert.Apartment.UserId,
-                //        Adress = advert.Apartment.Adress
-                //    },
-                //    User = new UserDTO()
-                //    {
-                //    Id = advert.User.Profile.Id,
-                //    Email = advert.User.Email,
-                //    FirstName = advert.User.Profile.FirstName,
-                //    LastName = advert.User.Profile.LastName,
-                //    Gender = advert.User.Profile.Gender,
-                //    Phone = null
-                //    },
-                //    ApprovedReservations =  new List<ReservationDTO>(),
-                //    Reviews = new List<ReviewDTO>(),
-                //    RelatedAdverts = new List<AdvertDTO>()
+                    Apartment = new ApartmentDTO()
+                    {
+                        Id = advert.Apartment.Id,
+                        Name = advert.Apartment.Name,
+                        Type = advert.Apartment.Type,
+                        Options = advert.Apartment.Options,
+                        UserId = advert.Apartment.UserId,
+                        Adress = advert.Apartment.Adress
+                    },
+                    User = new BaseUserDTO()
+                    {
+                        Id = advert.User.Profile.Id,
+                        Email = advert.User.Email,
+                        FirstName = advert.User.Profile.FirstName,
+                        LastName = advert.User.Profile.LastName,
+                        Rating = advert.User.Profile.Rating,
+                        Gender = advert.User.Profile.Gender
+                    }
 
-                //}).ToList()
+                }).ToList()
 
             });
             return SingleResult.Create(result);
