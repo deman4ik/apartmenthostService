@@ -156,11 +156,26 @@ namespace apartmenthostService.DataObjects
         // Бронирование
         [Metadata(DataType = ConstDataType.ApprovedReservations)]
         [GetRule(Order = 9, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [PostRule(Order = 9, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        [PutRule(Order = 9, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public ICollection<ReservationDTO> ApprovedReservations { get; set; }
 
+        // Отзывы
+        [Metadata(DataType = ConstDataType.Reviews)]
+        [GetRule(Order = 9, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public ICollection<ReviewDTO> Reviews { get; set; }
+
+        // Похожие Объявления
+        [Metadata(DataType = ConstDataType.RelatedAdverts)]
+        [GetRule(Order = 9, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public ICollection<AdvertDTO> RelatedAdverts { get; set; } 
         // [GET][POST][PUT] - {NN} -Список дополнительных колонок(PropVal)
         //[Metadata(DataType = ConstDataType.PropVals)]
         //[GetRule(Order = 9, RequiredForm = false, RequiredTransfer = true, Visible = true)]

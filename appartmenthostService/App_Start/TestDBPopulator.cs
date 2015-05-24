@@ -34,6 +34,9 @@ namespace apartmenthostService.App_Start
                 PopulateReservations(context);
                 context.SaveChanges();
 
+                PopulateReviews(context);
+                context.SaveChanges();
+
                 PopulateTables(context);
                 context.SaveChanges();
 
@@ -188,7 +191,7 @@ namespace apartmenthostService.App_Start
                     Id = "a2",
                     Name = "Пупович Плаза в Бутово",
                     UserId = "u2",
-                    Description = "Квартирка на Соловьином. Жить можно, но не долго. Из окна почти ничего не видно, только стенку морга.",
+                    Description = "Великолепное жилье в центре Бутово. Комфортно и уютно. Из окна не видно помойки! Уже хорошо!",
                     ApartmentId = "ap2",
                     DateFrom = new DateTime(2015,5,10),
                     DateTo = new DateTime(2015,6,30),
@@ -203,7 +206,7 @@ namespace apartmenthostService.App_Start
                     Id = "a3",
                     Name = "Ленкина квартира в Ясенево",
                     UserId = "u3",
-                    Description = "Великолепное жилье в центре Бутово. Комфортно и уютно. Из окна не видно помойки! Уже хорошо!",
+                    Description = "Квартирка на Соловьином. Жить можно, но не долго. Из окна почти ничего не видно, только стенку морга.",
                     ApartmentId = "ap3",
                     DateFrom = new DateTime(2015,5,1),
                     DateTo = new DateTime(2015,5,31),
@@ -236,6 +239,48 @@ namespace apartmenthostService.App_Start
             }
         }
 
+        public static void PopulateReviews(apartmenthostContext context)
+        {
+            List<Review> reviews = new List<Review>()
+            {
+                new Review()
+                {
+                    Id = "rw1",
+                    FromUserId = "u2",
+                    ToUserId = "u1",
+                    Text = "Отличный офис! Всем довольны! Арендуем еще на год!",
+                    Rating = 5
+                },
+                new Review()
+                {
+                    Id = "rw2",
+                    FromUserId = "u3",
+                    ToUserId = "u1",
+                    Text = "Офис хорош, просторно, удобно, но паркинг ужасен!",
+                    Rating = 4
+                },
+                new Review()
+                {
+                    Id = "rw3",
+                    FromUserId = "u1",
+                    ToUserId = "u2",
+                    Text = "Ответсвенный съемщик. Вежливый и аккуратный. Оплата в срок.",
+                    Rating = 5
+                },
+                new Review()
+                {
+                    Id = "rw4",
+                    FromUserId = "u1",
+                    ToUserId = "u2",
+                    Text = "Дом мечты! И совсем рядом, всего то в Бутово! Но ",
+                    Rating = 4
+                },
+            };
+            foreach (var review in reviews)
+            {
+                context.Set<Review>().Add(review);
+            }
+        }
         public static void PopulateFavorites(apartmenthostContext context)
         {
             List<Favorite> favorites = new List<Favorite>()

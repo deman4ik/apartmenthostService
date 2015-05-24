@@ -86,7 +86,7 @@ namespace apartmenthostService.Controllers
                     context.Favorites.Remove(favorite);
                     status = false;
                 }
-
+                context.SaveChanges();
                 return this.Request.CreateResponse(HttpStatusCode.OK, RespH.CreateBool(RespH.SRV_DONE, new List<bool>(){status}));
             }
             catch (Exception ex)

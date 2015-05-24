@@ -1,4 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Data.Entity.Core.Metadata.Edm;
+using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using apartmenthostService.Authentication;
@@ -13,16 +17,16 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class AdvertController : TableController<Advert>
     {
-         apartmenthostContext context = new apartmenthostContext();
+        apartmenthostContext context = new apartmenthostContext();
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
-            
+
             DomainManager = new EntityDomainManager<Advert>(context, Request, Services);
         }
 
         // GET tables/Advert
-       // [QueryableExpand("Apartments")]
+        // [QueryableExpand("Apartments")]
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
         public IQueryable<AdvertDTO> GetAllAdverts()
         {
@@ -80,13 +84,13 @@ namespace apartmenthostService.Controllers
                     //    Phone = rv.User.Profile.Phone
                     //}
                 }).ToList()
-                
+
 
             });
         }
 
         // GET tables/Advert/48D68C86-6EA6-4C25-AA33-223FC9A27959
-       // [QueryableExpand("Apartments")]
+        // [QueryableExpand("Apartments")]
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
         public SingleResult<AdvertDTO> GetAdvert(string id)
         {
@@ -115,6 +119,7 @@ namespace apartmenthostService.Controllers
                 User = new UserDTO()
                 {
                     Id = x.User.Profile.Id,
+                    Email = x.User.Email,
                     FirstName = x.User.Profile.FirstName,
                     LastName = x.User.Profile.LastName,
                     Gender = x.User.Profile.Gender,
@@ -127,9 +132,7 @@ namespace apartmenthostService.Controllers
                     Type = x.Apartment.Type,
                     Options = x.Apartment.Options,
                     UserId = x.Apartment.UserId,
-                    Adress = x.Apartment.Adress,
-                    Latitude = x.Apartment.Latitude,
-                    Longitude = x.Apartment.Longitude,
+                    Adress = x.Apartment.Adress
                 },
                 ApprovedReservations = x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new ReservationDTO()
                 {
@@ -143,7 +146,63 @@ namespace apartmenthostService.Controllers
                     //    LastName = rv.User.Profile.LastName,
                     //    Phone = rv.User.Profile.Phone
                     //}
-                }).ToList()
+                }).ToList(),
+                Reviews = x.User.InReviews.Select(rev => new ReviewDTO()
+                {
+                    Id = rev.Id,
+                    Rating = rev.Rating,
+                    Text = rev.Text,
+                    CreatedAt = rev.CreatedAt,
+                    FromUser = new UserDTO()
+                    {
+                        Id = rev.FromUser.Profile.Id,
+                        Email = rev.FromUser.Email,
+                        FirstName = rev.FromUser.Profile.FirstName,
+                        LastName = rev.FromUser.Profile.LastName,
+                        Gender = rev.FromUser.Profile.Gender,
+                        Phone = null
+                    }
+                }).ToList(),
+                //RelatedAdverts = context.Adverts.Where(adv => adv.Id != x.Id && adv.ResidentGender == x.ResidentGender && adv.Apartment.Type == x.Apartment.Type).Take(5).Select(advert => new AdvertDTO()
+                //{
+                //    Id = advert.Id,
+                //    Name = advert.Name,
+                //    UserId = advert.UserId,
+                //    Description = advert.Description,
+                //    ApartmentId = advert.ApartmentId,
+                //    DateFrom = advert.DateFrom,
+                //    DateTo = advert.DateTo,
+                //    PriceDay = advert.PriceDay,
+                //    PricePeriod = advert.PricePeriod,
+                //    Cohabitation = advert.Cohabitation,
+                //    ResidentGender = advert.ResidentGender,
+                //    IsFavorite = advert.Favorites.Any(f => f.UserId == userId),
+                //    Lang = advert.Lang,
+
+
+                //    Apartment = new ApartmentDTO()
+                //    {
+                //        Id = advert.Apartment.Id,
+                //        Name = advert.Apartment.Name,
+                //        Type = advert.Apartment.Type,
+                //        Options = advert.Apartment.Options,
+                //        UserId = advert.Apartment.UserId,
+                //        Adress = advert.Apartment.Adress
+                //    },
+                //    User = new UserDTO()
+                //    {
+                //    Id = advert.User.Profile.Id,
+                //    Email = advert.User.Email,
+                //    FirstName = advert.User.Profile.FirstName,
+                //    LastName = advert.User.Profile.LastName,
+                //    Gender = advert.User.Profile.Gender,
+                //    Phone = null
+                //    },
+                //    ApprovedReservations =  new List<ReservationDTO>(),
+                //    Reviews = new List<ReviewDTO>(),
+                //    RelatedAdverts = new List<AdvertDTO>()
+
+                //}).ToList()
 
             });
             return SingleResult.Create(result);
