@@ -106,6 +106,7 @@ namespace apartmenthostService.Helpers
             if (dicItem == null)
             {
                 var respList = new List<string>();
+                respList.Add(item);
                 respList.Add(itemName);
                 respList.Add(dicName);
                 return RespH.Create(errType, respList);

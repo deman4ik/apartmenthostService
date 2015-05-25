@@ -467,7 +467,7 @@ namespace apartmenthostService.App_Start
                 dictionaryItems.Add(new DictionaryItem()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    DictionaryId = apartmentOptionDic.Id,
+                    DictionaryId = genderDic.Id,
                     StrValue = gender
                 });
             }
