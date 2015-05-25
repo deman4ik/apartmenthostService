@@ -25,6 +25,8 @@ namespace apartmenthostService
             // To display errors in the browser during development, uncomment the following
             // line. Comment it out again when you deploy your service for production use.
             config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize;
+            config.Formatters.JsonFormatter.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
             Mapper.Initialize(cfg =>
             {
                 DTOMapper.CreateMapping(cfg);
