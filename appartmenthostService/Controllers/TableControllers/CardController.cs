@@ -1,34 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Data.Entity.Core.Metadata.Edm;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
-using Microsoft.WindowsAzure.Mobile.Service;
 using apartmenthostService.Models;
+using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace apartmenthostService.Controllers
 {
     [AuthorizeLevel(AuthorizationLevel.Application)]
-    public class AdvertController : TableController<Advert>
+    public class CardController : TableController<Card>
     {
         private apartmenthostContext _context;
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
             _context = new apartmenthostContext();
-            DomainManager = new EntityDomainManager<Advert>(_context, Request, Services);
+            DomainManager = new EntityDomainManager<Card>(_context, Request, Services);
         }
 
-        // GET tables/Advert
-        // [QueryableExpand("Apartments")]
+        // GET tables/Card
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
-        public IQueryable<AdvertDTO> GetAllAdverts()
+        public IQueryable<CardDTO> GetAllCards()
         {
             var currentUser = User as ServiceUser;
             var account = AuthUtils.GetUserAccount(_context, currentUser);
@@ -37,7 +32,7 @@ namespace apartmenthostService.Controllers
             {
                 userId = account.UserId;
             }
-            return Query().Select(x => new AdvertDTO()
+            return Query().Select(x => new CardDTO()
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -94,10 +89,9 @@ namespace apartmenthostService.Controllers
             });
         }
 
-        // GET tables/Advert/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        // [QueryableExpand("Apartments")]
+        // GET tables/Card/48D68C86-6EA6-4C25-AA33-223FC9A27959
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
-        public SingleResult<AdvertDTO> GetAdvert(string id)
+        public SingleResult<CardDTO> GetCard(string id)
         {
 
             var currentUser = User as ServiceUser;
@@ -107,7 +101,7 @@ namespace apartmenthostService.Controllers
             {
                 userId = account.UserId;
             }
-            var result = Lookup(id).Queryable.Select(x => new AdvertDTO()
+            var result = Lookup(id).Queryable.Select(x => new CardDTO()
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -173,41 +167,41 @@ namespace apartmenthostService.Controllers
                         Gender = rev.FromUser.Profile.Gender
                     }
                 }).ToList(),
-                RelatedAdverts = _context.Adverts.Where(adv => adv.Id != x.Id && adv.ResidentGender == x.ResidentGender && adv.Apartment.Type == x.Apartment.Type).Take(5).Select(advert => new RelatedAdvertDTO()
+                RelatedCards = _context.Cards.Where(crd => crd.Id != x.Id && crd.ResidentGender == x.ResidentGender && crd.Apartment.Type == x.Apartment.Type).Take(5).Select(card => new RelatedCardDTO
                 {
-                    Id = advert.Id,
-                    Name = advert.Name,
-                    UserId = advert.UserId,
-                    Description = advert.Description,
-                    ApartmentId = advert.ApartmentId,
-                    DateFrom = advert.DateFrom,
-                    DateTo = advert.DateTo,
-                    PriceDay = advert.PriceDay,
-                    PricePeriod = advert.PricePeriod,
-                    Cohabitation = advert.Cohabitation,
-                    ResidentGender = advert.ResidentGender,
-                    IsFavorite = advert.Favorites.Any(f => f.UserId == userId),
-                    CreatedAt = advert.CreatedAt,
-                    Lang = advert.Lang,
+                    Id = card.Id,
+                    Name = card.Name,
+                    UserId = card.UserId,
+                    Description = card.Description,
+                    ApartmentId = card.ApartmentId,
+                    DateFrom = card.DateFrom,
+                    DateTo = card.DateTo,
+                    PriceDay = card.PriceDay,
+                    PricePeriod = card.PricePeriod,
+                    Cohabitation = card.Cohabitation,
+                    ResidentGender = card.ResidentGender,
+                    IsFavorite = card.Favorites.Any(f => f.UserId == userId),
+                    CreatedAt = card.CreatedAt,
+                    Lang = card.Lang,
 
 
                     Apartment = new ApartmentDTO()
                     {
-                        Id = advert.Apartment.Id,
-                        Name = advert.Apartment.Name,
-                        Type = advert.Apartment.Type,
-                        Options = advert.Apartment.Options,
-                        UserId = advert.Apartment.UserId,
-                        Adress = advert.Apartment.Adress
+                        Id = card.Apartment.Id,
+                        Name = card.Apartment.Name,
+                        Type = card.Apartment.Type,
+                        Options = card.Apartment.Options,
+                        UserId = card.Apartment.UserId,
+                        Adress = card.Apartment.Adress
                     },
                     User = new BaseUserDTO()
                     {
-                        Id = advert.User.Profile.Id,
-                        Email = advert.User.Email,
-                        FirstName = advert.User.Profile.FirstName,
-                        LastName = advert.User.Profile.LastName,
-                        Rating = advert.User.Profile.Rating,
-                        Gender = advert.User.Profile.Gender
+                        Id = card.User.Profile.Id,
+                        Email = card.User.Email,
+                        FirstName = card.User.Profile.FirstName,
+                        LastName = card.User.Profile.LastName,
+                        Rating = card.User.Profile.Rating,
+                        Gender = card.User.Profile.Gender
                     }
 
                 }).ToList()

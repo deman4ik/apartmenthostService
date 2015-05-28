@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -9,7 +8,6 @@ using apartmenthostService.Helpers;
 using apartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
-
 
 namespace apartmenthostService.Controllers
 {
@@ -30,7 +28,7 @@ namespace apartmenthostService.Controllers
         [Route("api/Metadata/Advert")]
         public Metadata GetAdvert()
         {
-            return GetMetadata(ConstType.Advert, typeof(AdvertDTO));
+            return GetMetadata(ConstType.Card, typeof(CardDTO));
         }
 
         // GET api/Metadata/User
@@ -129,7 +127,7 @@ namespace apartmenthostService.Controllers
                 //    return GetPropsMetadata(metadataType);
                 case ConstType.Apartment:
                     return GetApartment();
-                case ConstType.Advert:
+                case ConstType.Card:
                     return GetAdvert();
                 case ConstType.User:
                     return GetUser();

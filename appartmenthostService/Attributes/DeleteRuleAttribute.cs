@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace apartmenthostService.Attributes
 {
     [AttributeUsage(AttributeTargets.Property)]

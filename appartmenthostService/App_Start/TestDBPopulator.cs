@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using apartmenthostService.Authentication;
-using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
 using apartmenthostService.Models;
 
@@ -25,7 +20,7 @@ namespace apartmenthostService.App_Start
                 PopulateApartments(context);
                 context.SaveChanges();
 
-                PopulateAdverts(context);
+                PopulateCards(context);
                 context.SaveChanges();
 
                 PopulateFavorites(context);
@@ -48,10 +43,10 @@ namespace apartmenthostService.App_Start
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("!!!!!!!!!!!!!!!!!!");
-                System.Diagnostics.Debug.WriteLine(e.InnerException);
-                System.Diagnostics.Debug.WriteLine("!!!!!!!!!!!!!!!!!!");
-                System.Diagnostics.Debug.WriteLine(e);
+                Debug.WriteLine("!!!!!!!!!!!!!!!!!!");
+                Debug.WriteLine(e.InnerException);
+                Debug.WriteLine("!!!!!!!!!!!!!!!!!!");
+                Debug.WriteLine(e);
             }
 
         }
@@ -179,14 +174,14 @@ namespace apartmenthostService.App_Start
             }
         }
 
-        public static void PopulateAdverts(apartmenthostContext context)
+        public static void PopulateCards(apartmenthostContext context)
         {
 
 
-            List<Advert> adverts = new List<Advert>()
+            List<Card> adverts = new List<Card>()
             {
                 
-                new Advert()
+                new Card()
                 {
                     Id = "a2",
                     Name = "Пупович Плаза в Бутово",
@@ -201,7 +196,7 @@ namespace apartmenthostService.App_Start
                     ResidentGender = ConstVals.Female,
                     Lang = ConstLang.RU
                 },
-                new Advert()
+                new Card()
                 {
                     Id = "a3",
                     Name = "Ленкина квартира в Ясенево",
@@ -216,7 +211,7 @@ namespace apartmenthostService.App_Start
                     ResidentGender = ConstVals.Male,
                     Lang = ConstLang.RU
                 },
-                new Advert()
+                new Card()
                 {
                     Id = "a1",
                     Name = "Офис совместно с Парус",
@@ -235,7 +230,7 @@ namespace apartmenthostService.App_Start
 
             foreach (var advert in adverts)
             {
-                context.Set<Advert>().Add(advert);
+                context.Set<Card>().Add(advert);
             }
         }
 
@@ -289,26 +284,26 @@ namespace apartmenthostService.App_Start
                 {
                     Id = "f1",
                     UserId = "u1",
-                    AdvertId = "a2"
+                    CardId = "a2"
                     
                 },
                 new Favorite()
                 {
                     Id = "f2",
                     UserId = "u1",
-                    AdvertId = "a3"
+                    CardId = "a3"
                 },
                 new Favorite()
                 {
                     Id = "f3",
                     UserId = "u2",
-                    AdvertId = "a3"
+                    CardId = "a3"
                 },
                 new Favorite()
                 {
                     Id = "f4",
                     UserId = "u3",
-                    AdvertId = "a2"
+                    CardId = "a2"
                     
                 }
             };
@@ -326,7 +321,7 @@ namespace apartmenthostService.App_Start
                 {
                     Id = "r1",
                     UserId = "u1",
-                    AdvertId = "a2",
+                    CardId = "a2",
                     Status = ConstVals.Accepted,
                     DateFrom = new DateTime(2015,12,1),
                     DateTo = new DateTime(2015,12,25)
@@ -337,7 +332,7 @@ namespace apartmenthostService.App_Start
                 {
                     Id = "r2",
                     UserId = "u2",
-                    AdvertId = "a3",
+                    CardId = "a3",
                     Status = ConstVals.Pending,
                     DateFrom = new DateTime(2015,9,1),
                     DateTo = new DateTime(2015,9,6)
@@ -362,7 +357,7 @@ namespace apartmenthostService.App_Start
                 new Table()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = ConstTable.AdvertTable
+                    Name = ConstTable.CardTable
                 },
                 new Table()
                 {

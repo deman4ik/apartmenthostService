@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using apartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
@@ -30,7 +27,7 @@ namespace apartmenthostService.Authentication
         public static byte[] hash(string plaintext, byte[] salt)
         {
             SHA512Cng hashFunc = new SHA512Cng();
-            byte[] plainBytes = System.Text.Encoding.ASCII.GetBytes(plaintext);
+            byte[] plainBytes = Encoding.ASCII.GetBytes(plaintext);
             byte[] toHash = new byte[plainBytes.Length + salt.Length];
             plainBytes.CopyTo(toHash, 0);
             salt.CopyTo(toHash, plainBytes.Length);
@@ -85,13 +82,13 @@ namespace apartmenthostService.Authentication
                 }
                 else
                 {
-                    byte[] salt = AuthUtils.generateSalt();
+                    byte[] salt = generateSalt();
                 user = new User
                 {
                     Id = Guid.NewGuid().ToString(),
                     Email = email,
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash(randomString(8), salt)
+                    SaltedAndHashedPassword = hash(randomString(8), salt)
                 };
                 context.Users.Add(user);
                 }

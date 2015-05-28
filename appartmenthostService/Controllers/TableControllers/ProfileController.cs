@@ -2,9 +2,9 @@
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using apartmenthostService.DataObjects;
-using Microsoft.WindowsAzure.Mobile.Service;
 using apartmenthostService.Models;
 using AutoMapper.QueryableExtensions;
+using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace apartmenthostService.Controllers

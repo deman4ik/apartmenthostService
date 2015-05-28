@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -18,10 +19,10 @@ namespace apartmenthostService.Controllers
         public ApiServices Services { get; set; }
         private readonly apartmenthostContext _context = new apartmenthostContext();
 
-        [Route("api/IsFavorite/{advertId}")]
+        [Route("api/IsFavorite/{cardId}")]
         [AuthorizeLevel(AuthorizationLevel.User)]
         [HttpGet]
-        public HttpResponseMessage IsFavorite(string advertId)
+        public HttpResponseMessage IsFavorite(string cardId)
         {
             var currentUser = User as ServiceUser;
             var account = AuthUtils.GetUserAccount(_context, currentUser);
@@ -32,23 +33,23 @@ namespace apartmenthostService.Controllers
             }
             else
             {
-                status = _context.Favorites.Any(f => f.AdvertId == advertId && f.UserId == account.UserId);
+                status = _context.Favorites.Any(f => f.CardId == cardId && f.UserId == account.UserId);
             }
             return this.Request.CreateResponse(HttpStatusCode.OK, RespH.CreateBool(RespH.SRV_DONE, new List<bool>() { status }));
            
         }
 
-        [Route("api/Favorite/{advertId}")]
+        [Route("api/Favorite/{cardId}")]
         [AuthorizeLevel(AuthorizationLevel.User)]
         [HttpPost]
-        public HttpResponseMessage SetFavorite(string advertId)
+        public HttpResponseMessage SetFavorite(string cardId)
         {
             try
             {
                 var respList = new List<string>();
 
                 // Check advertId is not NULL 
-                if (advertId == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_FAVORITE_ADVERTID_NULL));
+                if (cardId == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_FAVORITE_CARDID_NULL));
 
                 // Check Current User
                 var currentUser = User as ServiceUser;
@@ -61,22 +62,22 @@ namespace apartmenthostService.Controllers
                     return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
 
-                var currentAdvertCount = _context.Adverts.Count(a => a.Id == advertId);
-                if (currentAdvertCount == 0)
+                var currentCardCount = _context.Cards.Count(a => a.Id == cardId);
+                if (currentCardCount == 0)
                 {
-                    respList.Add(advertId);
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ADVERT_NOTFOUND,respList));
+                    respList.Add(cardId);
+                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_NOTFOUND,respList));
                 }
 
                 bool status;
                 var favorite =
-                    _context.Favorites.SingleOrDefault(f => f.AdvertId == advertId && f.UserId == account.UserId);
+                    _context.Favorites.SingleOrDefault(f => f.CardId == cardId && f.UserId == account.UserId);
                 if (favorite == null)
                 {
                     _context.Set<Favorite>().Add(new Favorite()
                     {
                         Id = Guid.NewGuid().ToString(),
-                        AdvertId = advertId,
+                        CardId = cardId,
                         UserId = account.UserId
                     });
                     status = true;
@@ -91,7 +92,7 @@ namespace apartmenthostService.Controllers
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex.InnerException);
+                Debug.WriteLine(ex.InnerException);
                 return this.Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
             }

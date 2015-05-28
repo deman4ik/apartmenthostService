@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web.Http;
 using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
 using apartmenthostService.Models;
-using Microsoft.Owin.Security;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
@@ -87,7 +86,7 @@ namespace apartmenthostService.Controllers
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex.InnerException);
+                Debug.WriteLine(ex.InnerException);
                 return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
             }
 
@@ -175,7 +174,7 @@ namespace apartmenthostService.Controllers
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex.InnerException);
+                Debug.WriteLine(ex.InnerException);
                 return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
             }
         }
@@ -219,7 +218,7 @@ namespace apartmenthostService.Controllers
                 }
 
                 // Check Adverts with such Apartment
-                var adverts = _context.Adverts.Where(adv => adv.ApartmentId == id).Select(a => a.Id);
+                var adverts = _context.Cards.Where(adv => adv.ApartmentId == id).Select(a => a.Id);
                 if (adverts.Any())
                 {
                     foreach (var advert in adverts)
@@ -239,7 +238,7 @@ namespace apartmenthostService.Controllers
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex.InnerException);
+                Debug.WriteLine(ex.InnerException);
                 return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
             }
         }

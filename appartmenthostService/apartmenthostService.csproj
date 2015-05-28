@@ -212,7 +212,7 @@
     <Compile Include="Authentication\AuthUtils.cs" />
     <Compile Include="Authentication\LoginRequest.cs" />
     <Compile Include="Authentication\RegistrationRequest.cs" />
-    <Compile Include="Controllers\ApiControllers\AdvertApiController.cs" />
+    <Compile Include="Controllers\ApiControllers\CardApiController.cs" />
     <Compile Include="Controllers\ApiControllers\ApartmentApiController.cs" />
     <Compile Include="Controllers\ApiControllers\ReservationApiController.cs" />
     <Compile Include="Controllers\ApiControllers\FavoriteApiController.cs" />
@@ -225,10 +225,10 @@
     <Compile Include="Controllers\ApiControllers\MetadataApiController.cs" />
     <Compile Include="Controllers\TableControllers\PropController.cs" />
     <Compile Include="Controllers\ApiControllers\RegistrationApiController.cs" />
-    <Compile Include="Controllers\TableControllers\AdvertController.cs" />
+    <Compile Include="Controllers\TableControllers\CardController.cs" />
     <Compile Include="Controllers\TableControllers\ProfileController.cs" />
     <Compile Include="Controllers\ApiControllers\UserApiController.cs" />
-    <Compile Include="DataObjects\AdvertDTO.cs" />
+    <Compile Include="DataObjects\CardDTO.cs" />
     <Compile Include="DataObjects\ApartmentDTO.cs" />
     <Compile Include="DataObjects\BaseUserDTO.cs" />
     <Compile Include="DataObjects\DictionaryItemDTO.cs" />
@@ -238,7 +238,7 @@
     <Compile Include="DataObjects\NotificationDTO.cs" />
     <Compile Include="DataObjects\PropDTO.cs" />
     <Compile Include="DataObjects\PropValDTO.cs" />
-    <Compile Include="DataObjects\RelatedAdvertDTO.cs" />
+    <Compile Include="DataObjects\RelatedCardDTO.cs" />
     <Compile Include="DataObjects\RequestDTO.cs" />
     <Compile Include="DataObjects\ReservationDTO.cs" />
     <Compile Include="DataObjects\ResponseDTO.cs" />
@@ -262,7 +262,7 @@
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Table.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Models\Advert.cs" />
+    <Compile Include="Models\Card.cs" />
     <Compile Include="Helpers\Helper.cs" />
     <Compile Include="Models\apartmenthostContext.cs" />
     <Compile Include="ScheduledJobs\SampleJob.cs" />

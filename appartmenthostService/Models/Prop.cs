@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using apartmenthostService.DataObjects;
 using Microsoft.WindowsAzure.Mobile.Service;
 
@@ -27,6 +23,6 @@ namespace apartmenthostService.Models
 
         public virtual Dictionary Dictionary { get; set; }
         public ICollection<Table> Tables { get; set; }
-        public ICollection<PropVal> PropVals { get; set; } 
+        public ICollection<PropVal> PropVals { get; set; }
     }
 }

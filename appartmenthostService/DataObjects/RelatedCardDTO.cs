@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace apartmenthostService.DataObjects
 {
-    public class RelatedAdvertDTO
+    public class RelatedCardDTO
     {
         // Уникальный идентификатор(Advert)
         public string Id { get; set; }

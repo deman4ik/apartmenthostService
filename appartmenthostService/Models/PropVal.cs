@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Mobile.Service;
 
 namespace apartmenthostService.Models
@@ -24,7 +20,7 @@ namespace apartmenthostService.Models
         public virtual Prop Prop { get; set; }
         public virtual DictionaryItem DictionaryItem { get; set; }
         public virtual Apartment Apartment { get; set; }
-        public virtual Advert Advert { get; set; }
+        public virtual Card Card { get; set; }
         public virtual Reservation Reservation { get; set; }
 
     }

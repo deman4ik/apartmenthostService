@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using apartmenthostService.Attributes;
 using apartmenthostService.Helpers;
 
@@ -32,7 +28,7 @@ namespace apartmenthostService.DataObjects
         [PostRule(Order = 1, RequiredForm = false, RequiredTransfer = true, Visible = false)]
         [PutRule(Order = 1, RequiredForm = false, RequiredTransfer = true, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        public string AdvertId { get; set; }
+        public string CardId { get; set; }
 
         // Тип оповещения
         [Metadata(DataType = ConstDataType.Text)]

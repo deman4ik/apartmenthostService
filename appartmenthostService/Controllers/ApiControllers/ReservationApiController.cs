@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.OData.Formatter.Deserialization;
-using System.Web.UI.WebControls;
 using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
@@ -24,21 +21,21 @@ namespace apartmenthostService.Controllers
         public ApiServices Services { get; set; }
         private readonly apartmenthostContext _context = new apartmenthostContext();
 
-        [Route("api/Reservation/Make/{advertId}/{dateFrom:datetime:regex(\\d{4}-\\d{2}-\\d{2})}/{dateTo:datetime:regex(\\d{4}-\\d{2}-\\d{2})}")]
+        [Route("api/Reservation/Make/{cardId}/{dateFrom:datetime:regex(\\d{4}-\\d{2}-\\d{2})}/{dateTo:datetime:regex(\\d{4}-\\d{2}-\\d{2})}")]
         [AuthorizeLevel(AuthorizationLevel.User)]
         [HttpPost]
-        public HttpResponseMessage MakeReservation(string advertId, DateTime dateFrom, DateTime dateTo)
+        public HttpResponseMessage MakeReservation(string cardId, DateTime dateFrom, DateTime dateTo)
         {
             try
             {
                 var respList = new List<string>();
 
                 // Check Reservation is not NULL 
-                if (advertId == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_RESERVATION_NULL));
+                if (cardId == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_RESERVATION_NULL));
 
-                var advert = _context.Adverts.SingleOrDefault(a => a.Id == advertId);
-                // Check Advert is not NULL 
-                if (advert == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ADVERT_NULL));
+                var card = _context.Cards.SingleOrDefault(a => a.Id == cardId);
+                // Check CARD is not NULL 
+                if (card == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_NULL));
 
                 // Check Current User
                 var currentUser = User as ServiceUser;
@@ -51,13 +48,13 @@ namespace apartmenthostService.Controllers
                     return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
 
-                // Check Advert User
-                //if (advert.UserId != account.UserId)
+                // Check CARD User
+                //if (CARD.UserId != account.UserId)
                 //{
-                //    respList.Add(advert.UserId);
+                //    respList.Add(CARD.UserId);
                 //    respList.Add(account.UserId);
                 //    return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                //        RespH.Create(RespH.SRV_ADVERT_WRONG_USER, respList));
+                //        RespH.Create(RespH.SRV_CARD_WRONG_USER, respList));
                 //}
 
                 // Check Dates
@@ -65,14 +62,14 @@ namespace apartmenthostService.Controllers
                 {
                     respList.Add(dateFrom.ToLocalTime().ToString(CultureInfo.InvariantCulture));
                     respList.Add(dateTo.ToLocalTime().ToString(CultureInfo.InvariantCulture));
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ADVERT_WRONG_DATE, respList));
+                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_WRONG_DATE, respList));
 
                 }
 
                 // Check Available Dates
                 TimeRange reservationDates = new TimeRange(dateFrom,dateTo);
 
-                TimeRange unavailableDates = new TimeRange(advert.DateFrom, advert.DateTo);
+                TimeRange unavailableDates = new TimeRange(card.DateFrom, card.DateTo);
                 if (unavailableDates.IntersectsWith(reservationDates))
                 {
                     respList.Add(reservationDates.ToString());
@@ -80,7 +77,7 @@ namespace apartmenthostService.Controllers
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_RESERVATION_UNAVAILABLE_DATE, respList));
                 }
-                var currentReservations = _context.Reservations.Where(r => r.AdvertId == advertId && r.Status == ConstVals.Accepted);
+                var currentReservations = _context.Reservations.Where(r => r.CardId == cardId && r.Status == ConstVals.Accepted);
                 foreach (var currentReservation in currentReservations)
                 {
                     TimeRange reservedDates = new TimeRange(currentReservation.DateFrom, currentReservation.DateTo);
@@ -97,7 +94,7 @@ namespace apartmenthostService.Controllers
                 _context.Set<Reservation>().Add(new Reservation()
                 {
                     Id = reservationGuid,
-                    AdvertId = advertId,
+                    CardId = cardId,
                     UserId = account.UserId,
                     Status = ConstVals.Pending,
                     DateFrom = dateFrom,
@@ -111,7 +108,6 @@ namespace apartmenthostService.Controllers
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex.InnerException);
                 return this.Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
             }
@@ -133,9 +129,6 @@ namespace apartmenthostService.Controllers
                 // Check Status
                 if (status != ConstVals.Accepted && status != ConstVals.Declined)
                 {
-                  Debug.WriteLine(status);
-                  Debug.WriteLine(ConstVals.Accepted);
-                  Debug.WriteLine(ConstVals.Declined);
                     respList.Add(status);
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_RESERVATION_WRONG_STATUS, respList));
@@ -161,18 +154,18 @@ namespace apartmenthostService.Controllers
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_RESERVATION_NOTFOUND, respList));
                 }
 
-                var advert = _context.Adverts.SingleOrDefault(a => a.Id == currentReservation.AdvertId);
-                // Check Advert is not NULL 
-                if (advert == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ADVERT_NULL));
+                var card = _context.Cards.SingleOrDefault(a => a.Id == currentReservation.CardId);
+                // Check CARD is not NULL 
+                if (card == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_NULL));
 
 
-                // Check Advert User
-                if (advert.UserId != account.UserId)
+                // Check CARD User
+                if (card.UserId != account.UserId)
                 {
-                    respList.Add(advert.UserId);
+                    respList.Add(card.UserId);
                     respList.Add(account.UserId);
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                        RespH.Create(RespH.SRV_ADVERT_WRONG_USER, respList));
+                        RespH.Create(RespH.SRV_CARD_WRONG_USER, respList));
                 }
                 
                 
@@ -183,7 +176,7 @@ namespace apartmenthostService.Controllers
                     // Check Available Dates
                     TimeRange reservationDates = new TimeRange(currentReservation.DateFrom, currentReservation.DateTo);
 
-                    TimeRange unavailableDates = new TimeRange(advert.DateFrom, advert.DateTo);
+                    TimeRange unavailableDates = new TimeRange(card.DateFrom, card.DateTo);
                     if (unavailableDates.IntersectsWith(reservationDates))
                     {
                         respList.Add(reservationDates.ToString());
@@ -191,7 +184,7 @@ namespace apartmenthostService.Controllers
                         return this.Request.CreateResponse(HttpStatusCode.BadRequest,
                             RespH.Create(RespH.SRV_RESERVATION_UNAVAILABLE_DATE, respList));
                     }
-                    var currentReservations = _context.Reservations.Where(r => r.AdvertId == currentReservation.AdvertId && currentReservation.Status == ConstVals.Accepted);
+                    var currentReservations = _context.Reservations.Where(r => r.CardId == currentReservation.CardId && currentReservation.Status == ConstVals.Accepted);
                     foreach (var currentReserv in currentReservations)
                     {
                         TimeRange reservedDates = new TimeRange(currentReserv.DateFrom, currentReserv.DateTo);
@@ -215,7 +208,6 @@ namespace apartmenthostService.Controllers
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex.InnerException);
                 return this.Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
             }

@@ -9,7 +9,7 @@ namespace apartmenthostService.Models
         {
          this.Profiles = new HashSet<Profile>();
         this.Apartments = new HashSet<Apartment>();
-        this.Adverts = new HashSet<Advert>();
+        this.Cards = new HashSet<Card>();
         }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -18,6 +18,6 @@ namespace apartmenthostService.Models
         public ICollection<Profile> Profiles { get; set; }
         public ICollection<Notification> Notifications { get; set; }
         public ICollection<Apartment> Apartments { get; set; }
-        public ICollection<Advert> Adverts { get; set; } 
+        public ICollection<Card> Cards { get; set; } 
     }
 }

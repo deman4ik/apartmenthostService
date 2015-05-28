@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -8,26 +9,24 @@ using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
 using apartmenthostService.Models;
-using LinqKit;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
-using Newtonsoft.Json;
 
 namespace apartmenthostService.Controllers
 {
     [AuthorizeLevel(AuthorizationLevel.Application)]
-    public class AdvertApiController : ApiController
+    public class CardApiController : ApiController
     {
         public ApiServices Services { get; set; }
         private readonly apartmenthostContext _context = new apartmenthostContext();
 
-        //[Route("api/Advert")]
+        //[Route("api/Card")]
         //[HttpGet]
-        //public HttpResponseMessage GetAdvert()
+        //public HttpResponseMessage GetCard()
         //{
 
         //    var dic = new Dictionary<string, string>();
-        //    var propsvals = context.PropVals.Where(p => p.AdvertItemId == "a1").Select(appdto => new PropValDTO()
+        //    var propsvals = context.PropVals.Where(p => p.CardItemId == "a1").Select(appdto => new PropValDTO()
         //              {
 
         //                  Name = appdto.Prop.Name,
@@ -72,47 +71,47 @@ namespace apartmenthostService.Controllers
         //    return this.Request.CreateResponse(HttpStatusCode.OK, resp); 
         //}
         /// <summary>
-        /// POST api/Advert/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        /// POST api/Card/48D68C86-6EA6-4C25-AA33-223FC9A27959
         /// </summary>
-        [Route("api/Advert")]
+        [Route("api/Card")]
         [AuthorizeLevel(AuthorizationLevel.User)]
         [HttpPost]
-        public HttpResponseMessage PostAdvert(AdvertDTO advert)
+        public HttpResponseMessage PostCard(CardDTO card)
         {
             try
             {
                 var respList = new List<string>();
                 ResponseDTO resp;
 
-                // Check Advert is not NULL 
-                if (advert == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ADVERT_NULL));
+                // Check Card is not NULL 
+                if (card == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_NULL));
 
-                // Check Advert Name is not NULL
-                resp = CheckHelper.isNull(advert.Name, "Name", RespH.SRV_ADVERT_REQUIRED);
+                // Check CARD Name is not NULL
+                resp = CheckHelper.isNull(card.Name, "Name", RespH.SRV_CARD_REQUIRED);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                // Check Advert not Already Exists
-                resp = CheckHelper.isAdvertExist(_context, advert.Name, RespH.SRV_ADVERT_EXISTS);
+                // Check CARD not Already Exists
+                resp = CheckHelper.isCardExist(_context, card.Name, RespH.SRV_CARD_EXISTS);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                // Check Advert Cohabitation is not null
-                //resp = CheckHelper.isNull(advert.Cohabitation, "Cohabitation", RespH.SRV_ADVERT_REQUIRED);
+                // Check CARD Cohabitation is not null
+                //resp = CheckHelper.isNull(CARD.Cohabitation, "Cohabitation", RespH.SRV_CARD_REQUIRED);
                 //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-                if (advert.Cohabitation == null) advert.Cohabitation = ConstVals.Any;
-                // Check Advert Cohabitation Dictionary
-                //resp = CheckHelper.isValidDicItem(context, advert.Cohabitation, ConstDictionary.Cohabitation, "Cohabitation", RespH.SRV_ADVERT_INVALID_DICITEM);
+                if (card.Cohabitation == null) card.Cohabitation = ConstVals.Any;
+                // Check CARD Cohabitation Dictionary
+                //resp = CheckHelper.isValidDicItem(context, CARD.Cohabitation, ConstDictionary.Cohabitation, "Cohabitation", RespH.SRV_CARD_INVALID_DICITEM);
                 //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                // Check Advert Resident Gender is not null
-                resp = CheckHelper.isNull(advert.ResidentGender, "ResidentGender", RespH.SRV_ADVERT_REQUIRED);
+                // Check CARD Resident Gender is not null
+                resp = CheckHelper.isNull(card.ResidentGender, "ResidentGender", RespH.SRV_CARD_REQUIRED);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                // Check Advert Resident Gender Dictionary
-                resp = CheckHelper.isValidDicItem(_context, advert.ResidentGender, ConstDictionary.Gender, "ResidentGender", RespH.SRV_ADVERT_INVALID_DICITEM);
+                // Check CARD Resident Gender Dictionary
+                resp = CheckHelper.isValidDicItem(_context, card.ResidentGender, ConstDictionary.Gender, "ResidentGender", RespH.SRV_CARD_INVALID_DICITEM);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Dates
-                resp = CheckHelper.isValidDates(advert.DateFrom, advert.DateTo, RespH.SRV_ADVERT_WRONG_DATE);
+                resp = CheckHelper.isValidDates(card.DateFrom, card.DateTo, RespH.SRV_CARD_WRONG_DATE);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Current User
@@ -127,59 +126,59 @@ namespace apartmenthostService.Controllers
                 }
 
                 //Apartment
-                if (advert.Apartment == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NULL));
+                if (card.Apartment == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NULL));
 
                 // Check Apartment Adress is not NULL
-                resp = CheckHelper.isNull(advert.Apartment.Adress, "Adress", RespH.SRV_APARTMENT_REQUIRED);
+                resp = CheckHelper.isNull(card.Apartment.Adress, "Adress", RespH.SRV_APARTMENT_REQUIRED);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Apartment Type is not NULL
-                resp = CheckHelper.isNull(advert.Apartment.Type, "Type", RespH.SRV_APARTMENT_REQUIRED);
+                resp = CheckHelper.isNull(card.Apartment.Type, "Type", RespH.SRV_APARTMENT_REQUIRED);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Apartment Type Dictionary
-                resp = CheckHelper.isValidDicItem(_context, advert.Apartment.Type, ConstDictionary.ApartmentType, "Type", RespH.SRV_APARTMENT_INVALID_DICITEM);
+                resp = CheckHelper.isValidDicItem(_context, card.Apartment.Type, ConstDictionary.ApartmentType, "Type", RespH.SRV_APARTMENT_INVALID_DICITEM);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Generate 
-                string advertGuid = Guid.NewGuid().ToString();
+                string cardGuid = Guid.NewGuid().ToString();
                 string apartmentGuid = Guid.NewGuid().ToString();
-                _context.Set<Advert>().Add(new Advert()
+                _context.Set<Card>().Add(new Card()
                 {
-                    Id = advertGuid,
-                    Name = advert.Name,
+                    Id = cardGuid,
+                    Name = card.Name,
                     UserId = account.UserId,
-                    Description = advert.Description,
+                    Description = card.Description,
                     ApartmentId = apartmentGuid,
-                    DateFrom = advert.DateFrom,
-                    DateTo = advert.DateTo,
-                    PriceDay = advert.PriceDay,
-                    PricePeriod = advert.PricePeriod,
-                    Cohabitation = advert.Cohabitation,
-                    ResidentGender = advert.ResidentGender,
-                    Lang = advert.Lang,
+                    DateFrom = card.DateFrom,
+                    DateTo = card.DateTo,
+                    PriceDay = card.PriceDay,
+                    PricePeriod = card.PricePeriod,
+                    Cohabitation = card.Cohabitation,
+                    ResidentGender = card.ResidentGender,
+                    Lang = card.Lang,
                     Apartment = new Apartment()
                     {
                         Id = apartmentGuid,
-                        Name = advert.Name,
-                        Type = advert.Apartment.Type,
-                        Options = advert.Apartment.Options,
+                        Name = card.Name,
+                        Type = card.Apartment.Type,
+                        Options = card.Apartment.Options,
                         UserId = account.UserId,
-                        Adress = advert.Apartment.Adress,
-                        Latitude = advert.Apartment.Latitude,
-                        Longitude = advert.Apartment.Longitude,
-                        Lang = advert.Lang
+                        Adress = card.Apartment.Adress,
+                        Latitude = card.Apartment.Latitude,
+                        Longitude = card.Apartment.Longitude,
+                        Lang = card.Lang
 
                     }
                 });
 
                 _context.SaveChanges();
-                respList.Add(advertGuid);
+                respList.Add(cardGuid);
                 return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex.InnerException);
+                Debug.WriteLine(ex.InnerException);
                 return this.Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
             }
@@ -187,28 +186,28 @@ namespace apartmenthostService.Controllers
 
 
         /// <summary>
-        /// PUT api/Advert/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        /// PUT api/Card/48D68C86-6EA6-4C25-AA33-223FC9A27959
         /// </summary>
-        /// <param name="id">The ID of the Advert.</param>
-        /// <param name="advert">The Advert changed object.</param>
-        [Route("api/Advert/{id}")]
+        /// <param name="id">The ID of the Card.</param>
+        /// <param name="card">The CARD changed object.</param>
+        [Route("api/Card/{id}")]
         [AuthorizeLevel(AuthorizationLevel.User)]
         [HttpPut]
-        public HttpResponseMessage PutAdvert(string id, AdvertDTO advert)
+        public HttpResponseMessage PutCard(string id, CardDTO card)
         {
             try
             {
                 var respList = new List<string>();
                 ResponseDTO resp;
-                // Check Advert is not NULL 
-                if (advert == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ADVERT_NULL));
+                // Check CARD is not NULL 
+                if (card == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_NULL));
 
-                // Check Current Advert is not NULL
-                var advertCurrent = _context.Adverts.SingleOrDefault(a => a.Id == id);
-                if (advertCurrent == null)
+                // Check Current CARD is not NULL
+                var cardCurrent = _context.Cards.SingleOrDefault(a => a.Id == id);
+                if (cardCurrent == null)
                 {
                     respList.Add(id);
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ADVERT_NOTFOUND, respList));
+                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_NOTFOUND, respList));
                 }
 
                 // Check Current User
@@ -222,122 +221,122 @@ namespace apartmenthostService.Controllers
                     return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
 
-                // Check Advert User
-                if (advertCurrent.UserId != account.UserId)
+                // Check CARD User
+                if (cardCurrent.UserId != account.UserId)
                 {
-                    respList.Add(advertCurrent.UserId);
+                    respList.Add(cardCurrent.UserId);
                     respList.Add(account.UserId);
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                        RespH.Create(RespH.SRV_ADVERT_WRONG_USER, respList));
+                        RespH.Create(RespH.SRV_CARD_WRONG_USER, respList));
                 }
 
-                // Check Advert Name is not NULL
-                resp = CheckHelper.isNull(advert.Name, "Name", RespH.SRV_ADVERT_REQUIRED);
+                // Check CARD Name is not NULL
+                resp = CheckHelper.isNull(card.Name, "Name", RespH.SRV_CARD_REQUIRED);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                // Check Advert not Already Exists
-                resp = CheckHelper.isAdvertExist(_context, advert.Name, RespH.SRV_ADVERT_EXISTS);
+                // Check CARD not Already Exists
+                resp = CheckHelper.isCardExist(_context, card.Name, RespH.SRV_CARD_EXISTS);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                // Check Advert Cohabitation is not null
-                //resp = CheckHelper.isNull(advert.Cohabitation, "Cohabitation", RespH.SRV_ADVERT_REQUIRED);
+                // Check CARD Cohabitation is not null
+                //resp = CheckHelper.isNull(CARD.Cohabitation, "Cohabitation", RespH.SRV_CARD_REQUIRED);
                 //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-                if (advert.Cohabitation == null) advert.Cohabitation = ConstVals.Any;
-                // Check Advert Cohabitation Dictionary
-                //resp = CheckHelper.isValidDicItem(context, advert.Cohabitation, ConstDictionary.Cohabitation, "Cohabitation", RespH.SRV_ADVERT_INVALID_DICITEM);
+                if (card.Cohabitation == null) card.Cohabitation = ConstVals.Any;
+                // Check CARD Cohabitation Dictionary
+                //resp = CheckHelper.isValidDicItem(context, CARD.Cohabitation, ConstDictionary.Cohabitation, "Cohabitation", RespH.SRV_CARD_INVALID_DICITEM);
                 //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                // Check Advert Resident Gender is not null
-                resp = CheckHelper.isNull(advert.ResidentGender, "ResidentGender", RespH.SRV_ADVERT_REQUIRED);
+                // Check CARD Resident Gender is not null
+                resp = CheckHelper.isNull(card.ResidentGender, "ResidentGender", RespH.SRV_CARD_REQUIRED);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                // Check Advert Resident Gender Dictionary
-                resp = CheckHelper.isValidDicItem(_context, advert.ResidentGender, ConstDictionary.Gender, "ResidentGender", RespH.SRV_ADVERT_INVALID_DICITEM);
+                // Check CARD Resident Gender Dictionary
+                resp = CheckHelper.isValidDicItem(_context, card.ResidentGender, ConstDictionary.Gender, "ResidentGender", RespH.SRV_CARD_INVALID_DICITEM);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Dates
-                resp = CheckHelper.isValidDates(advert.DateFrom, advert.DateTo, RespH.SRV_ADVERT_WRONG_DATE);
+                resp = CheckHelper.isValidDates(card.DateFrom, card.DateTo, RespH.SRV_CARD_WRONG_DATE);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 //Apartment
-                if (advert.Apartment == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NULL));
+                if (card.Apartment == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NULL));
 
                 // Check Apartment Exists
-                if (String.IsNullOrWhiteSpace(advert.ApartmentId))
+                if (String.IsNullOrWhiteSpace(card.ApartmentId))
                 {
                     respList.Add("ApartmentId");
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ADVERT_REQUIRED, respList));
+                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_REQUIRED, respList));
                 }
-                var apartment = _context.Apartments.SingleOrDefault(a => a.Id == advert.ApartmentId);
+                var apartment = _context.Apartments.SingleOrDefault(a => a.Id == card.ApartmentId);
                 if (apartment == null)
                 {
-                    respList.Add(advert.ApartmentId);
+                    respList.Add(card.ApartmentId);
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NOTFOUND, respList));
                 }
 
                 // Check Apartment Adress is not NULL
-                resp = CheckHelper.isNull(advert.Apartment.Adress, "Adress", RespH.SRV_APARTMENT_REQUIRED);
+                resp = CheckHelper.isNull(card.Apartment.Adress, "Adress", RespH.SRV_APARTMENT_REQUIRED);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Apartment Type is not NULL
-                resp = CheckHelper.isNull(advert.Apartment.Type, "Type", RespH.SRV_APARTMENT_REQUIRED);
+                resp = CheckHelper.isNull(card.Apartment.Type, "Type", RespH.SRV_APARTMENT_REQUIRED);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Apartment Type Dictionary
-                resp = CheckHelper.isValidDicItem(_context, advert.Apartment.Type, ConstDictionary.ApartmentType, "Type", RespH.SRV_APARTMENT_INVALID_DICITEM);
+                resp = CheckHelper.isValidDicItem(_context, card.Apartment.Type, ConstDictionary.ApartmentType, "Type", RespH.SRV_APARTMENT_INVALID_DICITEM);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                // Update Advert
-                advertCurrent.Name = advert.Name;
-                advertCurrent.Description = advert.Description;
-                advertCurrent.DateFrom = advert.DateFrom;
-                advertCurrent.DateTo = advert.DateTo;
-                advertCurrent.PriceDay = advertCurrent.PriceDay;
-                advertCurrent.PricePeriod = advertCurrent.PricePeriod;
-                advertCurrent.Cohabitation = advertCurrent.Cohabitation;
-                advertCurrent.ResidentGender = advertCurrent.ResidentGender;
+                // Update CARD
+                cardCurrent.Name = card.Name;
+                cardCurrent.Description = card.Description;
+                cardCurrent.DateFrom = card.DateFrom;
+                cardCurrent.DateTo = card.DateTo;
+                cardCurrent.PriceDay = cardCurrent.PriceDay;
+                cardCurrent.PricePeriod = cardCurrent.PricePeriod;
+                cardCurrent.Cohabitation = cardCurrent.Cohabitation;
+                cardCurrent.ResidentGender = cardCurrent.ResidentGender;
 
                 // Update Apartment
-                advertCurrent.Apartment.Name = advert.Name;
-                advertCurrent.Apartment.Type = apartment.Type;
-                advertCurrent.Apartment.Options = apartment.Options;
-                advertCurrent.Apartment.Adress = apartment.Adress;
-                advertCurrent.Apartment.Latitude = apartment.Latitude;
-                advertCurrent.Apartment.Longitude = apartment.Longitude;
-                advertCurrent.Apartment.Lang = apartment.Lang;
+                cardCurrent.Apartment.Name = card.Name;
+                cardCurrent.Apartment.Type = apartment.Type;
+                cardCurrent.Apartment.Options = apartment.Options;
+                cardCurrent.Apartment.Adress = apartment.Adress;
+                cardCurrent.Apartment.Latitude = apartment.Latitude;
+                cardCurrent.Apartment.Longitude = apartment.Longitude;
+                cardCurrent.Apartment.Lang = apartment.Lang;
 
                 _context.SaveChanges();
 
-                respList.Add(advert.Id);
+                respList.Add(card.Id);
                 return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED, respList));
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex.InnerException);
+                Debug.WriteLine(ex.InnerException);
                 return this.Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
             }
         }
 
         /// <summary>
-        /// DELETE api/Advert/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        /// DELETE api/CARD/48D68C86-6EA6-4C25-AA33-223FC9A27959
         /// </summary>
-        /// <param name="id">The ID of the Advert.</param>
-        [Route("api/Advert/{id}")]
+        /// <param name="id">The ID of the Card.</param>
+        [Route("api/Card/{id}")]
         [AuthorizeLevel(AuthorizationLevel.User)]
         [HttpDelete]
-        public HttpResponseMessage DeleteAdvert(string id)
+        public HttpResponseMessage DeleteCard(string id)
         {
             try
             {
                 var respList = new List<string>();
-                var advert = _context.Adverts.SingleOrDefault(a => a.Id == id);
+                var card = _context.Cards.SingleOrDefault(a => a.Id == id);
 
-                // Check Advert is not NULL
-                if (advert == null)
+                // Check Card is not NULL
+                if (card == null)
                 {
                     respList.Add(id);
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ADVERT_NOTFOUND, respList));
+                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_NOTFOUND, respList));
                 }
 
                 // Check Current User
@@ -351,16 +350,16 @@ namespace apartmenthostService.Controllers
                     return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
 
-                // Check Advert User
-                if (advert.UserId != account.UserId)
+                // Check CARD User
+                if (card.UserId != account.UserId)
                 {
-                    respList.Add(advert.UserId);
+                    respList.Add(card.UserId);
                     respList.Add(account.UserId);
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                        RespH.Create(RespH.SRV_ADVERT_WRONG_USER, respList));
+                        RespH.Create(RespH.SRV_CARD_WRONG_USER, respList));
                 }
 
-                var apartment = _context.Apartments.SingleOrDefault(a => a.Id == advert.ApartmentId);
+                var apartment = _context.Apartments.SingleOrDefault(a => a.Id == card.ApartmentId);
 
                 // Check Apartment is not NULL
                 if (apartment == null)
@@ -368,17 +367,17 @@ namespace apartmenthostService.Controllers
                     respList.Add(id);
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NOTFOUND, respList));
                 }
-                // Delete Advert
-                _context.Adverts.Remove(advert);
+                // Delete CARD
+                _context.Cards.Remove(card);
                 _context.SaveChanges();
                 _context.Apartments.Remove(apartment);
                 _context.SaveChanges();
-                respList.Add(advert.Id);
+                respList.Add(card.Id);
                 return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_DELETED, respList));
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex.InnerException);
+                Debug.WriteLine(ex.InnerException);
                 return this.Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
             }

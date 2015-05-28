@@ -1,11 +1,9 @@
 ﻿using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
-using System.Web.Http.OData;
 using apartmenthostService.DataObjects;
-using Microsoft.WindowsAzure.Mobile.Service;
 using apartmenthostService.Models;
+using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace apartmenthostService.Controllers
@@ -28,7 +26,7 @@ namespace apartmenthostService.Controllers
             return Query().Select(r => new ReservationDTO
             {
                 Id = r.Id,
-                AdvertId = r.AdvertId,
+                CardId = r.CardId,
                 UserId = r.UserId,
                 Status = r.Status,
                 DateFrom = r.DateFrom,
@@ -46,37 +44,37 @@ namespace apartmenthostService.Controllers
                     
 
                 },
-                Advert = new AdvertDTO()
+                Card = new CardDTO()
             {
-                Name = r.Advert.Name,
-                UserId = r.Advert.UserId,
-                Description = r.Advert.Description,
-                ApartmentId = r.Advert.ApartmentId,
-                DateFrom = r.Advert.DateFrom,
-                DateTo = r.Advert.DateTo,
-                PriceDay = r.Advert.PriceDay,
-                PricePeriod = r.Advert.PricePeriod,
-                Cohabitation = r.Advert.Cohabitation,
-                ResidentGender = r.Advert.ResidentGender,
-                Lang = r.Advert.Lang,
+                Name = r.Card.Name,
+                UserId = r.Card.UserId,
+                Description = r.Card.Description,
+                ApartmentId = r.Card.ApartmentId,
+                DateFrom = r.Card.DateFrom,
+                DateTo = r.Card.DateTo,
+                PriceDay = r.Card.PriceDay,
+                PricePeriod = r.Card.PricePeriod,
+                Cohabitation = r.Card.Cohabitation,
+                ResidentGender = r.Card.ResidentGender,
+                Lang = r.Card.Lang,
                 User = new UserDTO()
                 {
-                    Id = r.Advert.User.Profile.Id,
-                    FirstName = r.Advert.User.Profile.FirstName,
-                    LastName = r.Advert.User.Profile.LastName,
-                    Gender = r.Advert.User.Profile.Gender,
-                    Phone = r.Advert.User.Profile.Phone
+                    Id = r.Card.User.Profile.Id,
+                    FirstName = r.Card.User.Profile.FirstName,
+                    LastName = r.Card.User.Profile.LastName,
+                    Gender = r.Card.User.Profile.Gender,
+                    Phone = r.Card.User.Profile.Phone
                 },
                 Apartment = new ApartmentDTO()
                 {
-                    Id = r.Advert.Apartment.Id,
-                    Name = r.Advert.Apartment.Name,
-                    Type = r.Advert.Apartment.Type,
-                    Options = r.Advert.Apartment.Options,
-                    UserId = r.Advert.Apartment.UserId,
-                    Adress = r.Advert.Apartment.Adress,
-                    Latitude = r.Advert.Apartment.Latitude,
-                    Longitude = r.Advert.Apartment.Longitude,
+                    Id = r.Card.Apartment.Id,
+                    Name = r.Card.Apartment.Name,
+                    Type = r.Card.Apartment.Type,
+                    Options = r.Card.Apartment.Options,
+                    UserId = r.Card.Apartment.UserId,
+                    Adress = r.Card.Apartment.Adress,
+                    Latitude = r.Card.Apartment.Latitude,
+                    Longitude = r.Card.Apartment.Longitude,
                 }
 
             }
@@ -90,7 +88,7 @@ namespace apartmenthostService.Controllers
             var result = Lookup(id).Queryable.Select(r => new ReservationDTO
             {
                 Id = r.Id,
-                AdvertId = r.AdvertId,
+                CardId = r.CardId,
                 UserId = r.UserId,
                 Status = r.Status,
                 DateFrom = r.DateFrom,
@@ -106,37 +104,37 @@ namespace apartmenthostService.Controllers
                     Rating = r.User.Profile.Rating,
                     Gender = r.User.Profile.Gender
                 },
-                Advert = new AdvertDTO()
+                Card = new CardDTO()
                 {
-                    Name = r.Advert.Name,
-                    UserId = r.Advert.UserId,
-                    Description = r.Advert.Description,
-                    ApartmentId = r.Advert.ApartmentId,
-                    DateFrom = r.Advert.DateFrom,
-                    DateTo = r.Advert.DateTo,
-                    PriceDay = r.Advert.PriceDay,
-                    PricePeriod = r.Advert.PricePeriod,
-                    Cohabitation = r.Advert.Cohabitation,
-                    ResidentGender = r.Advert.ResidentGender,
-                    Lang = r.Advert.Lang,
+                    Name = r.Card.Name,
+                    UserId = r.Card.UserId,
+                    Description = r.Card.Description,
+                    ApartmentId = r.Card.ApartmentId,
+                    DateFrom = r.Card.DateFrom,
+                    DateTo = r.Card.DateTo,
+                    PriceDay = r.Card.PriceDay,
+                    PricePeriod = r.Card.PricePeriod,
+                    Cohabitation = r.Card.Cohabitation,
+                    ResidentGender = r.Card.ResidentGender,
+                    Lang = r.Card.Lang,
                     User = new UserDTO()
                     {
-                        Id = r.Advert.User.Profile.Id,
-                        FirstName = r.Advert.User.Profile.FirstName,
-                        LastName = r.Advert.User.Profile.LastName,
-                        Gender = r.Advert.User.Profile.Gender,
-                        Phone = r.Advert.User.Profile.Phone
+                        Id = r.Card.User.Profile.Id,
+                        FirstName = r.Card.User.Profile.FirstName,
+                        LastName = r.Card.User.Profile.LastName,
+                        Gender = r.Card.User.Profile.Gender,
+                        Phone = r.Card.User.Profile.Phone
                     },
                     Apartment = new ApartmentDTO()
                     {
-                        Id = r.Advert.Apartment.Id,
-                        Name = r.Advert.Apartment.Name,
-                        Type = r.Advert.Apartment.Type,
-                        Options = r.Advert.Apartment.Options,
-                        UserId = r.Advert.Apartment.UserId,
-                        Adress = r.Advert.Apartment.Adress,
-                        Latitude = r.Advert.Apartment.Latitude,
-                        Longitude = r.Advert.Apartment.Longitude,
+                        Id = r.Card.Apartment.Id,
+                        Name = r.Card.Apartment.Name,
+                        Type = r.Card.Apartment.Type,
+                        Options = r.Card.Apartment.Options,
+                        UserId = r.Card.Apartment.UserId,
+                        Adress = r.Card.Apartment.Adress,
+                        Latitude = r.Card.Apartment.Latitude,
+                        Longitude = r.Card.Apartment.Longitude,
                     }
 
                 }

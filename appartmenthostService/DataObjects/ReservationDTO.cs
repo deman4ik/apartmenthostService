@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using apartmenthostService.Attributes;
 using apartmenthostService.Helpers;
-using apartmenthostService.Models;
 
 namespace apartmenthostService.DataObjects
 {
@@ -23,7 +18,7 @@ namespace apartmenthostService.DataObjects
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = true, Visible = false)]
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = true, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        public string AdvertId { get; set; }
+        public string CardId { get; set; }
 
         [Metadata(DataType = ConstDataType.Id)]
         [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
@@ -74,11 +69,11 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public virtual BaseUserDTO User { get; set; }
 
-        [Metadata(DataType = ConstDataType.Advert)]
+        [Metadata(DataType = ConstDataType.Card)]
         [GetRule(Order = 6, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        public virtual AdvertDTO Advert { get; set; }
+        public virtual CardDTO Card { get; set; }
     }
 }

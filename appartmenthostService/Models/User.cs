@@ -11,7 +11,7 @@ namespace apartmenthostService.Models
             this.Favorites = new HashSet<Favorite>();
             this.Accounts = new HashSet<Account>();
             this.Apartments = new HashSet<Apartment>();
-            this.Adverts = new HashSet<Advert>();
+            this.Cards = new HashSet<Card>();
             this.Reservations = new HashSet<Reservation>();
             this.OutReviews = new HashSet<Review>();
             this.InReviews = new HashSet<Review>();
@@ -26,7 +26,7 @@ namespace apartmenthostService.Models
         public ICollection<Favorite> Favorites { get; set; } 
         public ICollection<Account> Accounts { get; set; } 
         public ICollection<Apartment> Apartments { get; set; }
-        public ICollection<Advert> Adverts { get; set; }
+        public ICollection<Card> Cards { get; set; }
         public ICollection<Reservation> Reservations { get; set; }
         public ICollection<Review> OutReviews { get; set; }
         public ICollection<Review> InReviews { get; set; }

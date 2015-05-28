@@ -1,21 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using apartmenthostService.Attributes;
 using apartmenthostService.Helpers;
-using apartmenthostService.Models;
 
 namespace apartmenthostService.DataObjects
 {
     // Жилье
     public class ApartmentDTO
     {
-        //public ApartmentDTO()
-        //{
-        //    this.PropsVals = new List<PropValDTO>();
-        //}
         // Уникальный идентификатор
         [Metadata(DataType = ConstDataType.Id)]
         [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]

@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 namespace apartmenthostService.DataObjects
 {
     // Объявление
-    public class AdvertDTO
+    public class CardDTO
     {
         
         //public AdvertDTO() 
@@ -170,12 +170,12 @@ namespace apartmenthostService.DataObjects
         public ICollection<ReviewDTO> Reviews { get; set; }
 
         // Похожие Объявления
-        [Metadata(DataType = ConstDataType.RelatedAdverts)]
+        [Metadata(DataType = ConstDataType.RelatedCards)]
         [GetRule(Order = 9, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        public ICollection<RelatedAdvertDTO> RelatedAdverts { get; set; } 
+        public ICollection<RelatedCardDTO> RelatedCards { get; set; } 
         // [GET][POST][PUT] - {NN} -Список дополнительных колонок(PropVal)
         //[Metadata(DataType = ConstDataType.PropVals)]
         //[GetRule(Order = 9, RequiredForm = false, RequiredTransfer = true, Visible = true)]

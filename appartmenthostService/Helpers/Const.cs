@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Dynamic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace apartmenthostService.Helpers
 {
@@ -15,7 +10,7 @@ namespace apartmenthostService.Helpers
         public const string Bool = "Bool";
         public const string User = "User";
         public const string Apartment = "Apartment";
-        public const string Advert = "Advert";
+        public const string Card = "Card";
         public const string Reservation = "Reservation";
         public const string PropCollection = "PropCollection";
 
@@ -23,7 +18,7 @@ namespace apartmenthostService.Helpers
     public static class ConstTable
     {
         public const string ApartmentTable   = "Apartment";
-        public const string AdvertTable      = "Advert";
+        public const string CardTable      = "Card";
         public const string ProfileTable     = "Profile";
         public const string ReservationTable = "Reservation";
 
@@ -34,8 +29,8 @@ namespace apartmenthostService.Helpers
             {
                 case ConstType.Apartment:
                     return ApartmentTable;
-                case ConstType.Advert:
-                    return AdvertTable;
+                case ConstType.Card:
+                    return CardTable;
                 case ConstType.User:
                     return ProfileTable;
                 default:
@@ -80,13 +75,13 @@ namespace apartmenthostService.Helpers
         public const string Image       = "Image";       // Отображение картинки по URL 
         public const string Id          = "Id";          // Уникальный идентификатор
         public const string Apartment   = "Apartment";   // Объект типа Жилье
-        public const string Advert      = "Advert";      // Объект типа Объявление
+        public const string Card        = "Card";      // Объект типа Объявление
         public const string User        = "User";        // Объект типа Пользователь
         public const string Reservation = "Reservation"; // Объект типа Бронь
         public const string Favorite    = "Favorite";    // Избранное
         public const string ApprovedReservations = "ApprovedReservations"; //  Список объектов типа Бронь - утвержденные
         public const string Reviews     = "Reviews"; // Отзывы
-        public const string RelatedAdverts = "RelatedAdverts"; // Похожие объявления
+        public const string RelatedCards = "RelatedCards"; // Похожие объявления
         public const string PropVals    = "PropVals";    // Список объектов типа Значения свойств
         public const string Lang        = "Lang";        // Код языка
     }

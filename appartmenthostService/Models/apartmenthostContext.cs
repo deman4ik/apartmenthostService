@@ -20,12 +20,13 @@ namespace apartmenthostService.Models
         // Web.config, is the same as the service name when hosted in Azure.
         private const string connectionStringName = "Name=MS_TableConnectionString";
 
-        public apartmenthostContext() : base(connectionStringName)
+        public apartmenthostContext()
+            : base(connectionStringName)
         {
         }
-        
+
         public DbSet<Apartment> Apartments { get; set; }
-        public DbSet<Advert> Adverts { get; set; }
+        public DbSet<Card> Cards { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<User> Users { get; set; }
@@ -40,7 +41,7 @@ namespace apartmenthostService.Models
         public DbSet<Dictionary> Dictionaries { get; set; }
         public DbSet<DictionaryItem> DictionaryItems { get; set; }
         public DbSet<Article> Article { get; set; }
-        
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             string schema = ServiceSettingsDictionary.GetSchemaName();
@@ -77,9 +78,9 @@ namespace apartmenthostService.Models
                 .HasForeignKey(s => s.UserId)
                 .WillCascadeOnDelete(false);
 
-            // User + Advert
+            // User + Card
             modelBuilder.Entity<User>()
-                .HasMany<Advert>(s => s.Adverts)
+                .HasMany<Card>(s => s.Cards)
                 .WithRequired(s => s.User)
                 .HasForeignKey(s => s.UserId)
                 .WillCascadeOnDelete(false);
@@ -122,7 +123,7 @@ namespace apartmenthostService.Models
 
             //Apartment
             modelBuilder.Entity<Apartment>()
-                .HasMany<Advert>(s => s.Adverts)
+                .HasMany<Card>(s => s.Cards)
                 .WithOptional(s => s.Apartment)
                 .HasForeignKey(s => s.ApartmentId)
                 .WillCascadeOnDelete(false);
@@ -143,34 +144,34 @@ namespace apartmenthostService.Models
                 .HasForeignKey(s => s.ApartmentItemId)
                 .WillCascadeOnDelete(false);
 
-            // Advert
+            // Card
 
-            modelBuilder.Entity<Advert>()
+            modelBuilder.Entity<Card>()
                 .HasMany<Reservation>(s => s.Reservations)
-                .WithRequired(s => s.Advert)
-                .HasForeignKey(s => s.AdvertId)
+                .WithRequired(s => s.Card)
+                .HasForeignKey(s => s.CardId)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Advert>()
+            modelBuilder.Entity<Card>()
                 .HasMany<Favorite>(s => s.Favorites)
-                .WithRequired(s => s.Advert)
-                .HasForeignKey(s => s.AdvertId)
+                .WithRequired(s => s.Card)
+                .HasForeignKey(s => s.CardId)
                 .WillCascadeOnDelete(false);
 
 
-            modelBuilder.Entity<Advert>()
+            modelBuilder.Entity<Card>()
                 .HasMany<Picture>(s => s.Pictures)
-                .WithMany(c => c.Adverts)
+                .WithMany(c => c.Cards)
                 .Map(cs =>
                 {
-                    cs.MapLeftKey("AdvertRefId");
+                    cs.MapLeftKey("CardRefId");
                     cs.MapRightKey("PictureRefId");
-                    cs.ToTable("AdvertPicture");
+                    cs.ToTable("CardPicture");
                 });
 
-            modelBuilder.Entity<Advert>()
+            modelBuilder.Entity<Card>()
                 .HasMany<PropVal>(s => s.PropVals)
-                .WithOptional(s => s.Advert)
+                .WithOptional(s => s.Card)
                 .HasForeignKey(s => s.AdvertItemId)
                 .WillCascadeOnDelete(false);
 
@@ -214,13 +215,13 @@ namespace apartmenthostService.Models
                 .WithRequired(s => s.Prop)
                 .HasForeignKey(s => s.PropId);
 
-           
+
             // Dictionary + Dictionary Items
             modelBuilder.Entity<Dictionary>()
                 .HasMany<DictionaryItem>(s => s.DictionaryItems)
                 .WithRequired(s => s.Dictionary)
                 .HasForeignKey(s => s.DictionaryId);
-            
+
             // Dictionary + Prop
             modelBuilder.Entity<Dictionary>()
                 .HasMany<Prop>(s => s.Props)

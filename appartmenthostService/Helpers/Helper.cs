@@ -4,9 +4,6 @@ using System.Linq;
 using System.Reflection;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Models;
-using Microsoft.WindowsAzure.Mobile.Service.Security;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace apartmenthostService.Helpers
 {
@@ -40,8 +37,8 @@ namespace apartmenthostService.Helpers
                 return ConstType.User;
             if (type.PropertyType == typeof(ApartmentDTO))
                 return ConstType.Apartment;
-            if (type.PropertyType == typeof(AdvertDTO))
-                return ConstType.Advert;
+            if (type.PropertyType == typeof(CardDTO))
+                return ConstType.Card;
             return type.PropertyType.Name;
 
         }
@@ -88,14 +85,14 @@ namespace apartmenthostService.Helpers
             return null;
         }
 
-        public static ResponseDTO isAdvertExist(apartmenthostContext context, string name, string errType)
+        public static ResponseDTO isCardExist(apartmenthostContext context, string name, string errType)
         {
-            var currentAdvertCount = context.Adverts.Count(a => a.Name == name);
+            var currentAdvertCount = context.Cards.Count(a => a.Name == name);
             if (currentAdvertCount > 0)
             {
                 var respList = new List<string>();
                 respList.Add(name);
-                return RespH.Create(RespH.SRV_ADVERT_EXISTS, respList);
+                return RespH.Create(RespH.SRV_CARD_EXISTS, respList);
             }
             return null;
         }

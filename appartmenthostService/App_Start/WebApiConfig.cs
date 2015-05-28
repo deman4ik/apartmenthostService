@@ -3,10 +3,11 @@ using System.Web.Http;
 using apartmenthostService.App_Start;
 using apartmenthostService.Authentication;
 using apartmenthostService.Helpers;
-using Microsoft.WindowsAzure.Mobile.Service;
 using apartmenthostService.Models;
 using AutoMapper;
+using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security.Providers;
+using Newtonsoft.Json;
 
 namespace apartmenthostService
 {
@@ -25,8 +26,8 @@ namespace apartmenthostService
             // To display errors in the browser during development, uncomment the following
             // line. Comment it out again when you deploy your service for production use.
             config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
-            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize;
-            config.Formatters.JsonFormatter.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize;
+            config.Formatters.JsonFormatter.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
             Mapper.Initialize(cfg =>
             {
                 DTOMapper.CreateMapping(cfg);

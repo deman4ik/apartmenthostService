@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using Microsoft.WindowsAzure.Mobile.Service;
 
 namespace apartmenthostService.Models
@@ -14,7 +11,7 @@ namespace apartmenthostService.Models
             this.Props = new HashSet<Prop>();
         }
         public string Name { get; set; }
-        
+
         public ICollection<DictionaryItem> DictionaryItems { get; set; }
         public ICollection<Prop> Props { get; set; }
 

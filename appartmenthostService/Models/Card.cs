@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.WindowsAzure.Mobile.Service;
 
 namespace apartmenthostService.Models
 {
-    public class Advert : EntityData
+    public class Card : EntityData
     {
-        public Advert()
+        public Card()
         {
             this.Pictures = new HashSet<Picture>();
             this.Favorites = new HashSet<Favorite>();
@@ -33,16 +31,16 @@ namespace apartmenthostService.Models
         public string Cohabitation { get; set; }
 
         public string ResidentGender { get; set; }
-        
+
         public string Lang { get; set; }
 
         public virtual User User { get; set; }
-        public virtual Apartment Apartment { get; set;}
+        public virtual Apartment Apartment { get; set; }
 
-        public ICollection<Reservation> Reservations { get; set; } 
+        public ICollection<Reservation> Reservations { get; set; }
         public ICollection<Picture> Pictures { get; set; }
         public ICollection<Favorite> Favorites { get; set; }
-        public ICollection<PropVal> PropVals { get; set; } 
+        public ICollection<PropVal> PropVals { get; set; }
 
     }
 }

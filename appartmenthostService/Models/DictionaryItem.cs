@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using Microsoft.WindowsAzure.Mobile.Service;
 
 namespace apartmenthostService.Models
@@ -21,6 +19,6 @@ namespace apartmenthostService.Models
         public string Lang { get; set; }
 
         public virtual Dictionary Dictionary { get; set; }
-        public ICollection<PropVal> PropVals { get; set; } 
+        public ICollection<PropVal> PropVals { get; set; }
     }
 }
