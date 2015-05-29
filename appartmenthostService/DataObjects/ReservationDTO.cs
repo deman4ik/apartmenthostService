@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using apartmenthostService.Attributes;
 using apartmenthostService.Helpers;
 
@@ -75,5 +76,13 @@ namespace apartmenthostService.DataObjects
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public virtual CardDTO Card { get; set; }
+
+        // Отзывы
+        [Metadata(DataType = ConstDataType.Reviews)]
+        [GetRule(Order = 7, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public ICollection<ReviewDTO> Reviews { get; set; }
     }
 }

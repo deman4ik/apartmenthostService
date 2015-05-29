@@ -57,16 +57,32 @@ namespace apartmenthostService.App_Start
 
             List<User> users = new List<User>
             {
-
-                new User { Id = "u2",
-                           Email = "vasek@example.com", 
+                new User { Id = "u1", 
+                           Email = "parus@parus.ru", 
                            Salt = salt, 
                            SaltedAndHashedPassword = AuthUtils.hash("parusina", salt),
+                           Profile = new Profile { Id = "u1",
+                                                   FirstName = "Яна",
+                                                   LastName = "Парусова",
+                                                   Birthday = new DateTime(1989,1,1),
+                                                   ContactEmail = "parus@parus.ru",
+                                                   ContactKind = "Phone",
+                                                   Description = "Информационные Системы Управления",
+                                                   Gender = ConstVals.Female,
+                                                   Phone = "+74957777777",
+                                                   Rating = 5,
+                                                   Lang = ConstLang.RU
+                                                 }  
+                        },
+                new User { Id = "u2",
+                           Email = "user2@example.com", 
+                           Salt = salt, 
+                           SaltedAndHashedPassword = AuthUtils.hash("user2", salt),
                            Profile = new Profile { Id = "u2", 
                                                    FirstName = "Василий", 
                                                    LastName = "Пупович", 
                                                    Birthday = new DateTime(1976,3,23),
-                                                   ContactEmail = "vasek@example.com",
+                                                   ContactEmail = "user2@example.com",
                                                    ContactKind = "Email",
                                                    Description = "Пуповичи 100 лет на рынке недвижимости!",
                                                    Gender = ConstVals.Male,
@@ -77,39 +93,142 @@ namespace apartmenthostService.App_Start
                         },
                 
                         new User { Id = "u3",
-                           Email = "lenka@example.com", 
+                           Email = "user3@example.com", 
                            Salt = salt, 
-                           SaltedAndHashedPassword = AuthUtils.hash("parusina", salt),
+                           SaltedAndHashedPassword = AuthUtils.hash("user3", salt),
                            Profile = new Profile { Id = "u3", 
                                                    FirstName = "Елена", 
                                                    LastName = "Пыжович", 
                                                    Birthday = new DateTime(1976,3,23),
-                                                   ContactEmail = "lenka@example.com",
+                                                   ContactEmail = "user3@example.com",
                                                    ContactKind = "Email",
                                                    Description = "Привет. Меня зовут Лена!",
                                                    Gender = ConstVals.Female,
                                                    Phone = "+79998987766",
-                                                   Rating = 4,
+                                                   Rating = 3,
                                                    Lang = ConstLang.RU
                                                 } 
                         },
 
-                new User { Id = "u1", 
-                           Email = "parus@parus.ru", 
+                        new User { Id = "u4",
+                           Email = "user4@example.com", 
                            Salt = salt, 
-                           SaltedAndHashedPassword = AuthUtils.hash("parusina", salt),
-                           Profile = new Profile { Id = "u1",
-                                                   FirstName = "ЦИТК",
-                                                   LastName = "Парус",
-                                                   Birthday = new DateTime(1989,1,1),
-                                                   ContactEmail = "parus@parus.ru",
+                           SaltedAndHashedPassword = AuthUtils.hash("user4", salt),
+                           Profile = new Profile { Id = "u4", 
+                                                   FirstName = "Дмитрий", 
+                                                   LastName = "Трофимов", 
+                                                   Birthday = new DateTime(1965,7,12),
+                                                   ContactEmail = "user4@example.com",
+                                                   ContactKind = "Email",
+                                                   Description = "Трофимов",
+                                                   Gender = ConstVals.Male,
+                                                   Phone = "+79995487766",
+                                                   Rating = 2,
+                                                   Lang = ConstLang.RU
+                                                } 
+                        },
+
+                        new User { Id = "u5",
+                           Email = "user5@example.com", 
+                           Salt = salt, 
+                           SaltedAndHashedPassword = AuthUtils.hash("user5", salt),
+                           Profile = new Profile { Id = "u5", 
+                                                   FirstName = "Эдуард", 
+                                                   LastName = "Вишняков", 
+                                                   Birthday = new DateTime(1986,1,18),
+                                                   ContactEmail = "user5@example.com",
+                                                   ContactKind = "Email",
+                                                   Description = "Трофимов",
+                                                   Gender = ConstVals.Male,
+                                                   Phone = "+78795487766",
+                                                   Rating = 1,
+                                                   Lang = ConstLang.RU
+                                                } 
+                        },
+                        new User { Id = "u6",
+                           Email = "user6@example.com", 
+                           Salt = salt, 
+                           SaltedAndHashedPassword = AuthUtils.hash("user6", salt),
+                           Profile = new Profile { Id = "u6", 
+                                                   FirstName = "Эдуард", 
+                                                   LastName = "Вишняков", 
+                                                   Birthday = new DateTime(1977,12,23),
+                                                   ContactEmail = "user6@example.com",
                                                    ContactKind = "Phone",
-                                                   Description = "Информационные Системы Управления",
-                                                   Gender = ConstVals.Female,
-                                                   Phone = "+74957777777",
+                                                   Description = "Вишняков",
+                                                   Gender = ConstVals.Male,
+                                                   Phone = "+78795487366",
                                                    Rating = 5,
                                                    Lang = ConstLang.RU
-                                                 }  
+                                                } 
+                        },
+                new User { Id = "u7",
+                           Email = "user7@example.com", 
+                           Salt = salt, 
+                           SaltedAndHashedPassword = AuthUtils.hash("user7", salt),
+                           Profile = new Profile { Id = "u7", 
+                                                   FirstName = "Дарья", 
+                                                   LastName = "Мамонтова", 
+                                                   Birthday = new DateTime(1995,8,19),
+                                                   ContactEmail = "user7@example.com",
+                                                   ContactKind = "Email",
+                                                   Description = "Привет. Меня зовут Дарья!",
+                                                   Gender = ConstVals.Female,
+                                                   Phone = "+79998988966",
+                                                   Rating = 3,
+                                                   Lang = ConstLang.RU
+                                                } 
+                        },
+                        new User { Id = "u8",
+                           Email = "user8@example.com", 
+                           Salt = salt, 
+                           SaltedAndHashedPassword = AuthUtils.hash("user8", salt),
+                           Profile = new Profile { Id = "u8", 
+                                                   FirstName = "Светлана", 
+                                                   LastName = "Стрелкова", 
+                                                   Birthday = new DateTime(1989,9,9),
+                                                   ContactEmail = "user8@example.com",
+                                                   ContactKind = "Email",
+                                                   Description = "Привет. Меня зовут Светлана!",
+                                                   Gender = ConstVals.Female,
+                                                   Phone = "+79994988966",
+                                                   Rating = 4,
+                                                   Lang = ConstLang.RU
+                                                } 
+                        },
+                         new User { Id = "u9",
+                           Email = "user9@example.com", 
+                           Salt = salt, 
+                           SaltedAndHashedPassword = AuthUtils.hash("user9", salt),
+                           Profile = new Profile { Id = "u9", 
+                                                   FirstName = "Светлана", 
+                                                   LastName = "Стрелкова", 
+                                                   Birthday = new DateTime(1981,4,29),
+                                                   ContactEmail = "user9@example.com",
+                                                   ContactKind = "Email",
+                                                   Description = "Привет. Меня зовут Светлана!",
+                                                   Gender = ConstVals.Female,
+                                                   Phone = "+79994988996",
+                                                   Rating = 5,
+                                                   Lang = ConstLang.RU
+                                                } 
+                        },
+                        new User { Id = "u10",
+                           Email = "user10@example.com", 
+                           Salt = salt, 
+                           SaltedAndHashedPassword = AuthUtils.hash("user10", salt),
+                           Profile = new Profile { Id = "u10", 
+                                                   FirstName = "Лариса", 
+                                                   LastName = "Крокодилова", 
+                                                   Birthday = new DateTime(1993,4,10),
+                                                   ContactEmail = "user10@example.com",
+                                                   ContactKind = "Email",
+                                                   Description = "Крокодилова клац-клац",
+                                                   Gender = ConstVals.Female,
+                                                   Phone = "+79994938996",
+                                                   Rating = 5,
+                                                   Lang = ConstLang.RU
+                                                } 
                         },
           };
 
@@ -130,6 +249,18 @@ namespace apartmenthostService.App_Start
 
             List<Apartment> apartments = new List<Apartment>()
             {
+                new Apartment()
+                {
+                    Id = "ap1",
+                    Name = "Офис Парус",
+                    Type = ConstVals.Office,
+                    Options = ConstVals.Parking + ";" + ConstVals.Concierge + ";" + ConstVals.AirConditioning,
+                    UserId = "u1",
+                    Adress = "Россия, Москва, Алексеевский, Ярославская ул., 10к4",
+                    Latitude = new decimal(55.819068), 
+                    Longitude = new decimal(37.649776),
+                    Lang = ConstLang.RU
+                },
                 new Apartment()
                 {
                     Id = "ap2",
@@ -154,18 +285,90 @@ namespace apartmenthostService.App_Start
                     Longitude = new decimal(37.554516),
                     Lang = ConstLang.RU
                 },
+                    new Apartment()
+                {
+                    Id = "ap4",
+                    Name = "Удальцова 73",
+                    Type = ConstVals.Flat,
+                    Options = ConstVals.WashingMachine+";"+ConstVals.Refrigerator,
+                    UserId = "u4",
+                    Adress = "Россия, Москва, Проспект Вернадского, ул. Удальцова, 73",
+                    Latitude = new decimal(55.677215), 
+                    Longitude = new decimal(37.497288),
+                    Lang = ConstLang.RU
+                },
+                    new Apartment()
+                {
+                    Id = "ap5",
+                    Name = "Сумской проезд",
+                    Type = ConstVals.Flat,
+                    Options = ConstVals.WashingMachine+";"+ConstVals.Refrigerator,
+                    UserId = "u5",
+                    Adress = "Россия, Москва, Чертаново Северное, Сумской проезд, 12к5",
+                    Latitude = new decimal(55.63746), 
+                    Longitude = new decimal(37.608463),
+                    Lang = ConstLang.RU
+                },
+                   new Apartment()
+                {
+                    Id = "ap6",
+                    Name = "Братеево",
+                    Type = ConstVals.Flat,
+                    Options = ConstVals.WashingMachine+";"+ConstVals.Refrigerator,
+                    UserId = "u6",
+                    Adress = "Россия, Москва, Братеево, Ключевая улица, 10к2",
+                    Latitude = new decimal(55.635426), 
+                    Longitude = new decimal(37.757045),
+                    Lang = ConstLang.RU
+                },
                 new Apartment()
                 {
-                    Id = "ap1",
-                    Name = "Офис Парус",
-                    Type = ConstVals.Office,
-                    Options = ConstVals.Parking + ";" + ConstVals.Concierge + ";" + ConstVals.AirConditioning,
-                    UserId = "u1",
-                    Adress = "Россия, Москва, Алексеевский, Ярославская ул., 10к4",
-                    Latitude = new decimal(55.819068), 
-                    Longitude = new decimal(37.649776),
+                    Id = "ap7",
+                    Name = "Замоскворечье",
+                    Type = ConstVals.Flat,
+                    Options = ConstVals.Concierge + ";" + ConstVals.WashingMachine+";"+ConstVals.Refrigerator,
+                    UserId = "u7",
+                    Adress = "Россия, Москва, Замоскворечье, Валовая улица, 10",
+                    Latitude = new decimal(55.731272), 
+                    Longitude = new decimal(37.631757),
                     Lang = ConstLang.RU
-                }
+                },
+                new Apartment()
+                {
+                    Id = "ap8",
+                    Name = "Замоскворечье около Парка Горького",
+                    Type = ConstVals.Flat,
+                    Options = ConstVals.Concierge + ";" + ConstVals.AirConditioning + ";" +ConstVals.WashingMachine+";"+ConstVals.Refrigerator,
+                    UserId = "u8",
+                    Adress = "Россия, Москва, Замоскворечье, 2-й Хвостов переулок, 12",
+                    Latitude = new decimal(55.735454), 
+                    Longitude = new decimal(37.615003),
+                    Lang = ConstLang.RU
+                },
+                new Apartment()
+                {
+                    Id = "ap9",
+                    Name = "Марфино",
+                    Type = ConstVals.Flat,
+                    Options =ConstVals.AirConditioning + ";" +ConstVals.WashingMachine+";"+ConstVals.Refrigerator,
+                    UserId = "u9",
+                    Adress = "Россия, Москва, Марфино, улица Академика Комарова, 7В",
+                    Latitude = new decimal(55.82886), 
+                    Longitude = new decimal(37.591422),
+                    Lang = ConstLang.RU
+                },
+                new Apartment()
+                {
+                    Id = "ap10",
+                    Name = "Крылатское",
+                    Type = ConstVals.Flat,
+                    Options = ConstVals.Parking + ";" + ConstVals.Concierge + ";" + ConstVals.AirConditioning + ";" +ConstVals.WashingMachine+";"+ConstVals.Refrigerator,
+                    UserId = "u10",
+                    Adress = "Россия, Москва, Крылатское, улица Крылатские Холмы, 24к1",
+                    Latitude = new decimal(55.762931), 
+                    Longitude = new decimal(37.415865),
+                    Lang = ConstLang.RU
+                },
             };
 
             foreach (var apartment in apartments)
@@ -180,18 +383,30 @@ namespace apartmenthostService.App_Start
 
             List<Card> adverts = new List<Card>()
             {
-                
+                new Card()
+                {
+                    Id = "a1",
+                    Name = "Офис совместно с Парус",
+                    UserId = "u1",
+                    Description = "Бизнес центр ААА-класса. Многоуровневая паркова. Бесплатное питание. У нас есть печеньки!",
+                    ApartmentId = "ap1",
+                    DateFrom = new DateTime(2015,4,1),
+                    DateTo = new DateTime(2015,4,30),
+                    PriceDay = 1500,
+                    Cohabitation = ConstVals.SeperateResidence,
+                    ResidentGender = ConstVals.Any,
+                    Lang = ConstLang.RU
+                },
                 new Card()
                 {
                     Id = "a2",
                     Name = "Пупович Плаза в Бутово",
                     UserId = "u2",
-                    Description = "Великолепное жилье в центре Бутово. Комфортно и уютно. Из окна не видно помойки! Уже хорошо!",
+                    Description = "Великолепное жилье в центре Бутово. Комфортно и уютно.",
                     ApartmentId = "ap2",
                     DateFrom = new DateTime(2015,5,10),
                     DateTo = new DateTime(2015,6,30),
                     PriceDay = 1000,
-                    PricePeriod = 50000,
                     Cohabitation = ConstVals.Cohabitation,
                     ResidentGender = ConstVals.Female,
                     Lang = ConstLang.RU
@@ -201,31 +416,115 @@ namespace apartmenthostService.App_Start
                     Id = "a3",
                     Name = "Ленкина квартира в Ясенево",
                     UserId = "u3",
-                    Description = "Квартирка на Соловьином. Жить можно, но не долго. Из окна почти ничего не видно, только стенку морга.",
+                    Description = "Квартирка на Соловьином. Жить можно.",
                     ApartmentId = "ap3",
                     DateFrom = new DateTime(2015,5,1),
                     DateTo = new DateTime(2015,5,31),
-                    PriceDay = 968,
-                    PricePeriod = 30000,
+                    PriceDay = 1300,
                     Cohabitation = ConstVals.SeperateResidence,
                     ResidentGender = ConstVals.Male,
                     Lang = ConstLang.RU
                 },
                 new Card()
                 {
-                    Id = "a1",
-                    Name = "Офис совместно с Парус",
-                    UserId = "u1",
-                    Description = "Бизнес центр ААА-класса. Многоуровневая паркова. Бесплатное питание. У нас есть печеньки!",
-                    ApartmentId = "ap1",
-                    DateFrom = new DateTime(2015,4,30),
-                    DateTo = new DateTime(2015,12,31),
-                    PriceDay = 1500,
-                    PricePeriod = 60000,
+                    Id = "a4",
+                    Name = "Удальцова 73",
+                    UserId = "u4",
+                    Description = "Реально классная квартира! Просторная с качественным евро-ремонтом из дорогих материалов. Полностью меблирована. Никогда раньше не сдавалась, все новое! Порядочные соседи (славяне). Все есть для комфортного проживания, шкаф купе в прихожей и в гостиной, диван, компьютерный стол, телевизор, кухонный гарнитур, варочная панель, двухкамерный холодильник. Внимание: лоджия утепленная и площадь квартиры расширилась, идеальное место для кабинета. ",
+                    ApartmentId = "ap4",
+                    DateFrom = new DateTime(2015,1,1),
+                    DateTo = new DateTime(2015,6,15),
+                    PriceDay = 1200,
                     Cohabitation = ConstVals.SeperateResidence,
                     ResidentGender = ConstVals.Any,
                     Lang = ConstLang.RU
                 },
+                new Card()
+                {
+                    Id = "a5",
+                    Name = "Сумской проезд",
+                    UserId = "u5",
+                    Description = "Обычная кв. с мебелью (дивана пока нет), на длительный срок, для всех семейных.",
+                    ApartmentId = "ap5",
+                    DateFrom = new DateTime(2015,5,1),
+                    DateTo = new DateTime(2015,12,31),
+                    PriceDay = 1000,
+                    Cohabitation = ConstVals.Cohabitation,
+                    ResidentGender = ConstVals.Female,
+                    Lang = ConstLang.RU
+                },
+                new Card()
+                {
+                    Id = "a6",
+                    Name = "Братеево",
+                    UserId = "u6",
+                    Description = "Новая кровать, чистое постельное белье, вся необходимая бытовая техника в наличии, санузел после ремонта.Без комиссии и залогов. Без подселения.Заселение круглосуточно, 24 часа.",
+                    ApartmentId = "ap6",
+                    DateFrom = new DateTime(2015,12,1),
+                    DateTo = new DateTime(2015,12,31),
+                    PriceDay = 860,
+                    Cohabitation = ConstVals.SeperateResidence,
+                    ResidentGender = ConstVals.Any,
+                    Lang = ConstLang.RU
+                },
+                new Card()
+                {
+                    Id = "a7",
+                    Name = "Замоскворечье",
+                    UserId = "u7",
+                    Description = "Квартирка на Соловьином. Жить можно, но не долго. Из окна почти ничего не видно, только стенку морга.",
+                    ApartmentId = "ap7",
+                    DateFrom = new DateTime(2015,9,1),
+                    DateTo = new DateTime(2015,9,30),
+                    PriceDay = 700,
+                    Cohabitation = ConstVals.SeperateResidence,
+                    ResidentGender = ConstVals.Any,
+                    Lang = ConstLang.RU
+                },
+                 new Card()
+                {
+                    Id = "a8",
+                    Name = "Замоскворечье около Парка Горького",
+                    UserId = "u8",
+                    Description = "Хорошая квартира. 5 минут до Парка Горького",
+                    ApartmentId = "ap8",
+                    DateFrom = new DateTime(2015,6,1),
+                    DateTo = new DateTime(2015,8,31),
+                    PriceDay = 1800,
+                    Cohabitation = ConstVals.SeperateResidence,
+                    ResidentGender = ConstVals.Any,
+                    Lang = ConstLang.RU
+                },
+                new Card()
+                {
+                    Id = "a9",
+                    Name = "Марфино",
+                    UserId = "u9",
+                    Description = "Уютная квартира в пешей доступности. Район с развитой инфраструктурой.",
+                    ApartmentId = "ap9",
+                    DateFrom = new DateTime(2016,1,15),
+                    DateTo = new DateTime(2016,12,31),
+                    PriceDay = 1300,
+                    Cohabitation = ConstVals.Cohabitation,
+                    ResidentGender = ConstVals.Female,
+                    Lang = ConstLang.RU
+                },
+               
+                new Card()
+                {
+                    Id = "a10",
+                    Name = "Крылатское",
+                    UserId = "u10",
+                    Description = "Евро ремонт, вся бытовая техника(телевизор, холодильник, плита ,стиральная машина, микроволновая печь. точка доступа интернет. Предоставляется постельное белье, полотенце, посуда, гель для душа, шампунь. Во дворе парковка. Предоставляем отчетные документы командировочным для бухгалтерии. Звоните, ждем вас!",
+                    ApartmentId = "ap10",
+                    DateFrom = new DateTime(2015,5,1),
+                    DateTo = new DateTime(2015,5,31),
+                    PriceDay = 2000,
+                    Cohabitation = ConstVals.SeperateResidence,
+                    ResidentGender = ConstVals.Any,
+                    Lang = ConstLang.RU
+                },
+                
             };
 
             foreach (var advert in adverts)
@@ -234,46 +533,133 @@ namespace apartmenthostService.App_Start
             }
         }
 
-        public static void PopulateReviews(apartmenthostContext context)
+        public static void PopulateReservations(apartmenthostContext context)
         {
-            List<Review> reviews = new List<Review>()
+            List<Reservation> reservations = new List<Reservation>()
             {
-                new Review()
+                new Reservation()
                 {
-                    Id = "rw1",
-                    FromUserId = "u2",
-                    ToUserId = "u1",
-                    Text = "Отличный офис! Всем довольны! Арендуем еще на год!",
-                    Rating = 5
+                    Id = "r12",
+                    UserId = "u1",
+                    CardId = "a2",
+                    Status = ConstVals.Accepted,
+                    DateFrom = new DateTime(2015,12,1),
+                    DateTo = new DateTime(2015,12,25)
+
+                    
                 },
-                new Review()
+                new Reservation()
                 {
-                    Id = "rw2",
-                    FromUserId = "u3",
-                    ToUserId = "u1",
-                    Text = "Офис хорош, просторно, удобно, но паркинг ужасен!",
-                    Rating = 4
+                    Id = "r23",
+                    UserId = "u2",
+                    CardId = "a3",
+                    Status = ConstVals.Pending,
+                    DateFrom = new DateTime(2015,9,1),
+                    DateTo = new DateTime(2015,9,6)
+                    
                 },
-                new Review()
+                new Reservation()
                 {
-                    Id = "rw3",
-                    FromUserId = "u1",
-                    ToUserId = "u2",
-                    Text = "Ответсвенный съемщик. Вежливый и аккуратный. Оплата в срок.",
-                    Rating = 5
+                    Id = "r31",
+                    UserId = "u3",
+                    CardId = "a1",
+                    Status = ConstVals.Accepted,
+                    DateFrom = new DateTime(2015,3,1),
+                    DateTo = new DateTime(2015,3,6)
+                    
                 },
-                new Review()
+                new Reservation()
                 {
-                    Id = "rw4",
-                    FromUserId = "u1",
-                    ToUserId = "u2",
-                    Text = "Дом мечты! И совсем рядом, всего то в Бутово! Но ",
-                    Rating = 4
+                    Id = "r51",
+                    UserId = "u5",
+                    CardId = "a1",
+                    Status = ConstVals.Accepted,
+                    DateFrom = new DateTime(2010,5,10),
+                    DateTo = new DateTime(2010,6,30)
+                    
                 },
+                new Reservation()
+                {
+                    Id = "r91",
+                    UserId = "u9",
+                    CardId = "a1",
+                    Status = ConstVals.Accepted,
+                    DateFrom = new DateTime(2015,1,10),
+                    DateTo = new DateTime(2015,1,30)
+                    
+                },
+                new Reservation()
+                {
+                    Id = "r101",
+                    UserId = "u10",
+                    CardId = "a1",
+                    Status = ConstVals.Accepted,
+                    DateFrom = new DateTime(2015,2,1),
+                    DateTo = new DateTime(2015,2,20)
+                    
+                },
+                new Reservation()
+                {
+                    Id = "r45",
+                    UserId = "u4",
+                    CardId = "a5",
+                    Status = ConstVals.Accepted,
+                    DateFrom = new DateTime(2014,1,1),
+                    DateTo = new DateTime(2014,12,31)
+                    
+                },
+                new Reservation()
+                {
+                    Id = "r52",
+                    UserId = "u5",
+                    CardId = "a2",
+                    Status = ConstVals.Accepted,
+                    DateFrom = new DateTime(2013,1,1),
+                    DateTo = new DateTime(2013,12,31)
+                    
+                },
+                 new Reservation()
+                {
+                    Id = "r62",
+                    UserId = "u6",
+                    CardId = "a2",
+                    Status = ConstVals.Accepted,
+                    DateFrom = new DateTime(2016,1,1),
+                    DateTo = new DateTime(2016,12,31)
+                },
+                new Reservation()
+                {
+                    Id = "r71",
+                    UserId = "u7",
+                    CardId = "a1",
+                    Status = ConstVals.Pending,
+                    DateFrom = new DateTime(2016,1,1),
+                    DateTo = new DateTime(2016,12,31)
+                },
+                new Reservation()
+                {
+                    Id = "r81",
+                    UserId = "u8",
+                    CardId = "a1",
+                    Status = ConstVals.Declined,
+                    DateFrom = new DateTime(2016,1,1),
+                    DateTo = new DateTime(2016,12,31)
+                },
+                new Reservation()
+                {
+                    Id = "r41",
+                    UserId = "u4",
+                    CardId = "a1",
+                    Status = ConstVals.Pending,
+                    DateFrom = new DateTime(2015,8,1),
+                    DateTo = new DateTime(2015,9,30)
+                    
+                }
             };
-            foreach (var review in reviews)
+
+            foreach (var reservation in reservations)
             {
-                context.Set<Review>().Add(review);
+                context.Set<Reservation>().Add(reservation);
             }
         }
         public static void PopulateFavorites(apartmenthostContext context)
@@ -282,26 +668,26 @@ namespace apartmenthostService.App_Start
             {
                 new Favorite()
                 {
-                    Id = "f1",
+                    Id = "f12",
                     UserId = "u1",
                     CardId = "a2"
                     
                 },
                 new Favorite()
                 {
-                    Id = "f2",
+                    Id = "f13",
                     UserId = "u1",
                     CardId = "a3"
                 },
                 new Favorite()
                 {
-                    Id = "f3",
+                    Id = "f23",
                     UserId = "u2",
                     CardId = "a3"
                 },
                 new Favorite()
                 {
-                    Id = "f4",
+                    Id = "f32",
                     UserId = "u3",
                     CardId = "a2"
                     
@@ -313,38 +699,81 @@ namespace apartmenthostService.App_Start
             }
         }
 
-        public static void PopulateReservations(apartmenthostContext context)
+       
+        public static void PopulateReviews(apartmenthostContext context)
         {
-            List<Reservation> reservations = new List<Reservation>()
+            List<Review> reviews = new List<Review>()
             {
-                new Reservation()
+                new Review()
                 {
-                    Id = "r1",
-                    UserId = "u1",
-                    CardId = "a2",
-                    Status = ConstVals.Accepted,
-                    DateFrom = new DateTime(2015,12,1),
-                    DateTo = new DateTime(2015,12,25)
-
-                    
+                    Id = "rw31",
+                    FromUserId = "u3",
+                    ToUserId = "u1",
+                    ReservationId = "r31",
+                    Text = "Отличный офис! Всем довольны! Арендуем еще на год!",
+                    Rating = 5
                 },
-                new Reservation()
+                new Review()
                 {
-                    Id = "r2",
-                    UserId = "u2",
-                    CardId = "a3",
-                    Status = ConstVals.Pending,
-                    DateFrom = new DateTime(2015,9,1),
-                    DateTo = new DateTime(2015,9,6)
-                    
+                    Id = "rw13",
+                    FromUserId = "u1",
+                    ToUserId = "u3",
+                    ReservationId = "r31",
+                    Text = "Ответственный съемщик. Вежливый и аккуратный. Оплата в срок.",
+                    Rating = 5
+                },
+                 new Review()
+                {
+                    Id = "rw14",
+                    FromUserId = "u1",
+                    ToUserId = "u4",
+                    ReservationId = "r41",
+                    Text = "Съемщик хороший, но куда-то пропал и отзыв не оставил, хоть и обещал",
+                    Rating = 4
+                },
+                    new Review()
+                {
+                    Id = "rw91",
+                    FromUserId = "u9",
+                    ToUserId = "u1",
+                    ReservationId = "r91",
+                    Text = "Все хорошо",
+                    Rating = 4
+                },
+                new Review()
+                {
+                    Id = "rw101",
+                    FromUserId = "u10",
+                    ToUserId = "u1",
+                    ReservationId = "r101",
+                    Text = "Норм",
+                    Rating = 3
+                },
+            
+                new Review()
+                {
+                    Id = "rw110",
+                    FromUserId = "u1",
+                    ToUserId = "u10",
+                    ReservationId = "r101",
+                    Text = "Плохой съемщик, куча проблем",
+                    Rating = 3
+                },
+                new Review()
+                {
+                    Id = "rw45",
+                    FromUserId = "u4",
+                    ToUserId = "u5",
+                    ReservationId = "r45",
+                    Text = "Очень понравилось. Может быть еще приедем.",
+                    Rating = 5
                 }
             };
-            foreach (var reservation in reservations)
+            foreach (var review in reviews)
             {
-                context.Set<Reservation>().Add(reservation);
+                context.Set<Review>().Add(review);
             }
         }
-
         public static void PopulateTables(apartmenthostContext context)
         {
             List<Table> tables = new List<Table>()

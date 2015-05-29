@@ -153,7 +153,6 @@ namespace apartmenthostService.Controllers
                     DateFrom = card.DateFrom,
                     DateTo = card.DateTo,
                     PriceDay = card.PriceDay,
-                    PricePeriod = card.PricePeriod,
                     Cohabitation = card.Cohabitation,
                     ResidentGender = card.ResidentGender,
                     Lang = card.Lang,
@@ -292,7 +291,6 @@ namespace apartmenthostService.Controllers
                 cardCurrent.DateFrom = card.DateFrom;
                 cardCurrent.DateTo = card.DateTo;
                 cardCurrent.PriceDay = cardCurrent.PriceDay;
-                cardCurrent.PricePeriod = cardCurrent.PricePeriod;
                 cardCurrent.Cohabitation = cardCurrent.Cohabitation;
                 cardCurrent.ResidentGender = cardCurrent.ResidentGender;
 

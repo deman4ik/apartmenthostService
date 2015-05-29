@@ -30,6 +30,14 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string ToUserId { get; set; }
 
+        // Уникальный идентификатор пользователя - Брониерование
+        [Metadata(DataType = ConstDataType.Id)]
+        [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public string ReservationId { get; set; }
+
         // Рейтинг
         [Metadata(DataType = ConstDataType.Rating)]
         [GetRule(Order = 1, RequiredForm = false, RequiredTransfer = false, Visible = true)]
@@ -77,5 +85,13 @@ namespace apartmenthostService.DataObjects
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public virtual BaseUserDTO ToUser { get; set; }
+
+        // Объект бронь
+        [Metadata(DataType = ConstDataType.User)]
+        [GetRule(Order = 5, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public virtual ReservationDTO Reservation { get; set; }
     }
 }

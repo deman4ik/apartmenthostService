@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Runtime.Serialization.Formatters;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using apartmenthostService.Authentication;
@@ -42,7 +43,7 @@ namespace apartmenthostService.Controllers
                 DateFrom = x.DateFrom,
                 DateTo = x.DateTo,
                 PriceDay = x.PriceDay,
-                PricePeriod = x.PricePeriod,
+                PricePeriod = x.PriceDay * 7,
                 Cohabitation = x.Cohabitation,
                 ResidentGender = x.ResidentGender,
                 IsFavorite = x.Favorites.Any(f => f.UserId == userId),
@@ -101,7 +102,8 @@ namespace apartmenthostService.Controllers
             {
                 userId = account.UserId;
             }
-            var result = Lookup(id).Queryable.Select(x => new CardDTO()
+           // var result = Lookup(id).Queryable
+            var result = _context.Cards.Where(c => c.Id == id).Take(1).Select(x => new CardDTO()
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -111,7 +113,7 @@ namespace apartmenthostService.Controllers
                 DateFrom = x.DateFrom,
                 DateTo = x.DateTo,
                 PriceDay = x.PriceDay,
-                PricePeriod = x.PricePeriod,
+                PricePeriod = x.PriceDay * 7,
                 Cohabitation = x.Cohabitation,
                 ResidentGender = x.ResidentGender,
                 IsFavorite = x.Favorites.Any(f => f.UserId == userId),
@@ -151,7 +153,7 @@ namespace apartmenthostService.Controllers
                         Gender = rv.User.Profile.Gender
                     }
                 }).ToList(),
-                Reviews = x.User.InReviews.Select(rev => new ReviewDTO()
+                Reviews = x.User.InReviews.Where(inr => inr.Reservation.CardId == x.Id).Select(rev => new ReviewDTO()
                 {
                     Id = rev.Id,
                     Rating = rev.Rating,
@@ -177,7 +179,7 @@ namespace apartmenthostService.Controllers
                     DateFrom = card.DateFrom,
                     DateTo = card.DateTo,
                     PriceDay = card.PriceDay,
-                    PricePeriod = card.PricePeriod,
+                    PricePeriod = card.PriceDay * 7,
                     Cohabitation = card.Cohabitation,
                     ResidentGender = card.ResidentGender,
                     IsFavorite = card.Favorites.Any(f => f.UserId == userId),
