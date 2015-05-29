@@ -54,6 +54,14 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string Text { get; set; }
 
+        // Признак доступности ответа
+        [Metadata(DataType = ConstDataType.Bool)]
+        [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public bool CanResponse { get; set; }
+
         // Дата и Время создания объекта
         [Metadata(DataType = ConstDataType.Date)]
         [GetRule(Order = 4, RequiredForm = false, RequiredTransfer = false, Visible = true)]

@@ -216,6 +216,7 @@
     <Compile Include="Controllers\ApiControllers\ApartmentApiController.cs" />
     <Compile Include="Controllers\ApiControllers\ReservationApiController.cs" />
     <Compile Include="Controllers\ApiControllers\FavoriteApiController.cs" />
+    <Compile Include="Controllers\ApiControllers\ReviewApiController.cs" />
     <Compile Include="Controllers\TableControllers\NotificationController.cs" />
     <Compile Include="Controllers\TableControllers\ReservationController.cs" />
     <Compile Include="Controllers\TableControllers\ApartmentController.cs" />
@@ -241,6 +242,7 @@
     <Compile Include="DataObjects\RelatedCardDTO.cs" />
     <Compile Include="DataObjects\RequestDTO.cs" />
     <Compile Include="DataObjects\ReservationDTO.cs" />
+    <Compile Include="DataObjects\ReservReviewDTO.cs" />
     <Compile Include="DataObjects\ResponseDTO.cs" />
     <Compile Include="DataObjects\ReviewDTO.cs" />
     <Compile Include="DataObjects\UserDTO.cs" />
