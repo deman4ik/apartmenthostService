@@ -83,6 +83,7 @@ namespace apartmenthostService.Helpers
         public const string Favorite = "Favorite";    // Избранное
         public const string ApprovedReservations = "ApprovedReservations"; //  Список объектов типа Бронь - утвержденные
         public const string Reviews = "Reviews"; // Отзывы
+        public const string NotificationData = "NotificationData"; // Дополнительные данные оповещения
         public const string RelatedCards = "RelatedCards"; // Похожие объявления
         public const string PropVals = "PropVals";    // Список объектов типа Значения свойств
         public const string Lang = "Lang";        // Код языка
@@ -158,7 +159,8 @@ namespace apartmenthostService.Helpers
         public const string AirConditioning = "DVAL_AIR_CONDITIONING";   //Кондиционер
         public const string Owner = "DVAL_OWNER"; // Арендодатель
         public const string Renter = "DVAL_RENTER"; // Съемщик
-
+        public const string General = "DVAL_GENERAL"; // Станадартные оповещения
+        public const string Global = "DVAL_GLOBAL"; // Глобальные оповещения
 
     }
 }

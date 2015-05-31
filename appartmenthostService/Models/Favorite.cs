@@ -1,4 +1,5 @@
-﻿using Microsoft.WindowsAzure.Mobile.Service;
+﻿using System.Collections.Generic;
+using Microsoft.WindowsAzure.Mobile.Service;
 
 namespace apartmenthostService.Models
 {
@@ -9,5 +10,8 @@ namespace apartmenthostService.Models
 
         public virtual User User { get; set; }
         public virtual Card Card { get; set; }
+
+        public ICollection<Notification> Notifications { get; set; }
+
     }
 }

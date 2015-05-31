@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
+using apartmenthostService.Helpers;
 using apartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
@@ -62,8 +63,8 @@ namespace apartmenthostService.Controllers
                     return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
 
-                var currentCardCount = _context.Cards.Count(a => a.Id == cardId);
-                if (currentCardCount == 0)
+                var currentCard = _context.Cards.SingleOrDefault(a => a.Id == cardId);
+                if (currentCard == null)
                 {
                     respList.Add(cardId);
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_NOTFOUND,respList));
@@ -79,6 +80,15 @@ namespace apartmenthostService.Controllers
                         Id = Guid.NewGuid().ToString(),
                         CardId = cardId,
                         UserId = account.UserId
+                    });
+                    // Create Notification
+                    _context.Set<Notification>().Add(new Notification()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        UserId = currentCard.UserId,
+                        Type = ConstVals.General,
+                        CardId = currentCard.Id,
+                        Code = RespH.SRV_NOTIF_CARD_FAVORITED
                     });
                     status = true;
                 }

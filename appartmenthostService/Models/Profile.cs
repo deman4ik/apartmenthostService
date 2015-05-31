@@ -5,7 +5,6 @@ namespace apartmenthostService.Models
 {
     public class Profile : EntityData
     {
-
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Gender { get; set; }
@@ -16,6 +15,8 @@ namespace apartmenthostService.Models
         public string Description { get; set; }
         public string PictureId { get; set; }
         public decimal Rating { get; set; }
+        public int RatingCount { get; set; }
+        public decimal Score { get; set; }
         public string Lang { get; set; }
 
         public virtual User User { get; set; }

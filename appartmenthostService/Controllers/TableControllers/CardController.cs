@@ -57,6 +57,7 @@ namespace apartmenthostService.Controllers
                     LastName = x.User.Profile.LastName,
                     Gender = x.User.Profile.Gender,
                     Rating = x.User.Profile.Rating,
+                    RatingCount = x.User.Profile.RatingCount,
                     Phone = x.User.Profile.Phone
                 },
                 Apartment = new ApartmentDTO()
@@ -82,6 +83,7 @@ namespace apartmenthostService.Controllers
                         FirstName = rv.User.Profile.FirstName,
                         LastName = rv.User.Profile.LastName,
                         Rating = rv.User.Profile.Rating,
+                        RatingCount = rv.User.Profile.RatingCount,
                         Gender = rv.User.Profile.Gender
                     }
                 }).ToList()
@@ -102,8 +104,9 @@ namespace apartmenthostService.Controllers
             {
                 userId = account.UserId;
             }
-           // var result = Lookup(id).Queryable
-            var result = _context.Cards.Where(c => c.Id == id).Take(1).Select(x => new CardDTO()
+            // var result = Lookup(id).Queryable
+            //var result = _context.Cards.Where(c => c.Id == id)
+            var result = Lookup(id).Queryable.Select(x => new CardDTO()
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -150,6 +153,7 @@ namespace apartmenthostService.Controllers
                         FirstName = rv.User.Profile.FirstName,
                         LastName = rv.User.Profile.LastName,
                         Rating = rv.User.Profile.Rating,
+                        RatingCount = rv.User.Profile.RatingCount,
                         Gender = rv.User.Profile.Gender
                     }
                 }).ToList(),
@@ -166,6 +170,7 @@ namespace apartmenthostService.Controllers
                         FirstName = rev.FromUser.Profile.FirstName,
                         LastName = rev.FromUser.Profile.LastName,
                         Rating = rev.FromUser.Profile.Rating,
+                        RatingCount = rev.FromUser.Profile.RatingCount,
                         Gender = rev.FromUser.Profile.Gender
                     }
                 }).ToList(),
@@ -203,6 +208,7 @@ namespace apartmenthostService.Controllers
                         FirstName = card.User.Profile.FirstName,
                         LastName = card.User.Profile.LastName,
                         Rating = card.User.Profile.Rating,
+                        RatingCount = card.User.Profile.RatingCount,
                         Gender = card.User.Profile.Gender
                     }
 

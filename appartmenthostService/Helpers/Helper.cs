@@ -85,6 +85,16 @@ namespace apartmenthostService.Helpers
             return null;
         }
 
+        public static ResponseDTO isNull(double item, string itemName, string errType)
+        {
+            if (item <= 0)
+            {
+                var respList = new List<string>();
+                respList.Add(itemName);
+                return RespH.Create(errType, respList);
+            }
+            return null;
+        }
         public static ResponseDTO isCardExist(apartmenthostContext context, string name, string errType)
         {
             var currentAdvertCount = context.Cards.Count(a => a.Name == name);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using apartmenthostService.Attributes;
 using apartmenthostService.Helpers;
 
@@ -22,33 +23,25 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string UserId { get; set; }
 
-        // Уникальный идентификатор объявления
-        [Metadata(DataType = ConstDataType.Text)]
-        [GetRule(Order = 1, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        [PostRule(Order = 1, RequiredForm = false, RequiredTransfer = true, Visible = false)]
-        [PutRule(Order = 1, RequiredForm = false, RequiredTransfer = true, Visible = false)]
-        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        public string CardId { get; set; }
-
-        // Тип оповещения
-        [Metadata(DataType = ConstDataType.Text)]
-        [GetRule(Order = 1, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        public string Type { get; set; }
-
         // Текст оповещения
         [Metadata(DataType = ConstDataType.Text)]
         [GetRule(Order = 1, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        public string Text { get; set; }
+        public string Code { get; set; }
+
+        // Дополнительные Данные для подстановки
+        [Metadata(DataType = ConstDataType.NotificationData)]
+        [GetRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public NotificationData Data { get; set; }
 
         // Признак прочитанного объявления
         [Metadata(DataType = ConstDataType.Text)]
-        [GetRule(Order = 1, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [GetRule(Order = 3, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
@@ -56,9 +49,9 @@ namespace apartmenthostService.DataObjects
 
         // Дата и Время создания объекта
         [Metadata(DataType = ConstDataType.Date)]
-        [GetRule(Order = 3, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [PostRule(Order = 3, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        [PutRule(Order = 3, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [GetRule(Order = 4, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public DateTimeOffset? CreatedAt { get; set; }
 

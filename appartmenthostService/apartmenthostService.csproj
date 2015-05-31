@@ -22,6 +22,7 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -217,6 +218,8 @@
     <Compile Include="Controllers\ApiControllers\ReservationApiController.cs" />
     <Compile Include="Controllers\ApiControllers\FavoriteApiController.cs" />
     <Compile Include="Controllers\ApiControllers\ReviewApiController.cs" />
+    <Compile Include="Controllers\ApiControllers\ProfileApiController.cs" />
+    <Compile Include="Controllers\NotificationApiController.cs" />
     <Compile Include="Controllers\TableControllers\NotificationController.cs" />
     <Compile Include="Controllers\TableControllers\ReservationController.cs" />
     <Compile Include="Controllers\TableControllers\ApartmentController.cs" />
@@ -236,6 +239,7 @@
     <Compile Include="DataObjects\Metadata.cs" />
     <Compile Include="DataObjects\MetadataItem.cs" />
     <Compile Include="DataObjects\MetadataRule.cs" />
+    <Compile Include="DataObjects\NotificationData.cs" />
     <Compile Include="DataObjects\NotificationDTO.cs" />
     <Compile Include="DataObjects\PropDTO.cs" />
     <Compile Include="DataObjects\PropValDTO.cs" />
@@ -267,7 +271,7 @@
     <Compile Include="Models\Card.cs" />
     <Compile Include="Helpers\Helper.cs" />
     <Compile Include="Models\apartmenthostContext.cs" />
-    <Compile Include="ScheduledJobs\SampleJob.cs" />
+    <Compile Include="ScheduledJobs\RatingJob.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

@@ -95,10 +95,32 @@ namespace apartmenthostService.DataObjects
         public const string SRV_RESERVATION_WRONG_STATUS = "SRV_RESERVATION_WRONG_STATUS"; // Неверный статус
         public const string SRV_RESERVATION_UNAVAILABLE_DATE = "SRV_RESERVATION_UNAVAILABLE_DATE"; // Даты недоступны
 
+        //Review
+        public const string SRV_REVIEW_NULL = "SRV_REVIEW_NULL"; // Пустой объект запроса
+        public const string SRV_REVIEW_NOTFOUND = "SRV_REVIEW_NOTFOUND"; // Объект не найден
+        public const string SRV_REVIEW_REQUIRED = "SRV_REVIEW_REQUIRED"; // Не заполнено обязательно поле
+        public const string SRV_REVIEW_EXISTS = "SRV_REVIEW_EXISTS"; // Объект уже существует
+        public const string SRV_REVIEW_WRONG_RESERV_STATUS = "SRV_REVIEW_WRONG_RESERV_STATUS"; // Не верный статус бронирования
+        public const string SRV_REVIEW_WRONG_USER = "SRV_REVIEW_WRONG_USER"; // Объект не может быть изменен/удален другим пользователем
+        public const string SRV_REVIEW_WRONG_DATE = "SRV_REVIEW_WRONG_DATE"; // Не верная дата
+        
+
         //Favorite
         public const string SRV_FAVORITE_CARDID_NULL = "SRV_FAVORITE_CARDID_NULL"; //Пустой объект запроса
         public const string SRV_FAVORITE_WRONG_USER = "SRV_FAVORITE_WRONG_USER"; // Объект не может быть изменен/удален другим пользователем
-        
+
+
+        //Notification
+        public const string SRV_NOTIFICATION_NOTFOUND = "SRV_NOTIFICATION_NOTFOUND"; // Объект не найден
+        public const string SRV_NOTIFICATION_WRONG_USER = "SRV_NOTIFICATION_WRONG_USER"; // Объект не может быть изменен/удален другим пользователем
+
+        public const string SRV_NOTIF_RESERV_PENDING = "SRV_NOTIF_RESERV_PENDING"; // Новое бронирование
+        public const string SRV_NOTIF_RESERV_ACCEPTED = "SRV_NOTIF_RESERV_ACCEPTED"; // Бронирование одобрено
+        public const string SRV_NOTIF_RESERV_DECLINED = "SRV_NOTIF_RESERV_DECLINED"; // Бронирование отклонено
+        public const string SRV_NOTIF_REVIEW_ADDED = "SRV_NOTIF_REVIEW_ADDED"; // Оставили отзыв (без рейтинга)
+        public const string SRV_NOTIF_REVIEW_RATING_ADDED = "SRV_NOTIF_REVIEW_RATING_ADDED"; // Оставили отзыв (с рейтингом)
+        public const string SRV_NOTIF_REVIEW_AVAILABLE = "SRV_NOTIF_REVIEW_AVAILABLE"; // Оставьте отзыв
+        public const string SRV_NOTIF_CARD_FAVORITED = "SRV_NOTIF_CARD_FAVORITED"; // Объявление добавили в избранное
         //Dictionary
         public const string SRV_DICTIONARY_NULL = "SRV_DICTIONARY_NULL"; // Пустой объект запроса
         public const string SRV_DICTIONARY_NOTFOUND = "SRV_DICTIONARY_NOTFOUND"; // Объект не найден

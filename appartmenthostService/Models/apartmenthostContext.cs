@@ -158,6 +158,11 @@ namespace apartmenthostService.Models
                 .HasForeignKey(s => s.CardId)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Card>()
+                .HasMany<Notification>(s => s.Notifications)
+                .WithRequired(s => s.Card)
+                .HasForeignKey(s => s.CardId)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Card>()
                 .HasMany<Picture>(s => s.Pictures)
@@ -176,11 +181,11 @@ namespace apartmenthostService.Models
                 .WillCascadeOnDelete(false);
 
             // Reservation
-            //modelBuilder.Entity<Reservation>()
-            //    .HasMany<ReservationComment>(s => s.Comments)
-            //    .WithRequired(s => s.Reservation)
-            //    .HasForeignKey(s => s.ReservationId)
-            //    .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Reservation>()
+                .HasMany<Notification>(s => s.Notifications)
+                .WithOptional(s => s.Reservation)
+                .HasForeignKey(s => s.ReservationId)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Reservation>()
                 .HasMany<PropVal>(s => s.PropVals)
@@ -189,7 +194,18 @@ namespace apartmenthostService.Models
                 .WillCascadeOnDelete(false);
 
             // Review
+            modelBuilder.Entity<Review>()
+                .HasMany<Notification>(s => s.Notifications)
+                .WithOptional(s => s.Review)
+                .HasForeignKey(s => s.ReviewId)
+                .WillCascadeOnDelete(false);
 
+            //Favorite
+            modelBuilder.Entity<Favorite>()
+                .HasMany<Notification>(s => s.Notifications)
+                .WithOptional(s => s.Favorite)
+                .HasForeignKey(s => s.FavoriteId)
+                .WillCascadeOnDelete(false);
 
 
             // Picture + Profile

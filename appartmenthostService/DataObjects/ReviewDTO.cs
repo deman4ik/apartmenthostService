@@ -44,7 +44,7 @@ namespace apartmenthostService.DataObjects
         [PostRule(Order = 1, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [PutRule(Order = 1, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        public double Rating { get; set; }
+        public decimal Rating { get; set; }
 
         // Текст отзыва
         [Metadata(DataType = ConstDataType.Text)]

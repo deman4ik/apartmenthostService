@@ -101,6 +101,16 @@ namespace apartmenthostService.Controllers
                     DateTo = dateTo
                 });
 
+                // Create Notification
+                _context.Set<Notification>().Add(new Notification()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    UserId = card.UserId,
+                    Type = ConstVals.General,
+                    CardId = card.Id,
+                    Code = RespH.SRV_NOTIF_RESERV_PENDING
+                });
+
                 _context.SaveChanges();
                 respList.Add(reservationGuid);
                 return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
@@ -167,9 +177,9 @@ namespace apartmenthostService.Controllers
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_CARD_WRONG_USER, respList));
                 }
-                
-                
 
+
+                string notifCode;
                 //Check status
                 if (status == ConstVals.Accepted)
                 {
@@ -195,10 +205,25 @@ namespace apartmenthostService.Controllers
                             return this.Request.CreateResponse(HttpStatusCode.BadRequest,
                                 RespH.Create(RespH.SRV_RESERVATION_UNAVAILABLE_DATE, respList));
                         }
-                    } 
+                    }
+                    notifCode = RespH.SRV_NOTIF_RESERV_ACCEPTED;
+                }
+                else
+                {
+                    notifCode = RespH.SRV_NOTIF_RESERV_DECLINED;
                 }
 
                 currentReservation.Status = status;
+
+                // Create Notification
+                _context.Set<Notification>().Add(new Notification()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    UserId = currentReservation.UserId,
+                    Type = ConstVals.General,
+                    ReservationId = currentReservation.Id,
+                    Code = notifCode
+                });
 
                 _context.SaveChanges();
 

@@ -15,6 +15,8 @@ namespace apartmenthostService.Models
         public virtual Card Card { get; set; }
         public virtual User User { get; set; }
         public ICollection<Review> Reviews { get; set; } 
+
+        public ICollection<Notification> Notifications { get; set; } 
         public ICollection<PropVal> PropVals { get; set; }
     }
 }

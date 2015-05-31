@@ -40,6 +40,9 @@ namespace apartmenthostService.App_Start
 
                 PopulateDictionaryItems(context);
                 context.SaveChanges();
+
+                RatingJob ratingJob = new RatingJob();
+                ratingJob.ExecuteAsync();
             }
             catch (Exception e)
             {
@@ -70,7 +73,9 @@ namespace apartmenthostService.App_Start
                                                    Description = "Информационные Системы Управления",
                                                    Gender = ConstVals.Female,
                                                    Phone = "+74957777777",
-                                                   Rating = 5,
+                                                   Rating = 0,
+                                                   RatingCount = 0,
+                                                   Score = 0,
                                                    Lang = ConstLang.RU
                                                  }  
                         },
@@ -87,7 +92,9 @@ namespace apartmenthostService.App_Start
                                                    Description = "Пуповичи 100 лет на рынке недвижимости!",
                                                    Gender = ConstVals.Male,
                                                    Phone = "+79998887766",
-                                                   Rating = 4,
+                                                   Rating = 0,
+                                                   RatingCount = 0,
+                                                   Score = 0,
                                                    Lang = ConstLang.RU
                                                 } 
                         },
@@ -105,7 +112,9 @@ namespace apartmenthostService.App_Start
                                                    Description = "Привет. Меня зовут Лена!",
                                                    Gender = ConstVals.Female,
                                                    Phone = "+79998987766",
-                                                   Rating = 3,
+                                                   Rating = 0,
+                                                   RatingCount = 0,
+                                                   Score = 0,
                                                    Lang = ConstLang.RU
                                                 } 
                         },
@@ -123,7 +132,9 @@ namespace apartmenthostService.App_Start
                                                    Description = "Трофимов",
                                                    Gender = ConstVals.Male,
                                                    Phone = "+79995487766",
-                                                   Rating = 2,
+                                                   Rating = 0,
+                                                   RatingCount = 0,
+                                                   Score = 0,
                                                    Lang = ConstLang.RU
                                                 } 
                         },
@@ -141,7 +152,9 @@ namespace apartmenthostService.App_Start
                                                    Description = "Трофимов",
                                                    Gender = ConstVals.Male,
                                                    Phone = "+78795487766",
-                                                   Rating = 1,
+                                                   Rating = 0,
+                                                   RatingCount = 0,
+                                                   Score = 0,
                                                    Lang = ConstLang.RU
                                                 } 
                         },
@@ -158,7 +171,9 @@ namespace apartmenthostService.App_Start
                                                    Description = "Вишняков",
                                                    Gender = ConstVals.Male,
                                                    Phone = "+78795487366",
-                                                   Rating = 5,
+                                                   Rating = 0,
+                                                   RatingCount = 0,
+                                                   Score = 0,
                                                    Lang = ConstLang.RU
                                                 } 
                         },
@@ -175,7 +190,9 @@ namespace apartmenthostService.App_Start
                                                    Description = "Привет. Меня зовут Дарья!",
                                                    Gender = ConstVals.Female,
                                                    Phone = "+79998988966",
-                                                   Rating = 3,
+                                                   Rating = 0,
+                                                   RatingCount = 0,
+                                                   Score = 0,
                                                    Lang = ConstLang.RU
                                                 } 
                         },
@@ -192,7 +209,9 @@ namespace apartmenthostService.App_Start
                                                    Description = "Привет. Меня зовут Светлана!",
                                                    Gender = ConstVals.Female,
                                                    Phone = "+79994988966",
-                                                   Rating = 4,
+                                                   Rating = 0,
+                                                   RatingCount = 0,
+                                                   Score = 0,
                                                    Lang = ConstLang.RU
                                                 } 
                         },
@@ -209,7 +228,9 @@ namespace apartmenthostService.App_Start
                                                    Description = "Привет. Меня зовут Светлана!",
                                                    Gender = ConstVals.Female,
                                                    Phone = "+79994988996",
-                                                   Rating = 5,
+                                                   Rating = 0,
+                                                   RatingCount = 0,
+                                                   Score = 0,
                                                    Lang = ConstLang.RU
                                                 } 
                         },
@@ -226,7 +247,9 @@ namespace apartmenthostService.App_Start
                                                    Description = "Крокодилова клац-клац",
                                                    Gender = ConstVals.Female,
                                                    Phone = "+79994938996",
-                                                   Rating = 5,
+                                                   Rating = 0,
+                                                   RatingCount = 0,
+                                                   Score = 0,
                                                    Lang = ConstLang.RU
                                                 } 
                         },
@@ -550,6 +573,17 @@ namespace apartmenthostService.App_Start
                 },
                 new Reservation()
                 {
+                    Id = "r110",
+                    UserId = "u1",
+                    CardId = "a10",
+                    Status = ConstVals.Accepted,
+                    DateFrom = new DateTime(2015,1,1),
+                    DateTo = new DateTime(2015,1,25)
+
+
+                },
+                new Reservation()
+                {
                     Id = "r23",
                     UserId = "u2",
                     CardId = "a3",
@@ -713,6 +747,15 @@ namespace apartmenthostService.App_Start
                     Text = "Отличный офис! Всем довольны! Арендуем еще на год!",
                     Rating = 5
                 },
+                 new Review()
+                {
+                    Id = "rw1to10",
+                    FromUserId = "u1",
+                    ToUserId = "u10",
+                    ReservationId = "r110",
+                    Text = "Просто отлично!",
+                    Rating = 5
+                },
                 new Review()
                 {
                     Id = "rw13",
@@ -772,6 +815,23 @@ namespace apartmenthostService.App_Start
             foreach (var review in reviews)
             {
                 context.Set<Review>().Add(review);
+            }
+        }
+
+        public static void PopulateNotifications(apartmenthostContext context)
+        {
+            List<Notification> notifications = new List<Notification>()
+            {
+                new Notification()
+                {
+                    Id = "n1from",
+
+                }
+            };
+
+            foreach (var notifcation in notifications)
+            {
+                context.Set<Notification>().Add(notifcation);
             }
         }
         public static void PopulateTables(apartmenthostContext context)

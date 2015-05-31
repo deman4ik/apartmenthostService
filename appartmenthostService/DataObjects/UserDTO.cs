@@ -106,6 +106,22 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public decimal Rating { get; set; }
 
+        // Количество проголосовавших
+        [Metadata(DataType = ConstDataType.Rating)]
+        [GetRule(Order = 10, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public decimal RatingCount { get; set; }
+
+        // Общее количество очков
+        [Metadata(DataType = ConstDataType.Rating)]
+        [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public decimal Score { get; set; }
+
         // Дата и Время создания объекта
         [Metadata(DataType = ConstDataType.Date)]
         [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = true)]

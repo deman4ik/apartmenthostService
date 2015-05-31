@@ -40,6 +40,7 @@ namespace apartmenthostService.Controllers
                     FirstName = r.User.Profile.FirstName,
                     LastName = r.User.Profile.LastName,
                     Rating = r.User.Profile.Rating,
+                    RatingCount = r.User.Profile.RatingCount,
                     Gender = r.User.Profile.Gender
                     
 
@@ -62,6 +63,8 @@ namespace apartmenthostService.Controllers
                     Id = r.Card.User.Profile.Id,
                     FirstName = r.Card.User.Profile.FirstName,
                     LastName = r.Card.User.Profile.LastName,
+                    Rating = r.Card.User.Profile.Rating,
+                    RatingCount = r.Card.User.Profile.RatingCount,
                     Gender = r.Card.User.Profile.Gender,
                     Phone = r.Card.User.Profile.Phone
                 },
@@ -102,6 +105,7 @@ namespace apartmenthostService.Controllers
                     FirstName = r.User.Profile.FirstName,
                     LastName = r.User.Profile.LastName,
                     Rating = r.User.Profile.Rating,
+                    RatingCount = r.User.Profile.RatingCount,
                     Gender = r.User.Profile.Gender
                 },
                 Card = new CardDTO()
@@ -122,6 +126,8 @@ namespace apartmenthostService.Controllers
                         Id = r.Card.User.Profile.Id,
                         FirstName = r.Card.User.Profile.FirstName,
                         LastName = r.Card.User.Profile.LastName,
+                        Rating = r.Card.User.Profile.Rating,
+                        RatingCount = r.Card.User.Profile.RatingCount,
                         Gender = r.Card.User.Profile.Gender,
                         Phone = r.Card.User.Profile.Phone
                     },

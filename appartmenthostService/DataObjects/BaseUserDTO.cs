@@ -17,6 +17,9 @@
         // Рейтинг
         public decimal Rating { get; set; }
 
+        // Количество проголосовавших
+        public decimal RatingCount { get; set; }
+
         // Пол
         public string Gender { get; set; }
     }
