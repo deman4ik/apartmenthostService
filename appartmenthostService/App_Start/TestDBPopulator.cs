@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using apartmenthostService.Authentication;
+using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
 using apartmenthostService.Models;
 
@@ -725,6 +726,12 @@ namespace apartmenthostService.App_Start
                     UserId = "u3",
                     CardId = "a2"
                     
+                },
+                new Favorite()
+                {
+                    Id = "f21",
+                    UserId = "u2",
+                    CardId = "a1"
                 }
             };
             foreach (var favorite in favorites)
@@ -824,8 +831,59 @@ namespace apartmenthostService.App_Start
             {
                 new Notification()
                 {
-                    Id = "n1from",
-
+                    Id = "nreserv1from7",
+                    UserId = "u1",
+                    Type = ConstVals.General,
+                    CardId = "a1",
+                    ReservationId = "r71",
+                    Code = RespH.SRV_NOTIF_RESERV_PENDING,
+                    Readed = false
+                },
+                new Notification()
+                {
+                    Id = "nreserv1from4",
+                    UserId = "u1",
+                    Type = ConstVals.General,
+                    CardId = "a1",
+                    ReservationId = "r41",
+                    Code = RespH.SRV_NOTIF_RESERV_PENDING,
+                    Readed = false
+                },
+                new Notification()
+                {
+                    Id = "naccept2from1",
+                    UserId = "u1",
+                    Type = ConstVals.General,
+                    ReservationId = "r12",
+                    Code = RespH.SRV_NOTIF_RESERV_ACCEPTED,
+                    Readed = false
+                },
+                new Notification()
+                {
+                    Id = "naccept10from1",
+                    UserId = "u1",
+                    Type = ConstVals.General,
+                    ReservationId = "r110",
+                    Code = RespH.SRV_NOTIF_RESERV_ACCEPTED,
+                    Readed = false
+                },
+                new Notification()
+                {
+                     Id = "nfav1from2",
+                        UserId = "u1",
+                        Type = ConstVals.General,
+                        FavoriteId = "f21",
+                        Code = RespH.SRV_NOTIF_CARD_FAVORITED,
+                        Readed = false
+                },
+                new Notification()
+                {
+                    Id = "nrev1from3",
+                    UserId ="u1",
+                    Type = ConstVals.General,
+                    ReviewId = "rw31",
+                    Code = RespH.SRV_NOTIF_REVIEW_RATING_ADDED,
+                    Readed = false
                 }
             };
 

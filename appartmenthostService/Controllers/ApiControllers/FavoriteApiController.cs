@@ -75,9 +75,10 @@ namespace apartmenthostService.Controllers
                     _context.Favorites.SingleOrDefault(f => f.CardId == cardId && f.UserId == account.UserId);
                 if (favorite == null)
                 {
+                    string favoriteGUID = Guid.NewGuid().ToString();
                     _context.Set<Favorite>().Add(new Favorite()
                     {
-                        Id = Guid.NewGuid().ToString(),
+                        Id = favoriteGUID,
                         CardId = cardId,
                         UserId = account.UserId
                     });
@@ -87,8 +88,9 @@ namespace apartmenthostService.Controllers
                         Id = Guid.NewGuid().ToString(),
                         UserId = currentCard.UserId,
                         Type = ConstVals.General,
-                        CardId = currentCard.Id,
-                        Code = RespH.SRV_NOTIF_CARD_FAVORITED
+                        FavoriteId = favoriteGUID,
+                        Code = RespH.SRV_NOTIF_CARD_FAVORITED,
+                        Readed = false
                     });
                     status = true;
                 }

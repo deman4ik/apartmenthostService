@@ -108,7 +108,9 @@ namespace apartmenthostService.Controllers
                     UserId = card.UserId,
                     Type = ConstVals.General,
                     CardId = card.Id,
-                    Code = RespH.SRV_NOTIF_RESERV_PENDING
+                    ReservationId = reservationGuid,
+                    Code = RespH.SRV_NOTIF_RESERV_PENDING,
+                    Readed = false
                 });
 
                 _context.SaveChanges();
@@ -222,7 +224,8 @@ namespace apartmenthostService.Controllers
                     UserId = currentReservation.UserId,
                     Type = ConstVals.General,
                     ReservationId = currentReservation.Id,
-                    Code = notifCode
+                    Code = notifCode,
+                    Readed = false
                 });
 
                 _context.SaveChanges();

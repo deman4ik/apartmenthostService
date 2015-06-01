@@ -23,6 +23,14 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string UserId { get; set; }
 
+        // Тип оповещения
+        [Metadata(DataType = ConstDataType.Text)]
+        [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public string Type { get; set; }
+
         // Текст оповещения
         [Metadata(DataType = ConstDataType.Text)]
         [GetRule(Order = 1, RequiredForm = false, RequiredTransfer = false, Visible = true)]

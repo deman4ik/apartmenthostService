@@ -295,7 +295,8 @@ namespace apartmenthostService.Controllers
                     UserId = newReview.ToUserId,
                     Type = ConstVals.General,
                     ReviewId = reviewGuid,
-                    Code = notifCode
+                    Code = notifCode,
+                    Readed = false
                 });
 
                 _context.SaveChanges();

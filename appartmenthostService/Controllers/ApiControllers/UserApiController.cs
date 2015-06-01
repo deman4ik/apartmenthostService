@@ -27,7 +27,25 @@ namespace apartmenthostService.Controllers
             if (currentUser == null) return null;
             var account = _context.Accounts.SingleOrDefault(a => a.AccountId == currentUser.Id);
             if (account == null) return null;
-            var result = _context.Profile.Where(p => p.Id == account.UserId).Project().To<UserDTO>();
+            var result = _context.Profile.Where(p => p.Id == account.UserId).Select(x => new UserDTO()
+            {
+                Id = x.Id,
+                Email = x.User.Email,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                Gender = x.Gender,
+                Birthday = x.Birthday,
+                Phone = x.Phone,
+                ContactEmail = x.ContactEmail,
+                ContactKind = x.ContactKind,
+                Description = x.Description,
+                Rating = x.Rating,
+                RatingCount = x.RatingCount,
+                Score = x.Score,
+                CreatedAt = x.CreatedAt,
+                UpdatedAt = x.UpdatedAt
+
+            }); 
             return result;
         }
 

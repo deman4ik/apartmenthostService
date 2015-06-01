@@ -16,7 +16,7 @@ namespace apartmenthostService.DataObjects
         public string ReservationId { get; set; }
         public string ResrvationStatus { get; set; }
         public string ReviewId { get; set; }
-        public string ReviewRating { get; set; }
+        public decimal ReviewRating { get; set; }
         public string ReviewText { get; set; }
     }
 }
