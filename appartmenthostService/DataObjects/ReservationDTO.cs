@@ -35,6 +35,13 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string Status { get; set; }
 
+        [Metadata(DataType = ConstDataType.Text)]
+        [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public string Type { get; set; }
+
         [Metadata(DataType = ConstDataType.Date)]
         [GetRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PostRule(Order = 2, RequiredForm = true, RequiredTransfer = true, Visible = true)]

@@ -220,7 +220,6 @@
     <Compile Include="Controllers\ApiControllers\ReviewApiController.cs" />
     <Compile Include="Controllers\ApiControllers\ProfileApiController.cs" />
     <Compile Include="Controllers\ApiControllers\NotificationApiController.cs" />
-    <Compile Include="Controllers\TableControllers\ReservationController.cs" />
     <Compile Include="Controllers\TableControllers\ApartmentController.cs" />
     <Compile Include="Controllers\TableControllers\DictionaryController.cs" />
     <Compile Include="Controllers\TableControllers\DictionaryItemController.cs" />

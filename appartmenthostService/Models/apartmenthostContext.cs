@@ -160,7 +160,7 @@ namespace apartmenthostService.Models
 
             modelBuilder.Entity<Card>()
                 .HasMany<Notification>(s => s.Notifications)
-                .WithRequired(s => s.Card)
+                .WithOptional(s => s.Card)
                 .HasForeignKey(s => s.CardId)
                 .WillCascadeOnDelete(false);
 
@@ -205,7 +205,7 @@ namespace apartmenthostService.Models
                 .HasMany<Notification>(s => s.Notifications)
                 .WithOptional(s => s.Favorite)
                 .HasForeignKey(s => s.FavoriteId)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
 
             // Picture + Profile

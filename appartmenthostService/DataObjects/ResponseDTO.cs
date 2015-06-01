@@ -94,6 +94,7 @@ namespace apartmenthostService.DataObjects
         public const string SRV_RESERVATION_WRONG_DATE = "SRV_RESERVATION_WRONG_DATE"; // Дата С должна быть меньше Даты ПО
         public const string SRV_RESERVATION_WRONG_STATUS = "SRV_RESERVATION_WRONG_STATUS"; // Неверный статус
         public const string SRV_RESERVATION_UNAVAILABLE_DATE = "SRV_RESERVATION_UNAVAILABLE_DATE"; // Даты недоступны
+        public const string SRV_RESERVATION_GET_TYPE_NULL = "SRV_RESERVATION_GET_TYPE_NULL"; // Не задан параметр отбора брони
 
         //Review
         public const string SRV_REVIEW_NULL = "SRV_REVIEW_NULL"; // Пустой объект запроса

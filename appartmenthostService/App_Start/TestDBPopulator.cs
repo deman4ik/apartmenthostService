@@ -33,6 +33,9 @@ namespace apartmenthostService.App_Start
                 PopulateReviews(context);
                 context.SaveChanges();
 
+                PopulateNotifications(context);
+                context.SaveChanges();
+
                 PopulateTables(context);
                 context.SaveChanges();
 

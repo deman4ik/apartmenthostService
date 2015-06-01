@@ -96,6 +96,9 @@ namespace apartmenthostService.Controllers
                 }
                 else
                 {
+                    var notif = _context.Notifications.SingleOrDefault(n => n.FavoriteId == favorite.Id);
+                    if (notif != null) _context.Notifications.Remove(notif);
+                    _context.SaveChanges();
                     _context.Favorites.Remove(favorite);
                     status = false;
                 }

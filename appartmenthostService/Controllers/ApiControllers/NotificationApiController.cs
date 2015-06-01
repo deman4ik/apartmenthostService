@@ -19,7 +19,7 @@ namespace apartmenthostService.Controllers
         readonly apartmenthostContext _context = new apartmenthostContext();
 
         // GET api/Notifications
-        [Route("api/Notifications/{readed}")]
+        [Route("api/Notifications")]
         [AuthorizeLevel(AuthorizationLevel.User)]
         [HttpGet]
         public HttpResponseMessage GetNotifications()
@@ -54,8 +54,8 @@ namespace apartmenthostService.Controllers
                     switch (notification.Code)
                     {
                         case  RespH.SRV_NOTIF_RESERV_PENDING :
-                            notif.Data.CardId = notification.CardId;
-                            notif.Data.CardName = notification.Card.Name;
+                            notif.Data.CardId = notification.Reservation.CardId;
+                            notif.Data.CardName = notification.Reservation.Card.Name;
                             notif.Data.ReservationId = notification.ReservationId;
                             notif.Data.ResrvationStatus = notification.Reservation.Status;
                             notif.Data.UserId = notification.Reservation.UserId;
@@ -63,27 +63,27 @@ namespace apartmenthostService.Controllers
                             notif.Data.LastName = notification.Reservation.User.Profile.LastName;
                             break;
                         case RespH.SRV_NOTIF_RESERV_ACCEPTED :
-                            notif.Data.CardId = notification.CardId;
-                            notif.Data.CardName = notification.Card.Name;
+                            notif.Data.CardId = notification.Reservation.CardId;
+                            notif.Data.CardName = notification.Reservation.Card.Name;
                             notif.Data.ReservationId = notification.ReservationId;
                             notif.Data.ResrvationStatus = notification.Reservation.Status;
-                            notif.Data.UserId = notification.Card.UserId;
-                            notif.Data.FirstName = notification.Card.User.Profile.FirstName;
-                            notif.Data.LastName = notification.Card.User.Profile.LastName;
+                            notif.Data.UserId = notification.Reservation.Card.UserId;
+                            notif.Data.FirstName = notification.Reservation.Card.User.Profile.FirstName;
+                            notif.Data.LastName = notification.Reservation.Card.User.Profile.LastName;
                             break;
 
                         case RespH.SRV_NOTIF_RESERV_DECLINED:
-                            notif.Data.CardId = notification.CardId;
-                            notif.Data.CardName = notification.Card.Name;
+                            notif.Data.CardId = notification.Reservation.CardId;
+                            notif.Data.CardName = notification.Reservation.Card.Name;
                             notif.Data.ReservationId = notification.ReservationId;
                             notif.Data.ResrvationStatus = notification.Reservation.Status;
-                            notif.Data.UserId = notification.Card.UserId;
-                            notif.Data.FirstName = notification.Card.User.Profile.FirstName;
-                            notif.Data.LastName = notification.Card.User.Profile.LastName;
+                            notif.Data.UserId = notification.Reservation.Card.UserId;
+                            notif.Data.FirstName = notification.Reservation.Card.User.Profile.FirstName;
+                            notif.Data.LastName = notification.Reservation.Card.User.Profile.LastName;
                             break;
                         case RespH.SRV_NOTIF_CARD_FAVORITED:
-                             notif.Data.CardId = notification.CardId;
-                            notif.Data.CardName = notification.Card.Name;
+                             notif.Data.CardId = notification.Favorite.CardId;
+                            notif.Data.CardName = notification.Favorite.Card.Name;
                             notif.Data.UserId = notification.Favorite.UserId;
                             notif.Data.FirstName = notification.Favorite.User.Profile.FirstName;
                             notif.Data.LastName = notification.Favorite.User.Profile.LastName;
@@ -107,8 +107,8 @@ namespace apartmenthostService.Controllers
                             break;
                             
                         case RespH.SRV_NOTIF_REVIEW_AVAILABLE:
-                            notif.Data.CardId = notification.CardId;
-                            notif.Data.CardName = notification.Card.Name;
+                            notif.Data.CardId = notification.Reservation.CardId;
+                            notif.Data.CardName = notification.Reservation.Card.Name;
                             notif.Data.ReservationId = notification.ReservationId;
                             break;
                     }
@@ -119,9 +119,9 @@ namespace apartmenthostService.Controllers
             catch (Exception ex)
             {
 
-                Debug.WriteLine(ex.InnerException);
+                Debug.WriteLine(ex);
                 return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.ToString() }));
             }
         }
 
