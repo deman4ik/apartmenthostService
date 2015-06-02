@@ -103,6 +103,8 @@ namespace apartmenthostService.Helpers
             list.Add(ConstVals.Male);
             list.Add(ConstVals.Female);
             list.Add(ConstVals.Any);
+            list.Add(ConstVals.Thing);
+            list.Add(ConstVals.Alien);
             return list;
         }
         public static List<string> ApartmentTypesList()
@@ -161,6 +163,7 @@ namespace apartmenthostService.Helpers
         public const string Renter = "DVAL_RENTER"; // Съемщик
         public const string General = "DVAL_GENERAL"; // Станадартные оповещения
         public const string Global = "DVAL_GLOBAL"; // Глобальные оповещения
-
+        public const string Thing = "DVAL_THING";
+        public const string Alien = "DVAL_ALIEN";
     }
 }

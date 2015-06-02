@@ -107,8 +107,8 @@ namespace apartmenthostService.Controllers
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check CARD Resident Gender Dictionary
-                resp = CheckHelper.isValidDicItem(_context, card.ResidentGender, ConstDictionary.Gender, "ResidentGender", RespH.SRV_CARD_INVALID_DICITEM);
-                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                //resp = CheckHelper.isValidDicItem(_context, card.ResidentGender, ConstDictionary.Gender, "ResidentGender", RespH.SRV_CARD_INVALID_DICITEM);
+                //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Dates
                 resp = CheckHelper.isValidDates(card.DateFrom, card.DateTo, RespH.SRV_CARD_WRONG_DATE);
@@ -250,8 +250,8 @@ namespace apartmenthostService.Controllers
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check CARD Resident Gender Dictionary
-                resp = CheckHelper.isValidDicItem(_context, card.ResidentGender, ConstDictionary.Gender, "ResidentGender", RespH.SRV_CARD_INVALID_DICITEM);
-                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                //resp = CheckHelper.isValidDicItem(_context, card.ResidentGender, ConstDictionary.Gender, "ResidentGender", RespH.SRV_CARD_INVALID_DICITEM);
+                //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Dates
                 resp = CheckHelper.isValidDates(card.DateFrom, card.DateTo, RespH.SRV_CARD_WRONG_DATE);
