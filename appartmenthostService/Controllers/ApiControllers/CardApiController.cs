@@ -103,8 +103,8 @@ namespace apartmenthostService.Controllers
                 //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check CARD Resident Gender is not null
-                resp = CheckHelper.isNull(card.ResidentGender, "ResidentGender", RespH.SRV_CARD_REQUIRED);
-                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                //resp = CheckHelper.isNull(card.ResidentGender, "ResidentGender", RespH.SRV_CARD_REQUIRED);
+                //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check CARD Resident Gender Dictionary
                 //resp = CheckHelper.isValidDicItem(_context, card.ResidentGender, ConstDictionary.Gender, "ResidentGender", RespH.SRV_CARD_INVALID_DICITEM);
@@ -365,6 +365,23 @@ namespace apartmenthostService.Controllers
                     respList.Add(id);
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NOTFOUND, respList));
                 }
+                
+                // Delete Notifications
+                var notifications = _context.Notifications.Where(x => x.CardId == card.Id || x.Reservation.CardId == card.Id || x.Review.Reservation.Card.Id == card.Id || x.Favorite.Card.Id == card.Id);
+                _context.Notifications.RemoveRange(notifications);
+                _context.SaveChanges();
+                // Delete Reviews
+                var reviews = _context.Reviews.Where(x => x.Reservation.Card.Id == card.Id);
+                _context.Reviews.RemoveRange(reviews);
+                _context.SaveChanges();
+                // Delete Reservations
+                var reservations = _context.Reservations.Where(x => x.CardId == card.Id);
+                _context.Reservations.RemoveRange(reservations);
+                _context.SaveChanges();
+                // Delete Favorites
+                var favorites = _context.Favorites.Where(x => x.CardId == card.Id);
+                _context.Favorites.RemoveRange(favorites);
+                _context.SaveChanges();
                 // Delete CARD
                 _context.Cards.Remove(card);
                 _context.SaveChanges();

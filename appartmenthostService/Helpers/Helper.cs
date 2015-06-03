@@ -95,7 +95,19 @@ namespace apartmenthostService.Helpers
             }
             return null;
         }
-        public static ResponseDTO isCardExist(apartmenthostContext context, string name, string errType)
+        public static ResponseDTO isCardExist(apartmenthostContext context, string userId, string errType)
+        {
+            var currentAdvertCount = context.Cards.Count(a => a.UserId == userId);
+            if (currentAdvertCount > 0)
+            {
+                var respList = new List<string>();
+                respList.Add(userId);
+                return RespH.Create(RespH.SRV_CARD_EXISTS, respList);
+            }
+            return null;
+        }
+
+        public static ResponseDTO isCardNameExist(apartmenthostContext context, string name, string errType)
         {
             var currentAdvertCount = context.Cards.Count(a => a.Name == name);
             if (currentAdvertCount > 0)

@@ -43,65 +43,65 @@ namespace apartmenthostService.Controllers
 
 
                 var ownerReserv = _context.Reservations.Where(x => x.Card.UserId == account.UserId).Select(r => new ReservationDTO
+                {
+                    Id = r.Id,
+                    Type = ConstVals.Owner,
+                    CardId = r.CardId,
+                    UserId = r.UserId,
+                    Status = r.Status,
+                    DateFrom = r.DateFrom,
+                    DateTo = r.DateTo,
+                    CreatedAt = r.CreatedAt,
+                    UpdatedAt = r.UpdatedAt,
+                    User = new BaseUserDTO()
                     {
-                        Id = r.Id,
-                        Type = ConstVals.Owner,
-                        CardId = r.CardId,
-                        UserId = r.UserId,
-                        Status = r.Status,
-                        DateFrom = r.DateFrom,
-                        DateTo = r.DateTo,
-                        CreatedAt = r.CreatedAt,
-                        UpdatedAt = r.UpdatedAt,
-                        User = new BaseUserDTO()
+                        Id = r.User.Profile.Id,
+                        Email = r.User.Email,
+                        FirstName = r.User.Profile.FirstName,
+                        LastName = r.User.Profile.LastName,
+                        Rating = r.User.Profile.Rating,
+                        RatingCount = r.User.Profile.RatingCount,
+                        Gender = r.User.Profile.Gender
+
+
+                    },
+                    Card = new CardDTO()
+                    {
+                        Name = r.Card.Name,
+                        UserId = r.Card.UserId,
+                        Description = r.Card.Description,
+                        ApartmentId = r.Card.ApartmentId,
+                        DateFrom = r.Card.DateFrom,
+                        DateTo = r.Card.DateTo,
+                        PriceDay = r.Card.PriceDay,
+                        PricePeriod = r.Card.PriceDay * 7,
+                        Cohabitation = r.Card.Cohabitation,
+                        ResidentGender = r.Card.ResidentGender,
+                        Lang = r.Card.Lang,
+                        User = new UserDTO()
                         {
-                            Id = r.User.Profile.Id,
-                            Email = r.User.Email,
-                            FirstName = r.User.Profile.FirstName,
-                            LastName = r.User.Profile.LastName,
-                            Rating = r.User.Profile.Rating,
-                            RatingCount = r.User.Profile.RatingCount,
-                            Gender = r.User.Profile.Gender
-
-
+                            Id = r.Card.User.Profile.Id,
+                            FirstName = r.Card.User.Profile.FirstName,
+                            LastName = r.Card.User.Profile.LastName,
+                            Rating = r.Card.User.Profile.Rating,
+                            RatingCount = r.Card.User.Profile.RatingCount,
+                            Gender = r.Card.User.Profile.Gender,
+                            Phone = r.Card.User.Profile.Phone
                         },
-                        Card = new CardDTO()
+                        Apartment = new ApartmentDTO()
                         {
-                            Name = r.Card.Name,
-                            UserId = r.Card.UserId,
-                            Description = r.Card.Description,
-                            ApartmentId = r.Card.ApartmentId,
-                            DateFrom = r.Card.DateFrom,
-                            DateTo = r.Card.DateTo,
-                            PriceDay = r.Card.PriceDay,
-                            PricePeriod = r.Card.PriceDay*7,
-                            Cohabitation = r.Card.Cohabitation,
-                            ResidentGender = r.Card.ResidentGender,
-                            Lang = r.Card.Lang,
-                            User = new UserDTO()
-                            {
-                                Id = r.Card.User.Profile.Id,
-                                FirstName = r.Card.User.Profile.FirstName,
-                                LastName = r.Card.User.Profile.LastName,
-                                Rating = r.Card.User.Profile.Rating,
-                                RatingCount = r.Card.User.Profile.RatingCount,
-                                Gender = r.Card.User.Profile.Gender,
-                                Phone = r.Card.User.Profile.Phone
-                            },
-                            Apartment = new ApartmentDTO()
-                            {
-                                Id = r.Card.Apartment.Id,
-                                Name = r.Card.Apartment.Name,
-                                Type = r.Card.Apartment.Type,
-                                Options = r.Card.Apartment.Options,
-                                UserId = r.Card.Apartment.UserId,
-                                Adress = r.Card.Apartment.Adress,
-                                Latitude = r.Card.Apartment.Latitude,
-                                Longitude = r.Card.Apartment.Longitude,
-                            }
-
+                            Id = r.Card.Apartment.Id,
+                            Name = r.Card.Apartment.Name,
+                            Type = r.Card.Apartment.Type,
+                            Options = r.Card.Apartment.Options,
+                            UserId = r.Card.Apartment.UserId,
+                            Adress = r.Card.Apartment.Adress,
+                            Latitude = r.Card.Apartment.Latitude,
+                            Longitude = r.Card.Apartment.Longitude,
                         }
-                    }).ToList();
+
+                    }
+                }).ToList();
 
                 var renterReserv = _context.Reservations.Where(x => x.UserId == account.UserId).Select(r => new ReservationDTO
                 {
@@ -204,6 +204,13 @@ namespace apartmenthostService.Controllers
                     respList.Add(currentUser.Id);
                     return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
+                // Check Reservation already exists
+                var currentReservation = _context.Reservations.SingleOrDefault(x => x.UserId == account.UserId && x.CardId == cardId);
+                if (currentReservation != null)
+                {
+                    respList.Add(currentReservation.Id);
+                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_RESERVATION_EXISTS, respList));
+                }
 
                 // Check CARD User
                 //if (CARD.UserId != account.UserId)
@@ -224,7 +231,7 @@ namespace apartmenthostService.Controllers
                 }
 
                 // Check Available Dates
-                TimeRange reservationDates = new TimeRange(dateFrom,dateTo);
+                TimeRange reservationDates = new TimeRange(dateFrom, dateTo);
 
                 TimeRange unavailableDates = new TimeRange(card.DateFrom, card.DateTo);
                 if (unavailableDates.IntersectsWith(reservationDates))
@@ -281,7 +288,7 @@ namespace apartmenthostService.Controllers
             }
         }
 
-       
+
         [Route("api/Reservation/AcceptDecline/{reservId}/{status}")]
         [AuthorizeLevel(AuthorizationLevel.User)]
         [HttpPost]
