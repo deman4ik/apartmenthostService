@@ -205,10 +205,10 @@ namespace apartmenthostService.Controllers
                     return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
                 // Check Reservation already exists
-                var currentReservation = _context.Reservations.SingleOrDefault(x => x.UserId == account.UserId && x.CardId == cardId);
-                if (currentReservation != null)
+                var existedReservation = _context.Reservations.SingleOrDefault(x => x.UserId == account.UserId && x.CardId == cardId);
+                if (existedReservation != null)
                 {
-                    respList.Add(currentReservation.Id);
+                    respList.Add(existedReservation.Id);
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_RESERVATION_EXISTS, respList));
                 }
 

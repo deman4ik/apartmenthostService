@@ -257,6 +257,44 @@ namespace apartmenthostService.App_Start
                                                    Lang = ConstLang.RU
                                                 } 
                         },
+                         new User { Id = "u11",
+                           Email = "user11@example.com",
+                           Salt = salt,
+                           SaltedAndHashedPassword = AuthUtils.hash("user11", salt),
+                           Profile = new Profile { Id = "u11",
+                                                   FirstName = "Лера",
+                                                   LastName = "Бундельера",
+                                                   Birthday = new DateTime(1998,4,10),
+                                                   ContactEmail = "user11@example.com",
+                                                   ContactKind = "Email",
+                                                   Description = "Бундельер цап-цап",
+                                                   Gender = ConstVals.Female,
+                                                   Phone = "+79994938996",
+                                                   Rating = 0,
+                                                   RatingCount = 0,
+                                                   Score = 0,
+                                                   Lang = ConstLang.RU
+                                                }
+                        },
+                          new User { Id = "u12",
+                           Email = "user12@example.com",
+                           Salt = salt,
+                           SaltedAndHashedPassword = AuthUtils.hash("user12", salt),
+                           Profile = new Profile { Id = "u12",
+                                                   FirstName = "Владмир",
+                                                   LastName = "Путкин",
+                                                   Birthday = new DateTime(1991,4,10),
+                                                   ContactEmail = "user12@example.com",
+                                                   ContactKind = "Email",
+                                                   Description = "не путать с ВВП",
+                                                   Gender = ConstVals.Male,
+                                                   Phone = "+79994938996",
+                                                   Rating = 0,
+                                                   RatingCount = 0,
+                                                   Score = 0,
+                                                   Lang = ConstLang.RU
+                                                }
+                        },
           };
 
            
@@ -406,8 +444,6 @@ namespace apartmenthostService.App_Start
 
         public static void PopulateCards(apartmenthostContext context)
         {
-
-
             List<Card> adverts = new List<Card>()
             {
                 new Card()

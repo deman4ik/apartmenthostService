@@ -14,7 +14,7 @@ using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace apartmenthostService.Controllers
 {
-    [AuthorizeLevel(AuthorizationLevel.Application)]
+    //[AuthorizeLevel(AuthorizationLevel.Application)]
     public class CardApiController : ApiController
     {
         public ApiServices Services { get; set; }
@@ -90,9 +90,7 @@ namespace apartmenthostService.Controllers
                 resp = CheckHelper.isNull(card.Name, "Name", RespH.SRV_CARD_REQUIRED);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                // Check CARD not Already Exists
-                resp = CheckHelper.isCardExist(_context, card.Name, RespH.SRV_CARD_EXISTS);
-                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                
 
                 // Check CARD Cohabitation is not null
                 //resp = CheckHelper.isNull(CARD.Cohabitation, "Cohabitation", RespH.SRV_CARD_REQUIRED);
@@ -106,9 +104,7 @@ namespace apartmenthostService.Controllers
                 //resp = CheckHelper.isNull(card.ResidentGender, "ResidentGender", RespH.SRV_CARD_REQUIRED);
                 //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                // Check CARD Resident Gender Dictionary
-                //resp = CheckHelper.isValidDicItem(_context, card.ResidentGender, ConstDictionary.Gender, "ResidentGender", RespH.SRV_CARD_INVALID_DICITEM);
-                //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                
 
                 // Check Dates
                 resp = CheckHelper.isValidDates(card.DateFrom, card.DateTo, RespH.SRV_CARD_WRONG_DATE);
@@ -124,6 +120,10 @@ namespace apartmenthostService.Controllers
                     respList.Add(currentUser.Id);
                     return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
+
+                // Check CARD not Already Exists
+                resp = CheckHelper.isCardExist(_context, account.UserId, RespH.SRV_CARD_EXISTS);
+                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 //Apartment
                 if (card.Apartment == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NULL));
@@ -321,8 +321,8 @@ namespace apartmenthostService.Controllers
         /// </summary>
         /// <param name="id">The ID of the Card.</param>
         [Route("api/Card/{id}")]
-        [AuthorizeLevel(AuthorizationLevel.User)]
-        [HttpDelete]
+       // [AuthorizeLevel(AuthorizationLevel.User)]
+        [HttpGet]
         public HttpResponseMessage DeleteCard(string id)
         {
             try
@@ -337,25 +337,25 @@ namespace apartmenthostService.Controllers
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_NOTFOUND, respList));
                 }
 
-                // Check Current User
-                var currentUser = User as ServiceUser;
-                if (currentUser == null)
-                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
-                var account = AuthUtils.GetUserAccount(_context, currentUser);
-                if (account == null)
-                {
-                    respList.Add(currentUser.Id);
-                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
-                }
+                //// Check Current User
+                //var currentUser = User as ServiceUser;
+                //if (currentUser == null)
+                //    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
+                //var account = AuthUtils.GetUserAccount(_context, currentUser);
+                //if (account == null)
+                //{
+                //    respList.Add(currentUser.Id);
+                //    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
+                //}
 
-                // Check CARD User
-                if (card.UserId != account.UserId)
-                {
-                    respList.Add(card.UserId);
-                    respList.Add(account.UserId);
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                        RespH.Create(RespH.SRV_CARD_WRONG_USER, respList));
-                }
+                //// Check CARD User
+                //if (card.UserId != account.UserId)
+                //{
+                //    respList.Add(card.UserId);
+                //    respList.Add(account.UserId);
+                //    return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                //        RespH.Create(RespH.SRV_CARD_WRONG_USER, respList));
+                //}
 
                 var apartment = _context.Apartments.SingleOrDefault(a => a.Id == card.ApartmentId);
 
