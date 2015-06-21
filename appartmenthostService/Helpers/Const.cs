@@ -79,6 +79,7 @@ namespace apartmenthostService.Helpers
         public const string Apartment = "Apartment";   // Объект типа Жилье
         public const string Card = "Card";      // Объект типа Объявление
         public const string User = "User";        // Объект типа Пользователь
+        public const string Picture = "Picture"; // Объект типа Изображение
         public const string Reservation = "Reservation"; // Объект типа Бронь
         public const string Favorite = "Favorite";    // Избранное
         public const string ApprovedReservations = "ApprovedReservations"; //  Список объектов типа Бронь - утвержденные

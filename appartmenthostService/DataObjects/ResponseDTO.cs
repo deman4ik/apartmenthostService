@@ -115,7 +115,6 @@ namespace apartmenthostService.DataObjects
         //Notification
         public const string SRV_NOTIFICATION_NOTFOUND = "SRV_NOTIFICATION_NOTFOUND"; // Объект не найден
         public const string SRV_NOTIFICATION_WRONG_USER = "SRV_NOTIFICATION_WRONG_USER"; // Объект не может быть изменен/удален другим пользователем
-
         public const string SRV_NOTIF_RESERV_PENDING = "SRV_NOTIF_RESERV_PENDING"; // Новое бронирование
         public const string SRV_NOTIF_RESERV_ACCEPTED = "SRV_NOTIF_RESERV_ACCEPTED"; // Бронирование одобрено
         public const string SRV_NOTIF_RESERV_DECLINED = "SRV_NOTIF_RESERV_DECLINED"; // Бронирование отклонено
@@ -123,6 +122,12 @@ namespace apartmenthostService.DataObjects
         public const string SRV_NOTIF_REVIEW_RATING_ADDED = "SRV_NOTIF_REVIEW_RATING_ADDED"; // Оставили отзыв (с рейтингом)
         public const string SRV_NOTIF_REVIEW_AVAILABLE = "SRV_NOTIF_REVIEW_AVAILABLE"; // Оставьте отзыв
         public const string SRV_NOTIF_CARD_FAVORITED = "SRV_NOTIF_CARD_FAVORITED"; // Объявление добавили в избранное
+
+        //Picture
+        public const string SRV_PICTURE_NOTFOUND = "SRV_PICTURE_NOTFOUND"; // Объект не найден
+        public const string SRV_PICTURE_NULL = "SRV_PICTURE_NULL"; // Пустой объект запроса
+        public const string SRV_PICTURE_REQUIRED = "SRV_PICTURE_REQUIRED"; // Не заполнено обязательно поле
+        public const string SRV_PICTURE_BAD_CLOUDINARY_CRED = "SRV_PICTURE_BAD_CLOUDINARY_CRED"; // Не правильно заданы настройки сервиса CLOUDINARY
         //Dictionary
         public const string SRV_DICTIONARY_NULL = "SRV_DICTIONARY_NULL"; // Пустой объект запроса
         public const string SRV_DICTIONARY_NOTFOUND = "SRV_DICTIONARY_NOTFOUND"; // Объект не найден
@@ -137,6 +142,7 @@ namespace apartmenthostService.DataObjects
         public const string SRV_DICTIONARYITEM_EXISTS = "SRV_DICTIONARYITEM_EXISTS"; // Объект уже существует
         public const string SRV_DICTIONARYITEM_DEPENDENCY = "SRV_DICTIONARYITEM_DEPENDENCY"; // Объект не может быть изменен/удален т.к. зависит от другого объекта.  
 
+        
         public static ResponseDTO Create(string code, List<string> data = null)
         {
             

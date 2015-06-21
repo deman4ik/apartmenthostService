@@ -71,7 +71,16 @@ namespace apartmenthostService.Controllers
                                         LastName = x.User.Profile.LastName,
                                         Rating = x.User.Profile.Rating,
                                         RatingCount = x.User.Profile.RatingCount,
-                                        Gender = x.User.Profile.Gender
+                                        Gender = x.User.Profile.Gender,
+                                        Picture = new PictureDTO()
+                                        {
+                                            Id = x.User.Profile.Picture.Id,
+                                            Name = x.User.Profile.Picture.Name,
+                                            Description = x.User.Profile.Picture.Description,
+                                            Url = x.User.Profile.Picture.Url,
+                                            Default = x.User.Profile.Picture.Default,
+                                            CreatedAt = x.User.Profile.Picture.CreatedAt
+                                        }
                                     }
                                 },
                                 OwnerReview =
@@ -145,7 +154,16 @@ namespace apartmenthostService.Controllers
                                             LastName = x.Card.User.Profile.LastName,
                                             Rating = x.Card.User.Profile.Rating,
                                             RatingCount = x.Card.User.Profile.RatingCount,
-                                            Gender = x.Card.User.Profile.Gender
+                                            Gender = x.Card.User.Profile.Gender,
+                                            Picture = new PictureDTO()
+                                            {
+                                                Id = x.Card.User.Profile.Picture.Id,
+                                                Name = x.Card.User.Profile.Picture.Name,
+                                                Description = x.Card.User.Profile.Picture.Description,
+                                                Url = x.Card.User.Profile.Picture.Url,
+                                                Default = x.Card.User.Profile.Picture.Default,
+                                                CreatedAt = x.Card.User.Profile.Picture.CreatedAt
+                                            }
                                         }
 
 

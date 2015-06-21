@@ -138,6 +138,13 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public DateTimeOffset? UpdatedAt { get; set; }
 
+        // Изображение
+        [Metadata(DataType = ConstDataType.Picture)]
+        [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public PictureDTO Picture { get; set; }
         // Список дополнительных колонок(PropVal)
         //[Metadata(DataType = ConstDataType.PropVals)]
         //[GetRule(Order = 10, RequiredForm = false, RequiredTransfer = true, Visible = true)]

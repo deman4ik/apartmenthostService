@@ -58,7 +58,16 @@ namespace apartmenthostService.Controllers
                     Gender = x.User.Profile.Gender,
                     Rating = x.User.Profile.Rating,
                     RatingCount = x.User.Profile.RatingCount,
-                    Phone = x.User.Profile.Phone
+                    Phone = x.User.Profile.Phone,
+                    Picture = new PictureDTO()
+                    {
+                        Id = x.User.Profile.Picture.Id,
+                        Name = x.User.Profile.Picture.Name,
+                        Description = x.User.Profile.Picture.Description,
+                        Url = x.User.Profile.Picture.Url,
+                        Default = x.User.Profile.Picture.Default,
+                        CreatedAt = x.User.Profile.Picture.CreatedAt
+                    }
                 },
                 Apartment = new ApartmentDTO()
                 {
@@ -84,7 +93,16 @@ namespace apartmenthostService.Controllers
                         LastName = rv.User.Profile.LastName,
                         Rating = rv.User.Profile.Rating,
                         RatingCount = rv.User.Profile.RatingCount,
-                        Gender = rv.User.Profile.Gender
+                        Gender = rv.User.Profile.Gender,
+                        Picture = new PictureDTO()
+                        {
+                            Id = rv.User.Profile.Picture.Id,
+                            Name = rv.User.Profile.Picture.Name,
+                            Description = rv.User.Profile.Picture.Description,
+                            Url = rv.User.Profile.Picture.Url,
+                            Default = rv.User.Profile.Picture.Default,
+                            CreatedAt = rv.User.Profile.Picture.CreatedAt
+                        }
                     }
                 }).ToList()
 
@@ -130,7 +148,16 @@ namespace apartmenthostService.Controllers
                     FirstName = x.User.Profile.FirstName,
                     LastName = x.User.Profile.LastName,
                     Gender = x.User.Profile.Gender,
-                    Phone = x.User.Profile.Phone
+                    Phone = x.User.Profile.Phone,
+                    Picture = new PictureDTO()
+                    {
+                        Id = x.User.Profile.Picture.Id,
+                        Name = x.User.Profile.Picture.Name,
+                        Description = x.User.Profile.Picture.Description,
+                        Url = x.User.Profile.Picture.Url,
+                        Default = x.User.Profile.Picture.Default,
+                        CreatedAt = x.User.Profile.Picture.CreatedAt
+                    }
                 },
                 Apartment = new ApartmentDTO()
                 {
@@ -154,7 +181,16 @@ namespace apartmenthostService.Controllers
                         LastName = rv.User.Profile.LastName,
                         Rating = rv.User.Profile.Rating,
                         RatingCount = rv.User.Profile.RatingCount,
-                        Gender = rv.User.Profile.Gender
+                        Gender = rv.User.Profile.Gender,
+                        Picture = new PictureDTO()
+                        {
+                            Id = rv.User.Profile.Picture.Id,
+                            Name = rv.User.Profile.Picture.Name,
+                            Description = rv.User.Profile.Picture.Description,
+                            Url = rv.User.Profile.Picture.Url,
+                            Default = rv.User.Profile.Picture.Default,
+                            CreatedAt = rv.User.Profile.Picture.CreatedAt
+                        }
                     }
                 }).ToList(),
                 Reviews = x.User.InReviews.Where(inr => inr.Reservation.CardId == x.Id).Select(rev => new ReviewDTO()
@@ -171,7 +207,16 @@ namespace apartmenthostService.Controllers
                         LastName = rev.FromUser.Profile.LastName,
                         Rating = rev.FromUser.Profile.Rating,
                         RatingCount = rev.FromUser.Profile.RatingCount,
-                        Gender = rev.FromUser.Profile.Gender
+                        Gender = rev.FromUser.Profile.Gender,
+                        Picture = new PictureDTO()
+                        {
+                            Id = rev.FromUser.Profile.Picture.Id,
+                            Name = rev.FromUser.Profile.Picture.Name,
+                            Description = rev.FromUser.Profile.Picture.Description,
+                            Url = rev.FromUser.Profile.Picture.Url,
+                            Default = rev.FromUser.Profile.Picture.Default,
+                            CreatedAt = rev.FromUser.Profile.Picture.CreatedAt
+                        }
                     }
                 }).ToList(),
                 RelatedCards = _context.Cards.Where(crd => crd.Id != x.Id && crd.ResidentGender == x.ResidentGender && crd.Apartment.Type == x.Apartment.Type).Take(5).Select(card => new RelatedCardDTO
@@ -209,7 +254,16 @@ namespace apartmenthostService.Controllers
                         LastName = card.User.Profile.LastName,
                         Rating = card.User.Profile.Rating,
                         RatingCount = card.User.Profile.RatingCount,
-                        Gender = card.User.Profile.Gender
+                        Gender = card.User.Profile.Gender,
+                        Picture = new PictureDTO()
+                        {
+                            Id = card.User.Profile.Picture.Id,
+                            Name = card.User.Profile.Picture.Name,
+                            Description = card.User.Profile.Picture.Description,
+                            Url = card.User.Profile.Picture.Url,
+                            Default = card.User.Profile.Picture.Default,
+                            CreatedAt = card.User.Profile.Picture.CreatedAt
+                        }
                     }
 
                 }).ToList()

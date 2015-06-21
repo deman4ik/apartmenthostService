@@ -6,6 +6,8 @@ using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
 using apartmenthostService.Models;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 
 namespace apartmenthostService.App_Start
 {
@@ -62,6 +64,12 @@ namespace apartmenthostService.App_Start
         {
             byte[] salt = AuthUtils.generateSalt();
 
+            CloudinaryDotNet.Account account = new CloudinaryDotNet.Account(
+  "apartmenthost",
+  "276555246944232",
+  "agPi304Lt89nplAmwkUTzzuMjwk");
+
+            Cloudinary cloudinary = new Cloudinary(account);
             List<User> users = new List<User>
             {
                 new User { Id = "u1", 
@@ -80,7 +88,15 @@ namespace apartmenthostService.App_Start
                                                    Rating = 0,
                                                    RatingCount = 0,
                                                    Score = 0,
-                                                   Lang = ConstLang.RU
+                                                   Lang = ConstLang.RU,
+                                                   Picture = new Picture()
+                                                   {
+                                                       Id = "p1",
+                                                       Name = "profile/u1.jpg",
+                                                       Description = "Яна Парусова",
+                                                       Url = cloudinary.Api.UrlImgUp.BuildUrl("profile/u1.jpg"),
+                                                       CloudinaryPublicId = "profile/u1"
+                                                   }
                                                  }  
                         },
                 new User { Id = "u2",
@@ -99,7 +115,15 @@ namespace apartmenthostService.App_Start
                                                    Rating = 0,
                                                    RatingCount = 0,
                                                    Score = 0,
-                                                   Lang = ConstLang.RU
+                                                   Lang = ConstLang.RU,
+                                                   Picture = new Picture()
+                                                   {
+                                                       Id = "p2",
+                                                       Name = "profile/u2.jpg",
+                                                       Description = "Василий Пупович",
+                                                       Url = cloudinary.Api.UrlImgUp.BuildUrl("profile/u2.jpg"),
+                                                       CloudinaryPublicId = "profile/u2"
+                                                   }
                                                 } 
                         },
                 
@@ -119,7 +143,15 @@ namespace apartmenthostService.App_Start
                                                    Rating = 0,
                                                    RatingCount = 0,
                                                    Score = 0,
-                                                   Lang = ConstLang.RU
+                                                   Lang = ConstLang.RU,
+                                                   Picture = new Picture()
+                                                   {
+                                                       Id = "p3",
+                                                       Name = "profile/u3.jpg",
+                                                       Description = "Елена Пыжович",
+                                                       Url = cloudinary.Api.UrlImgUp.BuildUrl("profile/u3.jpg"),
+                                                       CloudinaryPublicId = "profile/u3"
+                                                   }
                                                 } 
                         },
 
@@ -139,7 +171,15 @@ namespace apartmenthostService.App_Start
                                                    Rating = 0,
                                                    RatingCount = 0,
                                                    Score = 0,
-                                                   Lang = ConstLang.RU
+                                                   Lang = ConstLang.RU,
+                                                   Picture = new Picture()
+                                                   {
+                                                       Id = "p4",
+                                                       Name = "profile/u4.jpg",
+                                                       Description = "Дмитрий Трофимов",
+                                                       Url = cloudinary.Api.UrlImgUp.BuildUrl("profile/u4.jpg"),
+                                                       CloudinaryPublicId = "profile/u4"
+                                                   }
                                                 } 
                         },
 
@@ -159,7 +199,15 @@ namespace apartmenthostService.App_Start
                                                    Rating = 0,
                                                    RatingCount = 0,
                                                    Score = 0,
-                                                   Lang = ConstLang.RU
+                                                   Lang = ConstLang.RU,
+                                                   Picture = new Picture()
+                                                   {
+                                                       Id = "p5",
+                                                       Name = "profile/u5.jpg",
+                                                       Description = "Эдуард Вишняков",
+                                                       Url = cloudinary.Api.UrlImgUp.BuildUrl("profile/u5.jpg"),
+                                                       CloudinaryPublicId = "profile/u5"
+                                                   }
                                                 } 
                         },
                         new User { Id = "u6",
@@ -167,8 +215,8 @@ namespace apartmenthostService.App_Start
                            Salt = salt, 
                            SaltedAndHashedPassword = AuthUtils.hash("user6", salt),
                            Profile = new Profile { Id = "u6", 
-                                                   FirstName = "Эдуард", 
-                                                   LastName = "Вишняков", 
+                                                   FirstName = "Леонид", 
+                                                   LastName = "Нефедов", 
                                                    Birthday = new DateTime(1977,12,23),
                                                    ContactEmail = "user6@example.com",
                                                    ContactKind = "Phone",
@@ -178,7 +226,15 @@ namespace apartmenthostService.App_Start
                                                    Rating = 0,
                                                    RatingCount = 0,
                                                    Score = 0,
-                                                   Lang = ConstLang.RU
+                                                   Lang = ConstLang.RU,
+                                                   Picture = new Picture()
+                                                   {
+                                                       Id = "p6",
+                                                       Name = "profile/u6.jpg",
+                                                       Description = "Леонид Нефедов",
+                                                       Url = cloudinary.Api.UrlImgUp.BuildUrl("profile/u6.jpg"),
+                                                       CloudinaryPublicId = "profile/u6"
+                                                   }
                                                 } 
                         },
                 new User { Id = "u7",
@@ -197,7 +253,15 @@ namespace apartmenthostService.App_Start
                                                    Rating = 0,
                                                    RatingCount = 0,
                                                    Score = 0,
-                                                   Lang = ConstLang.RU
+                                                   Lang = ConstLang.RU,
+                                                   Picture = new Picture()
+                                                   {
+                                                       Id = "p7",
+                                                       Name = "profile/u7.jpg",
+                                                       Description = "Дарья Мамонтова",
+                                                       Url = cloudinary.Api.UrlImgUp.BuildUrl("profile/u7.jpg"),
+                                                       CloudinaryPublicId = "profile/u7"
+                                                   }
                                                 } 
                         },
                         new User { Id = "u8",
@@ -216,7 +280,15 @@ namespace apartmenthostService.App_Start
                                                    Rating = 0,
                                                    RatingCount = 0,
                                                    Score = 0,
-                                                   Lang = ConstLang.RU
+                                                   Lang = ConstLang.RU,
+                                                   Picture = new Picture()
+                                                   {
+                                                       Id = "p8",
+                                                       Name = "profile/u8.jpg",
+                                                       Description = "Светлана Стрелкова",
+                                                       Url = cloudinary.Api.UrlImgUp.BuildUrl("profile/u8.jpg"),
+                                                       CloudinaryPublicId = "profile/u8"
+                                                   }
                                                 } 
                         },
                          new User { Id = "u9",
@@ -224,8 +296,8 @@ namespace apartmenthostService.App_Start
                            Salt = salt, 
                            SaltedAndHashedPassword = AuthUtils.hash("user9", salt),
                            Profile = new Profile { Id = "u9", 
-                                                   FirstName = "Светлана", 
-                                                   LastName = "Стрелкова", 
+                                                   FirstName = "Даша", 
+                                                   LastName = "Демидова", 
                                                    Birthday = new DateTime(1981,4,29),
                                                    ContactEmail = "user9@example.com",
                                                    ContactKind = "Email",
@@ -235,7 +307,15 @@ namespace apartmenthostService.App_Start
                                                    Rating = 0,
                                                    RatingCount = 0,
                                                    Score = 0,
-                                                   Lang = ConstLang.RU
+                                                   Lang = ConstLang.RU,
+                                                   Picture = new Picture()
+                                                   {
+                                                       Id = "p9",
+                                                       Name = "profile/u9.jpg",
+                                                       Description = "Лера Демидова",
+                                                       Url = cloudinary.Api.UrlImgUp.BuildUrl("profile/u9.jpg"),
+                                                       CloudinaryPublicId = "profile/u9"
+                                                   }
                                                 } 
                         },
                         new User { Id = "u10",
@@ -254,7 +334,15 @@ namespace apartmenthostService.App_Start
                                                    Rating = 0,
                                                    RatingCount = 0,
                                                    Score = 0,
-                                                   Lang = ConstLang.RU
+                                                   Lang = ConstLang.RU,
+                                                   Picture = new Picture()
+                                                   {
+                                                       Id = "p10",
+                                                       Name = "profile/u10.jpg",
+                                                       Description = "Лариса Крокодилова",
+                                                       Url = cloudinary.Api.UrlImgUp.BuildUrl("profile/u10.jpg"),
+                                                       CloudinaryPublicId = "profile/u10"
+                                                   }
                                                 } 
                         },
                          new User { Id = "u11",
@@ -264,7 +352,7 @@ namespace apartmenthostService.App_Start
                            Profile = new Profile { Id = "u11",
                                                    FirstName = "Лера",
                                                    LastName = "Бундельера",
-                                                   Birthday = new DateTime(1998,4,10),
+                                                   Birthday = new DateTime(1988,4,10),
                                                    ContactEmail = "user11@example.com",
                                                    ContactKind = "Email",
                                                    Description = "Бундельер цап-цап",
@@ -273,7 +361,15 @@ namespace apartmenthostService.App_Start
                                                    Rating = 0,
                                                    RatingCount = 0,
                                                    Score = 0,
-                                                   Lang = ConstLang.RU
+                                                   Lang = ConstLang.RU,
+                                                   Picture = new Picture()
+                                                   {
+                                                       Id = "p11",
+                                                       Name = "profile/u11.jpg",
+                                                       Description = "Лера Бундельера",
+                                                       Url = cloudinary.Api.UrlImgUp.BuildUrl("profile/u11.jpg"),
+                                                       CloudinaryPublicId = "profile/u11"
+                                                   }
                                                 }
                         },
                           new User { Id = "u12",
@@ -292,7 +388,15 @@ namespace apartmenthostService.App_Start
                                                    Rating = 0,
                                                    RatingCount = 0,
                                                    Score = 0,
-                                                   Lang = ConstLang.RU
+                                                   Lang = ConstLang.RU,
+                                                   Picture = new Picture()
+                                                   {
+                                                       Id = "p12",
+                                                       Name = "profile/u12.jpg",
+                                                       Description = "Владмир Путкин",
+                                                       Url = cloudinary.Api.UrlImgUp.BuildUrl("profile/u12.jpg"),
+                                                       CloudinaryPublicId = "profile/u12"
+                                                   }
                                                 }
                         },
           };
@@ -311,7 +415,7 @@ namespace apartmenthostService.App_Start
 
         public static void PopulateApartments(apartmenthostContext context)
         {
-
+             
             List<Apartment> apartments = new List<Apartment>()
             {
                 new Apartment()

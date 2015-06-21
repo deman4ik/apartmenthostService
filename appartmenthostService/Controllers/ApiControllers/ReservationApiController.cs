@@ -61,7 +61,16 @@ namespace apartmenthostService.Controllers
                         LastName = r.User.Profile.LastName,
                         Rating = r.User.Profile.Rating,
                         RatingCount = r.User.Profile.RatingCount,
-                        Gender = r.User.Profile.Gender
+                        Gender = r.User.Profile.Gender,
+                        Picture = new PictureDTO()
+                        {
+                            Id = r.User.Profile.Picture.Id,
+                            Name = r.User.Profile.Picture.Name,
+                            Description = r.User.Profile.Picture.Description,
+                            Url = r.User.Profile.Picture.Url,
+                            Default = r.User.Profile.Picture.Default,
+                            CreatedAt = r.User.Profile.Picture.CreatedAt
+                        }
 
 
                     },
@@ -86,7 +95,16 @@ namespace apartmenthostService.Controllers
                             Rating = r.Card.User.Profile.Rating,
                             RatingCount = r.Card.User.Profile.RatingCount,
                             Gender = r.Card.User.Profile.Gender,
-                            Phone = r.Card.User.Profile.Phone
+                            Phone = r.Card.User.Profile.Phone,
+                            Picture = new PictureDTO()
+                            {
+                                Id = r.Card.User.Profile.Picture.Id,
+                                Name = r.Card.User.Profile.Picture.Name,
+                                Description = r.Card.User.Profile.Picture.Description,
+                                Url = r.Card.User.Profile.Picture.Url,
+                                Default = r.Card.User.Profile.Picture.Default,
+                                CreatedAt = r.Card.User.Profile.Picture.CreatedAt
+                            }
                         },
                         Apartment = new ApartmentDTO()
                         {
@@ -122,7 +140,16 @@ namespace apartmenthostService.Controllers
                         LastName = r.User.Profile.LastName,
                         Rating = r.User.Profile.Rating,
                         RatingCount = r.User.Profile.RatingCount,
-                        Gender = r.User.Profile.Gender
+                        Gender = r.User.Profile.Gender,
+                        Picture = new PictureDTO()
+                        {
+                            Id = r.User.Profile.Picture.Id,
+                            Name = r.User.Profile.Picture.Name,
+                            Description = r.User.Profile.Picture.Description,
+                            Url = r.User.Profile.Picture.Url,
+                            Default = r.User.Profile.Picture.Default,
+                            CreatedAt = r.User.Profile.Picture.CreatedAt
+                        }
 
 
                     },
@@ -147,7 +174,16 @@ namespace apartmenthostService.Controllers
                             Rating = r.Card.User.Profile.Rating,
                             RatingCount = r.Card.User.Profile.RatingCount,
                             Gender = r.Card.User.Profile.Gender,
-                            Phone = r.Card.User.Profile.Phone
+                            Phone = r.Card.User.Profile.Phone,
+                            Picture = new PictureDTO()
+                            {
+                                Id = r.Card.User.Profile.Picture.Id,
+                                Name = r.Card.User.Profile.Picture.Name,
+                                Description = r.Card.User.Profile.Picture.Description,
+                                Url = r.Card.User.Profile.Picture.Url,
+                                Default = r.Card.User.Profile.Picture.Default,
+                                CreatedAt = r.Card.User.Profile.Picture.CreatedAt
+                            }
                         },
                         Apartment = new ApartmentDTO()
                         {

@@ -40,6 +40,16 @@ namespace apartmenthostService.Controllers
                 Rating = x.Rating,
                 RatingCount = x.RatingCount,
                 Score = x.Score,
+                PictureId = x.PictureId,
+                Picture = new PictureDTO()
+                {
+                    Id = x.Picture.Id,
+                    Name = x.Picture.Name,
+                    Description = x.Picture.Description,
+                    Url = x.Picture.Url,
+                    Default = x.Picture.Default,
+                    CreatedAt = x.Picture.CreatedAt
+                },
                 CreatedAt = x.CreatedAt,
                 UpdatedAt = x.UpdatedAt
 
@@ -65,6 +75,16 @@ namespace apartmenthostService.Controllers
                 Rating = x.Rating,
                 RatingCount = x.RatingCount,
                 Score = x.Score,
+                PictureId = x.PictureId,
+                Picture = new PictureDTO()
+                {
+                    Id = x.Picture.Id,
+                    Name = x.Picture.Name,
+                    Description = x.Picture.Description,
+                    Url = x.Picture.Url,
+                    Default = x.Picture.Default,
+                    CreatedAt = x.Picture.CreatedAt
+                },
                 CreatedAt = x.CreatedAt,
                 UpdatedAt = x.UpdatedAt
 

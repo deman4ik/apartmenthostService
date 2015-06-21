@@ -15,6 +15,9 @@ namespace apartmenthostService.Models
         public string Description { get; set; }
         public string Url { get; set; }
 
+        public string CloudinaryPublicId { get; set; }
+        public bool Default { get; set; }
+
         public ICollection<Profile> Profiles { get; set; }
         public ICollection<Notification> Notifications { get; set; }
         public ICollection<Apartment> Apartments { get; set; }

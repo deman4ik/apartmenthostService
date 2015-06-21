@@ -22,6 +22,9 @@
 
         // Пол
         public string Gender { get; set; }
+
+        // Изображение
+        public PictureDTO Picture { get; set; }
     }
 
 }
