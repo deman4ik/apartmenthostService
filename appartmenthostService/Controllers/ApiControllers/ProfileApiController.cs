@@ -14,6 +14,7 @@ using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace apartmenthostService.Controllers
 {
+    [AuthorizeLevel(AuthorizationLevel.Application)]
     public class ProfileApiController : ApiController
     {
         public ApiServices Services { get; set; }
@@ -55,7 +56,7 @@ namespace apartmenthostService.Controllers
                 }
 
                 // Check Current Profile is not NULL
-                var profileCurrent = _context.Profile.SingleOrDefault(a => a.Id == currentUser.Id);
+                var profileCurrent = _context.Profile.SingleOrDefault(a => a.Id == account.UserId);
                 if (profileCurrent == null)
                 {
                     respList.Add(currentUser.Id);

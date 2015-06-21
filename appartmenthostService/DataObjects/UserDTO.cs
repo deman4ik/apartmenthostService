@@ -56,7 +56,7 @@ namespace apartmenthostService.DataObjects
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 4, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        public DateTime Birthday { get; set; }
+        public DateTime? Birthday { get; set; }
 
         // Телефон
         [Metadata(DataType = ConstDataType.Phone)]
