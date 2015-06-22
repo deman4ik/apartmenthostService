@@ -156,11 +156,11 @@ namespace apartmenthostService.Helpers
         public const string HotelRoom = "DVAL_HOTEL_ROOM";         //Гостинечный номер
         public const string SeperateResidence = "DVAL_SEPARATE_RESIDENCE"; //Раздельное проживание
         public const string Cohabitation = "DVAL_COHABITATION";       //Совместное проживание
-        public const string Parking = "DVAL_PARKING";            //Паркова
-        public const string Concierge = "DVAL_СONCIERGE";          //Консьерж
-        public const string Refrigerator = "DVAL_REFRIGERATOR";       //Холодильник
-        public const string WashingMachine = "DVAL_WASHING_MACHINE";    //Стиральная машина
-        public const string AirConditioning = "DVAL_AIR_CONDITIONING";   //Кондиционер
+        public const string Parking = "Паркова";            //Паркова
+        public const string Concierge = "Консьерж";          //Консьерж
+        public const string Refrigerator = "Холодильник";       //Холодильник
+        public const string WashingMachine = "Стиральная машина";    //Стиральная машина
+        public const string AirConditioning = "Кондиционер";   //Кондиционер
         public const string Owner = "DVAL_OWNER"; // Арендодатель
         public const string Renter = "DVAL_RENTER"; // Съемщик
         public const string General = "DVAL_GENERAL"; // Станадартные оповещения
