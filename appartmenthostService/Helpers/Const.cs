@@ -64,8 +64,9 @@ namespace apartmenthostService.Helpers
     }
     public static class ConstDataType
     {
-        public const string Bool = "Bool";
+        public const string Bool = "Bool";         // True/False
         public const string Text = "Text";        // Текстовое поле
+        public const string Number = "Number";      // Число
         public const string Date = "Date";        // Выбора даты
         public const string List = "List";        // Выпадающий список или RadioButton
         public const string Multibox = "Multibox";    // Выбор нескольких значений 

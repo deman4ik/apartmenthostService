@@ -42,6 +42,7 @@ namespace apartmenthostService.Controllers
                 Rating = x.Rating,
                 RatingCount = x.RatingCount,
                 Score = x.Score,
+                CardCount = _context.Cards.Count(c => c.UserId == x.Id),
                 CreatedAt = x.CreatedAt,
                 UpdatedAt = x.UpdatedAt
 
