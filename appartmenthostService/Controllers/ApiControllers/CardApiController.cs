@@ -140,6 +140,18 @@ namespace apartmenthostService.Controllers
                 resp = CheckHelper.isValidDicItem(_context, card.Apartment.Type, ConstDictionary.ApartmentType, "Type", RespH.SRV_APARTMENT_INVALID_DICITEM);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
+                // Get User Profile
+                var profile = _context.Profile.SingleOrDefault(x => x.Id == account.UserId);
+                if (profile == null)
+                {
+                    respList.Add(account.UserId);
+                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
+                }
+                // Update User Phone if it is not defined
+                if (string.IsNullOrWhiteSpace(profile.Phone))
+                {
+                    profile.Phone = card.Phone;
+                }
                 // Generate 
                 string cardGuid = Guid.NewGuid().ToString();
                 string apartmentGuid = Guid.NewGuid().ToString();

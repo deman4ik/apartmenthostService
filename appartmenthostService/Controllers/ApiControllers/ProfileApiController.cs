@@ -59,7 +59,7 @@ namespace apartmenthostService.Controllers
                 var profileCurrent = _context.Profile.SingleOrDefault(a => a.Id == account.UserId);
                 if (profileCurrent == null)
                 {
-                    respList.Add(currentUser.Id);
+                    respList.Add(account.UserId);
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
 

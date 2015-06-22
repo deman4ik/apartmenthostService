@@ -121,6 +121,14 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string Lang { get; set; }
 
+        // Телефон
+        [Metadata(DataType = ConstDataType.Phone)]
+        [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = true, Visible = true)]
+        [PutRule(Order = 0, RequiredForm = true, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public string Phone { get; set; }
+
         // Дата и Время создания объекта
         [Metadata(DataType = ConstDataType.Date)]
         [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = true)]
