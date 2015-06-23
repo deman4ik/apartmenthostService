@@ -1,6 +1,7 @@
 ﻿using System;
 using apartmenthostService.Attributes;
 using apartmenthostService.Helpers;
+using Newtonsoft.Json;
 
 namespace apartmenthostService.DataObjects
 {
@@ -56,6 +57,7 @@ namespace apartmenthostService.DataObjects
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 4, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public DateTime? Birthday { get; set; }
 
         // Телефон
@@ -104,6 +106,7 @@ namespace apartmenthostService.DataObjects
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public decimal Rating { get; set; }
 
         // Количество проголосовавших
@@ -112,6 +115,7 @@ namespace apartmenthostService.DataObjects
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public int RatingCount { get; set; }
 
         // Общее количество очков
@@ -120,6 +124,7 @@ namespace apartmenthostService.DataObjects
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public decimal Score { get; set; }
 
         // Количество карточек
@@ -128,6 +133,7 @@ namespace apartmenthostService.DataObjects
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public int CardCount { get; set; }
 
 

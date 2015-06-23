@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using apartmenthostService.Attributes;
 using apartmenthostService.Helpers;
+using Newtonsoft.Json;
 
 namespace apartmenthostService.DataObjects
 {
@@ -48,6 +49,7 @@ namespace apartmenthostService.DataObjects
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = true, Visible = false)]
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public bool Default { get; set; }
 
         // Уникальный идентификатор Cloudinary

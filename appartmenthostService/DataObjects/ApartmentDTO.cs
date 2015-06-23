@@ -1,6 +1,7 @@
 ﻿using System;
 using apartmenthostService.Attributes;
 using apartmenthostService.Helpers;
+using Newtonsoft.Json;
 
 namespace apartmenthostService.DataObjects
 {
@@ -61,6 +62,7 @@ namespace apartmenthostService.DataObjects
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public decimal? Latitude { get; set; }
 
         // Координаты Долгота
@@ -69,6 +71,7 @@ namespace apartmenthostService.DataObjects
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public decimal? Longitude { get; set; }
 
         // Язык

@@ -1,4 +1,6 @@
-﻿namespace apartmenthostService.DataObjects
+﻿using Newtonsoft.Json;
+
+namespace apartmenthostService.DataObjects
 {
     public class BaseUserDTO
     {
@@ -15,9 +17,11 @@
         public string LastName { get; set; }
 
         // Рейтинг
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public decimal Rating { get; set; }
 
         // Количество проголосовавших
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public decimal RatingCount { get; set; }
 
         // Пол
