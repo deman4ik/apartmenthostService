@@ -80,13 +80,20 @@ namespace apartmenthostService.Controllers
                         UserId = r.Card.UserId,
                         Description = r.Card.Description,
                         ApartmentId = r.Card.ApartmentId,
-                        DateFrom = r.Card.DateFrom,
-                        DateTo = r.Card.DateTo,
                         PriceDay = r.Card.PriceDay,
                         PricePeriod = r.Card.PriceDay * 7,
                         Cohabitation = r.Card.Cohabitation,
                         ResidentGender = r.Card.ResidentGender,
                         Lang = r.Card.Lang,
+                        Dates = r.Card.Dates.Select(d => new DatesDTO()
+                        {
+                            DateFrom = d.DateFrom,
+                            DateTo = d.DateTo
+                        }).Union(r.Card.Reservations.Where(reserv => reserv.Status == ConstVals.Accepted).Select(rv => new DatesDTO()
+                        {
+                            DateFrom = rv.DateFrom,
+                            DateTo = rv.DateTo
+                        }).ToList()).ToList(),
                         User = new UserDTO()
                         {
                             Id = r.Card.User.Profile.Id,
@@ -159,13 +166,20 @@ namespace apartmenthostService.Controllers
                         UserId = r.Card.UserId,
                         Description = r.Card.Description,
                         ApartmentId = r.Card.ApartmentId,
-                        DateFrom = r.Card.DateFrom,
-                        DateTo = r.Card.DateTo,
                         PriceDay = r.Card.PriceDay,
                         PricePeriod = r.Card.PriceDay * 7,
                         Cohabitation = r.Card.Cohabitation,
                         ResidentGender = r.Card.ResidentGender,
                         Lang = r.Card.Lang,
+                        Dates = r.Card.Dates.Select(d => new DatesDTO()
+                        {
+                            DateFrom = d.DateFrom,
+                            DateTo = d.DateTo
+                        }).Union(r.Card.Reservations.Where(reserv => reserv.Status == ConstVals.Accepted).Select(rv => new DatesDTO()
+                        {
+                            DateFrom = rv.DateFrom,
+                            DateTo = rv.DateTo
+                        }).ToList()).ToList(),
                         User = new UserDTO()
                         {
                             Id = r.Card.User.Profile.Id,
@@ -269,14 +283,22 @@ namespace apartmenthostService.Controllers
                 // Check Available Dates
                 TimeRange reservationDates = new TimeRange(dateFrom, dateTo);
 
-                TimeRange unavailableDates = new TimeRange(card.DateFrom, card.DateTo);
-                if (unavailableDates.IntersectsWith(reservationDates))
+                List<TimeRange> unavailableDates = new List<TimeRange>();
+                foreach (var unDate in card.Dates)
                 {
-                    respList.Add(reservationDates.ToString());
-                    respList.Add(unavailableDates.ToString());
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                        RespH.Create(RespH.SRV_RESERVATION_UNAVAILABLE_DATE, respList));
+                    unavailableDates.Add(new TimeRange(unDate.DateFrom, unDate.DateTo));
                 }
+                foreach (var unavailableDate in unavailableDates)
+                {
+                    if (unavailableDate.IntersectsWith(reservationDates))
+                    {
+                        respList.Add(reservationDates.ToString());
+                        respList.Add(unavailableDates.ToString());
+                        return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                            RespH.Create(RespH.SRV_RESERVATION_UNAVAILABLE_DATE, respList));
+                    }
+                }
+                
                 var currentReservations = _context.Reservations.Where(r => r.CardId == cardId && r.Status == ConstVals.Accepted);
                 foreach (var currentReservation in currentReservations)
                 {
@@ -387,13 +409,20 @@ namespace apartmenthostService.Controllers
                     // Check Available Dates
                     TimeRange reservationDates = new TimeRange(currentReservation.DateFrom, currentReservation.DateTo);
 
-                    TimeRange unavailableDates = new TimeRange(card.DateFrom, card.DateTo);
-                    if (unavailableDates.IntersectsWith(reservationDates))
+                    List<TimeRange> unavailableDates = new List<TimeRange>();
+                    foreach (var unDate in card.Dates)
                     {
-                        respList.Add(reservationDates.ToString());
-                        respList.Add(unavailableDates.ToString());
-                        return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                            RespH.Create(RespH.SRV_RESERVATION_UNAVAILABLE_DATE, respList));
+                        unavailableDates.Add(new TimeRange(unDate.DateFrom, unDate.DateTo));
+                    }
+                    foreach (var unavailableDate in unavailableDates)
+                    {
+                        if (unavailableDate.IntersectsWith(reservationDates))
+                        {
+                            respList.Add(reservationDates.ToString());
+                            respList.Add(unavailableDates.ToString());
+                            return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                                RespH.Create(RespH.SRV_RESERVATION_UNAVAILABLE_DATE, respList));
+                        }
                     }
                     var currentReservations = _context.Reservations.Where(r => r.CardId == currentReservation.CardId && currentReservation.Status == ConstVals.Accepted);
                     foreach (var currentReserv in currentReservations)

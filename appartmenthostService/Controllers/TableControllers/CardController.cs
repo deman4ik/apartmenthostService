@@ -33,15 +33,13 @@ namespace apartmenthostService.Controllers
             {
                 userId = account.UserId;
             }
-            return Query().Select(x => new CardDTO()
+           var result =  Query().Select(x => new CardDTO()
             {
                 Id = x.Id,
                 Name = x.Name,
                 UserId = x.UserId,
                 Description = x.Description,
                 ApartmentId = x.ApartmentId,
-                DateFrom = x.DateFrom,
-                DateTo = x.DateTo,
                 PriceDay = x.PriceDay,
                 PricePeriod = x.PriceDay * 7,
                 Cohabitation = x.Cohabitation,
@@ -50,6 +48,15 @@ namespace apartmenthostService.Controllers
                 CreatedAt = x.CreatedAt,
                 UpdatedAt = x.UpdatedAt,
                 Lang = x.Lang,
+                Dates = x.Dates.Select(d => new DatesDTO()
+                {
+                   DateFrom = d.DateFrom,
+                   DateTo = d.DateTo
+                }).Union( x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new DatesDTO()
+                {
+                    DateFrom = rv.DateFrom,
+                    DateTo = rv.DateTo
+                }).ToList()).ToList(),
                 User = new UserDTO()
                 {
                     Id = x.User.Profile.Id,
@@ -80,34 +87,33 @@ namespace apartmenthostService.Controllers
                     Latitude = x.Apartment.Latitude,
                     Longitude = x.Apartment.Longitude,
                 },
-                ApprovedReservations = x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new ReservationDTO()
-                {
-                    DateFrom = rv.DateFrom,
-                    DateTo = rv.DateTo,
-                    UserId = rv.UserId,
-                    User = new BaseUserDTO()
-                    {
-                        Id = rv.User.Profile.Id,
-                        Email = rv.User.Email,
-                        FirstName = rv.User.Profile.FirstName,
-                        LastName = rv.User.Profile.LastName,
-                        Rating = rv.User.Profile.Rating,
-                        RatingCount = rv.User.Profile.RatingCount,
-                        Gender = rv.User.Profile.Gender,
-                        Picture = new PictureDTO()
-                        {
-                            Id = rv.User.Profile.Picture.Id,
-                            Name = rv.User.Profile.Picture.Name,
-                            Description = rv.User.Profile.Picture.Description,
-                            Url = rv.User.Profile.Picture.Url,
-                            Default = rv.User.Profile.Picture.Default,
-                            CreatedAt = rv.User.Profile.Picture.CreatedAt
-                        }
-                    }
-                }).ToList()
-
-
+                //ApprovedReservations = x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new ReservationDTO()
+                //{
+                //    DateFrom = rv.DateFrom,
+                //    DateTo = rv.DateTo,
+                //    UserId = rv.UserId,
+                //    User = new BaseUserDTO()
+                //    {
+                //        Id = rv.User.Profile.Id,
+                //        Email = rv.User.Email,
+                //        FirstName = rv.User.Profile.FirstName,
+                //        LastName = rv.User.Profile.LastName,
+                //        Rating = rv.User.Profile.Rating,
+                //        RatingCount = rv.User.Profile.RatingCount,
+                //        Gender = rv.User.Profile.Gender,
+                //        Picture = new PictureDTO()
+                //        {
+                //            Id = rv.User.Profile.Picture.Id,
+                //            Name = rv.User.Profile.Picture.Name,
+                //            Description = rv.User.Profile.Picture.Description,
+                //            Url = rv.User.Profile.Picture.Url,
+                //            Default = rv.User.Profile.Picture.Default,
+                //            CreatedAt = rv.User.Profile.Picture.CreatedAt
+                //        }
+                //    }
+                //}).ToList()
             });
+            return result;
         }
 
         // GET tables/Card/48D68C86-6EA6-4C25-AA33-223FC9A27959
@@ -131,8 +137,6 @@ namespace apartmenthostService.Controllers
                 UserId = x.UserId,
                 Description = x.Description,
                 ApartmentId = x.ApartmentId,
-                DateFrom = x.DateFrom,
-                DateTo = x.DateTo,
                 PriceDay = x.PriceDay,
                 PricePeriod = x.PriceDay * 7,
                 Cohabitation = x.Cohabitation,
@@ -141,6 +145,15 @@ namespace apartmenthostService.Controllers
                 CreatedAt = x.CreatedAt,
                 UpdatedAt = x.UpdatedAt,
                 Lang = x.Lang,
+                Dates = x.Dates.Select(d => new DatesDTO()
+                {
+                    DateFrom = d.DateFrom,
+                    DateTo = d.DateTo
+                }).Union(x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new DatesDTO()
+                {
+                    DateFrom = rv.DateFrom,
+                    DateTo = rv.DateTo
+                }).ToList()).ToList(),
                 User = new UserDTO()
                 {
                     Id = x.User.Profile.Id,
@@ -168,31 +181,31 @@ namespace apartmenthostService.Controllers
                     UserId = x.Apartment.UserId,
                     Adress = x.Apartment.Adress
                 },
-                ApprovedReservations = x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new ReservationDTO()
-                {
-                    DateFrom = rv.DateFrom,
-                    DateTo = rv.DateTo,
-                    UserId = rv.UserId,
-                    User = new BaseUserDTO()
-                    {
-                        Id = rv.User.Profile.Id,
-                        Email = rv.User.Email,
-                        FirstName = rv.User.Profile.FirstName,
-                        LastName = rv.User.Profile.LastName,
-                        Rating = rv.User.Profile.Rating,
-                        RatingCount = rv.User.Profile.RatingCount,
-                        Gender = rv.User.Profile.Gender,
-                        Picture = new PictureDTO()
-                        {
-                            Id = rv.User.Profile.Picture.Id,
-                            Name = rv.User.Profile.Picture.Name,
-                            Description = rv.User.Profile.Picture.Description,
-                            Url = rv.User.Profile.Picture.Url,
-                            Default = rv.User.Profile.Picture.Default,
-                            CreatedAt = rv.User.Profile.Picture.CreatedAt
-                        }
-                    }
-                }).ToList(),
+                //ApprovedReservations = x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new ReservationDTO()
+                //{
+                //    DateFrom = rv.DateFrom,
+                //    DateTo = rv.DateTo,
+                //    UserId = rv.UserId,
+                //    User = new BaseUserDTO()
+                //    {
+                //        Id = rv.User.Profile.Id,
+                //        Email = rv.User.Email,
+                //        FirstName = rv.User.Profile.FirstName,
+                //        LastName = rv.User.Profile.LastName,
+                //        Rating = rv.User.Profile.Rating,
+                //        RatingCount = rv.User.Profile.RatingCount,
+                //        Gender = rv.User.Profile.Gender,
+                //        Picture = new PictureDTO()
+                //        {
+                //            Id = rv.User.Profile.Picture.Id,
+                //            Name = rv.User.Profile.Picture.Name,
+                //            Description = rv.User.Profile.Picture.Description,
+                //            Url = rv.User.Profile.Picture.Url,
+                //            Default = rv.User.Profile.Picture.Default,
+                //            CreatedAt = rv.User.Profile.Picture.CreatedAt
+                //        }
+                //    }
+                //}).ToList(),
                 Reviews = x.User.InReviews.Where(inr => inr.Reservation.CardId == x.Id).Select(rev => new ReviewDTO()
                 {
                     Id = rev.Id,
@@ -226,8 +239,6 @@ namespace apartmenthostService.Controllers
                     UserId = card.UserId,
                     Description = card.Description,
                     ApartmentId = card.ApartmentId,
-                    DateFrom = card.DateFrom,
-                    DateTo = card.DateTo,
                     PriceDay = card.PriceDay,
                     PricePeriod = card.PriceDay * 7,
                     Cohabitation = card.Cohabitation,
@@ -235,7 +246,15 @@ namespace apartmenthostService.Controllers
                     IsFavorite = card.Favorites.Any(f => f.UserId == userId),
                     CreatedAt = card.CreatedAt,
                     Lang = card.Lang,
-
+                    Dates = card.Dates.Select(d => new DatesDTO()
+                    {
+                        DateFrom = d.DateFrom,
+                        DateTo = d.DateTo
+                    }).Union(card.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new DatesDTO()
+                    {
+                        DateFrom = rv.DateFrom,
+                        DateTo = rv.DateTo
+                    }).ToList()).ToList(),
 
                     Apartment = new ApartmentDTO()
                     {

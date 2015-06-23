@@ -26,6 +26,9 @@ namespace apartmenthostService.App_Start
                 PopulateCards(context);
                 context.SaveChanges();
 
+                PopulateCardDates(context);
+                context.SaveChanges();
+
                 PopulateFavorites(context);
                 context.SaveChanges();
 
@@ -402,10 +405,9 @@ namespace apartmenthostService.App_Start
           };
 
            
-            foreach (User user in users)
-            {
-                context.Set<User>().Add(user);
-            }
+           
+                context.Set<User>().AddRange(users);
+            
 
             context.SaveChanges();
 
@@ -540,10 +542,9 @@ namespace apartmenthostService.App_Start
                 },
             };
 
-            foreach (var apartment in apartments)
-            {
-                context.Set<Apartment>().Add(apartment);
-            }
+
+                context.Set<Apartment>().AddRange(apartments);
+
         }
 
         public static void PopulateCards(apartmenthostContext context)
@@ -557,8 +558,6 @@ namespace apartmenthostService.App_Start
                     UserId = "u1",
                     Description = "Бизнес центр ААА-класса. Многоуровневая паркова. Бесплатное питание. У нас есть печеньки!",
                     ApartmentId = "ap1",
-                    DateFrom = new DateTime(2015,4,1),
-                    DateTo = new DateTime(2015,4,30),
                     PriceDay = 1500,
                     Cohabitation = ConstVals.SeperateResidence,
                     ResidentGender = ConstVals.Any,
@@ -571,8 +570,6 @@ namespace apartmenthostService.App_Start
                     UserId = "u2",
                     Description = "Великолепное жилье в центре Бутово. Комфортно и уютно.",
                     ApartmentId = "ap2",
-                    DateFrom = new DateTime(2015,5,10),
-                    DateTo = new DateTime(2015,6,30),
                     PriceDay = 1000,
                     Cohabitation = ConstVals.Cohabitation,
                     ResidentGender = ConstVals.Female,
@@ -585,8 +582,6 @@ namespace apartmenthostService.App_Start
                     UserId = "u3",
                     Description = "Квартирка на Соловьином. Жить можно.",
                     ApartmentId = "ap3",
-                    DateFrom = new DateTime(2015,5,1),
-                    DateTo = new DateTime(2015,5,31),
                     PriceDay = 1300,
                     Cohabitation = ConstVals.SeperateResidence,
                     ResidentGender = ConstVals.Male,
@@ -599,8 +594,6 @@ namespace apartmenthostService.App_Start
                     UserId = "u4",
                     Description = "Реально классная квартира! Просторная с качественным евро-ремонтом из дорогих материалов. Полностью меблирована. Никогда раньше не сдавалась, все новое! Порядочные соседи (славяне). Все есть для комфортного проживания, шкаф купе в прихожей и в гостиной, диван, компьютерный стол, телевизор, кухонный гарнитур, варочная панель, двухкамерный холодильник. Внимание: лоджия утепленная и площадь квартиры расширилась, идеальное место для кабинета. ",
                     ApartmentId = "ap4",
-                    DateFrom = new DateTime(2015,1,1),
-                    DateTo = new DateTime(2015,6,15),
                     PriceDay = 1200,
                     Cohabitation = ConstVals.SeperateResidence,
                     ResidentGender = ConstVals.Any,
@@ -613,8 +606,6 @@ namespace apartmenthostService.App_Start
                     UserId = "u5",
                     Description = "Обычная кв. с мебелью (дивана пока нет), на длительный срок, для всех семейных.",
                     ApartmentId = "ap5",
-                    DateFrom = new DateTime(2015,5,1),
-                    DateTo = new DateTime(2015,12,31),
                     PriceDay = 1000,
                     Cohabitation = ConstVals.Cohabitation,
                     ResidentGender = ConstVals.Female,
@@ -627,8 +618,6 @@ namespace apartmenthostService.App_Start
                     UserId = "u6",
                     Description = "Новая кровать, чистое постельное белье, вся необходимая бытовая техника в наличии, санузел после ремонта.Без комиссии и залогов. Без подселения.Заселение круглосуточно, 24 часа.",
                     ApartmentId = "ap6",
-                    DateFrom = new DateTime(2015,12,1),
-                    DateTo = new DateTime(2015,12,31),
                     PriceDay = 860,
                     Cohabitation = ConstVals.SeperateResidence,
                     ResidentGender = ConstVals.Any,
@@ -641,8 +630,6 @@ namespace apartmenthostService.App_Start
                     UserId = "u7",
                     Description = "Квартирка на Соловьином. Жить можно, но не долго. Из окна почти ничего не видно, только стенку морга.",
                     ApartmentId = "ap7",
-                    DateFrom = new DateTime(2015,9,1),
-                    DateTo = new DateTime(2015,9,30),
                     PriceDay = 700,
                     Cohabitation = ConstVals.SeperateResidence,
                     ResidentGender = ConstVals.Any,
@@ -655,8 +642,6 @@ namespace apartmenthostService.App_Start
                     UserId = "u8",
                     Description = "Хорошая квартира. 5 минут до Парка Горького",
                     ApartmentId = "ap8",
-                    DateFrom = new DateTime(2015,6,1),
-                    DateTo = new DateTime(2015,8,31),
                     PriceDay = 1800,
                     Cohabitation = ConstVals.SeperateResidence,
                     ResidentGender = ConstVals.Any,
@@ -669,8 +654,6 @@ namespace apartmenthostService.App_Start
                     UserId = "u9",
                     Description = "Уютная квартира в пешей доступности. Район с развитой инфраструктурой.",
                     ApartmentId = "ap9",
-                    DateFrom = new DateTime(2016,1,15),
-                    DateTo = new DateTime(2016,12,31),
                     PriceDay = 1300,
                     Cohabitation = ConstVals.Cohabitation,
                     ResidentGender = ConstVals.Female,
@@ -684,8 +667,6 @@ namespace apartmenthostService.App_Start
                     UserId = "u10",
                     Description = "Евро ремонт, вся бытовая техника(телевизор, холодильник, плита ,стиральная машина, микроволновая печь. точка доступа интернет. Предоставляется постельное белье, полотенце, посуда, гель для душа, шампунь. Во дворе парковка. Предоставляем отчетные документы командировочным для бухгалтерии. Звоните, ждем вас!",
                     ApartmentId = "ap10",
-                    DateFrom = new DateTime(2015,5,1),
-                    DateTo = new DateTime(2015,5,31),
                     PriceDay = 2000,
                     Cohabitation = ConstVals.SeperateResidence,
                     ResidentGender = ConstVals.Any,
@@ -694,12 +675,28 @@ namespace apartmenthostService.App_Start
                 
             };
 
-            foreach (var advert in adverts)
-            {
-                context.Set<Card>().Add(advert);
-            }
+
+                context.Set<Card>().AddRange(adverts);
+
         }
 
+        public static void PopulateCardDates(apartmenthostContext context)
+        {
+            List<CardDates> cardDates = new List<CardDates>()
+            {
+                new CardDates() { Id = "cd1", CardId = "a1", DateFrom = new DateTime(2015,4,1), DateTo = new DateTime(2015,4,30) },
+                new CardDates() { Id = "cd2",CardId = "a2", DateFrom = new DateTime(2015,5,10), DateTo = new DateTime(2015,6,30) },
+                new CardDates() { Id = "cd3",CardId = "a3", DateFrom = new DateTime(2015,5,1), DateTo = new DateTime(2015,5,31) },
+                new CardDates() { Id = "cd4",CardId = "a4", DateFrom = new DateTime(2015,1,1), DateTo = new DateTime(2015,6,15) },
+                new CardDates() { Id = "cd5",CardId = "a5", DateFrom = new DateTime(2015,5,1), DateTo = new DateTime(2015,12,31) },
+                new CardDates() { Id = "cd6",CardId = "a6", DateFrom = new DateTime(2015,12,1), DateTo = new DateTime(2015,12,31) },
+                new CardDates() { Id = "cd7",CardId = "a7", DateFrom = new DateTime(2015,9,1), DateTo = new DateTime(2015,9,30) }
+
+            };
+
+                context.Set<CardDates>().AddRange(cardDates);
+
+        }
         public static void PopulateReservations(apartmenthostContext context)
         {
             List<Reservation> reservations = new List<Reservation>()
@@ -835,10 +832,9 @@ namespace apartmenthostService.App_Start
                 }
             };
 
-            foreach (var reservation in reservations)
-            {
-                context.Set<Reservation>().Add(reservation);
-            }
+
+                context.Set<Reservation>().AddRange(reservations);
+
         }
         public static void PopulateFavorites(apartmenthostContext context)
         {
@@ -877,10 +873,9 @@ namespace apartmenthostService.App_Start
                     CardId = "a1"
                 }
             };
-            foreach (var favorite in favorites)
-            {
-                context.Set<Favorite>().Add(favorite);
-            }
+
+                context.Set<Favorite>().AddRange(favorites);
+
         }
 
        
@@ -962,10 +957,8 @@ namespace apartmenthostService.App_Start
                     Rating = 5
                 }
             };
-            foreach (var review in reviews)
-            {
-                context.Set<Review>().Add(review);
-            }
+
+                context.Set<Review>().AddRange(reviews);
         }
 
         public static void PopulateNotifications(apartmenthostContext context)
@@ -1030,10 +1023,9 @@ namespace apartmenthostService.App_Start
                 }
             };
 
-            foreach (var notifcation in notifications)
-            {
-                context.Set<Notification>().Add(notifcation);
-            }
+
+                context.Set<Notification>().AddRange(notifications);
+
         }
         public static void PopulateTables(apartmenthostContext context)
         {
@@ -1062,10 +1054,9 @@ namespace apartmenthostService.App_Start
 
             };
 
-            foreach (var table in tables)
-            {
-                context.Set<Table>().Add(table);
-            }
+
+                context.Set<Table>().AddRange(tables);
+
             
 
         }
@@ -1097,10 +1088,9 @@ namespace apartmenthostService.App_Start
                 },
             };
 
-            foreach (var dictionary in dictionaries)
-            {
-                context.Set<Dictionary>().Add(dictionary);
-            }
+
+                context.Set<Dictionary>().AddRange(dictionaries);
+
         }
 
         public static void PopulateDictionaryItems(apartmenthostContext context)
@@ -1156,10 +1146,9 @@ namespace apartmenthostService.App_Start
                     StrValue = gender
                 });
             }
-            foreach (var dictonaryItem in dictionaryItems)
-            {
-                context.Set<DictionaryItem>().Add(dictonaryItem);
-            }
+
+                context.Set<DictionaryItem>().AddRange(dictionaryItems);
+
             
         }
        

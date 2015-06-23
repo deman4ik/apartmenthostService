@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using apartmenthostService.Attributes;
 using apartmenthostService.Helpers;
+using apartmenthostService.Models;
 using Newtonsoft.Json;
 
 namespace apartmenthostService.DataObjects
@@ -53,22 +54,6 @@ namespace apartmenthostService.DataObjects
         [PutRule(Order = 1, RequiredForm = false, RequiredTransfer = true, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string ApartmentId { get; set; }
-
-        // Дата с
-        [Metadata(DataType = ConstDataType.Date)]
-        [GetRule(Order = 3, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [PostRule(Order = 3, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [PutRule(Order = 3, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        public DateTime DateFrom { get; set; }
-
-        // Дата по
-        [Metadata(DataType = ConstDataType.Date)]
-        [GetRule(Order = 4, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [PostRule(Order = 4, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [PutRule(Order = 4, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        public DateTime DateTo { get; set; }
 
         // Цена за сутки
         [Metadata(DataType = ConstDataType.Price)]
@@ -160,6 +145,14 @@ namespace apartmenthostService.DataObjects
         [PutRule(Order = 8, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public virtual ApartmentDTO Apartment { get; set; }
+
+        // Даты недоступности
+        [Metadata(DataType = ConstDataType.DateList)]
+        [GetRule(Order = 4, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 4, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PutRule(Order = 4, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public ICollection<DatesDTO> Dates { get; set; }
 
         // Бронирование
         [Metadata(DataType = ConstDataType.ApprovedReservations)]

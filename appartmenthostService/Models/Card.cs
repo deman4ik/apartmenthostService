@@ -20,10 +20,6 @@ namespace apartmenthostService.Models
 
         public string ApartmentId { get; set; }
 
-        public DateTime DateFrom { get; set; }
-
-        public DateTime DateTo { get; set; }
-
         public decimal PriceDay { get; set; }
 
         public string Cohabitation { get; set; }
@@ -35,6 +31,7 @@ namespace apartmenthostService.Models
         public virtual User User { get; set; }
         public virtual Apartment Apartment { get; set; }
 
+        public ICollection<CardDates> Dates { get; set; } 
         public ICollection<Reservation> Reservations { get; set; }
         public ICollection<Picture> Pictures { get; set; }
         public ICollection<Favorite> Favorites { get; set; }

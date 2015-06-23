@@ -104,11 +104,7 @@ namespace apartmenthostService.Controllers
                 //resp = CheckHelper.isNull(card.ResidentGender, "ResidentGender", RespH.SRV_CARD_REQUIRED);
                 //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                
-
-                // Check Dates
-                resp = CheckHelper.isValidDates(card.DateFrom, card.DateTo, RespH.SRV_CARD_WRONG_DATE);
-                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+               
 
                 // Check Current User
                 var currentUser = User as ServiceUser;
@@ -140,6 +136,8 @@ namespace apartmenthostService.Controllers
                 resp = CheckHelper.isValidDicItem(_context, card.Apartment.Type, ConstDictionary.ApartmentType, "Type", RespH.SRV_APARTMENT_INVALID_DICITEM);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
+                
+
                 // Get User Profile
                 var profile = _context.Profile.SingleOrDefault(x => x.Id == account.UserId);
                 if (profile == null)
@@ -148,13 +146,23 @@ namespace apartmenthostService.Controllers
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
                 // Update User Phone if it is not defined
-                if (string.IsNullOrWhiteSpace(profile.Phone))
+                if (string.IsNullOrWhiteSpace(profile.Phone) && !string.IsNullOrWhiteSpace(card.Phone))
                 {
                     profile.Phone = card.Phone;
                 }
                 // Generate 
                 string cardGuid = Guid.NewGuid().ToString();
                 string apartmentGuid = Guid.NewGuid().ToString();
+
+                List<CardDates> cardDates = new List<CardDates>();
+                // Check Dates
+                foreach (var dates in card.Dates)
+                {
+                     resp = CheckHelper.isValidDates(dates.DateFrom, dates.DateTo, RespH.SRV_CARD_WRONG_DATE);
+                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                cardDates.Add(new CardDates() { Id = Guid.NewGuid().ToString(), CardId = cardGuid, DateFrom = dates.DateFrom, DateTo = dates.DateTo });
+                }
+
                 _context.Set<Card>().Add(new Card()
                 {
                     Id = cardGuid,
@@ -162,8 +170,6 @@ namespace apartmenthostService.Controllers
                     UserId = account.UserId,
                     Description = card.Description,
                     ApartmentId = apartmentGuid,
-                    DateFrom = card.DateFrom,
-                    DateTo = card.DateTo,
                     PriceDay = card.PriceDay,
                     Cohabitation = card.Cohabitation,
                     ResidentGender = card.ResidentGender,
@@ -182,7 +188,7 @@ namespace apartmenthostService.Controllers
 
                     }
                 });
-
+                _context.Set<CardDates>().AddRange(cardDates);
                 _context.SaveChanges();
                 respList.Add(cardGuid);
                 return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
@@ -265,9 +271,16 @@ namespace apartmenthostService.Controllers
                 //resp = CheckHelper.isValidDicItem(_context, card.ResidentGender, ConstDictionary.Gender, "ResidentGender", RespH.SRV_CARD_INVALID_DICITEM);
                 //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
+
+
+                List<CardDates> cardDates = new List<CardDates>();
                 // Check Dates
-                resp = CheckHelper.isValidDates(card.DateFrom, card.DateTo, RespH.SRV_CARD_WRONG_DATE);
-                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                foreach (var dates in card.Dates)
+                {
+                    resp = CheckHelper.isValidDates(dates.DateFrom, dates.DateTo, RespH.SRV_CARD_WRONG_DATE);
+                    if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                    cardDates.Add(new CardDates() { CardId = card.Id, DateFrom = dates.DateFrom, DateTo = dates.DateTo });
+                }
 
                 //Apartment
                 if (card.Apartment == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NULL));
@@ -297,11 +310,13 @@ namespace apartmenthostService.Controllers
                 resp = CheckHelper.isValidDicItem(_context, card.Apartment.Type, ConstDictionary.ApartmentType, "Type", RespH.SRV_APARTMENT_INVALID_DICITEM);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
+                // Delete Card Dates
+                 _context.Dates.RemoveRange(cardCurrent.Dates);
+                 _context.SaveChanges();
+
                 // Update CARD
                 cardCurrent.Name = card.Name;
                 cardCurrent.Description = card.Description;
-                cardCurrent.DateFrom = card.DateFrom;
-                cardCurrent.DateTo = card.DateTo;
                 cardCurrent.PriceDay = cardCurrent.PriceDay;
                 cardCurrent.Cohabitation = cardCurrent.Cohabitation;
                 cardCurrent.ResidentGender = cardCurrent.ResidentGender;
@@ -314,7 +329,9 @@ namespace apartmenthostService.Controllers
                 cardCurrent.Apartment.Latitude = apartment.Latitude;
                 cardCurrent.Apartment.Longitude = apartment.Longitude;
                 cardCurrent.Apartment.Lang = apartment.Lang;
-
+                
+                _context.SaveChanges();
+                _context.Set<CardDates>().AddRange(cardDates);
                 _context.SaveChanges();
 
                 respList.Add(card.Id);
@@ -377,7 +394,10 @@ namespace apartmenthostService.Controllers
                     respList.Add(id);
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NOTFOUND, respList));
                 }
-                
+                // Delete Dates
+                var cardDates = _context.Dates.Where(x => x.CardId == card.Id);
+                _context.Dates.RemoveRange(cardDates);
+                _context.SaveChanges();
                 // Delete Notifications
                 var notifications = _context.Notifications.Where(x => x.CardId == card.Id || x.Reservation.CardId == card.Id || x.Review.Reservation.Card.Id == card.Id || x.Favorite.Card.Id == card.Id);
                 _context.Notifications.RemoveRange(notifications);

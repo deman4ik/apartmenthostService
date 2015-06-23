@@ -68,6 +68,7 @@ namespace apartmenthostService.Helpers
         public const string Text = "Text";        // Текстовое поле
         public const string Number = "Number";      // Число
         public const string Date = "Date";        // Выбора даты
+        public const string DateList = "DateList";        // Список дат DateFrom DateTo
         public const string List = "List";        // Выпадающий список или RadioButton
         public const string Multibox = "Multibox";    // Выбор нескольких значений 
         public const string Email = "Email";       // Поле для ввода email проверка формата 

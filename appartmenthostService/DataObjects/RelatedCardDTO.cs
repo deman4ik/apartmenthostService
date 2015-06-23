@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using apartmenthostService.Models;
 
 namespace apartmenthostService.DataObjects
 {
@@ -19,12 +21,6 @@ namespace apartmenthostService.DataObjects
         // Уникальный идентификатор жилья(Apartment)
         public string ApartmentId { get; set; }
 
-        // Дата с
-        public DateTime DateFrom { get; set; }
-
-        // Дата по
-        public DateTime DateTo { get; set; }
-
         // Цена за сутки
         public decimal PriceDay { get; set; }
 
@@ -42,6 +38,9 @@ namespace apartmenthostService.DataObjects
 
         // Язык
         public string Lang { get; set; }
+
+        // Даты недоступности
+        public ICollection<DatesDTO> Dates { get; set; }
 
         // Дата и Время создания объекта
         public DateTimeOffset? CreatedAt { get; set; }
