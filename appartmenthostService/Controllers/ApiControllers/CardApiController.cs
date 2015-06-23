@@ -350,8 +350,8 @@ namespace apartmenthostService.Controllers
         /// </summary>
         /// <param name="id">The ID of the Card.</param>
         [Route("api/Card/{id}")]
-       // [AuthorizeLevel(AuthorizationLevel.User)]
-        [HttpGet]
+        [AuthorizeLevel(AuthorizationLevel.User)]
+        [HttpDelete]
         public HttpResponseMessage DeleteCard(string id)
         {
             try
@@ -366,25 +366,25 @@ namespace apartmenthostService.Controllers
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_NOTFOUND, respList));
                 }
 
-                //// Check Current User
-                //var currentUser = User as ServiceUser;
-                //if (currentUser == null)
-                //    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
-                //var account = AuthUtils.GetUserAccount(_context, currentUser);
-                //if (account == null)
-                //{
-                //    respList.Add(currentUser.Id);
-                //    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
-                //}
+                // Check Current User
+                var currentUser = User as ServiceUser;
+                if (currentUser == null)
+                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
+                var account = AuthUtils.GetUserAccount(_context, currentUser);
+                if (account == null)
+                {
+                    respList.Add(currentUser.Id);
+                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
+                }
 
-                //// Check CARD User
-                //if (card.UserId != account.UserId)
-                //{
-                //    respList.Add(card.UserId);
-                //    respList.Add(account.UserId);
-                //    return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                //        RespH.Create(RespH.SRV_CARD_WRONG_USER, respList));
-                //}
+                // Check CARD User
+                if (card.UserId != account.UserId)
+                {
+                    respList.Add(card.UserId);
+                    respList.Add(account.UserId);
+                    return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_CARD_WRONG_USER, respList));
+                }
 
                 var apartment = _context.Apartments.SingleOrDefault(a => a.Id == card.ApartmentId);
 
