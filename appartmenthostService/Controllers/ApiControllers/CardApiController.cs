@@ -9,6 +9,7 @@ using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
 using apartmenthostService.Models;
+using Itenso.TimePeriod;
 using LinqKit;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
@@ -24,51 +25,130 @@ namespace apartmenthostService.Controllers
         /// <summary>
         /// GET api/Cards/
         /// </summary>
-        [Route("api/Cards")]
+        [Route("api/Cards/")]
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
         [HttpGet]
-        public HttpResponseMessage GetCards(CardRequestDTO request)
+        public HttpResponseMessage GetCards([FromUri] string cardRequest)
         {
             try
             {
-                var respList = new List<string>();
-                var pre = PredicateBuilder.True<Card>();
 
-                // Уникальный идентификатор Карточки
-                if (request.Id != null)
-                    pre = pre.And(x => x.Id == request.Id);
+                //var respList = new List<string>();
+                //var pre = PredicateBuilder.True<Card>();
+                return this.Request.CreateResponse(HttpStatusCode.OK, cardRequest);
+                //// Уникальный идентификатор Карточки
+                //if (cardRequest.Id != null)
+                //    pre = pre.And(x => x.Id == cardRequest.Id);
 
-        // Наименование Карточки
-        if (request.Name != null)
-            pre = pre.And(x => x.Name == request.Name);
-        // Адрес Жилья
-                if (request.Adress != null)
-            pre = pre.And(x => x.Apartment.Adress == request.Adress);
-          
-        // Уникальный Идентификатор Владельца
-                if (request.UserId != null)
-            pre = pre.And(x => x.UserId == request.UserId);
-          
-        // Описание Карточки
-                if (request.Description != null)
-            pre = pre.And(x => x.Description == request.Description);
-          
-        // Уникальный Идентификатор Жилья
-                 if (request.ApartmentId != null)
-            pre = pre.And(x => x.ApartmentId == request.ApartmentId);
-          
-       // // Тип Жилья
-       //         if (request.Type != null)
-       //         { if (request.Type.)
-       //             pre = pre.And(x => x.Apartment.Type == request.Type);
-       //         }
+                //// Наименование Карточки
+                //if (cardRequest.Name != null)
+                //    pre = pre.And(x => x.Name == cardRequest.Name);
+                //// Адрес Жилья
+                //if (cardRequest.Adress != null)
+                //    pre = pre.And(x => x.Apartment.Adress == cardRequest.Adress);
 
-       //         // Дополнительные опции Жилья
-       // Options
-       // // Дата доступности с
-       // AvailableDateFrom 
-       // // Дата доступности по
-       // AvailableDateTo 
+                //// Уникальный Идентификатор Владельца
+                //if (cardRequest.UserId != null)
+                //    pre = pre.And(x => x.UserId == cardRequest.UserId);
+
+                //// Описание Карточки
+                //if (cardRequest.Description != null)
+                //    pre = pre.And(x => x.Description == cardRequest.Description);
+
+                //// Уникальный Идентификатор Жилья
+                //if (cardRequest.ApartmentId != null)
+                //    pre = pre.And(x => x.ApartmentId == cardRequest.ApartmentId);
+          
+        //// Тип Жилья
+        //        if (cardRequest.Type != null)
+        //        { 
+        //            var typePre =  PredicateBuilder.False<Card>();
+
+        //            typePre = cardRequest.Type.Aggregate(typePre, (current, type) => current.Or(t => t.Apartment.Type == type));
+        //            pre = pre.And(typePre);
+        //        }
+
+        //        // Дополнительные опции Жилья
+        //          if (cardRequest.Options != null)
+        //        { 
+        //            pre = pre.And(x => x.Apartment.Options.Contains(cardRequest.Options));
+        //        }
+        
+        //// Дата доступности с по 
+        //        if (cardRequest.AvailableDateFrom != null && cardRequest.AvailableDateTo != null)
+        //        {
+        //            TimeRange availableDates = new TimeRange((DateTime)cardRequest.AvailableDateFrom, (DateTime)cardRequest.AvailableDateTo);
+        //            pre = pre.And(
+        //                x => x.Dates.ToList().Select(unDate => new TimeRange(unDate.DateFrom, unDate.DateTo, false)).ToList().Any(unavailableDate => !unavailableDate.IntersectsWith(availableDates) )
+                        
+        //                );
+                     
+        //        }
+
+        //        var currentUser = User as ServiceUser;
+        //        var account = AuthUtils.GetUserAccount(_context, currentUser);
+        //        string userId = null;
+        //        if (account != null)
+        //        {
+        //            userId = account.UserId;
+        //        }
+        //        var result = _context.Cards.Where(pre).Select(x => new CardDTO()
+        //        {
+        //            Id = x.Id,
+        //            Name = x.Name,
+        //            UserId = x.UserId,
+        //            Description = x.Description,
+        //            ApartmentId = x.ApartmentId,
+        //            PriceDay = x.PriceDay,
+        //            PricePeriod = x.PriceDay * 7,
+        //            Cohabitation = x.Cohabitation,
+        //            ResidentGender = x.ResidentGender,
+        //            IsFavorite = x.Favorites.Any(f => f.UserId == userId),
+        //            CreatedAt = x.CreatedAt,
+        //            UpdatedAt = x.UpdatedAt,
+        //            Lang = x.Lang,
+        //            Dates = x.Dates.Select(d => new DatesDTO()
+        //            {
+        //                DateFrom = d.DateFrom,
+        //                DateTo = d.DateTo
+        //            }).Union(x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new DatesDTO()
+        //            {
+        //                DateFrom = rv.DateFrom,
+        //                DateTo = rv.DateTo
+        //            }).ToList()).ToList(),
+        //            User = new UserDTO()
+        //            {
+        //                Id = x.User.Profile.Id,
+        //                FirstName = x.User.Profile.FirstName,
+        //                LastName = x.User.Profile.LastName,
+        //                Gender = x.User.Profile.Gender,
+        //                Rating = x.User.Profile.Rating,
+        //                RatingCount = x.User.Profile.RatingCount,
+        //                Phone = x.User.Profile.Phone,
+        //                Picture = new PictureDTO()
+        //                {
+        //                    Id = x.User.Profile.Picture.Id,
+        //                    Name = x.User.Profile.Picture.Name,
+        //                    Description = x.User.Profile.Picture.Description,
+        //                    Url = x.User.Profile.Picture.Url,
+        //                    Default = x.User.Profile.Picture.Default,
+        //                    CreatedAt = x.User.Profile.Picture.CreatedAt
+        //                }
+        //            },
+        //            Apartment = new ApartmentDTO()
+        //            {
+        //                Id = x.Apartment.Id,
+        //                Name = x.Apartment.Name,
+        //                Type = x.Apartment.Type,
+        //                Options = x.Apartment.Options,
+        //                UserId = x.Apartment.UserId,
+        //                Adress = x.Apartment.Adress,
+        //                Latitude = x.Apartment.Latitude,
+        //                Longitude = x.Apartment.Longitude,
+        //            } 
+        //        });
+                // Дата доступности по
+        
        // // Цена за день с
        // PriceDayFrom 
        // // Цена за день по
@@ -87,10 +167,10 @@ namespace apartmenthostService.Controllers
        //  CreatedAtFrom 
        // // Дата добавления по
        //  CreatedAtTo 
+
+
                 
-
-
-                return null;
+               // return this.Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
             {
@@ -120,7 +200,7 @@ namespace apartmenthostService.Controllers
                 resp = CheckHelper.isNull(card.Name, "Name", RespH.SRV_CARD_REQUIRED);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                
+
 
                 // Check CARD Cohabitation is not null
                 //resp = CheckHelper.isNull(CARD.Cohabitation, "Cohabitation", RespH.SRV_CARD_REQUIRED);
@@ -134,7 +214,7 @@ namespace apartmenthostService.Controllers
                 //resp = CheckHelper.isNull(card.ResidentGender, "ResidentGender", RespH.SRV_CARD_REQUIRED);
                 //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-               
+
 
                 // Check Current User
                 var currentUser = User as ServiceUser;
@@ -166,7 +246,7 @@ namespace apartmenthostService.Controllers
                 resp = CheckHelper.isValidDicItem(_context, card.Apartment.Type, ConstDictionary.ApartmentType, "Type", RespH.SRV_APARTMENT_INVALID_DICITEM);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                
+
 
                 // Get User Profile
                 var profile = _context.Profile.SingleOrDefault(x => x.Id == account.UserId);
@@ -188,9 +268,9 @@ namespace apartmenthostService.Controllers
                 // Check Dates
                 foreach (var dates in card.Dates)
                 {
-                     resp = CheckHelper.isValidDates(dates.DateFrom, dates.DateTo, RespH.SRV_CARD_WRONG_DATE);
-                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-                cardDates.Add(new CardDates() { Id = Guid.NewGuid().ToString(), CardId = cardGuid, DateFrom = dates.DateFrom, DateTo = dates.DateTo });
+                    resp = CheckHelper.isValidDates(dates.DateFrom, dates.DateTo, RespH.SRV_CARD_WRONG_DATE);
+                    if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                    cardDates.Add(new CardDates() { Id = Guid.NewGuid().ToString(), CardId = cardGuid, DateFrom = dates.DateFrom, DateTo = dates.DateTo });
                 }
 
                 _context.Set<Card>().Add(new Card()
@@ -315,16 +395,11 @@ namespace apartmenthostService.Controllers
                 //Apartment
                 if (card.Apartment == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NULL));
 
-                // Check Apartment Exists
-                if (String.IsNullOrWhiteSpace(card.ApartmentId))
-                {
-                    respList.Add("ApartmentId");
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_REQUIRED, respList));
-                }
-                var apartment = _context.Apartments.SingleOrDefault(a => a.Id == card.ApartmentId);
+
+                var apartment = _context.Apartments.SingleOrDefault(a => a.Id == cardCurrent.ApartmentId);
                 if (apartment == null)
                 {
-                    respList.Add(card.ApartmentId);
+                    respList.Add(cardCurrent.ApartmentId);
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NOTFOUND, respList));
                 }
 
@@ -341,8 +416,8 @@ namespace apartmenthostService.Controllers
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Delete Card Dates
-                 _context.Dates.RemoveRange(cardCurrent.Dates);
-                 _context.SaveChanges();
+                _context.Dates.RemoveRange(cardCurrent.Dates);
+                _context.SaveChanges();
 
                 // Update CARD
                 cardCurrent.Name = card.Name;
@@ -359,7 +434,7 @@ namespace apartmenthostService.Controllers
                 cardCurrent.Apartment.Latitude = apartment.Latitude;
                 cardCurrent.Apartment.Longitude = apartment.Longitude;
                 cardCurrent.Apartment.Lang = apartment.Lang;
-                
+
                 _context.SaveChanges();
                 _context.Set<CardDates>().AddRange(cardDates);
                 _context.SaveChanges();
