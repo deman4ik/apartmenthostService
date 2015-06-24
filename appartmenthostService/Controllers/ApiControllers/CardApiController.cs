@@ -9,6 +9,7 @@ using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
 using apartmenthostService.Models;
+using LinqKit;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
@@ -26,11 +27,69 @@ namespace apartmenthostService.Controllers
         [Route("api/Cards")]
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
         [HttpGet]
-        public HttpResponseMessage GetCard()
+        public HttpResponseMessage GetCards(CardRequestDTO request)
         {
             try
             {
                 var respList = new List<string>();
+                var pre = PredicateBuilder.True<Card>();
+
+                // Уникальный идентификатор Карточки
+                if (request.Id != null)
+                    pre = pre.And(x => x.Id == request.Id);
+
+        // Наименование Карточки
+        if (request.Name != null)
+            pre = pre.And(x => x.Name == request.Name);
+        // Адрес Жилья
+                if (request.Adress != null)
+            pre = pre.And(x => x.Apartment.Adress == request.Adress);
+          
+        // Уникальный Идентификатор Владельца
+                if (request.UserId != null)
+            pre = pre.And(x => x.UserId == request.UserId);
+          
+        // Описание Карточки
+                if (request.Description != null)
+            pre = pre.And(x => x.Description == request.Description);
+          
+        // Уникальный Идентификатор Жилья
+                 if (request.ApartmentId != null)
+            pre = pre.And(x => x.ApartmentId == request.ApartmentId);
+          
+       // // Тип Жилья
+       //         if (request.Type != null)
+       //         { if (request.Type.)
+       //             pre = pre.And(x => x.Apartment.Type == request.Type);
+       //         }
+
+       //         // Дополнительные опции Жилья
+       // Options
+       // // Дата доступности с
+       // AvailableDateFrom 
+       // // Дата доступности по
+       // AvailableDateTo 
+       // // Цена за день с
+       // PriceDayFrom 
+       // // Цена за день по
+       //PriceDayTo 
+       // // Цена за период с
+       //  PricePeriodFrom 
+       // // Цена за период по
+       //  PricePeriodTo
+       // // Тип проживания
+       //  Cohabitation 
+       // // Пол проживающего
+       //  ResidentGender 
+       // // Избранное (Уникальный идентификатор пользователя)
+       //IsFavoritedUserId 
+       // // Дата добавления с
+       //  CreatedAtFrom 
+       // // Дата добавления по
+       //  CreatedAtTo 
+                
+
+
                 return null;
             }
             catch (Exception ex)

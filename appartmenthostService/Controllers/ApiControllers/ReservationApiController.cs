@@ -283,20 +283,14 @@ namespace apartmenthostService.Controllers
                 // Check Available Dates
                 TimeRange reservationDates = new TimeRange(dateFrom, dateTo);
 
-                List<TimeRange> unavailableDates = new List<TimeRange>();
-                foreach (var unDate in card.Dates)
+                List<TimeRange> unavailableDates = _context.Dates.Where(x => x.CardId == card.Id).ToList().Select(unDate => new TimeRange(unDate.DateFrom, unDate.DateTo)).ToList();
+
+                if (unavailableDates.Any(unavailableDate => unavailableDate.IntersectsWith(reservationDates)))
                 {
-                    unavailableDates.Add(new TimeRange(unDate.DateFrom, unDate.DateTo));
-                }
-                foreach (var unavailableDate in unavailableDates)
-                {
-                    if (unavailableDate.IntersectsWith(reservationDates))
-                    {
-                        respList.Add(reservationDates.ToString());
-                        respList.Add(unavailableDates.ToString());
-                        return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                            RespH.Create(RespH.SRV_RESERVATION_UNAVAILABLE_DATE, respList));
-                    }
+                    respList.Add(reservationDates.ToString());
+                    respList.Add(unavailableDates.ToString());
+                    return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_RESERVATION_UNAVAILABLE_DATE, respList));
                 }
                 
                 var currentReservations = _context.Reservations.Where(r => r.CardId == cardId && r.Status == ConstVals.Accepted);
@@ -322,7 +316,7 @@ namespace apartmenthostService.Controllers
                     DateFrom = dateFrom,
                     DateTo = dateTo
                 });
-
+                _context.SaveChanges();
                 // Create Notification
                 _context.Set<Notification>().Add(new Notification()
                 {
