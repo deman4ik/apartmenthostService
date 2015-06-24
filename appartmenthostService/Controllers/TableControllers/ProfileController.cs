@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Controllers;
+using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Models;
 using AutoMapper.QueryableExtensions;
@@ -13,19 +14,20 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class ProfileController : TableController<Profile>
     {
-        private apartmenthostContext _contex;
+        private apartmenthostContext _context;
         protected override void Initialize(HttpControllerContext controllerContext)
         {
+            
             base.Initialize(controllerContext);
-            _contex = new apartmenthostContext();
-            DomainManager = new EntityDomainManager<Profile>(_contex, Request, Services);
+            _context = new apartmenthostContext();
+            DomainManager = new EntityDomainManager<Profile>(_context, Request, Services);
         }
-
+        
         // GET tables/Profile
         [AuthorizeLevel(AuthorizationLevel.User)]
         public IQueryable<UserDTO> GetAllProfile()
         {
-            return Query().Select(x=> new UserDTO()
+            return Query().AsQueryable().Select(x=> new UserDTO()
             {
                 Id = x.Id,
                 Email = x.User.Email,
@@ -40,7 +42,7 @@ namespace apartmenthostService.Controllers
                 Rating = x.Rating,
                 RatingCount = x.RatingCount,
                 Score = x.Score,
-                PictureId = x.PictureId,
+                CardCount = this._context.Cards.Count(c => c.UserId == x.Id),
                 Picture = new PictureDTO()
                 {
                     Id = x.Picture.Id,
@@ -75,7 +77,7 @@ namespace apartmenthostService.Controllers
                 Rating = x.Rating,
                 RatingCount = x.RatingCount,
                 Score = x.Score,
-                PictureId = x.PictureId,
+                CardCount = _context.Cards.Count(c => c.UserId == x.Id),
                 Picture = new PictureDTO()
                 {
                     Id = x.Picture.Id,

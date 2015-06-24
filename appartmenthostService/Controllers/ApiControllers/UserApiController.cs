@@ -44,7 +44,17 @@ namespace apartmenthostService.Controllers
                 Score = x.Score,
                 CardCount = _context.Cards.Count(c => c.UserId == x.Id),
                 CreatedAt = x.CreatedAt,
-                UpdatedAt = x.UpdatedAt
+                UpdatedAt = x.UpdatedAt,
+                Picture = new PictureDTO()
+                {
+                    Id = x.Picture.Id,
+                    Name = x.Picture.Name,
+                    Description = x.Picture.Description,
+                    Url = x.Picture.Url,
+                    Default = x.Picture.Default,
+                    CreatedAt = x.Picture.CreatedAt
+                }
+                 
 
             }); 
             return result;
