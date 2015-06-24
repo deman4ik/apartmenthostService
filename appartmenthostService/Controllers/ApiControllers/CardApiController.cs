@@ -266,11 +266,20 @@ namespace apartmenthostService.Controllers
 
                 List<CardDates> cardDates = new List<CardDates>();
                 // Check Dates
-                foreach (var dates in card.Dates)
+                if (card.Dates != null)
                 {
-                    resp = CheckHelper.isValidDates(dates.DateFrom, dates.DateTo, RespH.SRV_CARD_WRONG_DATE);
-                    if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-                    cardDates.Add(new CardDates() { Id = Guid.NewGuid().ToString(), CardId = cardGuid, DateFrom = dates.DateFrom, DateTo = dates.DateTo });
+                    foreach (var dates in card.Dates)
+                    {
+                        resp = CheckHelper.isValidDates(dates.DateFrom, dates.DateTo, RespH.SRV_CARD_WRONG_DATE);
+                        if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                        cardDates.Add(new CardDates()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            CardId = cardGuid,
+                            DateFrom = dates.DateFrom,
+                            DateTo = dates.DateTo
+                        });
+                    }
                 }
 
                 _context.Set<Card>().Add(new Card()
@@ -385,13 +394,21 @@ namespace apartmenthostService.Controllers
 
                 List<CardDates> cardDates = new List<CardDates>();
                 // Check Dates
-                foreach (var dates in card.Dates)
+                if (card.Dates != null)
                 {
-                    resp = CheckHelper.isValidDates(dates.DateFrom, dates.DateTo, RespH.SRV_CARD_WRONG_DATE);
-                    if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-                    cardDates.Add(new CardDates() { CardId = card.Id, DateFrom = dates.DateFrom, DateTo = dates.DateTo });
+                    foreach (var dates in card.Dates)
+                    {
+                        resp = CheckHelper.isValidDates(dates.DateFrom, dates.DateTo, RespH.SRV_CARD_WRONG_DATE);
+                        if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                        cardDates.Add(new CardDates()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            CardId = id,
+                            DateFrom = dates.DateFrom,
+                            DateTo = dates.DateTo
+                        });
+                    }
                 }
-
                 //Apartment
                 if (card.Apartment == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NULL));
 
@@ -416,8 +433,12 @@ namespace apartmenthostService.Controllers
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Delete Card Dates
-                _context.Dates.RemoveRange(cardCurrent.Dates);
+                var currentDates = _context.Dates.Where(d => d.CardId == id);
+                if (currentDates.Any()) 
+                {
+                    _context.Dates.RemoveRange(currentDates);
                 _context.SaveChanges();
+                }
 
                 // Update CARD
                 cardCurrent.Name = card.Name;
@@ -439,7 +460,7 @@ namespace apartmenthostService.Controllers
                 _context.Set<CardDates>().AddRange(cardDates);
                 _context.SaveChanges();
 
-                respList.Add(card.Id);
+                respList.Add(id);
                 return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED, respList));
             }
             catch (Exception ex)
