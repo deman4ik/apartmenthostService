@@ -443,18 +443,18 @@ namespace apartmenthostService.Controllers
                 // Update CARD
                 cardCurrent.Name = card.Name;
                 cardCurrent.Description = card.Description;
-                cardCurrent.PriceDay = cardCurrent.PriceDay;
-                cardCurrent.Cohabitation = cardCurrent.Cohabitation;
-                cardCurrent.ResidentGender = cardCurrent.ResidentGender;
+                cardCurrent.PriceDay = card.PriceDay;
+                cardCurrent.Cohabitation = card.Cohabitation;
+                cardCurrent.ResidentGender = card.ResidentGender;
 
                 // Update Apartment
-                cardCurrent.Apartment.Name = card.Name;
-                cardCurrent.Apartment.Type = apartment.Type;
-                cardCurrent.Apartment.Options = apartment.Options;
-                cardCurrent.Apartment.Adress = apartment.Adress;
-                cardCurrent.Apartment.Latitude = apartment.Latitude;
-                cardCurrent.Apartment.Longitude = apartment.Longitude;
-                cardCurrent.Apartment.Lang = apartment.Lang;
+                apartment.Name = card.Name;
+                apartment.Type = card.Apartment.Type;
+                apartment.Options = card.Apartment.Options;
+                apartment.Adress = card.Apartment.Adress;
+                apartment.Latitude = card.Apartment.Latitude;
+                apartment.Longitude = card.Apartment.Longitude;
+                apartment.Lang = card.Apartment.Lang;
 
                 _context.SaveChanges();
                 _context.Set<CardDates>().AddRange(cardDates);
