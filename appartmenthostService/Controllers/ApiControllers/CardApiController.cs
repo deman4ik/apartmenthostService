@@ -20,56 +20,27 @@ namespace apartmenthostService.Controllers
         public ApiServices Services { get; set; }
         private readonly apartmenthostContext _context = new apartmenthostContext();
 
-        //[Route("api/Card")]
-        //[HttpGet]
-        //public HttpResponseMessage GetCard()
-        //{
+        /// <summary>
+        /// GET api/Cards/
+        /// </summary>
+        [Route("api/Cards")]
+        [AuthorizeLevel(AuthorizationLevel.Anonymous)]
+        [HttpGet]
+        public HttpResponseMessage GetCard()
+        {
+            try
+            {
+                var respList = new List<string>();
+                return null;
+            }
+            catch (Exception ex)
+            {
 
-        //    var dic = new Dictionary<string, string>();
-        //    var propsvals = context.PropVals.Where(p => p.CardItemId == "a1").Select(appdto => new PropValDTO()
-        //              {
-
-        //                  Name = appdto.Prop.Name,
-
-        //                  DictionaryItem = new DictionaryItemDTO()
-        //                  {
-        //                      StrValue = appdto.DictionaryItem.StrValue,
-        //                  }
-        //              });
-
-
-        //   var multiprops = propsvals.GroupBy(p => p.Name)
-        //        .Where(g => g.Count() > 1)
-        //        .Select(y => y.Key)
-        //        .ToList();
-
-        //   var singleprops = propsvals.GroupBy(p => p.Name)
-        //       .Where(g => g.Count() == 1)
-        //       .Select(y => y.Key)
-        //       .ToList();
-        //    var vals = new List<string>();
-        //    foreach (var prop in multiprops)
-        //    {
-        //        var pvs = propsvals.Where(p => p.Name == prop);
-        //        foreach (var pv in pvs)
-        //        {
-        //           vals.Add(pv.DictionaryItem.StrValue); 
-        //        }
-        //        dic.Add(prop,JsonConvert.SerializeObject(vals));
-        //    }
-
-        //    foreach (var prop in singleprops)
-        //    {
-        //        var pv = propsvals.SingleOrDefault(p => p.Name == prop);
-        //        dic.Add(prop, pv.DictionaryItem.StrValue);
-        //    }
-        //    //foreach (var propval in propsvals)
-        //    //{
-        //    //   dic.Add(propval.Name, propval.DictionaryItem.StrValue); 
-        //    //}
-        //    var resp = JsonConvert.SerializeObject(dic, Formatting.Indented);
-        //    return this.Request.CreateResponse(HttpStatusCode.OK, resp); 
-        //}
+                Debug.WriteLine(ex.InnerException);
+                return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
+            }
+        }
         /// <summary>
         /// POST api/Card/48D68C86-6EA6-4C25-AA33-223FC9A27959
         /// </summary>

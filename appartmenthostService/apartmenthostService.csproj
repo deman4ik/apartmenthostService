@@ -247,6 +247,7 @@
     <Compile Include="DataObjects\CardDTO.cs" />
     <Compile Include="DataObjects\ApartmentDTO.cs" />
     <Compile Include="DataObjects\BaseUserDTO.cs" />
+    <Compile Include="DataObjects\CardRequestDTO.cs" />
     <Compile Include="DataObjects\DictionaryItemDTO.cs" />
     <Compile Include="DataObjects\Metadata.cs" />
     <Compile Include="DataObjects\MetadataItem.cs" />
