@@ -17,10 +17,15 @@ namespace apartmenthostService.App_Start
         {
             try
             {
+
+
                 PopulateUsers(context);
                 context.SaveChanges();
 
                 PopulateApartments(context);
+                context.SaveChanges();
+
+                PopulateApartmentPics(context);
                 context.SaveChanges();
 
                 PopulateCards(context);
@@ -68,11 +73,12 @@ namespace apartmenthostService.App_Start
             byte[] salt = AuthUtils.generateSalt();
 
             CloudinaryDotNet.Account account = new CloudinaryDotNet.Account(
-  "apartmenthost",
-  "276555246944232",
-  "agPi304Lt89nplAmwkUTzzuMjwk");
+"apartmenthost",
+"276555246944232",
+"agPi304Lt89nplAmwkUTzzuMjwk");
 
             Cloudinary cloudinary = new Cloudinary(account);
+
             List<User> users = new List<User>
             {
                 new User { Id = "u1", 
@@ -404,10 +410,10 @@ namespace apartmenthostService.App_Start
                         },
           };
 
-           
-           
-                context.Set<User>().AddRange(users);
-            
+
+
+            context.Set<User>().AddRange(users);
+
 
             context.SaveChanges();
 
@@ -417,7 +423,7 @@ namespace apartmenthostService.App_Start
 
         public static void PopulateApartments(apartmenthostContext context)
         {
-             
+
             List<Apartment> apartments = new List<Apartment>()
             {
                 new Apartment()
@@ -543,7 +549,39 @@ namespace apartmenthostService.App_Start
             };
 
 
-                context.Set<Apartment>().AddRange(apartments);
+            context.Set<Apartment>().AddRange(apartments);
+
+        }
+
+        public static void PopulateApartmentPics(apartmenthostContext context)
+        {
+            CloudinaryDotNet.Account account = new CloudinaryDotNet.Account(
+"apartmenthost",
+"276555246944232",
+"agPi304Lt89nplAmwkUTzzuMjwk");
+
+            Cloudinary cloudinary = new Cloudinary(account);
+
+            for (int i = 1; i < 11; i++)
+            {
+                var apart = context.Apartments.SingleOrDefault(x => x.Id == "ap" + i);
+                for (int j = 1; j < 4; j++)
+                {
+                    var pic = new Picture()
+             {
+                 Id = "pa" + i + "-" + j,
+                 Name = "card/a" + i + "/a" + i + "-" + j + ".jpg",
+                 Url = cloudinary.Api.UrlImgUp.BuildUrl("card/a" + i + "/a" + i + "-" + j + ".jpg"),
+                 CloudinaryPublicId = "card/a" + i + "/a" + i + "-" + j,
+                 Default = j == 1
+             };
+                    context.Set<Picture>().Add(pic);
+                    context.SaveChanges();
+                    apart.Pictures.Add(pic);
+                    context.SaveChanges();
+                }
+            }
+
 
         }
 
@@ -676,7 +714,7 @@ namespace apartmenthostService.App_Start
             };
 
 
-                context.Set<Card>().AddRange(adverts);
+            context.Set<Card>().AddRange(adverts);
 
         }
 
@@ -694,7 +732,7 @@ namespace apartmenthostService.App_Start
 
             };
 
-                context.Set<CardDates>().AddRange(cardDates);
+            context.Set<CardDates>().AddRange(cardDates);
 
         }
         public static void PopulateReservations(apartmenthostContext context)
@@ -833,7 +871,7 @@ namespace apartmenthostService.App_Start
             };
 
 
-                context.Set<Reservation>().AddRange(reservations);
+            context.Set<Reservation>().AddRange(reservations);
 
         }
         public static void PopulateFavorites(apartmenthostContext context)
@@ -874,11 +912,11 @@ namespace apartmenthostService.App_Start
                 }
             };
 
-                context.Set<Favorite>().AddRange(favorites);
+            context.Set<Favorite>().AddRange(favorites);
 
         }
 
-       
+
         public static void PopulateReviews(apartmenthostContext context)
         {
             List<Review> reviews = new List<Review>()
@@ -958,7 +996,7 @@ namespace apartmenthostService.App_Start
                 }
             };
 
-                context.Set<Review>().AddRange(reviews);
+            context.Set<Review>().AddRange(reviews);
         }
 
         public static void PopulateNotifications(apartmenthostContext context)
@@ -1024,7 +1062,7 @@ namespace apartmenthostService.App_Start
             };
 
 
-                context.Set<Notification>().AddRange(notifications);
+            context.Set<Notification>().AddRange(notifications);
 
         }
         public static void PopulateTables(apartmenthostContext context)
@@ -1055,9 +1093,9 @@ namespace apartmenthostService.App_Start
             };
 
 
-                context.Set<Table>().AddRange(tables);
+            context.Set<Table>().AddRange(tables);
 
-            
+
 
         }
 
@@ -1089,7 +1127,7 @@ namespace apartmenthostService.App_Start
             };
 
 
-                context.Set<Dictionary>().AddRange(dictionaries);
+            context.Set<Dictionary>().AddRange(dictionaries);
 
         }
 
@@ -1147,12 +1185,12 @@ namespace apartmenthostService.App_Start
                 });
             }
 
-                context.Set<DictionaryItem>().AddRange(dictionaryItems);
+            context.Set<DictionaryItem>().AddRange(dictionaryItems);
 
-            
+
         }
-       
 
-       
+
+
     }
 }
