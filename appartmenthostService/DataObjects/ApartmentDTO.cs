@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using apartmenthostService.Attributes;
 using apartmenthostService.Helpers;
 using Newtonsoft.Json;
@@ -98,6 +99,13 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public DateTimeOffset? UpdatedAt { get; set; }
 
+        // Изображения
+        [Metadata(DataType = ConstDataType.PictureList)]
+        [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public ICollection<PictureDTO> Pictures { get; set; }
         // Список дополнительных колонок(PropVal)
         //[Metadata(DataType = ConstDataType.PropVals)]
         //[GetRule(Order = 4, RequiredForm = false, RequiredTransfer = true, Visible = true)]

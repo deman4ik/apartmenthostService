@@ -28,21 +28,29 @@ namespace apartmenthostService.Controllers
         [Route("api/Cards/")]
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
         [HttpGet]
-        public HttpResponseMessage GetCards([FromUri] string filter)
+        public HttpResponseMessage GetCards([FromUri] string filter = null)
         {
             try
             {
-                
-                var respList = new List<string>();
+                System.Linq.Expressions.Expression<Func<Card, bool>> pre;
                 // Получаем объект из строки запроса
-                CardRequestDTO cardRequest = JsonConvert.DeserializeObject<CardRequestDTO>(filter);
+                if (!string.IsNullOrWhiteSpace(filter))
+                {
+                    CardRequestDTO cardRequest = JsonConvert.DeserializeObject<CardRequestDTO>(filter);
+                
                 if (cardRequest == null)
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_CARD_INVALID_FILTER));
 
                 // Создаем предикат
-                var pre = CreateCardPredicate(cardRequest);
-                   
+                    
+                 pre = CreateCardPredicate(cardRequest);
+                }
+                else
+                {
+                    pre = PredicateBuilder.True<Card>();
+                    pre = pre.And(x => x.Deleted == false);
+                }
                 var currentUser = User as ServiceUser;
                 var account = AuthUtils.GetUserAccount(_context, currentUser);
                 string userId = null;
@@ -103,11 +111,18 @@ namespace apartmenthostService.Controllers
                         Adress = x.Apartment.Adress,
                         Latitude = x.Apartment.Latitude,
                         Longitude = x.Apartment.Longitude,
-                    }
+                        Pictures = x.Apartment.Pictures.Select(apic => new PictureDTO()
+                        {
+                            Id = apic.Id,
+                            Name = apic.Name,
+                            Description = apic.Description,
+                            Url = apic.Url,
+                            Default = apic.Default,
+                            CreatedAt = apic.CreatedAt
+                        }).ToList()
+                    },
+                    
                 });
-                
-
-
                 
                return this.Request.CreateResponse(HttpStatusCode.OK, result);
             }

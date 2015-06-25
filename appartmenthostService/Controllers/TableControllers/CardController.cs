@@ -86,6 +86,15 @@ namespace apartmenthostService.Controllers
                     Adress = x.Apartment.Adress,
                     Latitude = x.Apartment.Latitude,
                     Longitude = x.Apartment.Longitude,
+                    Pictures = x.Apartment.Pictures.Select(apic => new PictureDTO()
+                    {
+                        Id = apic.Id,
+                        Name = apic.Name,
+                        Description = apic.Description,
+                        Url = apic.Url,
+                        Default = apic.Default,
+                        CreatedAt = apic.CreatedAt
+                    }).ToList()
                 },
                 //ApprovedReservations = x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new ReservationDTO()
                 //{
@@ -179,7 +188,16 @@ namespace apartmenthostService.Controllers
                     Type = x.Apartment.Type,
                     Options = x.Apartment.Options,
                     UserId = x.Apartment.UserId,
-                    Adress = x.Apartment.Adress
+                    Adress = x.Apartment.Adress,
+                    Pictures = x.Apartment.Pictures.Select(apic => new PictureDTO()
+                        {
+                            Id = apic.Id,
+                            Name = apic.Name,
+                            Description = apic.Description,
+                            Url = apic.Url,
+                            Default = apic.Default,
+                            CreatedAt = apic.CreatedAt
+                        }).ToList()
                 },
                 //ApprovedReservations = x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new ReservationDTO()
                 //{

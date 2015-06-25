@@ -176,7 +176,8 @@ namespace apartmenthostService.DataObjects
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        public ICollection<RelatedCardDTO> RelatedCards { get; set; } 
+        public ICollection<RelatedCardDTO> RelatedCards { get; set; }
+
         // [GET][POST][PUT] - {NN} -Список дополнительных колонок(PropVal)
         //[Metadata(DataType = ConstDataType.PropVals)]
         //[GetRule(Order = 9, RequiredForm = false, RequiredTransfer = true, Visible = true)]
