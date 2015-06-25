@@ -258,7 +258,6 @@
     <Compile Include="DataObjects\PropDTO.cs" />
     <Compile Include="DataObjects\PropValDTO.cs" />
     <Compile Include="DataObjects\RelatedCardDTO.cs" />
-    <Compile Include="DataObjects\RequestDTO.cs" />
     <Compile Include="DataObjects\ReservationDTO.cs" />
     <Compile Include="DataObjects\ReservReviewDTO.cs" />
     <Compile Include="DataObjects\ResponseDTO.cs" />

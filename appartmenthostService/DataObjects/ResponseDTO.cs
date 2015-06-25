@@ -77,6 +77,7 @@ namespace apartmenthostService.DataObjects
 
         //Card
         public const string SRV_CARD_NULL = "SRV_CARD_NULL"; // Пустой объект запроса
+        public const string SRV_CARD_INVALID_FILTER = "SRV_CARD_INVALID_FILTER"; // Не верный объект запроса
         public const string SRV_CARD_NOTFOUND = "SRV_CARD_NOTFOUND"; // Объект не найден
         public const string SRV_CARD_PROP_NOTFOUND = "SRV_CARD_PROP_NOTFOUND"; // Объект не найден
         public const string SRV_CARD_PROPVAL_NOTFOUND = "SRV_CARD_PROPVAL_NOTFOUND"; // Значение свойства объекта не найдено

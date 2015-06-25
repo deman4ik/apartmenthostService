@@ -9,10 +9,10 @@ using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
 using apartmenthostService.Models;
-using Itenso.TimePeriod;
 using LinqKit;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
+using Newtonsoft.Json;
 
 namespace apartmenthostService.Controllers
 {
@@ -28,149 +28,88 @@ namespace apartmenthostService.Controllers
         [Route("api/Cards/")]
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
         [HttpGet]
-        public HttpResponseMessage GetCards([FromUri] string cardRequest)
+        public HttpResponseMessage GetCards([FromUri] string filter)
         {
             try
             {
+                
+                var respList = new List<string>();
+                // Получаем объект из строки запроса
+                CardRequestDTO cardRequest = JsonConvert.DeserializeObject<CardRequestDTO>(filter);
+                if (cardRequest == null)
+                    return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_CARD_INVALID_FILTER));
 
-                //var respList = new List<string>();
-                //var pre = PredicateBuilder.True<Card>();
-                return this.Request.CreateResponse(HttpStatusCode.OK, cardRequest);
-                //// Уникальный идентификатор Карточки
-                //if (cardRequest.Id != null)
-                //    pre = pre.And(x => x.Id == cardRequest.Id);
-
-                //// Наименование Карточки
-                //if (cardRequest.Name != null)
-                //    pre = pre.And(x => x.Name == cardRequest.Name);
-                //// Адрес Жилья
-                //if (cardRequest.Adress != null)
-                //    pre = pre.And(x => x.Apartment.Adress == cardRequest.Adress);
-
-                //// Уникальный Идентификатор Владельца
-                //if (cardRequest.UserId != null)
-                //    pre = pre.And(x => x.UserId == cardRequest.UserId);
-
-                //// Описание Карточки
-                //if (cardRequest.Description != null)
-                //    pre = pre.And(x => x.Description == cardRequest.Description);
-
-                //// Уникальный Идентификатор Жилья
-                //if (cardRequest.ApartmentId != null)
-                //    pre = pre.And(x => x.ApartmentId == cardRequest.ApartmentId);
-          
-        //// Тип Жилья
-        //        if (cardRequest.Type != null)
-        //        { 
-        //            var typePre =  PredicateBuilder.False<Card>();
-
-        //            typePre = cardRequest.Type.Aggregate(typePre, (current, type) => current.Or(t => t.Apartment.Type == type));
-        //            pre = pre.And(typePre);
-        //        }
-
-        //        // Дополнительные опции Жилья
-        //          if (cardRequest.Options != null)
-        //        { 
-        //            pre = pre.And(x => x.Apartment.Options.Contains(cardRequest.Options));
-        //        }
-        
-        //// Дата доступности с по 
-        //        if (cardRequest.AvailableDateFrom != null && cardRequest.AvailableDateTo != null)
-        //        {
-        //            TimeRange availableDates = new TimeRange((DateTime)cardRequest.AvailableDateFrom, (DateTime)cardRequest.AvailableDateTo);
-        //            pre = pre.And(
-        //                x => x.Dates.ToList().Select(unDate => new TimeRange(unDate.DateFrom, unDate.DateTo, false)).ToList().Any(unavailableDate => !unavailableDate.IntersectsWith(availableDates) )
-                        
-        //                );
-                     
-        //        }
-
-        //        var currentUser = User as ServiceUser;
-        //        var account = AuthUtils.GetUserAccount(_context, currentUser);
-        //        string userId = null;
-        //        if (account != null)
-        //        {
-        //            userId = account.UserId;
-        //        }
-        //        var result = _context.Cards.Where(pre).Select(x => new CardDTO()
-        //        {
-        //            Id = x.Id,
-        //            Name = x.Name,
-        //            UserId = x.UserId,
-        //            Description = x.Description,
-        //            ApartmentId = x.ApartmentId,
-        //            PriceDay = x.PriceDay,
-        //            PricePeriod = x.PriceDay * 7,
-        //            Cohabitation = x.Cohabitation,
-        //            ResidentGender = x.ResidentGender,
-        //            IsFavorite = x.Favorites.Any(f => f.UserId == userId),
-        //            CreatedAt = x.CreatedAt,
-        //            UpdatedAt = x.UpdatedAt,
-        //            Lang = x.Lang,
-        //            Dates = x.Dates.Select(d => new DatesDTO()
-        //            {
-        //                DateFrom = d.DateFrom,
-        //                DateTo = d.DateTo
-        //            }).Union(x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new DatesDTO()
-        //            {
-        //                DateFrom = rv.DateFrom,
-        //                DateTo = rv.DateTo
-        //            }).ToList()).ToList(),
-        //            User = new UserDTO()
-        //            {
-        //                Id = x.User.Profile.Id,
-        //                FirstName = x.User.Profile.FirstName,
-        //                LastName = x.User.Profile.LastName,
-        //                Gender = x.User.Profile.Gender,
-        //                Rating = x.User.Profile.Rating,
-        //                RatingCount = x.User.Profile.RatingCount,
-        //                Phone = x.User.Profile.Phone,
-        //                Picture = new PictureDTO()
-        //                {
-        //                    Id = x.User.Profile.Picture.Id,
-        //                    Name = x.User.Profile.Picture.Name,
-        //                    Description = x.User.Profile.Picture.Description,
-        //                    Url = x.User.Profile.Picture.Url,
-        //                    Default = x.User.Profile.Picture.Default,
-        //                    CreatedAt = x.User.Profile.Picture.CreatedAt
-        //                }
-        //            },
-        //            Apartment = new ApartmentDTO()
-        //            {
-        //                Id = x.Apartment.Id,
-        //                Name = x.Apartment.Name,
-        //                Type = x.Apartment.Type,
-        //                Options = x.Apartment.Options,
-        //                UserId = x.Apartment.UserId,
-        //                Adress = x.Apartment.Adress,
-        //                Latitude = x.Apartment.Latitude,
-        //                Longitude = x.Apartment.Longitude,
-        //            } 
-        //        });
-                // Дата доступности по
-        
-       // // Цена за день с
-       // PriceDayFrom 
-       // // Цена за день по
-       //PriceDayTo 
-       // // Цена за период с
-       //  PricePeriodFrom 
-       // // Цена за период по
-       //  PricePeriodTo
-       // // Тип проживания
-       //  Cohabitation 
-       // // Пол проживающего
-       //  ResidentGender 
-       // // Избранное (Уникальный идентификатор пользователя)
-       //IsFavoritedUserId 
-       // // Дата добавления с
-       //  CreatedAtFrom 
-       // // Дата добавления по
-       //  CreatedAtTo 
+                // Создаем предикат
+                var pre = CreateCardPredicate(cardRequest);
+                   
+                var currentUser = User as ServiceUser;
+                var account = AuthUtils.GetUserAccount(_context, currentUser);
+                string userId = null;
+                if (account != null)
+                {
+                    userId = account.UserId;
+                }
+                var result = _context.Cards.AsExpandable().Where(pre).Select(x => new CardDTO()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    UserId = x.UserId,
+                    Description = x.Description,
+                    ApartmentId = x.ApartmentId,
+                    PriceDay = x.PriceDay,
+                    PricePeriod = x.PriceDay * 7,
+                    Cohabitation = x.Cohabitation,
+                    ResidentGender = x.ResidentGender,
+                    IsFavorite = x.Favorites.Any(f => f.UserId == userId),
+                    CreatedAt = x.CreatedAt,
+                    UpdatedAt = x.UpdatedAt,
+                    Lang = x.Lang,
+                    Dates = x.Dates.Select(d => new DatesDTO()
+                    {
+                        DateFrom = d.DateFrom,
+                        DateTo = d.DateTo
+                    }).Union(x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new DatesDTO()
+                    {
+                        DateFrom = rv.DateFrom,
+                        DateTo = rv.DateTo
+                    }).ToList()).ToList(),
+                    User = new UserDTO()
+                    {
+                        Id = x.User.Profile.Id,
+                        FirstName = x.User.Profile.FirstName,
+                        LastName = x.User.Profile.LastName,
+                        Gender = x.User.Profile.Gender,
+                        Rating = x.User.Profile.Rating,
+                        RatingCount = x.User.Profile.RatingCount,
+                        Phone = x.User.Profile.Phone,
+                        Picture = new PictureDTO()
+                        {
+                            Id = x.User.Profile.Picture.Id,
+                            Name = x.User.Profile.Picture.Name,
+                            Description = x.User.Profile.Picture.Description,
+                            Url = x.User.Profile.Picture.Url,
+                            Default = x.User.Profile.Picture.Default,
+                            CreatedAt = x.User.Profile.Picture.CreatedAt
+                        }
+                    },
+                    Apartment = new ApartmentDTO()
+                    {
+                        Id = x.Apartment.Id,
+                        Name = x.Apartment.Name,
+                        Type = x.Apartment.Type,
+                        Options = x.Apartment.Options,
+                        UserId = x.Apartment.UserId,
+                        Adress = x.Apartment.Adress,
+                        Latitude = x.Apartment.Latitude,
+                        Longitude = x.Apartment.Longitude,
+                    }
+                });
+                
 
 
                 
-               // return this.Request.CreateResponse(HttpStatusCode.OK, result);
+               return this.Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
             {
@@ -180,6 +119,7 @@ namespace apartmenthostService.Controllers
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
             }
         }
+
         /// <summary>
         /// POST api/Card/48D68C86-6EA6-4C25-AA33-223FC9A27959
         /// </summary>
@@ -554,6 +494,133 @@ namespace apartmenthostService.Controllers
                 return this.Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
             }
+        }
+
+        private System.Linq.Expressions.Expression<Func<Card, bool>> CreateCardPredicate(CardRequestDTO cardRequest)
+        {
+            // Создаем предикат
+            var pre = PredicateBuilder.True<Card>();
+
+            // Уникальный идентификатор Карточки
+            if (cardRequest.Id != null)
+                pre = pre.And(x => x.Id == cardRequest.Id);
+
+            // Наименование Карточки
+            if (cardRequest.Name != null)
+                pre = pre.And(x => x.Name == cardRequest.Name);
+            // Адрес Жилья
+            if (cardRequest.Adress != null)
+                pre = pre.And(x => x.Apartment.Adress == cardRequest.Adress);
+
+            // Уникальный Идентификатор Владельца
+            if (cardRequest.UserId != null)
+                pre = pre.And(x => x.UserId == cardRequest.UserId);
+
+            // Описание Карточки
+            if (cardRequest.Description != null)
+                pre = pre.And(x => x.Description == cardRequest.Description);
+
+            // Уникальный Идентификатор Жилья
+            if (cardRequest.ApartmentId != null)
+                pre = pre.And(x => x.ApartmentId == cardRequest.ApartmentId);
+
+            // Тип Жилья
+            if (cardRequest.Type != null)
+            {
+                var typePre = PredicateBuilder.False<Card>();
+
+                typePre = cardRequest.Type.Aggregate(typePre, (current, type) => current.Or(t => t.Apartment.Type == type));
+                pre = pre.And(typePre);
+            }
+
+            // Дополнительные опции Жилья
+            if (cardRequest.Options != null)
+            {
+                pre = pre.And(x => x.Apartment.Options.Contains(cardRequest.Options));
+            }
+
+            // Дата доступности с по 
+            // Если заданы обе даты
+            if (cardRequest.AvailableDateFrom != null && cardRequest.AvailableDateTo != null)
+            {
+                // Ищем когда жилье доступно
+                pre = pre.And(x => x.Dates.Count(date =>
+                                                        // ||--\\--\\--||
+                                                      (date.DateFrom <= cardRequest.AvailableDateFrom && date.DateFrom <= cardRequest.AvailableDateTo
+                                                    && date.DateTo >= cardRequest.AvailableDateFrom && date.DateTo >= cardRequest.AvailableDateTo)
+                                                          // \\--||--||--\\
+                                                    || (date.DateFrom >= cardRequest.AvailableDateFrom && date.DateFrom <= cardRequest.AvailableDateTo
+                                                    && date.DateTo >= cardRequest.AvailableDateFrom && date.DateTo >= cardRequest.AvailableDateTo)
+                                                          // ||--\\--||--\\
+                                                    || (date.DateFrom <= cardRequest.AvailableDateFrom && date.DateFrom <= cardRequest.AvailableDateTo
+                                                    && date.DateTo >= cardRequest.AvailableDateFrom && date.DateTo <= cardRequest.AvailableDateTo)
+                                                          //  \\--||--||--\\
+                                                    || (date.DateFrom >= cardRequest.AvailableDateFrom && date.DateFrom <= cardRequest.AvailableDateTo
+                                                    && date.DateTo >= cardRequest.AvailableDateFrom && date.DateTo <= cardRequest.AvailableDateTo)
+                    ) == 0
+                    );
+                    // И по одобренному бронированию
+                pre = pre.And(x => x.Reservations.Count(reserv =>
+                                                        // ||--\\--\\--||
+                                                     ((reserv.DateFrom <= cardRequest.AvailableDateFrom && reserv.DateFrom <= cardRequest.AvailableDateTo
+                                                   && reserv.DateTo >= cardRequest.AvailableDateFrom && reserv.DateTo >= cardRequest.AvailableDateTo)
+                                                         // \\--||--||--\\
+                                                   || (reserv.DateFrom >= cardRequest.AvailableDateFrom && reserv.DateFrom <= cardRequest.AvailableDateTo
+                                                   && reserv.DateTo >= cardRequest.AvailableDateFrom && reserv.DateTo >= cardRequest.AvailableDateTo)
+                                                         // ||--\\--||--\\
+                                                   || (reserv.DateFrom <= cardRequest.AvailableDateFrom && reserv.DateFrom <= cardRequest.AvailableDateTo
+                                                   && reserv.DateTo >= cardRequest.AvailableDateFrom && reserv.DateTo <= cardRequest.AvailableDateTo)
+                                                         //  \\--||--||--\\
+                                                   || (reserv.DateFrom >= cardRequest.AvailableDateFrom && reserv.DateFrom <= cardRequest.AvailableDateTo
+                                                   && reserv.DateTo >= cardRequest.AvailableDateFrom && reserv.DateTo <= cardRequest.AvailableDateTo)) && reserv.Status == ConstVals.Accepted
+                   ) == 0
+                   );
+
+
+            }
+
+            // Цена за день с
+            if (cardRequest.PriceDayFrom != null)
+                pre = pre.And(x => x.PriceDay >= cardRequest.PriceDayFrom);
+
+            // Цена за день по
+            if (cardRequest.PriceDayTo != null)
+                pre = pre.And(x => x.PriceDay <= cardRequest.PriceDayTo);
+
+            // Тип проживания
+            if (cardRequest.Cohabitation != null)
+            {
+                var cohPre = PredicateBuilder.False<Card>();
+
+                cohPre = cardRequest.Cohabitation.Aggregate(cohPre, (current, coh) => current.Or(t => t.Cohabitation == coh));
+                pre = pre.And(cohPre);
+            }
+
+            // Пол проживающего
+            if (cardRequest.ResidentGender != null)
+            {
+                var genPre = PredicateBuilder.False<Card>();
+
+                genPre = cardRequest.Cohabitation.Aggregate(genPre, (current, gen) => current.Or(t => t.ResidentGender == gen));
+                pre = pre.And(genPre);
+            }
+
+            // Избранное (Уникальный идентификатор пользователя)
+            if (cardRequest.IsFavoritedUserId != null)
+            {
+                pre = pre.And(x => x.Favorites.Count(f => f.UserId == cardRequest.IsFavoritedUserId) == 1);
+            }
+            // Дата добавления с
+            if (cardRequest.CreatedAtFrom != null)
+            {
+                pre = pre.And(x => x.CreatedAt >= cardRequest.CreatedAtFrom);
+            }
+            // Дата добавления по
+            if (cardRequest.CreatedAtTo != null)
+            {
+                pre = pre.And(x => x.CreatedAt <= cardRequest.CreatedAtTo);
+            }
+            return pre;
         }
     }
 }
