@@ -129,6 +129,12 @@ namespace apartmenthostService.DataObjects
         public const string SRV_PICTURE_NULL = "SRV_PICTURE_NULL"; // Пустой объект запроса
         public const string SRV_PICTURE_REQUIRED = "SRV_PICTURE_REQUIRED"; // Не заполнено обязательно поле
         public const string SRV_PICTURE_BAD_CLOUDINARY_CRED = "SRV_PICTURE_BAD_CLOUDINARY_CRED"; // Не правильно заданы настройки сервиса CLOUDINARY
+
+        //Article
+        public const string SRV_ARTICLE_NULL = "SRV_ARTICLE_NULL"; // Пустой объект запроса
+        public const string SRV_ARTICLE_INVALID_FILTER = "SRV_ARTICLE_INVALID_FILTER"; // Не верный объект запроса
+        public const string SRV_ARTICLE_REQUIRED = "SRV_ARTICLE_REQUIRED"; // Не заполнено обязательно поле
+
         //Dictionary
         public const string SRV_DICTIONARY_NULL = "SRV_DICTIONARY_NULL"; // Пустой объект запроса
         public const string SRV_DICTIONARY_NOTFOUND = "SRV_DICTIONARY_NOTFOUND"; // Объект не найден

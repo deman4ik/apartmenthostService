@@ -214,6 +214,11 @@ namespace apartmenthostService.Models
                 .HasForeignKey(s => s.FavoriteId)
                 .WillCascadeOnDelete(true);
 
+            // Picture + Article
+            modelBuilder.Entity<Picture>()
+                .HasMany<Article>(s => s.Articles)
+                .WithOptional(s => s.Picture)
+                .HasForeignKey(s => s.PictureId);
 
             // Picture + Profile
             modelBuilder.Entity<Picture>()

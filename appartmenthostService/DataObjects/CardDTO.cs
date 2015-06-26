@@ -73,6 +73,15 @@ namespace apartmenthostService.DataObjects
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public decimal PricePeriod { get; set; }
 
+        // Количество дней в периоде
+        [Metadata(DataType = ConstDataType.Number)]
+        [GetRule(Order = 6, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 6, RequiredForm = true, RequiredTransfer = true, Visible = true)]
+        [PutRule(Order = 6, RequiredForm = true, RequiredTransfer = false, Visible = true)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
+        public int PeriodDays { get; set; }
+
         // Сожительство
         [Metadata(DataType = ConstDataType.List, Dictionary = ConstDictionary.Cohabitation)]
         [GetRule(Order = 6, RequiredForm = false, RequiredTransfer = false, Visible = true)]

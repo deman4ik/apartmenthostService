@@ -234,6 +234,7 @@
     <Compile Include="Controllers\ApiControllers\ProfileApiController.cs" />
     <Compile Include="Controllers\ApiControllers\NotificationApiController.cs" />
     <Compile Include="Controllers\ApiControllers\PictureApiController.cs" />
+    <Compile Include="Controllers\ApiControllers\ArticleApiController.cs" />
     <Compile Include="Controllers\TableControllers\ApartmentController.cs" />
     <Compile Include="Controllers\TableControllers\DictionaryController.cs" />
     <Compile Include="Controllers\TableControllers\DictionaryItemController.cs" />
@@ -244,6 +245,7 @@
     <Compile Include="Controllers\TableControllers\CardController.cs" />
     <Compile Include="Controllers\TableControllers\ProfileController.cs" />
     <Compile Include="Controllers\ApiControllers\UserApiController.cs" />
+    <Compile Include="DataObjects\ArticleDTO.cs" />
     <Compile Include="DataObjects\CardDTO.cs" />
     <Compile Include="DataObjects\ApartmentDTO.cs" />
     <Compile Include="DataObjects\BaseUserDTO.cs" />
