@@ -281,7 +281,16 @@ namespace apartmenthostService.Controllers
                         Type = card.Apartment.Type,
                         Options = card.Apartment.Options,
                         UserId = card.Apartment.UserId,
-                        Adress = card.Apartment.Adress
+                        Adress = card.Apartment.Adress,
+                        Pictures = card.Apartment.Pictures.Select(apic => new PictureDTO()
+                        {
+                            Id = apic.Id,
+                            Name = apic.Name,
+                            Description = apic.Description,
+                            Url = apic.Url,
+                            Default = apic.Default,
+                            CreatedAt = apic.CreatedAt
+                        }).ToList()
                     },
                     User = new BaseUserDTO()
                     {
