@@ -34,10 +34,10 @@ namespace apartmenthostService.Controllers
             {
                 // Создаем предикат
                 var pre = PredicateBuilder.True<Card>();
-                pre = pre.And(x => x.Deleted == false);
+               
                 int periodDays = 0;
                 // Получаем объект из строки запроса
-                if (!string.IsNullOrWhiteSpace(filter))
+                if (!string.IsNullOrWhiteSpace(filter) && filter != "{}")
                 {
                     CardRequestDTO cardRequest = JsonConvert.DeserializeObject<CardRequestDTO>(filter);
                 
@@ -45,8 +45,9 @@ namespace apartmenthostService.Controllers
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_CARD_INVALID_FILTER));
 
-                // Уникальный идентификатор Карточки
-                if (cardRequest.Id != null)
+                    pre = pre.And(x => x.Deleted == false);
+                    // Уникальный идентификатор Карточки
+                    if (cardRequest.Id != null)
                     pre = pre.And(x => x.Id == cardRequest.Id);
 
                 // Наименование Карточки
@@ -139,7 +140,7 @@ namespace apartmenthostService.Controllers
                 {
                     var cohPre = PredicateBuilder.False<Card>();
 
-                    cohPre = cardRequest.Cohabitation.Aggregate(cohPre, (current, coh) => current.Or(t => t.Cohabitation == coh));
+                    cohPre = cardRequest.Cohabitation.Aggregate(cohPre, (current, coh) => current.Or(t => t.Cohabitation.Contains(coh)));
                     pre = pre.And(cohPre);
                 }
 
@@ -148,7 +149,7 @@ namespace apartmenthostService.Controllers
                 {
                     var genPre = PredicateBuilder.False<Card>();
 
-                    genPre = cardRequest.Cohabitation.Aggregate(genPre, (current, gen) => current.Or(t => t.ResidentGender == gen));
+                    genPre = cardRequest.ResidentGender.Aggregate(genPre, (current, gen) => current.Or(t => t.ResidentGender.Contains(gen)));
                     pre = pre.And(genPre);
                 }
 
@@ -249,12 +250,17 @@ namespace apartmenthostService.Controllers
                 
                return this.Request.CreateResponse(HttpStatusCode.OK, result);
             }
+            catch (JsonReaderException ex)
+            {
+
+                return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_INVALID_FILTER, new List<string>() { ex.ToString() }));
+            }
             catch (Exception ex)
             {
 
-                Debug.WriteLine(ex.InnerException);
+                Debug.WriteLine(ex);
                 return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.ToString() }));
             }
         }
 
