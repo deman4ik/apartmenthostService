@@ -54,7 +54,7 @@ namespace apartmenthostService.Controllers
                     pre = pre.And(x => x.Name == cardRequest.Name);
                 // Адрес Жилья
                 if (cardRequest.Adress != null)
-                    pre = pre.And(x => x.Apartment.Adress == cardRequest.Adress);
+                    pre = pre.And(x => x.Apartment.Adress.Contains(cardRequest.Adress));
 
                 // Уникальный Идентификатор Владельца
                 if (cardRequest.UserId != null)
@@ -167,6 +167,10 @@ namespace apartmenthostService.Controllers
                 {
                     pre = pre.And(x => x.CreatedAt <= cardRequest.CreatedAtTo);
                 }
+                }
+                else
+                {
+                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_INVALID_FILTER));
                 }
 
                 var currentUser = User as ServiceUser;
