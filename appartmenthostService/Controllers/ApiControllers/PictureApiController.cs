@@ -188,7 +188,7 @@ namespace apartmenthostService.Controllers
                         Name = picture.Name,
                         Description = picture.Description,
                         Url = cloudinary.Api.UrlImgUp.BuildUrl(picture.Name),
-                        Default = true
+                        Default = picture.Default
                     };
                     _context.Set<Picture>().Add(pic);
 

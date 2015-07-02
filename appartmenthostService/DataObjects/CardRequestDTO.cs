@@ -13,6 +13,14 @@ namespace apartmenthostService.DataObjects
         public string Name { get; set; }
         // Адрес Жилья
         public string Adress { get; set; }
+        // Тип адреса
+        public List<string> AdressTypes { get; set; }
+        // Уникальный идентификатор Google Places
+        public string PlaceId { get; set; }
+        // Координаты Широта
+        public decimal? Latitude { get; set; }
+        // Координаты Долгота
+        public decimal? Longitude { get; set; }
         // Уникальный Идентификатор Владельца
         public string UserId { get; set; }
         // Описание Карточки

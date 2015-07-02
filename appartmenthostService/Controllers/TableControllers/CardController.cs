@@ -84,8 +84,10 @@ namespace apartmenthostService.Controllers
                     Options = x.Apartment.Options,
                     UserId = x.Apartment.UserId,
                     Adress = x.Apartment.Adress,
+                    FormattedAdress = x.Apartment.FormattedAdress,
                     Latitude = x.Apartment.Latitude,
                     Longitude = x.Apartment.Longitude,
+                    PlaceId = x.Apartment.PlaceId,
                     Pictures = x.Apartment.Pictures.Select(apic => new PictureDTO()
                     {
                         Id = apic.Id,
@@ -95,32 +97,7 @@ namespace apartmenthostService.Controllers
                         Default = apic.Default,
                         CreatedAt = apic.CreatedAt
                     }).ToList()
-                },
-                //ApprovedReservations = x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new ReservationDTO()
-                //{
-                //    DateFrom = rv.DateFrom,
-                //    DateTo = rv.DateTo,
-                //    UserId = rv.UserId,
-                //    User = new BaseUserDTO()
-                //    {
-                //        Id = rv.User.Profile.Id,
-                //        Email = rv.User.Email,
-                //        FirstName = rv.User.Profile.FirstName,
-                //        LastName = rv.User.Profile.LastName,
-                //        Rating = rv.User.Profile.Rating,
-                //        RatingCount = rv.User.Profile.RatingCount,
-                //        Gender = rv.User.Profile.Gender,
-                //        Picture = new PictureDTO()
-                //        {
-                //            Id = rv.User.Profile.Picture.Id,
-                //            Name = rv.User.Profile.Picture.Name,
-                //            Description = rv.User.Profile.Picture.Description,
-                //            Url = rv.User.Profile.Picture.Url,
-                //            Default = rv.User.Profile.Picture.Default,
-                //            CreatedAt = rv.User.Profile.Picture.CreatedAt
-                //        }
-                //    }
-                //}).ToList()
+                }
             });
             return result;
         }
@@ -137,8 +114,6 @@ namespace apartmenthostService.Controllers
             {
                 userId = account.UserId;
             }
-            // var result = Lookup(id).Queryable
-            //var result = _context.Cards.Where(c => c.Id == id)
             var result = Lookup(id).Queryable.Select(x => new CardDTO()
             {
                 Id = x.Id,
@@ -189,6 +164,10 @@ namespace apartmenthostService.Controllers
                     Options = x.Apartment.Options,
                     UserId = x.Apartment.UserId,
                     Adress = x.Apartment.Adress,
+                    FormattedAdress = x.Apartment.FormattedAdress,
+                    Latitude = x.Apartment.Latitude,
+                    Longitude = x.Apartment.Longitude,
+                    PlaceId = x.Apartment.PlaceId,
                     Pictures = x.Apartment.Pictures.Select(apic => new PictureDTO()
                         {
                             Id = apic.Id,
@@ -282,6 +261,10 @@ namespace apartmenthostService.Controllers
                         Options = card.Apartment.Options,
                         UserId = card.Apartment.UserId,
                         Adress = card.Apartment.Adress,
+                        FormattedAdress = card.Apartment.FormattedAdress,
+                        Latitude = card.Apartment.Latitude,
+                        Longitude = card.Apartment.Longitude,
+                        PlaceId = card.Apartment.PlaceId,
                         Pictures = card.Apartment.Pictures.Select(apic => new PictureDTO()
                         {
                             Id = apic.Id,

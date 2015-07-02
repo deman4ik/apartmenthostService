@@ -23,9 +23,15 @@ namespace apartmenthostService.Models
 
         public string Adress { get; set; }
 
+        public string FormattedAdress { get; set; }
+
+        public string AdressTypes { get; set; }
+
         public decimal? Latitude { get; set; }
 
         public decimal? Longitude { get; set; }
+
+        public string PlaceId { get; set; }
 
         public string Lang { get; set; }
 

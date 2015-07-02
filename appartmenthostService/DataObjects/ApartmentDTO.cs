@@ -49,13 +49,29 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string UserId { get; set; }
 
-        // Адрес жилья
+        // Краткий адрес жилья
         [Metadata(DataType = ConstDataType.Adress)]
         [GetRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PostRule(Order = 2, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [PutRule(Order = 2, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string Adress { get; set; }
+
+        // Полный адрес жилья
+        [Metadata(DataType = ConstDataType.Adress)]
+        [GetRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 2, RequiredForm = true, RequiredTransfer = true, Visible = true)]
+        [PutRule(Order = 2, RequiredForm = true, RequiredTransfer = true, Visible = true)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public string FormattedAdress { get; set; }
+
+        // Тип адреса
+        [Metadata(DataType = ConstDataType.Adress)]
+        [GetRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 2, RequiredForm = true, RequiredTransfer = true, Visible = true)]
+        [PutRule(Order = 2, RequiredForm = true, RequiredTransfer = true, Visible = true)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public string AdressTypes { get; set; }
 
         // Координаты Широта
         [Metadata(DataType = null)]
@@ -82,6 +98,14 @@ namespace apartmenthostService.DataObjects
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string Lang { get; set; }
+
+        // Уникальный идентификатор Google Places
+        [Metadata(DataType = ConstDataType.Adress)]
+        [GetRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 2, RequiredForm = true, RequiredTransfer = true, Visible = true)]
+        [PutRule(Order = 2, RequiredForm = true, RequiredTransfer = true, Visible = true)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public string PlaceId { get; set; }
 
         // Дата и Время создания объекта
         [Metadata(DataType = ConstDataType.Date)]

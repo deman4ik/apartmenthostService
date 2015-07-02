@@ -11,7 +11,7 @@ namespace apartmenthostService.DataObjects
 {
     public class PictureDTO
     {
-        // Уникальный идентификатор(User)
+        // Уникальный идентификатор
         [Metadata(DataType = ConstDataType.Id)]
         [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]

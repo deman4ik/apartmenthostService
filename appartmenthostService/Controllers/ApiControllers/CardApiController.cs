@@ -233,8 +233,10 @@ namespace apartmenthostService.Controllers
                         Options = x.Apartment.Options,
                         UserId = x.Apartment.UserId,
                         Adress = x.Apartment.Adress,
+                        FormattedAdress = x.Apartment.FormattedAdress,
                         Latitude = x.Apartment.Latitude,
                         Longitude = x.Apartment.Longitude,
+                        PlaceId = x.Apartment.PlaceId,
                         Pictures = x.Apartment.Pictures.Select(apic => new PictureDTO()
                         {
                             Id = apic.Id,
