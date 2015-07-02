@@ -61,6 +61,11 @@ namespace apartmenthostService.Controllers
                     {
                         pre = pre.And(x => x.Text.Contains(artRequest.Text));
                     }
+
+                    if (artRequest.Lang != null)
+                    {
+                        pre = pre.And(x => x.Lang == artRequest.Lang);
+                    }
                 }
 
                 var result = _context.Article.Where(pre).Select(art => new ArticleDTO()
@@ -69,6 +74,7 @@ namespace apartmenthostService.Controllers
                     Name = art.Name,
                     Title = art.Title,
                     Text = art.Text,
+                    Lang = art.Lang,
                     CreatedAt = art.CreatedAt,
                     UpdatedAt = art.UpdatedAt,
                     Picture = new PictureDTO()
@@ -124,6 +130,7 @@ namespace apartmenthostService.Controllers
                         Name = article.Name,
                         Title = article.Title,
                         Text = article.Text,
+                        Lang = article.Lang,
                         Tag = article.Tag
                     });
 
