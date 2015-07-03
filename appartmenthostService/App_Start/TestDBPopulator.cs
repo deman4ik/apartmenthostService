@@ -43,6 +43,9 @@ namespace apartmenthostService.App_Start
                 PopulateReviews(context);
                 context.SaveChanges();
 
+                UpdateRating(context);
+                context.SaveChanges();
+
                 PopulateNotifications(context);
                 context.SaveChanges();
 
@@ -55,8 +58,10 @@ namespace apartmenthostService.App_Start
                 PopulateDictionaryItems(context);
                 context.SaveChanges();
 
-                RatingJob ratingJob = new RatingJob();
-                ratingJob.ExecuteAsync();
+                //RatingJob ratingJob = new RatingJob();
+                //ratingJob.ExecuteAsync();
+
+                
             }
             catch (Exception e)
             {
@@ -436,8 +441,8 @@ namespace apartmenthostService.App_Start
                     Adress = "Ярославская ул., 10к4",
                     FormattedAdress = "Ярославская ул., 10 корпус 4, Москва, Россия, 129366",
                     AdressTypes = "street_address",
-                    Latitude = new decimal(55.8192216), 
-                    Longitude = new decimal(37.6499904),
+                    Latitude = 55.8192216, 
+                    Longitude = 37.6499904,
                     PlaceId = "ChIJ5-Lsj9k1tUYR5sJA7m6S7gw",
                     Lang = ConstLang.RU
                 },
@@ -450,8 +455,9 @@ namespace apartmenthostService.App_Start
                     UserId = "u2",
                     Adress = "1-я Горловская ул., 4с21",
                     FormattedAdress = "1-я Горловская ул., 4 строение 21, Москва, Россия, 117623",
-                    Latitude = new decimal(55.548317), 
-                    Longitude = new decimal(37.581559),
+                    AdressTypes = "street_address",
+                    Latitude = 55.548317, 
+                    Longitude = 37.581559,
                     PlaceId = "ChIJA0yVwNKtSkERnMBTTfhj-k8",
                     Lang = ConstLang.RU
                 },
@@ -465,8 +471,8 @@ namespace apartmenthostService.App_Start
                     Adress = "Соловьиный пр-д, 18",
                     FormattedAdress = "Соловьиный пр., 18, Москва, Россия, 117593",
                     AdressTypes = "street_address",
-                    Latitude = new decimal(55.6048635), 
-                    Longitude = new decimal(37.55604599999999),
+                    Latitude = 55.6048635, 
+                    Longitude = 37.5560459999999,
                     PlaceId = "ChIJKdkyK2KtSkERVV3xLtXg7VE",
                     Lang = ConstLang.RU
                 },
@@ -480,8 +486,8 @@ namespace apartmenthostService.App_Start
                     Adress = "ул. Удальцова, 73",
                     FormattedAdress = "ул. Удальцова, 73, Москва, Россия, 119454",
                     AdressTypes = "street_address",
-                    Latitude = new decimal(55.677495), 
-                    Longitude = new decimal(37.49704),
+                    Latitude = 55.677495, 
+                    Longitude = 37.49704,
                     PlaceId = "ChIJ1Y6qnqtNtUYR5wu_G5QNWOw",
                     Lang = ConstLang.RU
                 },
@@ -495,8 +501,8 @@ namespace apartmenthostService.App_Start
                     Adress = "Сумской пр-д, 12к5",
                     FormattedAdress = "Сумской пр., 12 корпус 5, Москва, Россия, 117208",
                     AdressTypes = "street_address",
-                    Latitude = new decimal(55.63736600000001), 
-                    Longitude = new decimal(37.6083519),
+                    Latitude = 55.63736600000001, 
+                    Longitude = 37.6083519,
                     PlaceId = "ChIJA7icfOGySkERrX5lm9uDVAY",
                     Lang = ConstLang.RU
                 },
@@ -510,8 +516,8 @@ namespace apartmenthostService.App_Start
                     Adress = "Ключевая ул., 10к2",
                     FormattedAdress = "Ключевая ул., 10 корпус 2, Москва, Россия, 115612",
                     AdressTypes = "street_address",
-                    Latitude = new decimal(55.635362), 
-                    Longitude = new decimal(37.756657),
+                    Latitude = 55.635362, 
+                    Longitude = 37.756657,
                     PlaceId = "ChIJQd6MRlSxSkERMgb5At9ic4g",
                     Lang = ConstLang.RU
                 },
@@ -525,8 +531,8 @@ namespace apartmenthostService.App_Start
                     Adress = "Валовая ул., 10",
                     FormattedAdress = "Валовая ул., 10, Москва, Россия, 115054",
                     AdressTypes = "street_address",
-                    Latitude = new decimal(55.731279), 
-                    Longitude = new decimal(37.631815),
+                    Latitude = 55.731279, 
+                    Longitude = 37.631815,
                     PlaceId = "ChIJ4WVEbRxLtUYR__0S1BVkg_k",
                     Lang = ConstLang.RU
                 },
@@ -540,8 +546,8 @@ namespace apartmenthostService.App_Start
                     Adress = "2-й Хвостов пер., 12",
                     FormattedAdress = "2-й Хвостов пер., 12, Москва, Россия, 119180",
                     AdressTypes = "street_address",
-                    Latitude = new decimal(55.735488), 
-                    Longitude = new decimal(37.614915),
+                    Latitude = 55.735488, 
+                    Longitude = 37.614915,
                     PlaceId = "ChIJGV4apQZLtUYRcsiTOvz4tc0",
                     Lang = ConstLang.RU
                 },
@@ -555,8 +561,8 @@ namespace apartmenthostService.App_Start
                     Adress = "ул. Академика Комарова, 7В",
                     FormattedAdress = "ул. Академика Комарова, 7В, Москва, Россия, 127276",
                     AdressTypes = "street_address",
-                    Latitude = new decimal(55.828883), 
-                    Longitude = new decimal(37.591417),
+                    Latitude = 55.828883, 
+                    Longitude = 37.591417,
                     PlaceId = "ChIJrXf_Wj82tUYRkH6d8hkR4kg",
                     Lang = ConstLang.RU
                 },
@@ -570,8 +576,8 @@ namespace apartmenthostService.App_Start
                     Adress = "ул. Крылатские Холмы, 24",
                     FormattedAdress = "ул. Крылатские Холмы, 24, Москва, Россия, 121614",
                     AdressTypes = "street_address",
-                    Latitude = new decimal(55.7628909), 
-                    Longitude = new decimal(37.415231),
+                    Latitude = 55.7628909, 
+                    Longitude = 37.415231,
                     PlaceId = "Ek3Rg9C7LiDQmtGA0YvQu9Cw0YLRgdC60LjQtSDQpdC-0LvQvNGLLCAyNCwg0JzQvtGB0LrQstCwLCDQoNC-0YHRgdC40Y8sIDEyMTYxNA",
                     Lang = ConstLang.RU
                 },
@@ -1028,6 +1034,21 @@ namespace apartmenthostService.App_Start
             context.Set<Review>().AddRange(reviews);
         }
 
+        public static void UpdateRating(apartmenthostContext context)
+        {
+            var profiles = context.Profile.ToList();
+            foreach (var profile in profiles)
+            {
+                var reviews = context.Reviews.Where(rev => rev.ToUserId == profile.Id && rev.Rating > 0);
+                var count = reviews.Count();
+                if (count > 0)
+                {
+                    profile.RatingCount = count;
+                    profile.Rating = reviews.Average(x => (Decimal)x.Rating);
+                    profile.Score = reviews.Sum(x => x.Rating);
+                }
+            }
+        }
         public static void PopulateNotifications(apartmenthostContext context)
         {
             List<Notification> notifications = new List<Notification>()

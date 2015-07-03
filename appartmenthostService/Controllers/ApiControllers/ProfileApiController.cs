@@ -18,7 +18,7 @@ namespace apartmenthostService.Controllers
     public class ProfileApiController : ApiController
     {
         public ApiServices Services { get; set; }
-        readonly apartmenthostContext _context = new apartmenthostContext();
+        private readonly apartmenthostContext _context = new apartmenthostContext();
 
         //PUT api/Profile/48D68C86-6EA6-4C25-AA33-223FC9A27959
         [Route("api/Profile")]
@@ -32,7 +32,8 @@ namespace apartmenthostService.Controllers
                 ResponseDTO resp;
 
                 // Check Profile is not NULL 
-                if (profile == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_USER_NULL));
+                if (profile == null)
+                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_USER_NULL));
 
                 // Check Current User
                 var currentUser = User as ServiceUser;
@@ -60,7 +61,8 @@ namespace apartmenthostService.Controllers
                 if (profileCurrent == null)
                 {
                     respList.Add(account.UserId);
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
+                    return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
 
                 // Check FirstName is not NULL
@@ -80,7 +82,8 @@ namespace apartmenthostService.Controllers
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Gender Dictionary
-                resp = CheckHelper.isValidDicItem(_context, profile.Gender, ConstDictionary.Gender, "Gender", RespH.SRV_USER_INVALID_DICITEM);
+                resp = CheckHelper.isValidDicItem(_context, profile.Gender, ConstDictionary.Gender, "Gender",
+                    RespH.SRV_USER_INVALID_DICITEM);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 profileCurrent.FirstName = profile.FirstName;
@@ -101,9 +104,32 @@ namespace apartmenthostService.Controllers
             {
                 Debug.WriteLine(ex.InnerException);
                 return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string>() {ex.InnerException.ToString()}));
             }
         }
 
-    }
+        //PUT api/UpdateRating/
+        [Route("api/UpdateRating")]
+        [HttpPost]
+        public HttpResponseMessage UpdateRating()
+        {
+            var profiles = _context.Profile.ToList();
+            foreach (var profile in profiles)
+            {
+                var reviews = _context.Reviews.Where(rev => rev.ToUserId == profile.Id && rev.Rating > 0);
+                var count = reviews.Count();
+                if (count > 0)
+                {
+                    profile.RatingCount = count;
+                    profile.Rating = reviews.Average(x => (Decimal) x.Rating);
+                    profile.Score = reviews.Sum(x => x.Rating);
+                }
+            }
+        
+
+        _context.SaveChanges();
+            return this.Request.CreateResponse(HttpStatusCode.OK);
+        }
+    
+}
 }

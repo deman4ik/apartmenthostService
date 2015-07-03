@@ -16,18 +16,17 @@ namespace apartmenthostService
         readonly apartmenthostContext _context = new apartmenthostContext();
         public override Task ExecuteAsync()
         {
-            var profiles = _context.Profile;
+            var profiles = _context.Profile.ToList();
             foreach (var profile in profiles)
             {
                 var reviews = _context.Reviews.Where(rev => rev.ToUserId == profile.Id && rev.Rating > 0);
                 var count = reviews.Count();
                 if (count > 0)
-                { 
-                profile.RatingCount = count;
-                profile.Rating = reviews.Average(x => (Decimal) x.Rating);
-                profile.Score = reviews.Sum(x => x.Rating);
+                {
+                    profile.RatingCount = count;
+                    profile.Rating = reviews.Average(x => (Decimal)x.Rating);
+                    profile.Score = reviews.Sum(x => x.Rating);
                 }
-
             }
 
             _context.SaveChanges();

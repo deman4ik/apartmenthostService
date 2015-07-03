@@ -36,15 +36,13 @@ namespace apartmenthostService
         }
     }
 
-    public class appartmenthostInitializer : ClearDatabaseSchemaAlways<apartmenthostContext> 
+    public class appartmenthostInitializer : ClearDatabaseSchemaIfModelChanges<apartmenthostContext> 
 
     { 
         protected override void Seed(apartmenthostContext context)
         {
             TestDBPopulator.Populate(context);
             base.Seed(context);
-            RatingJob ratingJob = new RatingJob();
-            ratingJob.ExecuteAsync();
         }
     }
 }
