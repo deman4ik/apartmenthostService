@@ -59,7 +59,7 @@ namespace apartmenthostService.Controllers
                     pre = pre.And(x => x.Name == cardRequest.Name);
                 // Адрес Жилья
                 if (cardRequest.Adress != null)
-                    pre = pre.And(x => x.Apartment.Adress.Contains(cardRequest.Adress));
+                    pre = pre.And(x => x.Apartment.FormattedAdress.Contains(cardRequest.Adress));
 
                 // Уникальный Идентификатор Владельца
                 if (cardRequest.UserId != null)
