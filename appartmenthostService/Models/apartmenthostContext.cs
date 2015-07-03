@@ -50,7 +50,8 @@ namespace apartmenthostService.Models
             {
                 modelBuilder.HasDefaultSchema(schema);
             }
-
+            //modelBuilder.Entity<Apartment>().Property(x => x.Latitude).HasPrecision(20, 20);
+            //modelBuilder.Entity<Apartment>().Property(x => x.Longitude).HasPrecision(20, 20);
             modelBuilder.Conventions.Add(
                 new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(
                     "ServiceTableColumn", (property, attributes) => attributes.Single().ColumnType.ToString()));

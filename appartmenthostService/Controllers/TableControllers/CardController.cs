@@ -146,6 +146,9 @@ namespace apartmenthostService.Controllers
                     LastName = x.User.Profile.LastName,
                     Gender = x.User.Profile.Gender,
                     Phone = x.User.Profile.Phone,
+                    Rating = x.User.Profile.Rating,
+                    RatingCount = x.User.Profile.RatingCount,
+                    Score = x.User.Profile.Score,
                     Picture = new PictureDTO()
                     {
                         Id = x.User.Profile.Picture.Id,

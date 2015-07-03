@@ -80,7 +80,7 @@ namespace apartmenthostService.DataObjects
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
-        public decimal? Latitude { get; set; }
+        public double? Latitude { get; set; }
 
         // Координаты Долгота
         [Metadata(DataType = null)]
@@ -89,7 +89,7 @@ namespace apartmenthostService.DataObjects
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
-        public decimal? Longitude { get; set; }
+        public double? Longitude { get; set; }
 
         // Язык
         [Metadata(DataType = ConstDataType.Lang)]
