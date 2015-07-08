@@ -210,7 +210,11 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\TestDBPopulator.cs" />
+    <Compile Include="Migrations\201507082054277_Initial.cs" />
+    <Compile Include="Migrations\201507082054277_Initial.Designer.cs">
+      <DependentUpon>201507082054277_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TestDBPopulator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attributes\DeleteRuleAttribute.cs" />
     <Compile Include="Attributes\GetRuleAttribute.cs" />
@@ -312,6 +316,11 @@
   <ItemGroup>
     <None Include="Properties\PublishProfiles\apartmenthost - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\apartmenthost - Web Deploy.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201507082054277_Initial.resx">
+      <DependentUpon>201507082054277_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

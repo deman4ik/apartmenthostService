@@ -1,6 +1,5 @@
 ﻿using System.Data.Entity;
 using System.Web.Http;
-using apartmenthostService.App_Start;
 using apartmenthostService.Authentication;
 using apartmenthostService.Helpers;
 using apartmenthostService.Models;
@@ -32,7 +31,7 @@ namespace apartmenthostService
             {
                 DTOMapper.CreateMapping(cfg);
             });
-            Database.SetInitializer(new appartmenthostInitializer());
+            //Database.SetInitializer(new appartmenthostInitializer());
         }
     }
 
@@ -41,7 +40,7 @@ namespace apartmenthostService
     { 
         protected override void Seed(apartmenthostContext context)
         {
-            TestDBPopulator.Populate(context);
+            
             base.Seed(context);
         }
     }
