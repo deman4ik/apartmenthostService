@@ -22,10 +22,10 @@ namespace apartmenthostService.Controllers
         public ApiServices Services { get; set; }
         private readonly apartmenthostContext _context = new apartmenthostContext();
 
-        [Route("api/Reservations")]
+        [Route("api/Reservations/{type?}")]
         [AuthorizeLevel(AuthorizationLevel.User)]
         [HttpGet]
-        public HttpResponseMessage GetReservations()
+        public HttpResponseMessage GetReservations(string type = null)
         {
             try
             {
@@ -40,180 +40,192 @@ namespace apartmenthostService.Controllers
                     respList.Add(currentUser.Id);
                     return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
-
-
-                var ownerReserv = _context.Reservations.Where(x => x.Card.UserId == account.UserId).Select(r => new ReservationDTO
+                List<ReservationDTO> ownerReserv = new List<ReservationDTO>();
+                List<ReservationDTO> renterReserv = new List<ReservationDTO>();
+                if (type == ConstVals.Owner || string.IsNullOrWhiteSpace(type))
                 {
-                    Id = r.Id,
-                    Type = ConstVals.Owner,
-                    CardId = r.CardId,
-                    UserId = r.UserId,
-                    Status = r.Status,
-                    DateFrom = r.DateFrom,
-                    DateTo = r.DateTo,
-                    CreatedAt = r.CreatedAt,
-                    UpdatedAt = r.UpdatedAt,
-                    User = new BaseUserDTO()
-                    {
-                        Id = r.User.Profile.Id,
-                        Email = r.User.Email,
-                        FirstName = r.User.Profile.FirstName,
-                        LastName = r.User.Profile.LastName,
-                        Rating = r.User.Profile.Rating,
-                        RatingCount = r.User.Profile.RatingCount,
-                        Gender = r.User.Profile.Gender,
-                        Picture = new PictureDTO()
+                     ownerReserv =
+                        _context.Reservations.Where(x => x.Card.UserId == account.UserId).Select(r => new ReservationDTO
                         {
-                            Id = r.User.Profile.Picture.Id,
-                            Name = r.User.Profile.Picture.Name,
-                            Description = r.User.Profile.Picture.Description,
-                            Url = r.User.Profile.Picture.Url,
-                            Default = r.User.Profile.Picture.Default,
-                            CreatedAt = r.User.Profile.Picture.CreatedAt
-                        }
-
-
-                    },
-                    Card = new CardDTO()
-                    {
-                        Name = r.Card.Name,
-                        UserId = r.Card.UserId,
-                        Description = r.Card.Description,
-                        ApartmentId = r.Card.ApartmentId,
-                        PriceDay = r.Card.PriceDay,
-                        PricePeriod = r.Card.PriceDay * 7,
-                        Cohabitation = r.Card.Cohabitation,
-                        ResidentGender = r.Card.ResidentGender,
-                        Lang = r.Card.Lang,
-                        Dates = r.Card.Dates.Select(d => new DatesDTO()
-                        {
-                            DateFrom = d.DateFrom,
-                            DateTo = d.DateTo
-                        }).Union(r.Card.Reservations.Where(reserv => reserv.Status == ConstVals.Accepted).Select(rv => new DatesDTO()
-                        {
-                            DateFrom = rv.DateFrom,
-                            DateTo = rv.DateTo
-                        }).ToList()).ToList(),
-                        User = new UserDTO()
-                        {
-                            Id = r.Card.User.Profile.Id,
-                            FirstName = r.Card.User.Profile.FirstName,
-                            LastName = r.Card.User.Profile.LastName,
-                            Rating = r.Card.User.Profile.Rating,
-                            RatingCount = r.Card.User.Profile.RatingCount,
-                            Gender = r.Card.User.Profile.Gender,
-                            Phone = r.Card.User.Profile.Phone,
-                            Picture = new PictureDTO()
+                            Id = r.Id,
+                            Type = ConstVals.Owner,
+                            CardId = r.CardId,
+                            UserId = r.UserId,
+                            Status = r.Status,
+                            DateFrom = r.DateFrom,
+                            DateTo = r.DateTo,
+                            CreatedAt = r.CreatedAt,
+                            UpdatedAt = r.UpdatedAt,
+                            User = new BaseUserDTO()
                             {
-                                Id = r.Card.User.Profile.Picture.Id,
-                                Name = r.Card.User.Profile.Picture.Name,
-                                Description = r.Card.User.Profile.Picture.Description,
-                                Url = r.Card.User.Profile.Picture.Url,
-                                Default = r.Card.User.Profile.Picture.Default,
-                                CreatedAt = r.Card.User.Profile.Picture.CreatedAt
+                                Id = r.User.Profile.Id,
+                                Email = r.User.Email,
+                                FirstName = r.User.Profile.FirstName,
+                                LastName = r.User.Profile.LastName,
+                                Rating = r.User.Profile.Rating,
+                                RatingCount = r.User.Profile.RatingCount,
+                                Gender = r.User.Profile.Gender,
+                                Picture = new PictureDTO()
+                                {
+                                    Id = r.User.Profile.Picture.Id,
+                                    Name = r.User.Profile.Picture.Name,
+                                    Description = r.User.Profile.Picture.Description,
+                                    Url = r.User.Profile.Picture.Url,
+                                    Default = r.User.Profile.Picture.Default,
+                                    CreatedAt = r.User.Profile.Picture.CreatedAt
+                                }
+
+
+                            },
+                            Card = new CardDTO()
+                            {
+                                Name = r.Card.Name,
+                                UserId = r.Card.UserId,
+                                Description = r.Card.Description,
+                                ApartmentId = r.Card.ApartmentId,
+                                PriceDay = r.Card.PriceDay,
+                                PricePeriod = r.Card.PriceDay*7,
+                                Cohabitation = r.Card.Cohabitation,
+                                ResidentGender = r.Card.ResidentGender,
+                                Lang = r.Card.Lang,
+                                Dates = r.Card.Dates.Select(d => new DatesDTO()
+                                {
+                                    DateFrom = d.DateFrom,
+                                    DateTo = d.DateTo
+                                })
+                                    .Union(
+                                        r.Card.Reservations.Where(reserv => reserv.Status == ConstVals.Accepted)
+                                            .Select(rv => new DatesDTO()
+                                            {
+                                                DateFrom = rv.DateFrom,
+                                                DateTo = rv.DateTo
+                                            }).ToList()).ToList(),
+                                User = new UserDTO()
+                                {
+                                    Id = r.Card.User.Profile.Id,
+                                    FirstName = r.Card.User.Profile.FirstName,
+                                    LastName = r.Card.User.Profile.LastName,
+                                    Rating = r.Card.User.Profile.Rating,
+                                    RatingCount = r.Card.User.Profile.RatingCount,
+                                    Gender = r.Card.User.Profile.Gender,
+                                    Phone = r.Card.User.Profile.Phone,
+                                    Picture = new PictureDTO()
+                                    {
+                                        Id = r.Card.User.Profile.Picture.Id,
+                                        Name = r.Card.User.Profile.Picture.Name,
+                                        Description = r.Card.User.Profile.Picture.Description,
+                                        Url = r.Card.User.Profile.Picture.Url,
+                                        Default = r.Card.User.Profile.Picture.Default,
+                                        CreatedAt = r.Card.User.Profile.Picture.CreatedAt
+                                    }
+                                },
+                                Apartment = new ApartmentDTO()
+                                {
+                                    Id = r.Card.Apartment.Id,
+                                    Name = r.Card.Apartment.Name,
+                                    Type = r.Card.Apartment.Type,
+                                    Options = r.Card.Apartment.Options,
+                                    UserId = r.Card.Apartment.UserId,
+                                    Adress = r.Card.Apartment.Adress,
+                                    Latitude = r.Card.Apartment.Latitude,
+                                    Longitude = r.Card.Apartment.Longitude,
+                                }
+
                             }
-                        },
-                        Apartment = new ApartmentDTO()
-                        {
-                            Id = r.Card.Apartment.Id,
-                            Name = r.Card.Apartment.Name,
-                            Type = r.Card.Apartment.Type,
-                            Options = r.Card.Apartment.Options,
-                            UserId = r.Card.Apartment.UserId,
-                            Adress = r.Card.Apartment.Adress,
-                            Latitude = r.Card.Apartment.Latitude,
-                            Longitude = r.Card.Apartment.Longitude,
-                        }
-
-                    }
-                }).ToList();
-
-                var renterReserv = _context.Reservations.Where(x => x.UserId == account.UserId).Select(r => new ReservationDTO
+                        }).ToList();
+                }
+                if (type == ConstVals.Renter || string.IsNullOrWhiteSpace(type))
                 {
-                    Id = r.Id,
-                    Type = ConstVals.Renter,
-                    CardId = r.CardId,
-                    UserId = r.UserId,
-                    Status = r.Status,
-                    DateFrom = r.DateFrom,
-                    DateTo = r.DateTo,
-                    CreatedAt = r.CreatedAt,
-                    UpdatedAt = r.UpdatedAt,
-                    User = new BaseUserDTO()
-                    {
-                        Id = r.User.Profile.Id,
-                        Email = r.User.Email,
-                        FirstName = r.User.Profile.FirstName,
-                        LastName = r.User.Profile.LastName,
-                        Rating = r.User.Profile.Rating,
-                        RatingCount = r.User.Profile.RatingCount,
-                        Gender = r.User.Profile.Gender,
-                        Picture = new PictureDTO()
+                     renterReserv =
+                        _context.Reservations.Where(x => x.UserId == account.UserId).Select(r => new ReservationDTO
                         {
-                            Id = r.User.Profile.Picture.Id,
-                            Name = r.User.Profile.Picture.Name,
-                            Description = r.User.Profile.Picture.Description,
-                            Url = r.User.Profile.Picture.Url,
-                            Default = r.User.Profile.Picture.Default,
-                            CreatedAt = r.User.Profile.Picture.CreatedAt
-                        }
-
-
-                    },
-                    Card = new CardDTO()
-                    {
-                        Name = r.Card.Name,
-                        UserId = r.Card.UserId,
-                        Description = r.Card.Description,
-                        ApartmentId = r.Card.ApartmentId,
-                        PriceDay = r.Card.PriceDay,
-                        PricePeriod = r.Card.PriceDay * 7,
-                        Cohabitation = r.Card.Cohabitation,
-                        ResidentGender = r.Card.ResidentGender,
-                        Lang = r.Card.Lang,
-                        Dates = r.Card.Dates.Select(d => new DatesDTO()
-                        {
-                            DateFrom = d.DateFrom,
-                            DateTo = d.DateTo
-                        }).Union(r.Card.Reservations.Where(reserv => reserv.Status == ConstVals.Accepted).Select(rv => new DatesDTO()
-                        {
-                            DateFrom = rv.DateFrom,
-                            DateTo = rv.DateTo
-                        }).ToList()).ToList(),
-                        User = new UserDTO()
-                        {
-                            Id = r.Card.User.Profile.Id,
-                            FirstName = r.Card.User.Profile.FirstName,
-                            LastName = r.Card.User.Profile.LastName,
-                            Rating = r.Card.User.Profile.Rating,
-                            RatingCount = r.Card.User.Profile.RatingCount,
-                            Gender = r.Card.User.Profile.Gender,
-                            Phone = r.Card.User.Profile.Phone,
-                            Picture = new PictureDTO()
+                            Id = r.Id,
+                            Type = ConstVals.Renter,
+                            CardId = r.CardId,
+                            UserId = r.UserId,
+                            Status = r.Status,
+                            DateFrom = r.DateFrom,
+                            DateTo = r.DateTo,
+                            CreatedAt = r.CreatedAt,
+                            UpdatedAt = r.UpdatedAt,
+                            User = new BaseUserDTO()
                             {
-                                Id = r.Card.User.Profile.Picture.Id,
-                                Name = r.Card.User.Profile.Picture.Name,
-                                Description = r.Card.User.Profile.Picture.Description,
-                                Url = r.Card.User.Profile.Picture.Url,
-                                Default = r.Card.User.Profile.Picture.Default,
-                                CreatedAt = r.Card.User.Profile.Picture.CreatedAt
+                                Id = r.User.Profile.Id,
+                                Email = r.User.Email,
+                                FirstName = r.User.Profile.FirstName,
+                                LastName = r.User.Profile.LastName,
+                                Rating = r.User.Profile.Rating,
+                                RatingCount = r.User.Profile.RatingCount,
+                                Gender = r.User.Profile.Gender,
+                                Picture = new PictureDTO()
+                                {
+                                    Id = r.User.Profile.Picture.Id,
+                                    Name = r.User.Profile.Picture.Name,
+                                    Description = r.User.Profile.Picture.Description,
+                                    Url = r.User.Profile.Picture.Url,
+                                    Default = r.User.Profile.Picture.Default,
+                                    CreatedAt = r.User.Profile.Picture.CreatedAt
+                                }
+
+
+                            },
+                            Card = new CardDTO()
+                            {
+                                Name = r.Card.Name,
+                                UserId = r.Card.UserId,
+                                Description = r.Card.Description,
+                                ApartmentId = r.Card.ApartmentId,
+                                PriceDay = r.Card.PriceDay,
+                                PricePeriod = r.Card.PriceDay*7,
+                                Cohabitation = r.Card.Cohabitation,
+                                ResidentGender = r.Card.ResidentGender,
+                                Lang = r.Card.Lang,
+                                Dates = r.Card.Dates.Select(d => new DatesDTO()
+                                {
+                                    DateFrom = d.DateFrom,
+                                    DateTo = d.DateTo
+                                })
+                                    .Union(
+                                        r.Card.Reservations.Where(reserv => reserv.Status == ConstVals.Accepted)
+                                            .Select(rv => new DatesDTO()
+                                            {
+                                                DateFrom = rv.DateFrom,
+                                                DateTo = rv.DateTo
+                                            }).ToList()).ToList(),
+                                User = new UserDTO()
+                                {
+                                    Id = r.Card.User.Profile.Id,
+                                    FirstName = r.Card.User.Profile.FirstName,
+                                    LastName = r.Card.User.Profile.LastName,
+                                    Rating = r.Card.User.Profile.Rating,
+                                    RatingCount = r.Card.User.Profile.RatingCount,
+                                    Gender = r.Card.User.Profile.Gender,
+                                    Phone = r.Card.User.Profile.Phone,
+                                    Picture = new PictureDTO()
+                                    {
+                                        Id = r.Card.User.Profile.Picture.Id,
+                                        Name = r.Card.User.Profile.Picture.Name,
+                                        Description = r.Card.User.Profile.Picture.Description,
+                                        Url = r.Card.User.Profile.Picture.Url,
+                                        Default = r.Card.User.Profile.Picture.Default,
+                                        CreatedAt = r.Card.User.Profile.Picture.CreatedAt
+                                    }
+                                },
+                                Apartment = new ApartmentDTO()
+                                {
+                                    Id = r.Card.Apartment.Id,
+                                    Name = r.Card.Apartment.Name,
+                                    Type = r.Card.Apartment.Type,
+                                    Options = r.Card.Apartment.Options,
+                                    UserId = r.Card.Apartment.UserId,
+                                    Adress = r.Card.Apartment.Adress,
+                                    Latitude = r.Card.Apartment.Latitude,
+                                    Longitude = r.Card.Apartment.Longitude,
+                                }
+
                             }
-                        },
-                        Apartment = new ApartmentDTO()
-                        {
-                            Id = r.Card.Apartment.Id,
-                            Name = r.Card.Apartment.Name,
-                            Type = r.Card.Apartment.Type,
-                            Options = r.Card.Apartment.Options,
-                            UserId = r.Card.Apartment.UserId,
-                            Adress = r.Card.Apartment.Adress,
-                            Latitude = r.Card.Apartment.Latitude,
-                            Longitude = r.Card.Apartment.Longitude,
-                        }
-
-                    }
-                }).ToList();
-
+                        }).ToList();
+                }
                 List<ReservationDTO> result = new List<ReservationDTO>(ownerReserv.Count + renterReserv.Count);
                 result.AddRange(ownerReserv);
                 result.AddRange(renterReserv);
