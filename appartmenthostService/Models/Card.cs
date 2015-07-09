@@ -4,6 +4,9 @@ using Microsoft.WindowsAzure.Mobile.Service;
 
 namespace apartmenthostService.Models
 {
+    /*
+     * Карточки объявления
+     */
     public class Card : EntityData
     {
         public Card()
@@ -37,6 +40,13 @@ namespace apartmenthostService.Models
         public ICollection<Favorite> Favorites { get; set; }
         public ICollection<Notification> Notifications { get; set; }
         public ICollection<PropVal> PropVals { get; set; }
+
+        // Системные поля: 
+        // Id - Уникальный идентификатор записи
+        // CreatedAt - Дата и время создания записи
+        // UpdatedAt - Дата и время изменения записи
+        // Version - Текущая версия записи
+        // Deleted - Признак удаленной записи
 
     }
 }

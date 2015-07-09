@@ -4,6 +4,9 @@ using Microsoft.WindowsAzure.Mobile.Service;
 
 namespace apartmenthostService.Models
 {
+    /* 
+     * Бронирования
+     */
     public class Reservation : EntityData
     {
         public string CardId { get; set; }
@@ -18,5 +21,12 @@ namespace apartmenthostService.Models
 
         public ICollection<Notification> Notifications { get; set; } 
         public ICollection<PropVal> PropVals { get; set; }
+
+        // Системные поля: 
+        // Id - Уникальный идентификатор записи
+        // CreatedAt - Дата и время создания записи
+        // UpdatedAt - Дата и время изменения записи
+        // Version - Текущая версия записи
+        // Deleted - Признак удаленной записи
     }
 }

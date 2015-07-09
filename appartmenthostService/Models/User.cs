@@ -5,6 +5,9 @@ namespace apartmenthostService.Models
 {
     public class User : EntityData
     {
+        /*
+         * Пользователи
+         */
         public User() 
         {
             this.Notifications = new HashSet<Notification>();
@@ -30,5 +33,12 @@ namespace apartmenthostService.Models
         public ICollection<Reservation> Reservations { get; set; }
         public ICollection<Review> OutReviews { get; set; }
         public ICollection<Review> InReviews { get; set; }
+
+        // Системные поля: 
+        // Id - Уникальный идентификатор записи
+        // CreatedAt - Дата и время создания записи
+        // UpdatedAt - Дата и время изменения записи
+        // Version - Текущая версия записи
+        // Deleted - Признак удаленной записи
     }
 }

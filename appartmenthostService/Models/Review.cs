@@ -3,6 +3,9 @@ using Microsoft.WindowsAzure.Mobile.Service;
 
 namespace apartmenthostService.Models
 {
+    /*
+     * Отзывы и рейтинги
+     */
     public class Review : EntityData
     {
 
@@ -18,6 +21,11 @@ namespace apartmenthostService.Models
 
         public ICollection<Notification> Notifications { get; set; }
 
-
+        // Системные поля: 
+        // Id - Уникальный идентификатор записи
+        // CreatedAt - Дата и время создания записи
+        // UpdatedAt - Дата и время изменения записи
+        // Version - Текущая версия записи
+        // Deleted - Признак удаленной записи
     }
 }

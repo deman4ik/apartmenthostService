@@ -275,7 +275,7 @@
     <Compile Include="Models\Apartment.cs" />
     <Compile Include="Models\Article.cs" />
     <Compile Include="Models\CardDates.cs" />
-    <Compile Include="Models\DatesDTO.cs" />
+    <Compile Include="DataObjects\DatesDTO.cs" />
     <Compile Include="Models\Dictionary.cs" />
     <Compile Include="Models\DictionaryItem.cs" />
     <Compile Include="Models\Favorite.cs" />

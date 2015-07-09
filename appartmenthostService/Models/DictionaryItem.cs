@@ -4,6 +4,9 @@ using Microsoft.WindowsAzure.Mobile.Service;
 
 namespace apartmenthostService.Models
 {
+    /* 
+     * Значения словарей
+     */
     public class DictionaryItem : EntityData
     {
         public DictionaryItem()
@@ -20,5 +23,12 @@ namespace apartmenthostService.Models
 
         public virtual Dictionary Dictionary { get; set; }
         public ICollection<PropVal> PropVals { get; set; }
+
+        // Системные поля: 
+        // Id - Уникальный идентификатор записи
+        // CreatedAt - Дата и время создания записи
+        // UpdatedAt - Дата и время изменения записи
+        // Version - Текущая версия записи
+        // Deleted - Признак удаленной записи
     }
 }

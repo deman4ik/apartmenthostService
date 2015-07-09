@@ -3,6 +3,9 @@ using Microsoft.WindowsAzure.Mobile.Service;
 
 namespace apartmenthostService.Models
 {
+    /*
+     * Значения дополнительных свойств
+     */
     public class PropVal : EntityData
     {
         public string PropId { get; set; }
@@ -22,6 +25,13 @@ namespace apartmenthostService.Models
         public virtual Apartment Apartment { get; set; }
         public virtual Card Card { get; set; }
         public virtual Reservation Reservation { get; set; }
+
+        // Системные поля: 
+        // Id - Уникальный идентификатор записи
+        // CreatedAt - Дата и время создания записи
+        // UpdatedAt - Дата и время изменения записи
+        // Version - Текущая версия записи
+        // Deleted - Признак удаленной записи
 
     }
 }

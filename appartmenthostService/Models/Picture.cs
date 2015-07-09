@@ -3,6 +3,9 @@ using Microsoft.WindowsAzure.Mobile.Service;
 
 namespace apartmenthostService.Models
 {
+    /*
+     * Изображения
+     */
     public class Picture : EntityData
     {
         public Picture() 
@@ -22,6 +25,13 @@ namespace apartmenthostService.Models
         public ICollection<Notification> Notifications { get; set; }
         public ICollection<Apartment> Apartments { get; set; }
         public ICollection<Card> Cards { get; set; }
-        public ICollection<Article> Articles { get; set; } 
+        public ICollection<Article> Articles { get; set; }
+
+        // Системные поля: 
+        // Id - Уникальный идентификатор записи
+        // CreatedAt - Дата и время создания записи
+        // UpdatedAt - Дата и время изменения записи
+        // Version - Текущая версия записи
+        // Deleted - Признак удаленной записи
     }
 }

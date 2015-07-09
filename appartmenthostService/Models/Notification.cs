@@ -4,6 +4,9 @@ using Microsoft.WindowsAzure.Mobile.Service;
 
 namespace apartmenthostService.Models
 {
+    /*
+     * Оповещения
+     */
     public class Notification : EntityData
     {
         public string UserId { get; set; }
@@ -21,5 +24,12 @@ namespace apartmenthostService.Models
 
         public virtual Review Review { get; set; }
         public virtual Favorite Favorite { get; set; }
+
+        // Системные поля: 
+        // Id - Уникальный идентификатор записи
+        // CreatedAt - Дата и время создания записи
+        // UpdatedAt - Дата и время изменения записи
+        // Version - Текущая версия записи
+        // Deleted - Признак удаленной записи
     }
 }
