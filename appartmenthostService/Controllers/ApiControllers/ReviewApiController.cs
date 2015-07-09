@@ -53,6 +53,7 @@ namespace apartmenthostService.Controllers
                             x => new ReservReviewDTO()
                             {
                                 Type = ConstVals.Owner,
+                                CanResponse = x.DateTo <= DateTime.Now,
                                 Reservation = new ReservationDTO()
                                 {
                                     Id = x.Id,
@@ -93,7 +94,6 @@ namespace apartmenthostService.Controllers
                                             ReservationId = owrev.ReservationId,
                                             Rating = owrev.Rating,
                                             Text = owrev.Text,
-                                            CanResponse = x.DateTo <= DateTime.Now,
                                             CreatedAt = owrev.CreatedAt,
                                             UpdatedAt = owrev.UpdatedAt
                                         }).FirstOrDefault(),
@@ -107,7 +107,6 @@ namespace apartmenthostService.Controllers
                                             ReservationId = renrev.ReservationId,
                                             Rating = renrev.Rating,
                                             Text = renrev.Text,
-                                            CanResponse = x.DateTo <= DateTime.Now,
                                             CreatedAt = renrev.CreatedAt,
                                             UpdatedAt = renrev.UpdatedAt
                                         }).FirstOrDefault(),
@@ -122,6 +121,7 @@ namespace apartmenthostService.Controllers
                             x => new ReservReviewDTO()
                             {
                                 Type = ConstVals.Renter,
+                                CanResponse = x.DateTo <= DateTime.Now,
                                 Reservation = new ReservationDTO()
                                 {
                                     Id = x.Id,
@@ -179,7 +179,6 @@ namespace apartmenthostService.Controllers
                                             ReservationId = owrev.ReservationId,
                                             Rating = owrev.Rating,
                                             Text = owrev.Text,
-                                            CanResponse = x.DateTo <= DateTime.Now,
                                             CreatedAt = owrev.CreatedAt,
                                             UpdatedAt = owrev.UpdatedAt
                                         }).FirstOrDefault(),
@@ -193,7 +192,6 @@ namespace apartmenthostService.Controllers
                                             ReservationId = renrev.ReservationId,
                                             Rating = renrev.Rating,
                                             Text = renrev.Text,
-                                            CanResponse = x.DateTo <= DateTime.Now,
                                             CreatedAt = renrev.CreatedAt,
                                             UpdatedAt = renrev.UpdatedAt
                                         }).FirstOrDefault(),
