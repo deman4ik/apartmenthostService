@@ -139,7 +139,7 @@ namespace apartmenthostService.Controllers
                                         UserId = x.Card.UserId,
                                         PriceDay = x.Card.PriceDay,
                                         PricePeriod = x.Card.PriceDay * 7,
-                                        IsFavorite = x.Card.Favorites.Any(f => f.UserId == currentUser.Id),
+                                        IsFavorite = x.Card.Favorites.Any(f => f.UserId == account.UserId),
                                         Apartment = new ApartmentDTO()
                                         {
                                             Id = x.Card.Apartment.Id,
