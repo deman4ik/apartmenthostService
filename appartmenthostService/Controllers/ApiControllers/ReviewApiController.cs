@@ -84,7 +84,7 @@ namespace apartmenthostService.Controllers
                                     }
                                 },
                                 OwnerReview =
-                                    x.Reviews.Where(rev => rev.ReservationId == x.Id && rev.FromUserId == currentUser.Id)
+                                    x.Reviews.Where(rev => rev.ReservationId == x.Id && rev.FromUserId == account.UserId)
                                         .Select(owrev => new ReviewDTO()
                                         {
                                             Id = owrev.Id,
@@ -98,7 +98,7 @@ namespace apartmenthostService.Controllers
                                             UpdatedAt = owrev.UpdatedAt
                                         }).FirstOrDefault(),
                                 RenterReview =
-                                    x.Reviews.Where(rev => rev.ReservationId == x.Id && rev.ToUserId == currentUser.Id)
+                                    x.Reviews.Where(rev => rev.ReservationId == x.Id && rev.ToUserId == account.UserId)
                                         .Select(renrev => new ReviewDTO()
                                         {
                                             Id = renrev.Id,
