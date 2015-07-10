@@ -35,13 +35,53 @@ namespace apartmenthostService.DataObjects
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string Description { get; set; }
 
-        // Полные путь к изображению в нужном размере
+        // Полные путь к изображению в оригинальном размере
         [Metadata(DataType = ConstDataType.Text)]
         [GetRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string Url { get; set; }
+
+        // Полные путь к изображению в самом маленьком размере
+        [Metadata(DataType = ConstDataType.Text)]
+        [GetRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public string Xsmall { get; set; }
+
+        // Полные путь к изображению в маленьком размере
+        [Metadata(DataType = ConstDataType.Text)]
+        [GetRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public string Small { get; set; }
+
+        // Полные путь к изображению в среднем размере
+        [Metadata(DataType = ConstDataType.Text)]
+        [GetRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public string Mid { get; set; }
+
+        // Полные путь к изображению в большом размере
+        [Metadata(DataType = ConstDataType.Text)]
+        [GetRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public string Large { get; set; }
+
+        // Полные путь к изображению в самом большом размере
+        [Metadata(DataType = ConstDataType.Text)]
+        [GetRule(Order = 2, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public string Xlarge { get; set; }
 
         // Признак изображения по умолчанию
         [Metadata(DataType = ConstDataType.Bool)]

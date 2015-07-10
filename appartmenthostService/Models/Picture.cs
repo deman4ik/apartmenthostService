@@ -17,7 +17,11 @@ namespace apartmenthostService.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string Url { get; set; }
-
+        public string Xsmall { get; set; }
+        public string Small { get; set; }
+        public string Mid { get; set; }
+        public string Large { get; set; }
+        public string Xlarge { get; set; }
         public string CloudinaryPublicId { get; set; }
         public bool Default { get; set; }
 

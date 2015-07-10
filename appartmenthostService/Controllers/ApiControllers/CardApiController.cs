@@ -225,6 +225,11 @@ namespace apartmenthostService.Controllers
                             Name = x.User.Profile.Picture.Name,
                             Description = x.User.Profile.Picture.Description,
                             Url = x.User.Profile.Picture.Url,
+                            Xsmall = x.User.Profile.Picture.Xsmall,
+                            Small = x.User.Profile.Picture.Small,
+                            Mid = x.User.Profile.Picture.Mid,
+                            Large = x.User.Profile.Picture.Large,
+                            Xlarge = x.User.Profile.Picture.Xlarge,
                             Default = x.User.Profile.Picture.Default,
                             CreatedAt = x.User.Profile.Picture.CreatedAt
                         }
@@ -247,6 +252,11 @@ namespace apartmenthostService.Controllers
                             Name = apic.Name,
                             Description = apic.Description,
                             Url = apic.Url,
+                            Xsmall = apic.Xsmall,
+                            Small = apic.Small,
+                            Mid = apic.Mid,
+                            Large = apic.Large,
+                            Xlarge = apic.Xlarge,
                             Default = apic.Default,
                             CreatedAt = apic.CreatedAt
                         }).ToList()
@@ -272,6 +282,11 @@ namespace apartmenthostService.Controllers
                                 Name = rev.FromUser.Profile.Picture.Name,
                                 Description = rev.FromUser.Profile.Picture.Description,
                                 Url = rev.FromUser.Profile.Picture.Url,
+                                Xsmall = rev.FromUser.Profile.Picture.Xsmall,
+                                Small = rev.FromUser.Profile.Picture.Small,
+                                Mid = rev.FromUser.Profile.Picture.Mid,
+                                Large = rev.FromUser.Profile.Picture.Large,
+                                Xlarge = rev.FromUser.Profile.Picture.Xlarge,
                                 Default = rev.FromUser.Profile.Picture.Default,
                                 CreatedAt = rev.FromUser.Profile.Picture.CreatedAt
                             }
@@ -319,6 +334,11 @@ namespace apartmenthostService.Controllers
                                 Name = apic.Name,
                                 Description = apic.Description,
                                 Url = apic.Url,
+                                Xsmall = apic.Xsmall,
+                                Small = apic.Small,
+                                Mid = apic.Mid,
+                                Large = apic.Large,
+                                Xlarge = apic.Xlarge,
                                 Default = apic.Default,
                                 CreatedAt = apic.CreatedAt
                             }).ToList()
@@ -338,6 +358,11 @@ namespace apartmenthostService.Controllers
                                 Name = card.User.Profile.Picture.Name,
                                 Description = card.User.Profile.Picture.Description,
                                 Url = card.User.Profile.Picture.Url,
+                                Xsmall = card.User.Profile.Picture.Xsmall,
+                                Small = card.User.Profile.Picture.Small,
+                                Mid = card.User.Profile.Picture.Mid,
+                                Large = card.User.Profile.Picture.Large,
+                                Xlarge = card.User.Profile.Picture.Xlarge,
                                 Default = card.User.Profile.Picture.Default,
                                 CreatedAt = card.User.Profile.Picture.CreatedAt
                             }

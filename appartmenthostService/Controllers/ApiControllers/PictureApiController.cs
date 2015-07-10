@@ -70,20 +70,6 @@ namespace apartmenthostService.Controllers
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_USER_WRONG_USER, respList));
                 }
-                string cloudname;
-                string apikey;
-                string apisecret; 
-                if (!(Services.Settings.TryGetValue("CLOUDINARY_CLOUD_NAME", out cloudname) |
-                Services.Settings.TryGetValue("CLOUDINARY_API_KEY", out apikey) | Services.Settings.TryGetValue("CLOUDINARY_API_SECRET", out apisecret)))
-                {
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_PICTURE_BAD_CLOUDINARY_CRED));
-                }
-
-                CloudinaryDotNet.Account clacc = new CloudinaryDotNet.Account(
-                                                                            cloudname,
-                                                                            apikey,
-                                                                            apisecret);
-                Cloudinary cloudinary = new Cloudinary(clacc);
 
                 string pictureGuid = Guid.NewGuid().ToString();
                 profile.Picture = new Picture()
@@ -91,7 +77,11 @@ namespace apartmenthostService.Controllers
                     Id = pictureGuid,
                     Name = picture.Name,
                     Description = picture.Description,
-                    Url = cloudinary.Api.UrlImgUp.BuildUrl(picture.Name),
+                    Url = CloudinaryHelper.Cloudinary.Api.UrlImgUp.BuildUrl(picture.Name),
+                    Small = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(34).Height(34).Crop("thumb")).BuildUrl(picture.Name),
+                    Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(62).Height(62).Crop("thumb")).BuildUrl(picture.Name),
+                    Large = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(76).Height(76).Crop("thumb")).BuildUrl(picture.Name),
+                    Xlarge = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(96).Height(96).Crop("thumb")).BuildUrl(picture.Name),
                     Default = true
                 };
 
@@ -162,22 +152,6 @@ namespace apartmenthostService.Controllers
                     resp = CheckHelper.isNull(picture.CloudinaryPublicId, "CloudinaryPublicId", RespH.SRV_PICTURE_REQUIRED);
                     if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp); 
                 }
-                
-
-                string cloudname;
-                string apikey;
-                string apisecret;
-                if (!(Services.Settings.TryGetValue("CLOUDINARY_CLOUD_NAME", out cloudname) |
-                Services.Settings.TryGetValue("CLOUDINARY_API_KEY", out apikey) | Services.Settings.TryGetValue("CLOUDINARY_API_SECRET", out apisecret)))
-                {
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_PICTURE_BAD_CLOUDINARY_CRED));
-                }
-
-                CloudinaryDotNet.Account clacc = new CloudinaryDotNet.Account(
-                                                                            cloudname,
-                                                                            apikey,
-                                                                            apisecret);
-                Cloudinary cloudinary = new Cloudinary(clacc);
 
                 foreach (var picture in pictures)
                 {
@@ -187,7 +161,12 @@ namespace apartmenthostService.Controllers
                         Id = pictureGuid,
                         Name = picture.Name,
                         Description = picture.Description,
-                        Url = cloudinary.Api.UrlImgUp.BuildUrl(picture.Name),
+                        Url = CloudinaryHelper.Cloudinary.Api.UrlImgUp.BuildUrl(picture.Name),
+                        Xsmall = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(143).Crop("thumb")).BuildUrl(picture.Name),
+                        Small = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(190).Crop("thumb")).BuildUrl(picture.Name),
+                        Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(213).Crop("thumb")).BuildUrl(picture.Name),
+                        Large = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(552).Crop("limit")).BuildUrl(picture.Name),
+                        Xlarge = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(1024).Crop("limit")).BuildUrl(picture.Name),
                         Default = picture.Default
                     };
                     _context.Set<Picture>().Add(pic);

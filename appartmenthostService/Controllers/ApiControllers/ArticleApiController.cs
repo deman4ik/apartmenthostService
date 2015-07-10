@@ -83,6 +83,11 @@ namespace apartmenthostService.Controllers
                         Name = art.Picture.Name,
                         Description = art.Picture.Description,
                         Url = art.Picture.Url,
+                        Xsmall = art.Picture.Xsmall,
+                        Small = art.Picture.Small,
+                        Mid = art.Picture.Mid,
+                        Large = art.Picture.Large,
+                        Xlarge = art.Picture.Xlarge,
                         CloudinaryPublicId = art.Picture.CloudinaryPublicId,
                         Default = art.Picture.Default,
                         CreatedAt = art.Picture.CreatedAt

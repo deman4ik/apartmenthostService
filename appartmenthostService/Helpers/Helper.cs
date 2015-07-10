@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Models;
+using CloudinaryDotNet;
+using Microsoft.WindowsAzure.Mobile.Service;
 
 namespace apartmenthostService.Helpers
 {
@@ -176,6 +181,21 @@ namespace apartmenthostService.Helpers
             }
             return null;
         }
+
+    }
+
+    public static class CloudinaryHelper
+    {
+        public static Cloudinary Cloudinary { get; set; }
+
+        static CloudinaryHelper()
+        {
+            CloudinaryDotNet.Account clacc = new CloudinaryDotNet.Account(ConfigurationManager.AppSettings["CLOUDINARY_CLOUD_NAME"],
+                                                                           ConfigurationManager.AppSettings["CLOUDINARY_API_KEY"],
+                                                                           ConfigurationManager.AppSettings["CLOUDINARY_API_SECRET"]);
+            Cloudinary = new Cloudinary(clacc);
+        }
+
 
     }
 

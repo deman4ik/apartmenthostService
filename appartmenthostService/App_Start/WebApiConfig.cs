@@ -1,7 +1,11 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using System.Diagnostics;
 using System.Web.Http;
 using apartmenthostService.Authentication;
 using apartmenthostService.Helpers;
+using apartmenthostService.Migrations;
 using apartmenthostService.Models;
 using AutoMapper;
 using Microsoft.WindowsAzure.Mobile.Service;
@@ -12,6 +16,7 @@ namespace apartmenthostService
 {
     public static class WebApiConfig
     {
+
         public static void Register()
         {
             // Use this class to set configuration options for your mobile service
@@ -31,16 +36,22 @@ namespace apartmenthostService
             {
                 DTOMapper.CreateMapping(cfg);
             });
+
+            var migrator = new DbMigrator(new Configuration());
+            migrator.Update();
             //Database.SetInitializer(new appartmenthostInitializer());
+            
         }
     }
 
-    public class appartmenthostInitializer : ClearDatabaseSchemaIfModelChanges<apartmenthostContext> 
+    public class appartmenthostInitializer : ClearDatabaseSchemaAlways<apartmenthostContext> 
 
     { 
         protected override void Seed(apartmenthostContext context)
         {
-            
+
+
+            DBPopulator.Populate(context);
             base.Seed(context);
         }
     }

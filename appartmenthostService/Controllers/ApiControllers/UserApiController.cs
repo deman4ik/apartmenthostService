@@ -51,6 +51,11 @@ namespace apartmenthostService.Controllers
                     Name = x.Picture.Name,
                     Description = x.Picture.Description,
                     Url = x.Picture.Url,
+                    Xsmall = x.Picture.Xsmall,
+                    Small = x.Picture.Small,
+                    Mid = x.Picture.Mid,
+                    Large = x.Picture.Large,
+                    Xlarge = x.Picture.Xlarge,
                     Default = x.Picture.Default,
                     CreatedAt = x.Picture.CreatedAt
                 }

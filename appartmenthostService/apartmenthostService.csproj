@@ -100,6 +100,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.Runtime.Serialization" />
@@ -210,9 +211,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201507082054277_Initial.cs" />
-    <Compile Include="Migrations\201507082054277_Initial.Designer.cs">
-      <DependentUpon>201507082054277_Initial.cs</DependentUpon>
+    <Compile Include="App_Start\TestDBPopulator.cs" />
+    <Compile Include="Migrations\201507101831421_Initial.cs" />
+    <Compile Include="Migrations\201507101831421_Initial.Designer.cs">
+      <DependentUpon>201507101831421_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\TestDBPopulator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -288,10 +290,10 @@
     <Compile Include="Models\Review.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Table.cs" />
-    <Compile Include="Models\User.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Helpers\Helper.cs" />
     <Compile Include="Models\apartmenthostContext.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="ScheduledJobs\RatingJob.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -318,8 +320,8 @@
     <None Include="Properties\PublishProfiles\apartmenthost - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201507082054277_Initial.resx">
-      <DependentUpon>201507082054277_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201507101831421_Initial.resx">
+      <DependentUpon>201507101831421_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

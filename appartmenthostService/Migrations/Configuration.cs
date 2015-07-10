@@ -16,27 +16,27 @@ namespace apartmenthostService.Migrations
 
         public static void PopulateTables(apartmenthostContext context)
         {
-            context.Tables.AddOrUpdate(
-                p => p.Name,
+            context.Set<Table>().AddOrUpdate(
+               // p => p.Name,
                 new Table()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = ConstTable.ApartmentTable
+                    Name = ConstTable.ApartmentTable,
                 },
                 new Table()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = ConstTable.CardTable
+                    Name = ConstTable.CardTable,
                 },
                 new Table()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = ConstTable.ProfileTable
+                    Name = ConstTable.ProfileTable,
                 },
                 new Table()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = ConstTable.ReservationTable
+                    Name = ConstTable.ReservationTable,
                 });
             context.SaveChanges();
         }
@@ -48,22 +48,22 @@ namespace apartmenthostService.Migrations
                 new Dictionary()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = ConstDictionary.ApartmentOptions
+                    Name = ConstDictionary.ApartmentOptions,
                 },
                 new Dictionary()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = ConstDictionary.ApartmentType
+                    Name = ConstDictionary.ApartmentType,
                 },
                 new Dictionary()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = ConstDictionary.Cohabitation
+                    Name = ConstDictionary.Cohabitation,
                 },
                 new Dictionary()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = ConstDictionary.Gender
+                    Name = ConstDictionary.Gender,
                 });
             context.SaveChanges();
         }
@@ -79,79 +79,79 @@ namespace apartmenthostService.Migrations
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = apartmentTypeDic.Id,
-                    StrValue = ConstVals.House
+                    StrValue = ConstVals.House,
                 },
                 new DictionaryItem()
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = apartmentTypeDic.Id,
-                    StrValue = ConstVals.Flat
+                    StrValue = ConstVals.Flat,
                 },
                 new DictionaryItem()
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = apartmentTypeDic.Id,
-                    StrValue = ConstVals.Room
+                    StrValue = ConstVals.Room,
                 },
                 new DictionaryItem()
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = apartmentTypeDic.Id,
-                    StrValue = ConstVals.Office
+                    StrValue = ConstVals.Office,
                 },
                 new DictionaryItem()
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = apartmentTypeDic.Id,
-                    StrValue = ConstVals.HotelRoom
+                    StrValue = ConstVals.HotelRoom,
                 },
                 new DictionaryItem()
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = cohabitationTypeDic.Id,
-                    StrValue = ConstVals.SeperateResidence
+                    StrValue = ConstVals.SeperateResidence,
                 },
                 new DictionaryItem()
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = cohabitationTypeDic.Id,
-                    StrValue = ConstVals.Cohabitation
+                    StrValue = ConstVals.Cohabitation,
                 },
                 new DictionaryItem()
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = cohabitationTypeDic.Id,
-                    StrValue = ConstVals.Any
+                    StrValue = ConstVals.Any,
                 },
                 new DictionaryItem()
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = genderDic.Id,
-                    StrValue = ConstVals.Male
+                    StrValue = ConstVals.Male,
                 },
                 new DictionaryItem()
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = genderDic.Id,
-                    StrValue = ConstVals.Female
+                    StrValue = ConstVals.Female,
                 },
                 new DictionaryItem()
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = genderDic.Id,
-                    StrValue = ConstVals.Any
+                    StrValue = ConstVals.Any,
                 },
                 new DictionaryItem()
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = genderDic.Id,
-                    StrValue = ConstVals.Thing
+                    StrValue = ConstVals.Thing,
                 },
                 new DictionaryItem()
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = genderDic.Id,
-                    StrValue = ConstVals.Alien
+                    StrValue = ConstVals.Alien,
                 }
                 );
 

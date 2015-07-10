@@ -9,6 +9,7 @@ using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
 using apartmenthostService.Models;
+using CloudinaryDotNet;
 using Microsoft.Owin.Security;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
@@ -112,6 +113,14 @@ namespace apartmenthostService.Controllers
                                         }).FirstOrDefault(),
                             }
                         ).ToList();
+
+                foreach (var ownerReview in ownerReviews)
+                {
+                    ownerReview.Reservation.Card.User.Picture.Url =
+                        CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(
+                            new Transformation().Width(76).Height(76).Crop("thumb"))
+                            .BuildUrl(ownerReview.Reservation.Card.User.Picture.Name);
+                }
             }
             if (type == ConstVals.Renter || string.IsNullOrWhiteSpace(type))
             {
@@ -138,13 +147,22 @@ namespace apartmenthostService.Controllers
                                         Name = x.Card.Name,
                                         UserId = x.Card.UserId,
                                         PriceDay = x.Card.PriceDay,
-                                        PricePeriod = x.Card.PriceDay * 7,
                                         IsFavorite = x.Card.Favorites.Any(f => f.UserId == account.UserId),
                                         Apartment = new ApartmentDTO()
                                         {
                                             Id = x.Card.Apartment.Id,
                                             Name = x.Card.Apartment.Name,
-                                            Adress = x.Card.Apartment.Adress
+                                            Adress = x.Card.Apartment.Adress,
+                                            DefaultPicture = x.Card.Apartment.Pictures.Select(apic => new PictureDTO()
+                                            {
+                                                Id = apic.Id,
+                                                Name = apic.Name,
+                                                Description = apic.Description,
+                                                Url = apic.Url,
+                                                Default = apic.Default,
+                                                CreatedAt = apic.CreatedAt
+                                            }).FirstOrDefault(ap => ap.Default == true)
+
                                         },
                                         User = new UserDTO()
                                         {
@@ -170,7 +188,7 @@ namespace apartmenthostService.Controllers
                                     }
                                 },
                                 OwnerReview =
-                                    x.Reviews.Where(rev => rev.ReservationId == x.Id && rev.FromUserId == account.UserId)
+                                    x.Reviews.Where(rev => rev.ReservationId == x.Id && rev.ToUserId == account.UserId)
                                         .Select(owrev => new ReviewDTO()
                                         {
                                             Id = owrev.Id,
@@ -183,7 +201,7 @@ namespace apartmenthostService.Controllers
                                             UpdatedAt = owrev.UpdatedAt
                                         }).FirstOrDefault(),
                                 RenterReview =
-                                    x.Reviews.Where(rev => rev.ReservationId == x.Id && rev.ToUserId == account.UserId)
+                                    x.Reviews.Where(rev => rev.ReservationId == x.Id && rev.FromUserId == account.UserId)
                                         .Select(renrev => new ReviewDTO()
                                         {
                                             Id = renrev.Id,
@@ -197,6 +215,7 @@ namespace apartmenthostService.Controllers
                                         }).FirstOrDefault(),
                             }
                         ).ToList();
+
             }
             List<ReservReviewDTO> result = new List<ReservReviewDTO>(ownerReviews.Count + renterReviews.Count);
             result.AddRange(ownerReviews);

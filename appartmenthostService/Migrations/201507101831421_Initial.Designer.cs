@@ -13,7 +13,7 @@ namespace apartmenthostService.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201507082054277_Initial"; }
+            get { return "201507101831421_Initial"; }
         }
         
         string IMigrationMetadata.Source

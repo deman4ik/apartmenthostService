@@ -71,6 +71,11 @@ namespace apartmenthostService.Controllers
                                     Name = r.User.Profile.Picture.Name,
                                     Description = r.User.Profile.Picture.Description,
                                     Url = r.User.Profile.Picture.Url,
+                                    Xsmall = r.User.Profile.Picture.Xsmall,
+                                    Small = r.User.Profile.Picture.Small,
+                                    Mid = r.User.Profile.Picture.Mid,
+                                    Large = r.User.Profile.Picture.Large,
+                                    Xlarge = r.User.Profile.Picture.Xlarge,
                                     Default = r.User.Profile.Picture.Default,
                                     CreatedAt = r.User.Profile.Picture.CreatedAt
                                 }
@@ -163,6 +168,11 @@ namespace apartmenthostService.Controllers
                                     Name = r.User.Profile.Picture.Name,
                                     Description = r.User.Profile.Picture.Description,
                                     Url = r.User.Profile.Picture.Url,
+                                    Xsmall = r.User.Profile.Picture.Xsmall,
+                                    Small = r.User.Profile.Picture.Small,
+                                    Mid = r.User.Profile.Picture.Mid,
+                                    Large = r.User.Profile.Picture.Large,
+                                    Xlarge = r.User.Profile.Picture.Xlarge,
                                     Default = r.User.Profile.Picture.Default,
                                     CreatedAt = r.User.Profile.Picture.CreatedAt
                                 }
@@ -207,6 +217,11 @@ namespace apartmenthostService.Controllers
                                         Name = r.Card.User.Profile.Picture.Name,
                                         Description = r.Card.User.Profile.Picture.Description,
                                         Url = r.Card.User.Profile.Picture.Url,
+                                        Xsmall = r.Card.User.Profile.Picture.Xsmall,
+                                        Small = r.Card.User.Profile.Picture.Small,
+                                        Mid = r.Card.User.Profile.Picture.Mid,
+                                        Large = r.Card.User.Profile.Picture.Large,
+                                        Xlarge = r.Card.User.Profile.Picture.Xlarge,
                                         Default = r.Card.User.Profile.Picture.Default,
                                         CreatedAt = r.Card.User.Profile.Picture.CreatedAt
                                     }

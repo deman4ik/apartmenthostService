@@ -130,6 +130,14 @@ namespace apartmenthostService.DataObjects
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public ICollection<PictureDTO> Pictures { get; set; }
+
+        // Изображение по умолчанию
+        [Metadata(DataType = ConstDataType.Picture)]
+        [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        public PictureDTO DefaultPicture { get; set; }
         // Список дополнительных колонок(PropVal)
         //[Metadata(DataType = ConstDataType.PropVals)]
         //[GetRule(Order = 4, RequiredForm = false, RequiredTransfer = true, Visible = true)]

@@ -8,7 +8,7 @@ namespace apartmenthostService.Models
         /*
          * Пользователи
          */
-        public User() 
+        public User()
         {
             this.Notifications = new HashSet<Notification>();
             this.Favorites = new HashSet<Favorite>();
@@ -25,9 +25,9 @@ namespace apartmenthostService.Models
         public byte[] SaltedAndHashedPassword { get; set; }
 
         public virtual Profile Profile { get; set; }
-        public ICollection<Notification> Notifications { get; set; } 
-        public ICollection<Favorite> Favorites { get; set; } 
-        public ICollection<Account> Accounts { get; set; } 
+        public ICollection<Notification> Notifications { get; set; }
+        public ICollection<Favorite> Favorites { get; set; }
+        public ICollection<Account> Accounts { get; set; }
         public ICollection<Apartment> Apartments { get; set; }
         public ICollection<Card> Cards { get; set; }
         public ICollection<Reservation> Reservations { get; set; }
