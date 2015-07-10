@@ -212,6 +212,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\TestDBPopulator.cs" />
+    <Compile Include="Controllers\SeedDbController.cs" />
     <Compile Include="Migrations\201507101831421_Initial.cs" />
     <Compile Include="Migrations\201507101831421_Initial.Designer.cs">
       <DependentUpon>201507101831421_Initial.cs</DependentUpon>

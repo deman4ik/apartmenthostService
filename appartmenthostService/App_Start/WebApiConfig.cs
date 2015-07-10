@@ -37,8 +37,8 @@ namespace apartmenthostService
                 DTOMapper.CreateMapping(cfg);
             });
 
-            var migrator = new DbMigrator(new Configuration());
-            migrator.Update();
+            //var migrator = new DbMigrator(new Configuration());
+            //migrator.Update();
             //Database.SetInitializer(new appartmenthostInitializer());
             
         }

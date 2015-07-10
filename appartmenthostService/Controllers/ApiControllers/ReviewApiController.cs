@@ -9,8 +9,6 @@ using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
 using apartmenthostService.Models;
-using CloudinaryDotNet;
-using Microsoft.Owin.Security;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
@@ -80,6 +78,11 @@ namespace apartmenthostService.Controllers
                                             Name = x.User.Profile.Picture.Name,
                                             Description = x.User.Profile.Picture.Description,
                                             Url = x.User.Profile.Picture.Url,
+                                            Xsmall = x.User.Profile.Picture.Xsmall,
+                                            Small = x.User.Profile.Picture.Small,
+                                            Mid = x.User.Profile.Picture.Mid,
+                                            Large = x.User.Profile.Picture.Large,
+                                            Xlarge = x.User.Profile.Picture.Xlarge,
                                             Default = x.User.Profile.Picture.Default,
                                             CreatedAt = x.User.Profile.Picture.CreatedAt
                                         }
@@ -113,14 +116,6 @@ namespace apartmenthostService.Controllers
                                         }).FirstOrDefault(),
                             }
                         ).ToList();
-
-                foreach (var ownerReview in ownerReviews)
-                {
-                    ownerReview.Reservation.Card.User.Picture.Url =
-                        CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(
-                            new Transformation().Width(76).Height(76).Crop("thumb"))
-                            .BuildUrl(ownerReview.Reservation.Card.User.Picture.Name);
-                }
             }
             if (type == ConstVals.Renter || string.IsNullOrWhiteSpace(type))
             {
@@ -153,15 +148,20 @@ namespace apartmenthostService.Controllers
                                             Id = x.Card.Apartment.Id,
                                             Name = x.Card.Apartment.Name,
                                             Adress = x.Card.Apartment.Adress,
-                                            DefaultPicture = x.Card.Apartment.Pictures.Select(apic => new PictureDTO()
+                                            DefaultPicture = x.Card.Apartment.Pictures.Where(ap => ap.Default == true).Select(apic => new PictureDTO()
                                             {
                                                 Id = apic.Id,
                                                 Name = apic.Name,
                                                 Description = apic.Description,
                                                 Url = apic.Url,
+                                                Xsmall = apic.Xsmall,
+                                                Small = apic.Small,
+                                                Mid = apic.Mid,
+                                                Large = apic.Large,
+                                                Xlarge = apic.Xlarge,
                                                 Default = apic.Default,
                                                 CreatedAt = apic.CreatedAt
-                                            }).FirstOrDefault(ap => ap.Default == true)
+                                            }).FirstOrDefault()
 
                                         },
                                         User = new UserDTO()
@@ -179,6 +179,11 @@ namespace apartmenthostService.Controllers
                                                 Name = x.Card.User.Profile.Picture.Name,
                                                 Description = x.Card.User.Profile.Picture.Description,
                                                 Url = x.Card.User.Profile.Picture.Url,
+                                                Xsmall = x.Card.User.Profile.Picture.Xsmall,
+                                                Small = x.Card.User.Profile.Picture.Small,
+                                                Mid = x.Card.User.Profile.Picture.Mid,
+                                                Large = x.Card.User.Profile.Picture.Large,
+                                                Xlarge = x.Card.User.Profile.Picture.Xlarge,
                                                 Default = x.Card.User.Profile.Picture.Default,
                                                 CreatedAt = x.Card.User.Profile.Picture.CreatedAt
                                             }
