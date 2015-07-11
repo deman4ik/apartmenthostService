@@ -32,6 +32,8 @@ namespace apartmenthostService.Controllers
         {
             try
             {
+                int limit = 100;
+                int skip = 0;
                 // Создаем предикат
                 var pre = PredicateBuilder.True<Card>();
                 string id = null;
@@ -46,6 +48,18 @@ namespace apartmenthostService.Controllers
                         RespH.Create(RespH.SRV_CARD_INVALID_FILTER));
 
                     pre = pre.And(x => x.Deleted == false);
+
+                    // Лимит записей
+                    if (cardRequest.Limit > 0)
+                    {
+                        limit = cardRequest.Limit;
+                    }
+
+                    // Пропуск записей
+                    if (cardRequest.Skip > 0)
+                    {
+                        skip = cardRequest.Skip;
+                    }
                     // Уникальный идентификатор Карточки
                     if (cardRequest.Id != null)
                     {
@@ -60,7 +74,18 @@ namespace apartmenthostService.Controllers
                 // Адрес Жилья
                 if (cardRequest.Adress != null)
                     pre = pre.And(x => x.Apartment.FormattedAdress.Contains(cardRequest.Adress));
-
+                // Уникальный идентификатор Google Places
+                    if (cardRequest.PlaceId != null)
+                        pre = pre.And(x => x.Apartment.PlaceId == cardRequest.PlaceId);
+                // Поиск по координатам
+                    if (cardRequest.SwLat != null && cardRequest.SwLong != null && cardRequest.NeLat != null &&
+                        cardRequest.NeLong != null)
+                    {
+                        pre = pre.And(x => (decimal)x.Apartment.Latitude >= cardRequest.SwLat);
+                        pre = pre.And(x => (decimal)x.Apartment.Longitude >= cardRequest.SwLong);
+                        pre = pre.And(x => (decimal)x.Apartment.Latitude <= cardRequest.NeLat);
+                        pre = pre.And(x => (decimal)x.Apartment.Longitude <= cardRequest.NeLong);
+                    }
                 // Уникальный Идентификатор Владельца
                 if (cardRequest.UserId != null)
                     pre = pre.And(x => x.UserId == cardRequest.UserId);
@@ -185,7 +210,7 @@ namespace apartmenthostService.Controllers
                 {
                     userId = account.UserId;
                 }
-                var result = _context.Cards.AsExpandable().Where(pre).Select(x => new CardDTO()
+                var result = _context.Cards.AsExpandable().Where(pre).Take(limit).Skip(skip).Select(x => new CardDTO()
                 {
                     Id = x.Id,
                     Name = x.Name,
