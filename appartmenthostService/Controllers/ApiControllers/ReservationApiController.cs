@@ -412,7 +412,7 @@ namespace apartmenthostService.Controllers
                     respList.Add(reservId);
                     return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_RESERVATION_NOTFOUND, respList));
                 }
-
+                
                 var card = _context.Cards.SingleOrDefault(a => a.Id == currentReservation.CardId);
                 // Check CARD is not NULL 
                 if (card == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_NULL));
@@ -433,21 +433,26 @@ namespace apartmenthostService.Controllers
                 if (status == ConstVals.Accepted)
                 {
                     // Check Available Dates
-                    TimeRange reservationDates = new TimeRange(currentReservation.DateFrom, currentReservation.DateTo);
+                    TimeRange reservationDates = new TimeRange((DateTime)currentReservation.DateFrom, (DateTime)currentReservation.DateTo);
 
                     List<TimeRange> unavailableDates = new List<TimeRange>();
-                    foreach (var unDate in card.Dates)
+
+                    var cardDates = _context.Dates.Where(x => x.CardId == card.Id); 
+                    if (cardDates.Count() > 0)
                     {
-                        unavailableDates.Add(new TimeRange(unDate.DateFrom, unDate.DateTo));
-                    }
-                    foreach (var unavailableDate in unavailableDates)
-                    {
-                        if (unavailableDate.IntersectsWith(reservationDates))
+                        foreach (var unDate in cardDates)
                         {
-                            respList.Add(reservationDates.ToString());
-                            respList.Add(unavailableDates.ToString());
-                            return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                                RespH.Create(RespH.SRV_RESERVATION_UNAVAILABLE_DATE, respList));
+                            unavailableDates.Add(new TimeRange(unDate.DateFrom, unDate.DateTo));
+                        }
+                        foreach (var unavailableDate in unavailableDates)
+                        {
+                            if (unavailableDate.IntersectsWith(reservationDates))
+                            {
+                                respList.Add(reservationDates.ToString());
+                                respList.Add(unavailableDates.ToString());
+                                return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                                    RespH.Create(RespH.SRV_RESERVATION_UNAVAILABLE_DATE, respList));
+                            }
                         }
                     }
                     var currentReservations = _context.Reservations.Where(r => r.CardId == currentReservation.CardId && currentReservation.Status == ConstVals.Accepted);
