@@ -142,12 +142,19 @@ namespace apartmenthostService.Controllers
                                         Name = x.Card.Name,
                                         UserId = x.Card.UserId,
                                         PriceDay = x.Card.PriceDay,
+                                        Cohabitation = x.Card.Cohabitation,
                                         IsFavorite = x.Card.Favorites.Any(f => f.UserId == account.UserId),
                                         Apartment = new ApartmentDTO()
                                         {
                                             Id = x.Card.Apartment.Id,
                                             Name = x.Card.Apartment.Name,
+                                            Type = x.Card.Apartment.Type,
+                                            Options = x.Card.Apartment.Options,
                                             Adress = x.Card.Apartment.Adress,
+                                            FormattedAdress = x.Card.Apartment.FormattedAdress,
+                                            Latitude = x.Card.Apartment.Latitude,
+                                            Longitude = x.Card.Apartment.Longitude,
+                                            PlaceId = x.Card.Apartment.PlaceId,
                                             DefaultPicture = x.Card.Apartment.Pictures.Where(ap => ap.Default == true).Select(apic => new PictureDTO()
                                             {
                                                 Id = apic.Id,
