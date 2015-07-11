@@ -77,7 +77,7 @@ namespace apartmenthostService.Controllers
                 // Уникальный идентификатор Google Places
                     if (cardRequest.PlaceId != null)
                         pre = pre.And(x => x.Apartment.PlaceId == cardRequest.PlaceId);
-                // Поиск по координатам
+                    // Поиск по координатам
                     if (cardRequest.SwLat != null && cardRequest.SwLong != null && cardRequest.NeLat != null &&
                         cardRequest.NeLong != null)
                     {
@@ -86,8 +86,8 @@ namespace apartmenthostService.Controllers
                         pre = pre.And(x => (decimal)x.Apartment.Latitude <= cardRequest.NeLat);
                         pre = pre.And(x => (decimal)x.Apartment.Longitude <= cardRequest.NeLong);
                     }
-                // Уникальный Идентификатор Владельца
-                if (cardRequest.UserId != null)
+                    // Уникальный Идентификатор Владельца
+                    if (cardRequest.UserId != null)
                     pre = pre.And(x => x.UserId == cardRequest.UserId);
 
                 // Описание Карточки
@@ -210,7 +210,9 @@ namespace apartmenthostService.Controllers
                 {
                     userId = account.UserId;
                 }
-                var result = _context.Cards.AsExpandable().Where(pre).Take(limit).Skip(skip).Select(x => new CardDTO()
+                var result = _context.Cards.AsExpandable().Where(pre).Take(limit).
+                    //.Skip(skip).
+                    Select(x => new CardDTO()
                 {
                     Id = x.Id,
                     Name = x.Name,
