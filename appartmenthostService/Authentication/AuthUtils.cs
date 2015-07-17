@@ -91,6 +91,7 @@ namespace apartmenthostService.Authentication
                     SaltedAndHashedPassword = hash(randomString(8), salt)
                 };
                 context.Users.Add(user);
+                context.SaveChanges();
                 }
                 account = new Account()
             {
@@ -101,11 +102,11 @@ namespace apartmenthostService.Authentication
                 ProviderId = providerId
             };
                 context.Accounts.Add(account);
-
+                context.SaveChanges();
                 var profile = context.Profile.SingleOrDefault(p => p.Id == user.Id);
                 if (profile == null)
                 {
-                    new Profile();
+                    profile = new Profile(); 
                     profile.Id = user.Id;
                     context.Profile.Add(profile);
                 }
