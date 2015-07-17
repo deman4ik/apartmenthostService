@@ -164,7 +164,7 @@ namespace apartmenthostService.Controllers
                         Url = CloudinaryHelper.Cloudinary.Api.UrlImgUp.BuildUrl(picture.Name),
                         Xsmall = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(143).Crop("thumb")).BuildUrl(picture.Name),
                         Small = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(190).Crop("thumb")).BuildUrl(picture.Name),
-                        Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(213).Crop("thumb")).BuildUrl(picture.Name),
+                        Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Height(225).Width(370).Crop("fill")).BuildUrl(picture.Name),
                         Large = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(552).Crop("limit")).BuildUrl(picture.Name),
                         Xlarge = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(1024).Crop("limit")).BuildUrl(picture.Name),
                         Default = picture.Default
