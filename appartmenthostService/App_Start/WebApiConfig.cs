@@ -44,16 +44,14 @@ namespace apartmenthostService
         }
     }
 
-    public class appartmenthostInitializer : ClearDatabaseSchemaAlways<apartmenthostContext> 
+    //public class appartmenthostInitializer : ClearDatabaseSchemaAlways<apartmenthostContext> 
 
-    { 
-        protected override void Seed(apartmenthostContext context)
-        {
+    //{ 
+    //    protected override void Seed(apartmenthostContext context)
+    //    {
 
-
-            DBPopulator.Populate(context);
-            base.Seed(context);
-        }
-    }
+    //        base.Seed(context);
+    //    }
+    //}
 }
 
