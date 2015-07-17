@@ -18,9 +18,22 @@ namespace apartmenthostService.Migrations
         {
             try
             {
+                PopulateTables(context);
+                context.SaveChanges();
 
+                PopulateDictionaries(context);
+                context.SaveChanges();
 
-                PopulateUsers(context);
+                PopulateDictionaryItems(context);
+                context.SaveChanges();
+
+                //PopulateUsers(context);
+                //context.SaveChanges();
+
+                PopulateProfiles(context);
+                context.SaveChanges();
+
+                PopulateProfilePic(context);
                 context.SaveChanges();
 
                 PopulateApartments(context);
@@ -53,7 +66,7 @@ namespace apartmenthostService.Migrations
                 //RatingJob ratingJob = new RatingJob();
                 //ratingJob.ExecuteAsync();
 
-                
+
             }
             catch (Exception e)
             {
@@ -65,80 +78,212 @@ namespace apartmenthostService.Migrations
 
         }
 
+        public static void PopulateTables(apartmenthostContext context)
+        {
+            List<Table> tables = new List<Table>()
+            {
+                new Table()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = ConstTable.ApartmentTable,
+                },
+                new Table()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = ConstTable.CardTable,
+                },
+                new Table()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = ConstTable.ProfileTable,
+                },
+                new Table()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = ConstTable.ReservationTable,
+                }
+            };
+
+            foreach (var table in tables)
+            {
+                var ex = context.Tables.FirstOrDefault(x => x.Name == table.Name);
+                if (ex != null)
+                {
+                    table.CreatedAt = ex.CreatedAt;
+                }
+                context.Tables.AddOrUpdate(p => p.Name, table);
+                context.SaveChanges();
+            }
+
+        }
+
+        public static void PopulateDictionaries(apartmenthostContext context)
+        {
+            List<Dictionary> dictionaries = new List<Dictionary>()
+            {
+                
+                new Dictionary()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = ConstDictionary.ApartmentOptions,
+                },
+                new Dictionary()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = ConstDictionary.ApartmentType,
+                },
+                new Dictionary()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = ConstDictionary.Cohabitation,
+                },
+                new Dictionary()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = ConstDictionary.Gender,
+                }
+            };
+            foreach (var dic in dictionaries)
+            {
+                var ex = context.Dictionaries.FirstOrDefault(x => x.Name == dic.Name);
+                if (ex != null)
+                {
+                    dic.CreatedAt = ex.CreatedAt;
+                }
+
+                context.Dictionaries.AddOrUpdate(
+                p => p.Name, dic);
+                context.SaveChanges();
+            }
+
+        }
+
+        public static void PopulateDictionaryItems(apartmenthostContext context)
+        {
+            Dictionary apartmentTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstDictionary.ApartmentType);
+            Dictionary cohabitationTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstDictionary.Cohabitation);
+            Dictionary genderDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstDictionary.Gender);
+
+            List<DictionaryItem> dictionaryItems = new List<DictionaryItem>()
+            {
+                 new DictionaryItem()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    DictionaryId = apartmentTypeDic.Id,
+                    StrValue = ConstVals.House,
+                },
+                new DictionaryItem()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    DictionaryId = apartmentTypeDic.Id,
+                    StrValue = ConstVals.Flat,
+                },
+                new DictionaryItem()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    DictionaryId = apartmentTypeDic.Id,
+                    StrValue = ConstVals.Room,
+                },
+                new DictionaryItem()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    DictionaryId = apartmentTypeDic.Id,
+                    StrValue = ConstVals.Office,
+                },
+                new DictionaryItem()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    DictionaryId = apartmentTypeDic.Id,
+                    StrValue = ConstVals.HotelRoom,
+                },
+                new DictionaryItem()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    DictionaryId = cohabitationTypeDic.Id,
+                    StrValue = ConstVals.SeperateResidence,
+                },
+                new DictionaryItem()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    DictionaryId = cohabitationTypeDic.Id,
+                    StrValue = ConstVals.Cohabitation,
+                },
+                new DictionaryItem()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    DictionaryId = cohabitationTypeDic.Id,
+                    StrValue = ConstVals.Any,
+                },
+                new DictionaryItem()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    DictionaryId = genderDic.Id,
+                    StrValue = ConstVals.Male,
+                },
+                new DictionaryItem()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    DictionaryId = genderDic.Id,
+                    StrValue = ConstVals.Female,
+                },
+                new DictionaryItem()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    DictionaryId = genderDic.Id,
+                    StrValue = ConstVals.Any,
+                },
+                new DictionaryItem()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    DictionaryId = genderDic.Id,
+                    StrValue = ConstVals.Thing,
+                },
+                new DictionaryItem()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    DictionaryId = genderDic.Id,
+                    StrValue = ConstVals.Alien,
+                }
+            };
+
+            foreach (var dicI in dictionaryItems)
+            {
+
+                var ex = context.DictionaryItems.FirstOrDefault(x => x.StrValue == dicI.StrValue);
+                if (ex != null)
+                {
+                    dicI.CreatedAt = ex.CreatedAt;
+                }
+
+                context.DictionaryItems.AddOrUpdate(p => p.StrValue, dicI
+
+                );
+
+                context.SaveChanges();
+            }
+
+
+        }
+
         public static void PopulateUsers(apartmenthostContext context)
         {
             byte[] salt = AuthUtils.generateSalt();
 
-            context.Users.AddOrUpdate(p => p.Id,
+            List<User> users = new List<User>()
+            {
                 new User
                 {
                     Id = "u1",
                     Email = "parus@parus.ru",
                     Salt = salt,
                     SaltedAndHashedPassword = AuthUtils.hash("parusina", salt),
-                    Profile = new Profile
-                    {
-                        Id = "u1",
-                        FirstName = "Яна",
-                        LastName = "Парусова",
-                        Birthday = new DateTime(1989, 1, 1),
-                        ContactEmail = "parus@parus.ru",
-                        ContactKind = "Phone",
-                        Description = "Информационные Системы Управления",
-                        Gender = ConstVals.Female,
-                        Phone = "+74957777777",
-                        Rating = 0,
-                        RatingCount = 0,
-                        Score = 0,
-                        Lang = ConstLang.RU,
-                        Picture = new Picture()
-                        {
-                            Id = "p1",
-                            Name = "profile/u1.jpg",
-                            Description = "Яна Парусова",
-                            Url = CloudinaryHelper.Cloudinary.Api.UrlImgUp.BuildUrl("profile/u1.jpg"),
-                            Small = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(34).Height(34).Crop("thumb")).BuildUrl("profile/u1.jpg"),
-                            Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(62).Height(62).Crop("thumb")).BuildUrl("profile/u1.jpg"),
-                            Large = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(76).Height(76).Crop("thumb")).BuildUrl("profile/u1.jpg"),
-                            Xlarge = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(96).Height(96).Crop("thumb")).BuildUrl("profile/u1.jpg"),
-                            CloudinaryPublicId = "profile/u1"
-                        }
-                    }
                 },
                 new User
                 {
                     Id = "u2",
                     Email = "user2@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user2", salt),
-                    Profile = new Profile
-                    {
-                        Id = "u2",
-                        FirstName = "Василий",
-                        LastName = "Пупович",
-                        Birthday = new DateTime(1976, 3, 23),
-                        ContactEmail = "user2@example.com",
-                        ContactKind = "Email",
-                        Description = "Пуповичи 100 лет на рынке недвижимости!",
-                        Gender = ConstVals.Male,
-                        Phone = "+79998887766",
-                        Rating = 0,
-                        RatingCount = 0,
-                        Score = 0,
-                        Lang = ConstLang.RU,
-                        Picture = new Picture()
-                        {
-                            Id = "p2",
-                            Name = "profile/u2.jpg",
-                            Description = "Василий Пупович",
-                            Url = CloudinaryHelper.Cloudinary.Api.UrlImgUp.BuildUrl("profile/u2.jpg"),
-                            Small = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(34).Height(34).Crop("thumb")).BuildUrl("profile/u2.jpg"),
-                            Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(62).Height(62).Crop("thumb")).BuildUrl("profile/u2.jpg"),
-                            Large = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(76).Height(76).Crop("thumb")).BuildUrl("profile/u2.jpg"),
-                            Xlarge = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(96).Height(96).Crop("thumb")).BuildUrl("profile/u2.jpg"),
-                            CloudinaryPublicId = "profile/u2"
-                        }
-                    }
+                    SaltedAndHashedPassword = AuthUtils.hash("user2", salt)
                 },
 
                 new User
@@ -146,35 +291,7 @@ namespace apartmenthostService.Migrations
                     Id = "u3",
                     Email = "user3@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user3", salt),
-                    Profile = new Profile
-                    {
-                        Id = "u3",
-                        FirstName = "Елена",
-                        LastName = "Пыжович",
-                        Birthday = new DateTime(1976, 3, 23),
-                        ContactEmail = "user3@example.com",
-                        ContactKind = "Email",
-                        Description = "Привет. Меня зовут Лена!",
-                        Gender = ConstVals.Female,
-                        Phone = "+79998987766",
-                        Rating = 0,
-                        RatingCount = 0,
-                        Score = 0,
-                        Lang = ConstLang.RU,
-                        Picture = new Picture()
-                        {
-                            Id = "p3",
-                            Name = "profile/u3.jpg",
-                            Description = "Елена Пыжович",
-                            Url = CloudinaryHelper.Cloudinary.Api.UrlImgUp.BuildUrl("profile/u3.jpg"),
-                            Small = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(34).Height(34).Crop("thumb")).BuildUrl("profile/u3.jpg"),
-                            Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(62).Height(62).Crop("thumb")).BuildUrl("profile/u3.jpg"),
-                            Large = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(76).Height(76).Crop("thumb")).BuildUrl("profile/u3.jpg"),
-                            Xlarge = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(96).Height(96).Crop("thumb")).BuildUrl("profile/u3.jpg"),
-                            CloudinaryPublicId = "profile/u3"
-                        }
-                    }
+                    SaltedAndHashedPassword = AuthUtils.hash("user3", salt)
                 },
 
                 new User
@@ -182,35 +299,7 @@ namespace apartmenthostService.Migrations
                     Id = "u4",
                     Email = "user4@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user4", salt),
-                    Profile = new Profile
-                    {
-                        Id = "u4",
-                        FirstName = "Дмитрий",
-                        LastName = "Трофимов",
-                        Birthday = new DateTime(1965, 7, 12),
-                        ContactEmail = "user4@example.com",
-                        ContactKind = "Email",
-                        Description = "Трофимов",
-                        Gender = ConstVals.Male,
-                        Phone = "+79995487766",
-                        Rating = 0,
-                        RatingCount = 0,
-                        Score = 0,
-                        Lang = ConstLang.RU,
-                        Picture = new Picture()
-                        {
-                            Id = "p4",
-                            Name = "profile/u4.jpg",
-                            Description = "Дмитрий Трофимов",
-                            Url = CloudinaryHelper.Cloudinary.Api.UrlImgUp.BuildUrl("profile/u4.jpg"),
-                            Small = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(34).Height(34).Crop("thumb")).BuildUrl("profile/u4.jpg"),
-                            Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(62).Height(62).Crop("thumb")).BuildUrl("profile/u4.jpg"),
-                            Large = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(76).Height(76).Crop("thumb")).BuildUrl("profile/u4.jpg"),
-                            Xlarge = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(96).Height(96).Crop("thumb")).BuildUrl("profile/u4.jpg"),
-                            CloudinaryPublicId = "profile/u4"
-                        }
-                    }
+                    SaltedAndHashedPassword = AuthUtils.hash("user4", salt)
                 },
 
                 new User
@@ -218,293 +307,346 @@ namespace apartmenthostService.Migrations
                     Id = "u5",
                     Email = "user5@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user5", salt),
-                    Profile = new Profile
-                    {
-                        Id = "u5",
-                        FirstName = "Эдуард",
-                        LastName = "Вишняков",
-                        Birthday = new DateTime(1986, 1, 18),
-                        ContactEmail = "user5@example.com",
-                        ContactKind = "Email",
-                        Description = "Трофимов",
-                        Gender = ConstVals.Male,
-                        Phone = "+78795487766",
-                        Rating = 0,
-                        RatingCount = 0,
-                        Score = 0,
-                        Lang = ConstLang.RU,
-                        Picture = new Picture()
-                        {
-                            Id = "p5",
-                            Name = "profile/u5.jpg",
-                            Description = "Эдуард Вишняков",
-                            Url = CloudinaryHelper.Cloudinary.Api.UrlImgUp.BuildUrl("profile/u5.jpg"),
-                            Small = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(34).Height(34).Crop("thumb")).BuildUrl("profile/u5.jpg"),
-                            Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(62).Height(62).Crop("thumb")).BuildUrl("profile/u5.jpg"),
-                            Large = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(76).Height(76).Crop("thumb")).BuildUrl("profile/u5.jpg"),
-                            Xlarge = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(96).Height(96).Crop("thumb")).BuildUrl("profile/u5.jpg"),
-                            CloudinaryPublicId = "profile/u5"
-                        }
-                    }
+                    SaltedAndHashedPassword = AuthUtils.hash("user5", salt)
                 },
                 new User
                 {
                     Id = "u6",
                     Email = "user6@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user6", salt),
-                    Profile = new Profile
-                    {
-                        Id = "u6",
-                        FirstName = "Леонид",
-                        LastName = "Нефедов",
-                        Birthday = new DateTime(1977, 12, 23),
-                        ContactEmail = "user6@example.com",
-                        ContactKind = "Phone",
-                        Description = "Вишняков",
-                        Gender = ConstVals.Male,
-                        Phone = "+78795487366",
-                        Rating = 0,
-                        RatingCount = 0,
-                        Score = 0,
-                        Lang = ConstLang.RU,
-                        Picture = new Picture()
-                        {
-                            Id = "p6",
-                            Name = "profile/u6.jpg",
-                            Description = "Леонид Нефедов",
-                            Url = CloudinaryHelper.Cloudinary.Api.UrlImgUp.BuildUrl("profile/u6.jpg"),
-                            Small = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(34).Height(34).Crop("thumb")).BuildUrl("profile/u6.jpg"),
-                            Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(62).Height(62).Crop("thumb")).BuildUrl("profile/u6.jpg"),
-                            Large = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(76).Height(76).Crop("thumb")).BuildUrl("profile/u6.jpg"),
-                            Xlarge = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(96).Height(96).Crop("thumb")).BuildUrl("profile/u6.jpg"),
-                            CloudinaryPublicId = "profile/u6"
-                        }
-                    }
+                    SaltedAndHashedPassword = AuthUtils.hash("user6", salt)
                 },
                 new User
                 {
                     Id = "u7",
                     Email = "user7@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user7", salt),
-                    Profile = new Profile
-                    {
-                        Id = "u7",
-                        FirstName = "Дарья",
-                        LastName = "Мамонтова",
-                        Birthday = new DateTime(1995, 8, 19),
-                        ContactEmail = "user7@example.com",
-                        ContactKind = "Email",
-                        Description = "Привет. Меня зовут Дарья!",
-                        Gender = ConstVals.Female,
-                        Phone = "+79998988966",
-                        Rating = 0,
-                        RatingCount = 0,
-                        Score = 0,
-                        Lang = ConstLang.RU,
-                        Picture = new Picture()
-                        {
-                            Id = "p7",
-                            Name = "profile/u7.jpg",
-                            Description = "Дарья Мамонтова",
-                            Url = CloudinaryHelper.Cloudinary.Api.UrlImgUp.BuildUrl("profile/u7.jpg"),
-                            Small = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(34).Height(34).Crop("thumb")).BuildUrl("profile/u7.jpg"),
-                            Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(62).Height(62).Crop("thumb")).BuildUrl("profile/u7.jpg"),
-                            Large = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(76).Height(76).Crop("thumb")).BuildUrl("profile/u7.jpg"),
-                            Xlarge = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(96).Height(96).Crop("thumb")).BuildUrl("profile/u7.jpg"),
-                            CloudinaryPublicId = "profile/u7"
-                        }
-                    }
+                    SaltedAndHashedPassword = AuthUtils.hash("user7", salt)
                 },
                 new User
                 {
                     Id = "u8",
                     Email = "user8@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user8", salt),
-                    Profile = new Profile
-                    {
-                        Id = "u8",
-                        FirstName = "Светлана",
-                        LastName = "Стрелкова",
-                        Birthday = new DateTime(1989, 9, 9),
-                        ContactEmail = "user8@example.com",
-                        ContactKind = "Email",
-                        Description = "Привет. Меня зовут Светлана!",
-                        Gender = ConstVals.Female,
-                        Phone = "+79994988966",
-                        Rating = 0,
-                        RatingCount = 0,
-                        Score = 0,
-                        Lang = ConstLang.RU,
-                        Picture = new Picture()
-                        {
-                            Id = "p8",
-                            Name = "profile/u8.jpg",
-                            Description = "Светлана Стрелкова",
-                            Url = CloudinaryHelper.Cloudinary.Api.UrlImgUp.BuildUrl("profile/u8.jpg"),
-                            Small = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(34).Height(34).Crop("thumb")).BuildUrl("profile/u8.jpg"),
-                            Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(62).Height(62).Crop("thumb")).BuildUrl("profile/u8.jpg"),
-                            Large = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(76).Height(76).Crop("thumb")).BuildUrl("profile/u8.jpg"),
-                            Xlarge = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(96).Height(96).Crop("thumb")).BuildUrl("profile/u8.jpg"),
-                            CloudinaryPublicId = "profile/u8"
-                        }
-                    }
+                    SaltedAndHashedPassword = AuthUtils.hash("user8", salt)
                 },
                 new User
                 {
                     Id = "u9",
                     Email = "user9@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user9", salt),
-                    Profile = new Profile
-                    {
-                        Id = "u9",
-                        FirstName = "Даша",
-                        LastName = "Демидова",
-                        Birthday = new DateTime(1981, 4, 29),
-                        ContactEmail = "user9@example.com",
-                        ContactKind = "Email",
-                        Description = "Привет. Меня зовут Светлана!",
-                        Gender = ConstVals.Female,
-                        Phone = "+79994988996",
-                        Rating = 0,
-                        RatingCount = 0,
-                        Score = 0,
-                        Lang = ConstLang.RU,
-                        Picture = new Picture()
-                        {
-                            Id = "p9",
-                            Name = "profile/u9.jpg",
-                            Description = "Лера Демидова",
-                            Url = CloudinaryHelper.Cloudinary.Api.UrlImgUp.BuildUrl("profile/u9.jpg"),
-                            Small = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(34).Height(34).Crop("thumb")).BuildUrl("profile/u9.jpg"),
-                            Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(62).Height(62).Crop("thumb")).BuildUrl("profile/u9.jpg"),
-                            Large = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(76).Height(76).Crop("thumb")).BuildUrl("profile/u9.jpg"),
-                            Xlarge = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(96).Height(96).Crop("thumb")).BuildUrl("profile/u9.jpg"),
-                            CloudinaryPublicId = "profile/u9"
-                        }
-                    }
+                    SaltedAndHashedPassword = AuthUtils.hash("user9", salt)
                 },
                 new User
                 {
                     Id = "u10",
                     Email = "user10@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user10", salt),
-                    Profile = new Profile
-                    {
-                        Id = "u10",
-                        FirstName = "Лариса",
-                        LastName = "Крокодилова",
-                        Birthday = new DateTime(1993, 4, 10),
-                        ContactEmail = "user10@example.com",
-                        ContactKind = "Email",
-                        Description = "Крокодилова клац-клац",
-                        Gender = ConstVals.Female,
-                        Phone = "+79994938996",
-                        Rating = 0,
-                        RatingCount = 0,
-                        Score = 0,
-                        Lang = ConstLang.RU,
-                        Picture = new Picture()
-                        {
-                            Id = "p10",
-                            Name = "profile/u10.jpg",
-                            Description = "Лариса Крокодилова",
-                            Url = CloudinaryHelper.Cloudinary.Api.UrlImgUp.BuildUrl("profile/u10.jpg"),
-                            Small = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(34).Height(34).Crop("thumb")).BuildUrl("profile/u10.jpg"),
-                            Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(62).Height(62).Crop("thumb")).BuildUrl("profile/u10.jpg"),
-                            Large = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(76).Height(76).Crop("thumb")).BuildUrl("profile/u10.jpg"),
-                            Xlarge = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(96).Height(96).Crop("thumb")).BuildUrl("profile/u10.jpg"),
-                            CloudinaryPublicId = "profile/u10"
-                        }
-                    }
+                    SaltedAndHashedPassword = AuthUtils.hash("user10", salt)
                 },
                 new User
                 {
                     Id = "u11",
                     Email = "user11@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user11", salt),
-                    Profile = new Profile
-                    {
-                        Id = "u11",
-                        FirstName = "Лера",
-                        LastName = "Бундельера",
-                        Birthday = new DateTime(1988, 4, 10),
-                        ContactEmail = "user11@example.com",
-                        ContactKind = "Email",
-                        Description = "Бундельер цап-цап",
-                        Gender = ConstVals.Female,
-                        Phone = "+79994938996",
-                        Rating = 0,
-                        RatingCount = 0,
-                        Score = 0,
-                        Lang = ConstLang.RU,
-                        Picture = new Picture()
-                        {
-                            Id = "p11",
-                            Name = "profile/u11.jpg",
-                            Description = "Лера Бундельера",
-                            Url = CloudinaryHelper.Cloudinary.Api.UrlImgUp.BuildUrl("profile/u11.jpg"),
-                            Small = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(34).Height(34).Crop("thumb")).BuildUrl("profile/u11.jpg"),
-                            Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(62).Height(62).Crop("thumb")).BuildUrl("profile/u11.jpg"),
-                            Large = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(76).Height(76).Crop("thumb")).BuildUrl("profile/u11.jpg"),
-                            Xlarge = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(96).Height(96).Crop("thumb")).BuildUrl("profile/u11.jpg"),
-                            CloudinaryPublicId = "profile/u11"
-                        }
-                    }
+                    SaltedAndHashedPassword = AuthUtils.hash("user11", salt)
                 },
                 new User
                 {
                     Id = "u12",
                     Email = "user12@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user12", salt),
-                    Profile = new Profile
-                    {
-                        Id = "u12",
-                        FirstName = "Владмир",
-                        LastName = "Путкин",
-                        Birthday = new DateTime(1991, 4, 10),
-                        ContactEmail = "user12@example.com",
-                        ContactKind = "Email",
-                        Description = "не путать с ВВП",
-                        Gender = ConstVals.Male,
-                        Phone = "+79994938996",
-                        Rating = 0,
-                        RatingCount = 0,
-                        Score = 0,
-                        Lang = ConstLang.RU,
-                        Picture = new Picture()
-                        {
-                            Id = "p12",
-                            Name = "profile/u12.jpg",
-                            Description = "Владмир Путкин",
-                            Url = CloudinaryHelper.Cloudinary.Api.UrlImgUp.BuildUrl("profile/u12.jpg"),
-                            Small = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(34).Height(34).Crop("thumb")).BuildUrl("profile/u12.jpg"),
-                            Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(62).Height(62).Crop("thumb")).BuildUrl("profile/u12.jpg"),
-                            Large = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(76).Height(76).Crop("thumb")).BuildUrl("profile/u12.jpg"),
-                            Xlarge = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(96).Height(96).Crop("thumb")).BuildUrl("profile/u12.jpg"),
-                            CloudinaryPublicId = "profile/u12"
-                        }
-                    }
-                });
+                    SaltedAndHashedPassword = AuthUtils.hash("user12", salt)
+                }
+            };
 
+            foreach (var user in users)
+            {
+                var ex = context.Users.FirstOrDefault(x => x.Id == user.Id);
+                if (ex != null)
+                {
+                    user.CreatedAt = ex.CreatedAt;
+                }
+                context.Users.AddOrUpdate(p => p.Id, user);
+                context.SaveChanges();
+            }
 
-            context.SaveChanges();
 
             AuthUtils.CreateAccount("standart", "parus@parus.ru", "standart:parus@parus.ru", "parus@parus.ru");
 
         }
 
+        public static void PopulateProfiles(apartmenthostContext context)
+        {
+            List<Profile> profiles = new List<Profile>()
+            {
+                new Profile
+                   {
+                       Id = "u1",
+                       FirstName = "Яна",
+                       LastName = "Парусова",
+                       Birthday = new DateTime(1989, 1, 1),
+                       ContactEmail = "parus@parus.ru",
+                       ContactKind = "Phone",
+                       Description = "Информационные Системы Управления",
+                       Gender = ConstVals.Female,
+                       Phone = "+74957777777",
+                       Rating = 0,
+                       RatingCount = 0,
+                       Score = 0,
+                       Lang = ConstLang.RU
+
+                   },
+               new Profile
+                   {
+                       Id = "u2",
+                       FirstName = "Василий",
+                       LastName = "Пупович",
+                       Birthday = new DateTime(1976, 3, 23),
+                       ContactEmail = "user2@example.com",
+                       ContactKind = "Email",
+                       Description = "Пуповичи 100 лет на рынке недвижимости!",
+                       Gender = ConstVals.Male,
+                       Phone = "+79998887766",
+                       Rating = 0,
+                       RatingCount = 0,
+                       Score = 0,
+                       Lang = ConstLang.RU
+
+                   },
+
+               new Profile
+                   {
+                       Id = "u3",
+                       FirstName = "Елена",
+                       LastName = "Пыжович",
+                       Birthday = new DateTime(1976, 3, 23),
+                       ContactEmail = "user3@example.com",
+                       ContactKind = "Email",
+                       Description = "Привет. Меня зовут Лена!",
+                       Gender = ConstVals.Female,
+                       Phone = "+79998987766",
+                       Rating = 0,
+                       RatingCount = 0,
+                       Score = 0,
+                       Lang = ConstLang.RU
+
+                   },
+
+              new Profile
+                   {
+                       Id = "u4",
+                       FirstName = "Дмитрий",
+                       LastName = "Трофимов",
+                       Birthday = new DateTime(1965, 7, 12),
+                       ContactEmail = "user4@example.com",
+                       ContactKind = "Email",
+                       Description = "Трофимов",
+                       Gender = ConstVals.Male,
+                       Phone = "+79995487766",
+                       Rating = 0,
+                       RatingCount = 0,
+                       Score = 0,
+                       Lang = ConstLang.RU
+
+                   },
+
+               new Profile
+                   {
+                       Id = "u5",
+                       FirstName = "Эдуард",
+                       LastName = "Вишняков",
+                       Birthday = new DateTime(1986, 1, 18),
+                       ContactEmail = "user5@example.com",
+                       ContactKind = "Email",
+                       Description = "Трофимов",
+                       Gender = ConstVals.Male,
+                       Phone = "+78795487766",
+                       Rating = 0,
+                       RatingCount = 0,
+                       Score = 0,
+                       Lang = ConstLang.RU
+
+                   },
+               new Profile
+                   {
+                       Id = "u6",
+                       FirstName = "Леонид",
+                       LastName = "Нефедов",
+                       Birthday = new DateTime(1977, 12, 23),
+                       ContactEmail = "user6@example.com",
+                       ContactKind = "Phone",
+                       Description = "Вишняков",
+                       Gender = ConstVals.Male,
+                       Phone = "+78795487366",
+                       Rating = 0,
+                       RatingCount = 0,
+                       Score = 0,
+                       Lang = ConstLang.RU
+
+                   },
+               new Profile
+                   {
+                       Id = "u7",
+                       FirstName = "Дарья",
+                       LastName = "Мамонтова",
+                       Birthday = new DateTime(1995, 8, 19),
+                       ContactEmail = "user7@example.com",
+                       ContactKind = "Email",
+                       Description = "Привет. Меня зовут Дарья!",
+                       Gender = ConstVals.Female,
+                       Phone = "+79998988966",
+                       Rating = 0,
+                       RatingCount = 0,
+                       Score = 0,
+                       Lang = ConstLang.RU
+
+                   },
+               new Profile
+                   {
+                       Id = "u8",
+                       FirstName = "Светлана",
+                       LastName = "Стрелкова",
+                       Birthday = new DateTime(1989, 9, 9),
+                       ContactEmail = "user8@example.com",
+                       ContactKind = "Email",
+                       Description = "Привет. Меня зовут Светлана!",
+                       Gender = ConstVals.Female,
+                       Phone = "+79994988966",
+                       Rating = 0,
+                       RatingCount = 0,
+                       Score = 0,
+                       Lang = ConstLang.RU
+
+                   },
+                new Profile
+                   {
+                       Id = "u9",
+                       FirstName = "Даша",
+                       LastName = "Демидова",
+                       Birthday = new DateTime(1981, 4, 29),
+                       ContactEmail = "user9@example.com",
+                       ContactKind = "Email",
+                       Description = "Привет. Меня зовут Светлана!",
+                       Gender = ConstVals.Female,
+                       Phone = "+79994988996",
+                       Rating = 0,
+                       RatingCount = 0,
+                       Score = 0,
+                       Lang = ConstLang.RU
+
+                   },
+               new Profile
+                   {
+                       Id = "u10",
+                       FirstName = "Лариса",
+                       LastName = "Крокодилова",
+                       Birthday = new DateTime(1993, 4, 10),
+                       ContactEmail = "user10@example.com",
+                       ContactKind = "Email",
+                       Description = "Крокодилова клац-клац",
+                       Gender = ConstVals.Female,
+                       Phone = "+79994938996",
+                       Rating = 0,
+                       RatingCount = 0,
+                       Score = 0,
+                       Lang = ConstLang.RU
+
+                   },
+               new Profile
+                   {
+                       Id = "u11",
+                       FirstName = "Лера",
+                       LastName = "Бундельера",
+                       Birthday = new DateTime(1988, 4, 10),
+                       ContactEmail = "user11@example.com",
+                       ContactKind = "Email",
+                       Description = "Бундельер цап-цап",
+                       Gender = ConstVals.Female,
+                       Phone = "+79994938996",
+                       Rating = 0,
+                       RatingCount = 0,
+                       Score = 0,
+                       Lang = ConstLang.RU
+
+                   },
+               new Profile
+                   {
+                       Id = "u12",
+                       FirstName = "Владмир",
+                       LastName = "Путкин",
+                       Birthday = new DateTime(1991, 4, 10),
+                       ContactEmail = "user12@example.com",
+                       ContactKind = "Email",
+                       Description = "не путать с ВВП",
+                       Gender = ConstVals.Male,
+                       Phone = "+79994938996",
+                       Rating = 0,
+                       RatingCount = 0,
+                       Score = 0,
+                       Lang = ConstLang.RU
+
+                   }
+            };
+
+            foreach (var profile in profiles)
+            {
+
+                var ex = context.Profile.FirstOrDefault(x => x.Id == profile.Id);
+                if (ex != null)
+                {
+                    profile.CreatedAt = ex.CreatedAt;
+                }
+                context.Profile.AddOrUpdate(p => p.Id,
+                 profile);
+
+
+                context.SaveChanges();
+            }
+
+        }
+
+        public static void PopulateProfilePic(apartmenthostContext context)
+        {
+            for (int i = 1; i < 13; i++)
+            {
+                var prof = context.Profile.SingleOrDefault(x => x.Id == "u" + i);
+
+                var pic = new Picture()
+                {
+                    Id = "p" + i,
+                    Name = "profile/u" + i + ".jpg",
+                    Url = CloudinaryHelper.Cloudinary.Api.UrlImgUp.BuildUrl("profile/u" + i + ".jpg"),
+                    Small = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(34).Height(34).Crop("thumb")).BuildUrl("profile/u" + i + ".jpg"),
+                    Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(62).Height(62).Crop("thumb")).BuildUrl("profile/u" + i + ".jpg"),
+                    Large = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(76).Height(76).Crop("thumb")).BuildUrl("profile/u" + i + ".jpg"),
+                    Xlarge = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(96).Height(96).Crop("thumb")).BuildUrl("profile/u" + i + ".jpg"),
+                    CloudinaryPublicId = "profile/u" + i,
+                    Default = true
+                };
+
+                var ex = context.Pictures.FirstOrDefault(x => x.Id == pic.Id);
+
+                if (ex != null)
+                {
+                    pic.CreatedAt = ex.CreatedAt;
+                }
+                context.Pictures.AddOrUpdate(p => p.Id, pic);
+                context.SaveChanges();
+
+                if (prof.PictureId != null)
+                {
+                    prof.PictureId = pic.Id;
+                    context.SaveChanges();
+                }
+
+            }
+        }
+
         public static void PopulateApartments(apartmenthostContext context)
         {
-
-            context.Apartments.AddOrUpdate(p => p.Id,
+            List<Apartment> apartments = new List<Apartment>()
+            {
                 new Apartment()
                 {
                     Id = "ap1",
@@ -661,7 +803,20 @@ namespace apartmenthostService.Migrations
                     PlaceId =
                         "Ek3Rg9C7LiDQmtGA0YvQu9Cw0YLRgdC60LjQtSDQpdC-0LvQvNGLLCAyNCwg0JzQvtGB0LrQstCwLCDQoNC-0YHRgdC40Y8sIDEyMTYxNA",
                     Lang = ConstLang.RU
-                });
+                }
+            };
+
+            foreach (var ap in apartments)
+            {
+                var ex = context.Apartments.FirstOrDefault(x => x.Id == ap.Id);
+
+                if (ex != null)
+                {
+                    ap.CreatedAt = ex.CreatedAt;
+                }
+                context.Apartments.AddOrUpdate(p => p.Id, ap);
+            }
+
 
         }
 
@@ -680,20 +835,22 @@ namespace apartmenthostService.Migrations
                  Url = CloudinaryHelper.Cloudinary.Api.UrlImgUp.BuildUrl("card/a" + i + "/a" + i + "-" + j + ".jpg"),
                  Xsmall = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(143).Crop("thumb")).BuildUrl("card/a" + i + "/a" + i + "-" + j + ".jpg"),
                  Small = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(190).Crop("thumb")).BuildUrl("card/a" + i + "/a" + i + "-" + j + ".jpg"),
-                 Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(213).Crop("thumb")).BuildUrl("card/a" + i + "/a" + i + "-" + j + ".jpg"),
+                 Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Height(225).Width(370).Crop("fill")).BuildUrl("card/a" + i + "/a" + i + "-" + j + ".jpg"),
                  Large = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(552).Crop("limit")).BuildUrl("card/a" + i + "/a" + i + "-" + j + ".jpg"),
                  Xlarge = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(1024).Crop("limit")).BuildUrl("card/a" + i + "/a" + i + "-" + j + ".jpg"),
                  CloudinaryPublicId = "card/a" + i + "/a" + i + "-" + j,
                  Default = j == 1
              };
+                    var ex = context.Pictures.FirstOrDefault(x => x.Id == pic.Id);
+
+                    if (ex != null)
+                    {
+                        pic.CreatedAt = ex.CreatedAt;
+                    }
                     context.Pictures.AddOrUpdate(p => p.Id, pic);
                     context.SaveChanges();
-                    var expic = apart.Pictures.SingleOrDefault(p => p.Id == pic.Id);
-                    if (expic == null)
-                    {
-                        apart.Pictures.Add(pic);
-                        context.SaveChanges();
-                    }
+
+   
                 }
             }
 
@@ -702,8 +859,9 @@ namespace apartmenthostService.Migrations
 
         public static void PopulateCards(apartmenthostContext context)
         {
-            context.Cards.AddOrUpdate( p => p.Id,
-                new Card()
+            List<Card> cards = new List<Card>()
+            {
+                 new Card()
                 {
                     Id = "a1",
                     Name = "Офис совместно с Парус",
@@ -811,7 +969,7 @@ namespace apartmenthostService.Migrations
                     ResidentGender = ConstVals.Female,
                     Lang = ConstLang.RU
                 },
-               
+
                 new Card()
                 {
                     Id = "a10",
@@ -823,13 +981,28 @@ namespace apartmenthostService.Migrations
                     Cohabitation = ConstVals.SeperateResidence,
                     ResidentGender = ConstVals.Any,
                     Lang = ConstLang.RU
-                });
+                }
+            };
+            foreach (var card in cards)
+            {
+                var ex = context.Cards.FirstOrDefault(x => x.Id == card.Id);
+
+                if (ex != null)
+                {
+                    card.CreatedAt = ex.CreatedAt;
+                }
+
+                context.Cards.AddOrUpdate(p => p.Id,
+               card);
+            }
+
 
         }
 
         public static void PopulateCardDates(apartmenthostContext context)
         {
-            context.Dates.AddOrUpdate(p => p.Id,
+            List<CardDates> dateses = new List<CardDates>()
+            {
                 new CardDates()
                 {
                     Id = "cd1",
@@ -878,12 +1051,27 @@ namespace apartmenthostService.Migrations
                     CardId = "a7",
                     DateFrom = new DateTime(2015, 9, 1),
                     DateTo = new DateTime(2015, 9, 30)
-                });
+                }
+            };
+            foreach (var d in dateses)
+            {
+                var ex = context.Dates.FirstOrDefault(x => x.Id == d.Id);
+
+                if (ex != null)
+                {
+                    d.CreatedAt = ex.CreatedAt;
+                }
+
+                context.Dates.AddOrUpdate(p => p.Id, d
+                );
+            }
+
 
         }
         public static void PopulateReservations(apartmenthostContext context)
         {
-            context.Reservations.AddOrUpdate(p => p.Id,
+            List<Reservation> reservations = new List<Reservation>()
+            {
                 new Reservation()
                 {
                     Id = "r12",
@@ -1012,13 +1200,28 @@ namespace apartmenthostService.Migrations
                     DateFrom = new DateTime(2015, 8, 1),
                     DateTo = new DateTime(2015, 9, 30)
 
-                });
+                }
+            };
+            foreach (var res in reservations)
+            {
+                var ex = context.Reservations.FirstOrDefault(x => x.Id == res.Id);
+
+                if (ex != null)
+                {
+                    res.CreatedAt = ex.CreatedAt;
+                }
+
+                context.Reservations.AddOrUpdate(p => p.Id,
+                res);
+            }
+
 
         }
         public static void PopulateFavorites(apartmenthostContext context)
         {
-            context.Favorites.AddOrUpdate(p => p.Id,
-                new Favorite()
+            List<Favorite> favorites = new List<Favorite>()
+            {
+                 new Favorite()
                 {
                     Id = "f12",
                     UserId = "u1",
@@ -1049,15 +1252,30 @@ namespace apartmenthostService.Migrations
                     Id = "f21",
                     UserId = "u2",
                     CardId = "a1"
-                });
+                }
+            };
+
+            foreach (var f in favorites)
+            {
+                var ex = context.Favorites.FirstOrDefault(x => x.Id == f.Id);
+
+                if (ex != null)
+                {
+                    f.CreatedAt = ex.CreatedAt;
+                }
+                context.Favorites.AddOrUpdate(p => p.Id, f
+                );
+            }
+
 
         }
 
 
         public static void PopulateReviews(apartmenthostContext context)
         {
-            context.Reviews.AddOrUpdate(p => p.Id,
-                new Review()
+            List<Review> reviews = new List<Review>()
+            {
+                 new Review()
                 {
                     Id = "rw31",
                     FromUserId = "u3",
@@ -1129,7 +1347,21 @@ namespace apartmenthostService.Migrations
                     ReservationId = "r45",
                     Text = "Очень понравилось. Может быть еще приедем.",
                     Rating = 5
-                });
+                }
+            };
+
+            foreach (var r in reviews)
+            {
+                var ex = context.Reviews.FirstOrDefault(x => x.Id == r.Id);
+
+                if (ex != null)
+                {
+                    r.CreatedAt = ex.CreatedAt;
+                }
+                context.Reviews.AddOrUpdate(p => p.Id, r
+               );
+            }
+
         }
 
         public static void UpdateRating(apartmenthostContext context)
@@ -1149,7 +1381,8 @@ namespace apartmenthostService.Migrations
         }
         public static void PopulateNotifications(apartmenthostContext context)
         {
-            context.Notifications.AddOrUpdate(p => p.Id,
+            List<Notification> notifications = new List<Notification>()
+            {
                 new Notification()
                 {
                     Id = "nreserv1from7",
@@ -1205,10 +1438,23 @@ namespace apartmenthostService.Migrations
                     ReviewId = "rw31",
                     Code = RespH.SRV_NOTIF_REVIEW_RATING_ADDED,
                     Readed = false
-                });
+                }
+            };
+            foreach (var n in notifications)
+            {
+                var ex = context.Notifications.FirstOrDefault(x => x.Id == n.Id);
+
+                if (ex != null)
+                {
+                    n.CreatedAt = ex.CreatedAt;
+                }
+                context.Notifications.AddOrUpdate(p => p.Id, n
+               );
+            }
+
 
         }
-       
+
 
 
 

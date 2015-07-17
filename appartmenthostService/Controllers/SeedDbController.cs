@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using apartmenthostService.DataObjects;
+using apartmenthostService.Migrations;
 using apartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
@@ -18,10 +20,20 @@ namespace apartmenthostService.Controllers
         // GET api/SeedDb
         [HttpPost]
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
-        public string Post()
+        public HttpResponseMessage Post()
         {
-            DBPopulator.Populate(_context);
-            return "ok";
+            try
+            {
+                TestDBPopulator.Populate(_context);
+
+                return this.Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.InnerException);
+                return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
+            }
+            
         }
 
     }
