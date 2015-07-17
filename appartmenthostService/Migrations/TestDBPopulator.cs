@@ -629,16 +629,15 @@ namespace apartmenthostService.Migrations
 
                 if (ex != null)
                 {
-                    pic.CreatedAt = ex.CreatedAt;
-                }
-                context.Pictures.AddOrUpdate(p => p.Id, pic);
-                context.SaveChanges();
-
-                if (prof.PictureId != null)
-                {
-                    prof.PictureId = pic.Id;
+                    context.Pictures.Remove(ex);
                     context.SaveChanges();
                 }
+
+ 
+
+
+                    prof.Picture = pic;
+                    context.SaveChanges();
 
             }
         }
@@ -845,9 +844,13 @@ namespace apartmenthostService.Migrations
 
                     if (ex != null)
                     {
-                        pic.CreatedAt = ex.CreatedAt;
+                        context.Pictures.Remove(ex);
+                        context.SaveChanges();
+
                     }
-                    context.Pictures.AddOrUpdate(p => p.Id, pic);
+                    apart.Pictures.Add(pic);
+
+   
                     context.SaveChanges();
 
    
