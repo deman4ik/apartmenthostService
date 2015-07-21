@@ -39,8 +39,8 @@ namespace apartmenthostService
 
             //var migrator = new DbMigrator(new Configuration());
             //migrator.Update();
-           // Database.SetInitializer(new appartmenthostInitializer());
-            
+            // Database.SetInitializer(new appartmenthostInitializer());
+
         }
     }
 

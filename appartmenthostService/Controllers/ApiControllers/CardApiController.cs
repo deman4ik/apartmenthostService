@@ -473,6 +473,15 @@ namespace apartmenthostService.Controllers
                 resp = CheckHelper.isNull(card.Apartment.Adress, "Adress", RespH.SRV_APARTMENT_REQUIRED);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
+                // Check Apartment FormatedAdress is not NULL
+                //resp = CheckHelper.isNull(card.Apartment.FormattedAdress, "FormattedAdress", RespH.SRV_APARTMENT_REQUIRED);
+                //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+
+
+                // Check Apartment PlaceId is not NULL
+                //resp = CheckHelper.isNull(card.Apartment.PlaceId, "PlaceId", RespH.SRV_APARTMENT_REQUIRED);
+                //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+
                 // Check Apartment Type is not NULL
                 resp = CheckHelper.isNull(card.Apartment.Type, "Type", RespH.SRV_APARTMENT_REQUIRED);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
@@ -536,8 +545,10 @@ namespace apartmenthostService.Controllers
                         Options = card.Apartment.Options,
                         UserId = account.UserId,
                         Adress = card.Apartment.Adress,
+                        FormattedAdress = card.Apartment.FormattedAdress,
                         Latitude = card.Apartment.Latitude,
                         Longitude = card.Apartment.Longitude,
+                        PlaceId = card.Apartment.PlaceId,
                         Lang = card.Lang
 
                     }
@@ -687,8 +698,10 @@ namespace apartmenthostService.Controllers
                 apartment.Type = card.Apartment.Type;
                 apartment.Options = card.Apartment.Options;
                 apartment.Adress = card.Apartment.Adress;
+                apartment.FormattedAdress = card.Apartment.FormattedAdress;
                 apartment.Latitude = card.Apartment.Latitude;
                 apartment.Longitude = card.Apartment.Longitude;
+                apartment.PlaceId = card.Apartment.PlaceId;
                 apartment.Lang = card.Apartment.Lang;
 
                 _context.SaveChanges();
