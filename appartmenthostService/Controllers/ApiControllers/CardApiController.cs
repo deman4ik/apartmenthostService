@@ -525,7 +525,40 @@ namespace apartmenthostService.Controllers
                         });
                     }
                 }
+                List<Picture> pics = new List<Picture>();
+                // Check Apartment Pictures
+                if (card.Apartment.Pictures != null)
+                {
+                    foreach (var picture in card.Apartment.Pictures)
+                    {
+                        // Check Picture name is not NULL
+                        resp = CheckHelper.isNull(picture.Name, "Name", RespH.SRV_PICTURE_REQUIRED);
+                        if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
+                        // Check Picture CloudinaryPublicId is not NULL
+                        resp = CheckHelper.isNull(picture.CloudinaryPublicId, "CloudinaryPublicId", RespH.SRV_PICTURE_REQUIRED);
+                        if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                    }
+                    
+                    foreach (var picture in card.Apartment.Pictures)
+                    {
+                        string pictureGuid = Guid.NewGuid().ToString();
+                        var pic = new Picture()
+                        {
+                            Id = pictureGuid,
+                            Name = picture.Name,
+                            Description = picture.Description,
+                            Url = CloudinaryHelper.Cloudinary.Api.UrlImgUp.BuildUrl(picture.Name),
+                            Xsmall = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(143).Crop("thumb")).BuildUrl(picture.Name),
+                            Small = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(190).Crop("thumb")).BuildUrl(picture.Name),
+                            Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Height(225).Width(370).Crop("fill")).BuildUrl(picture.Name),
+                            Large = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(552).Crop("limit")).BuildUrl(picture.Name),
+                            Xlarge = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(1024).Crop("limit")).BuildUrl(picture.Name),
+                            Default = picture.Default
+                        };
+                        pics.Add(pic);
+                    }
+                }
                 _context.Set<Card>().Add(new Card()
                 {
                     Id = cardGuid,
@@ -549,7 +582,9 @@ namespace apartmenthostService.Controllers
                         Latitude = card.Apartment.Latitude,
                         Longitude = card.Apartment.Longitude,
                         PlaceId = card.Apartment.PlaceId,
-                        Lang = card.Lang
+                        Lang = card.Lang,
+                        Pictures = pics
+                        
 
                     }
                 });

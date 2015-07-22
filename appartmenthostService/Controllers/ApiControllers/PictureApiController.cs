@@ -190,7 +190,7 @@ namespace apartmenthostService.Controllers
         // POST api/Picture/Delete
         [Route("api/Picture/Delete/Profile/{id}")]
         [AuthorizeLevel(AuthorizationLevel.User)]
-        [HttpPost]
+        [HttpDelete]
         public HttpResponseMessage DeleteProfile(string id)
         {
             try
@@ -256,7 +256,7 @@ namespace apartmenthostService.Controllers
         // POST api/Picture/Delete
         [Route("api/Picture/Delete/Apartment/{id}")]
         [AuthorizeLevel(AuthorizationLevel.User)]
-        [HttpPost]
+        [HttpDelete]
         public HttpResponseMessage DeleteApartment(string id, List<string> picIds)
         {
             try
