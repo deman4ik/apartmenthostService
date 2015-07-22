@@ -13,6 +13,7 @@ using LinqKit;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 using Newtonsoft.Json;
+using CloudinaryDotNet;
 
 namespace apartmenthostService.Controllers
 {
