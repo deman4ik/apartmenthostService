@@ -350,17 +350,10 @@ namespace apartmenthostService.Controllers
                 });
                 _context.SaveChanges();
                 // Create Notification
-                _context.Set<Notification>().Add(new Notification()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    UserId = card.UserId,
-                    Type = ConstVals.General,
-                    ReservationId = reservationGuid,
-                    Code = RespH.SRV_NOTIF_RESERV_PENDING,
-                    Readed = false
-                });
+                Notifications.Create(_context,card.UserId,ConstVals.General,RespH.SRV_NOTIF_RESERV_PENDING,null,reservationGuid,null,true);
 
-                _context.SaveChanges();
+
+
                 respList.Add(reservationGuid);
                 return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
 
@@ -475,19 +468,12 @@ namespace apartmenthostService.Controllers
                 }
 
                 currentReservation.Status = status;
-
-                // Create Notification
-                _context.Set<Notification>().Add(new Notification()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    UserId = currentReservation.UserId,
-                    Type = ConstVals.General,
-                    ReservationId = currentReservation.Id,
-                    Code = notifCode,
-                    Readed = false
-                });
-
                 _context.SaveChanges();
+                // Create Notification
+                Notifications.Create(_context, currentReservation.UserId, ConstVals.General, notifCode, null, currentReservation.Id, null, true);
+
+
+                
 
                 respList.Add(reservId);
                 return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED, respList));

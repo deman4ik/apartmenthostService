@@ -16,6 +16,7 @@ namespace apartmenthostService.Models
         public string FavoriteId { get; set; }
         public string Type { get; set; }
         public string Code { get; set; }
+        public bool Emailed { get; set; }
         public bool Readed { get; set; }
 
         public virtual User User { get; set; }

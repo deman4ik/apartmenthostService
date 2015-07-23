@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Mime;
 using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
@@ -25,6 +26,9 @@ namespace apartmenthostService.Migrations
                 context.SaveChanges();
 
                 PopulateDictionaryItems(context);
+                context.SaveChanges();
+
+                PopulateArticles(context);
                 context.SaveChanges();
 
                 //PopulateUsers(context);
@@ -265,6 +269,109 @@ namespace apartmenthostService.Migrations
 
         }
 
+        public static void PopulateArticles(apartmenthostContext context)
+        {
+            
+            List<Article> articles = new List<Article>()
+            {
+                new Article()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = ConstVals.Greet,
+                    Text = "Здравствуйте, <b>{0}</b>.",
+                    Lang = ConstLang.RU
+               },
+            new Article()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = RespH.SRV_NOTIF_CARD_FAVORITED,
+                    Title = "Apartmenthost - Ваше объявление добавили в избранное",
+                    Text = "Пользователь <b>{0}</b> добавил Ваше объявление в избранное.",
+                    Lang = ConstLang.RU
+               },
+            new Article()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = RespH.SRV_NOTIF_RESERV_PENDING,
+                    Title = "Apartmenthost - Заявка на бронирование",
+                    Text = "Ваша заявку на бронирование <b>{0}</b> в период с <b>{1}</b> по <b>{2}</b> получена. <br><br> Ожидайте подтверждения от владельца.",
+                    Lang = ConstLang.RU
+               },
+           new Article()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = RespH.SRV_NOTIF_RESERV_ACCEPTED,
+                    Title = "Apartmenthost - Подтверждение бронирования",
+                    Text = "{0} подтвердил вашу заявку на бронирование <b>{0}</b> в период с <b>{1}</b> по <b>{2}</b>. <br><br> Свяжитесь с владельцем для получения дополнительной информации.",
+                    Lang = ConstLang.RU
+               },
+           new Article()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = RespH.SRV_NOTIF_RESERV_DECLINED,
+                    Title = "Apartmenthost - Бронирование отклонено",
+                    Text = "К сожалению ваше бронирование <b>{0}</b> в период с <b>{1}</b> по <b>{2}</b> отклонено владельцем. <br><br> Свяжитесь с владельцем для получения дополнительной информации.",
+                    Lang = ConstLang.RU
+               },
+           new Article()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = RespH.SRV_NOTIF_REVIEW_ADDED,
+                    Title = "Apartmenthost - Вам оставили отзыв",
+                    Text = "Пользователь <b>{0}</b> оставил отзыв <b>{1}</b>.",
+                    Lang = ConstLang.RU
+               },
+           new Article()
+           {
+                Id = Guid.NewGuid().ToString(),
+                    Name = RespH.SRV_NOTIF_REVIEW_RATING_ADDED,
+                    Title = "Apartmenthost - Вам оставили отзыв",
+                    Text = "Пользователь <b>{0}</b> оставил отзыв <b>{1}</b> и оценил вас в <b>{2}</b> из 5.",
+                    Lang = ConstLang.RU
+           },
+            new Article()
+           {
+                Id = Guid.NewGuid().ToString(),
+                    Name = RespH.SRV_NOTIF_REVIEW_AVAILABLE,
+                    Title = "Apartmenthost - Вы можете оставить отзыв",
+                    Text = "По бронированию <b>{0}</b> в период с <b>{1}</b> по <b>{2}</b> вы можете оставить отзыв.",
+                    Lang = ConstLang.RU
+           },
+            new Article()
+            {
+                 Id = Guid.NewGuid().ToString(),
+                    Name = ConstVals.Reg,
+                    Title = "Apartmenthost - Подтверждение Email",
+                    Text = "Спасибо за регистрацию на Apartmenthost! <br> Для подтверждения Email используйте следующий код: <b>{0}</b> <br> или перейдите по ссылке <b>{1}</b>",
+                    Lang = ConstLang.RU
+            },
+            new Article()
+            {
+                 Id = Guid.NewGuid().ToString(),
+                    Name = ConstVals.Restore,
+                    Title = "Apartmenthost - Восстановление пароля",
+                    Text = "Для восстановаления пароля используйте слудющий код: <b>{0}</b> <br> или перейдите по ссылке <b>{1}</b>",
+                    Lang = ConstLang.RU
+            }
+            };
+
+            foreach (var art in articles)
+            {
+
+                var ex = context.Article.FirstOrDefault(x => x.Name == art.Name);
+                if (ex != null)
+                {
+                    art.CreatedAt = ex.CreatedAt;
+                }
+
+                context.Article.AddOrUpdate(p => p.Name, art
+
+                );
+
+                context.SaveChanges();
+            }
+        }
+
         public static void PopulateUsers(apartmenthostContext context)
         {
             byte[] salt = AuthUtils.generateSalt();
@@ -386,7 +493,7 @@ namespace apartmenthostService.Migrations
                        FirstName = "Яна",
                        LastName = "Парусова",
                        Birthday = new DateTime(1989, 1, 1),
-                       ContactEmail = "parus@parus.ru",
+                       ContactEmail = "apartmenthost@inbox.ru",
                        ContactKind = "Phone",
                        Description = "Информационные Системы Управления",
                        Gender = ConstVals.Female,
@@ -403,7 +510,7 @@ namespace apartmenthostService.Migrations
                        FirstName = "Василий",
                        LastName = "Пупович",
                        Birthday = new DateTime(1976, 3, 23),
-                       ContactEmail = "user2@example.com",
+                       ContactEmail = "apartmenthost@inbox.ru",
                        ContactKind = "Email",
                        Description = "Пуповичи 100 лет на рынке недвижимости!",
                        Gender = ConstVals.Male,
@@ -421,7 +528,7 @@ namespace apartmenthostService.Migrations
                        FirstName = "Елена",
                        LastName = "Пыжович",
                        Birthday = new DateTime(1976, 3, 23),
-                       ContactEmail = "user3@example.com",
+                       ContactEmail = "apartmenthost@inbox.ru",
                        ContactKind = "Email",
                        Description = "Привет. Меня зовут Лена!",
                        Gender = ConstVals.Female,
@@ -439,7 +546,7 @@ namespace apartmenthostService.Migrations
                        FirstName = "Дмитрий",
                        LastName = "Трофимов",
                        Birthday = new DateTime(1965, 7, 12),
-                       ContactEmail = "user4@example.com",
+                       ContactEmail = "apartmenthost@inbox.ru",
                        ContactKind = "Email",
                        Description = "Трофимов",
                        Gender = ConstVals.Male,
@@ -457,7 +564,7 @@ namespace apartmenthostService.Migrations
                        FirstName = "Эдуард",
                        LastName = "Вишняков",
                        Birthday = new DateTime(1986, 1, 18),
-                       ContactEmail = "user5@example.com",
+                       ContactEmail = "apartmenthost@inbox.ru",
                        ContactKind = "Email",
                        Description = "Трофимов",
                        Gender = ConstVals.Male,
@@ -474,7 +581,7 @@ namespace apartmenthostService.Migrations
                        FirstName = "Леонид",
                        LastName = "Нефедов",
                        Birthday = new DateTime(1977, 12, 23),
-                       ContactEmail = "user6@example.com",
+                       ContactEmail = "apartmenthost@inbox.ru",
                        ContactKind = "Phone",
                        Description = "Вишняков",
                        Gender = ConstVals.Male,
@@ -508,7 +615,7 @@ namespace apartmenthostService.Migrations
                        FirstName = "Светлана",
                        LastName = "Стрелкова",
                        Birthday = new DateTime(1989, 9, 9),
-                       ContactEmail = "user8@example.com",
+                       ContactEmail = "apartmenthost@inbox.ru",
                        ContactKind = "Email",
                        Description = "Привет. Меня зовут Светлана!",
                        Gender = ConstVals.Female,
@@ -525,7 +632,7 @@ namespace apartmenthostService.Migrations
                        FirstName = "Даша",
                        LastName = "Демидова",
                        Birthday = new DateTime(1981, 4, 29),
-                       ContactEmail = "user9@example.com",
+                       ContactEmail = "apartmenthost@inbox.ru",
                        ContactKind = "Email",
                        Description = "Привет. Меня зовут Светлана!",
                        Gender = ConstVals.Female,
@@ -542,7 +649,7 @@ namespace apartmenthostService.Migrations
                        FirstName = "Лариса",
                        LastName = "Крокодилова",
                        Birthday = new DateTime(1993, 4, 10),
-                       ContactEmail = "user10@example.com",
+                       ContactEmail = "apartmenthost@inbox.ru",
                        ContactKind = "Email",
                        Description = "Крокодилова клац-клац",
                        Gender = ConstVals.Female,
@@ -559,7 +666,7 @@ namespace apartmenthostService.Migrations
                        FirstName = "Лера",
                        LastName = "Бундельера",
                        Birthday = new DateTime(1988, 4, 10),
-                       ContactEmail = "user11@example.com",
+                       ContactEmail = "apartmenthost@inbox.ru",
                        ContactKind = "Email",
                        Description = "Бундельер цап-цап",
                        Gender = ConstVals.Female,
@@ -576,7 +683,7 @@ namespace apartmenthostService.Migrations
                        FirstName = "Владмир",
                        LastName = "Путкин",
                        Birthday = new DateTime(1991, 4, 10),
-                       ContactEmail = "user12@example.com",
+                       ContactEmail = "apartmenthost@inbox.ru",
                        ContactKind = "Email",
                        Description = "не путать с ВВП",
                        Gender = ConstVals.Male,

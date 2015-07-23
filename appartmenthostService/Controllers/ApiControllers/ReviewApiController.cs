@@ -334,19 +334,12 @@ namespace apartmenthostService.Controllers
                     newReview.Rating = 0;
                     notifCode = RespH.SRV_NOTIF_REVIEW_ADDED;
                 }
-
-                // Create Notification
-                _context.Set<Notification>().Add(new Notification()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    UserId = newReview.ToUserId,
-                    Type = ConstVals.General,
-                    ReviewId = reviewGuid,
-                    Code = notifCode,
-                    Readed = false
-                });
-
                 _context.SaveChanges();
+                // Create Notification
+                Notifications.Create(_context,newReview.ToUserId,ConstVals.General,notifCode,null,null,reviewGuid,true);
+
+
+                
                 respList.Add(reviewGuid);
                 return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
             }

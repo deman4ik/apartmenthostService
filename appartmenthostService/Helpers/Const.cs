@@ -169,5 +169,9 @@ namespace apartmenthostService.Helpers
         public const string Global = "DVAL_GLOBAL"; // Глобальные оповещения
         public const string Thing = "DVAL_THING";
         public const string Alien = "DVAL_ALIEN";
+        public const string Greet = "GREET";
+        public const string Reg = "REG";
+        public const string Restore = "RESTORE";
+        public const string EmailTemplate = "EMAIL_TEMPLATE";
     }
 }

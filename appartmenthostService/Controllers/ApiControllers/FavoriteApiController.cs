@@ -82,16 +82,10 @@ namespace apartmenthostService.Controllers
                         CardId = cardId,
                         UserId = account.UserId
                     });
+                    _context.SaveChanges();
                     // Create Notification
-                    _context.Set<Notification>().Add(new Notification()
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        UserId = currentCard.UserId,
-                        Type = ConstVals.General,
-                        FavoriteId = favoriteGUID,
-                        Code = RespH.SRV_NOTIF_CARD_FAVORITED,
-                        Readed = false
-                    });
+                    Notifications.Create(_context, currentCard.UserId, ConstVals.General, RespH.SRV_NOTIF_CARD_FAVORITED,
+                        favoriteGUID, null, null, true);
                     status = true;
                 }
                 else
