@@ -90,7 +90,7 @@ namespace apartmenthostService.DataObjects
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
-        public bool Default { get; set; }
+        public bool? Default { get; set; }
 
         // Уникальный идентификатор Cloudinary
         [Metadata(DataType = ConstDataType.Text)]
