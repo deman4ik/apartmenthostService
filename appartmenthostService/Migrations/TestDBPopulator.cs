@@ -286,7 +286,7 @@ namespace apartmenthostService.Migrations
                     Id = Guid.NewGuid().ToString(),
                     Name = RespH.SRV_NOTIF_CARD_FAVORITED,
                     Title = "Apartmenthost - Ваше объявление добавили в избранное",
-                    Text = "Пользователь <b>{0}</b> добавил Ваше объявление в избранное.",
+                    Text = "Пользователь <b>{0}</b> добавил <a href=\"{1}\"> Ваше объявление </a> в избранное.",
                     Lang = ConstLang.RU
                },
             new Article()
@@ -598,7 +598,7 @@ namespace apartmenthostService.Migrations
                        FirstName = "Дарья",
                        LastName = "Мамонтова",
                        Birthday = new DateTime(1995, 8, 19),
-                       ContactEmail = "user7@example.com",
+                       ContactEmail = "apartmenthost@inbox.ru",
                        ContactKind = "Email",
                        Description = "Привет. Меня зовут Дарья!",
                        Gender = ConstVals.Female,

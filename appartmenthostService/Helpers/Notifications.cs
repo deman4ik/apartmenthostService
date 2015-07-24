@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Models;
+using HtmlAgilityPack;
 using Simplify.Mail;
 
 namespace apartmenthostService.Helpers
@@ -60,8 +61,7 @@ namespace apartmenthostService.Helpers
 
             
             Email email = new Email();
-            string greet;
-            string body = "{0}";
+                string body = "{0}";
                 StringBuilder templBody = new StringBuilder();
             var greetArt = context.Article.SingleOrDefault(x => x.Name == ConstVals.Greet);
             var templArt = context.Article.SingleOrDefault(x => x.Name == ConstVals.EmailTemplate);
@@ -89,15 +89,15 @@ namespace apartmenthostService.Helpers
                 email.To = user.Email;
             }
 
-            string name = string.IsNullOrEmpty(profile.FirstName) || string.IsNullOrEmpty(profile.LastName)
+            string name = !string.IsNullOrEmpty(profile.FirstName) || !string.IsNullOrEmpty(profile.LastName)
                 ? profile.FirstName + " " + profile.LastName
                 : email.To;
-            greet = String.Format(greetArt.Text, name);
+            var greet = string.Format(greetArt.Text, name);
             switch (code)
             {
                 case RespH.SRV_NOTIF_CARD_FAVORITED:
-                    var owner = context.Favorites.Where(c => c.Id == favoriteId).Select( s => new { s.Card.User.Profile.FirstName,  s.Card.User.Profile.LastName }).FirstOrDefault();
-                    body = String.Format(body, owner.FirstName + " " + owner.LastName);
+                    var owner = context.Favorites.Where(c => c.Id == favoriteId).Select( s => new { s.User.Profile.FirstName,  s.User.Profile.LastName, s.CardId }).FirstOrDefault();
+                    body = String.Format(body, owner.FirstName + " " + owner.LastName, "https://apartmenthost.azurewebsites.net/#/posts/"+owner.CardId);
                     break;
                 case RespH.SRV_NOTIF_RESERV_PENDING:
                     var pendreserv =
@@ -139,7 +139,11 @@ namespace apartmenthostService.Helpers
                     body = String.Format(body, reviewav.Name, reviewav.DateFrom, reviewav.DateTo);
                     break;
             }
-           email.Body = String.Format(templBody.ToString(), greet, body);
+                HtmlDocument doc = new HtmlDocument();
+                doc.LoadHtml(templBody.ToString());
+                var content = doc.DocumentNode.SelectSingleNode("//*[contains(@class, 'email-content')]");
+                content.InnerHtml = greet + "<br><br>" + body;
+                email.Body = doc.DocumentNode.WriteContentTo();
 
             MailSender.Default.Send(email.From, email.To, email.Title, email.Body);
             }
