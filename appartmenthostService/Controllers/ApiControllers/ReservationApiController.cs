@@ -287,6 +287,7 @@ namespace apartmenthostService.Controllers
                     return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
                 // Check Reservation already exists
+                /* TODO: Проверка по дате */
                 var existedReservation = _context.Reservations.SingleOrDefault(x => x.UserId == account.UserId && x.CardId == cardId);
                 if (existedReservation != null)
                 {
