@@ -227,9 +227,9 @@
     <Compile Include="Controllers\ApiControllers\MailApiController.cs" />
     <Compile Include="Controllers\SeedDbController.cs" />
     <Compile Include="Helpers\Notifications.cs" />
-    <Compile Include="Migrations\201507231343276_Init.cs" />
-    <Compile Include="Migrations\201507231343276_Init.Designer.cs">
-      <DependentUpon>201507231343276_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201507261534299_Hash.cs" />
+    <Compile Include="Migrations\201507261534299_Hash.Designer.cs">
+      <DependentUpon>201507261534299_Hash.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\TestDBPopulator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -335,8 +335,8 @@
     <None Include="Properties\PublishProfiles\apartmenthost - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201507231343276_Init.resx">
-      <DependentUpon>201507231343276_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201507261534299_Hash.resx">
+      <DependentUpon>201507261534299_Hash.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

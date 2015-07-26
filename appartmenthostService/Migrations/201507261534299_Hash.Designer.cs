@@ -7,13 +7,13 @@ namespace apartmenthostService.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.1-30610")]
-    public sealed partial class Init : IMigrationMetadata
+    public sealed partial class Hash : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Init));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Hash));
         
         string IMigrationMetadata.Id
         {
-            get { return "201507231343276_Init"; }
+            get { return "201507261534299_Hash"; }
         }
         
         string IMigrationMetadata.Source
