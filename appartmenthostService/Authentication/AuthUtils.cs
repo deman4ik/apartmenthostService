@@ -24,6 +24,21 @@ namespace apartmenthostService.Authentication
             return builder.ToString();
         }
 
+        public static string randomNumString(int size)
+        {
+            Random random = new Random((int)DateTime.Now.Ticks);
+            StringBuilder builder = new StringBuilder();
+            char ch;
+            for (int i = 0; i < size; i++)
+            {
+               string str = random.Next(0,9).ToString();
+                ch = str[0];
+                builder.Append(ch);
+            }
+
+            return builder.ToString();
+        }
+
         public static byte[] hash(string plaintext, byte[] salt)
         {
             SHA512Cng hashFunc = new SHA512Cng();

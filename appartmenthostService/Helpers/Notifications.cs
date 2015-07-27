@@ -54,7 +54,7 @@ namespace apartmenthostService.Helpers
             }
         }
 
-        public static void SendEmail(apartmenthostContext context, string userId, string type, string code, string favoriteId = null, string reservationId = null, string reviewId = null)
+        public static void SendEmail(apartmenthostContext context, string userId, string type, string code, string favoriteId = null, string reservationId = null, string reviewId = null, string confirmCode = null)
         {
             try
             {
@@ -138,6 +138,13 @@ namespace apartmenthostService.Helpers
                             .Select(r => new {r.Card.Name, r.DateFrom, r.DateTo}).FirstOrDefault();
                     body = String.Format(body, reviewav.Name, reviewav.DateFrom, reviewav.DateTo);
                     break;
+                    case ConstVals.Reg:
+                        body = String.Format(body, confirmCode, "https://apartmenthost.azurewebsites.net/#/confirm/"+userId+"/"+confirmCode);
+                    break;
+                    case ConstVals.Restore:
+                        body = String.Format(body, confirmCode, "https://apartmenthost.azurewebsites.net/#/reset/" + userId + "/" + confirmCode);
+                    break;
+
             }
                 HtmlDocument doc = new HtmlDocument();
                 doc.LoadHtml(templBody.ToString());

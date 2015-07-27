@@ -43,7 +43,7 @@ namespace apartmenthostService.Authentication
                 Claim name = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
                 Claim providerAccessToken = claimsIdentity
                     .FindFirst(ServiceClaimTypes.ProviderAccessToken);
-                string email = claimsIdentity.FindFirst(ClaimTypes.Name).ToString();
+                string email = claimsIdentity.FindFirst(ClaimTypes.Email).ToString();
                 string userId = this.TokenHandler.CreateUserId(this.Name, name != null
                     ? name.Value
                     : null);

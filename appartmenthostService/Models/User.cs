@@ -25,6 +25,8 @@ namespace apartmenthostService.Models
         public byte[] SaltedAndHashedPassword { get; set; }
         public byte[] SaltedAndHashedEmail { get; set; }
         public byte[] SaltedAndHashedCode { get; set; }
+        public bool EmailConfirmed { get; set; }
+        public bool ResetRequested { get; set; }
 
         public virtual Profile Profile { get; set; }
         public ICollection<Notification> Notifications { get; set; }

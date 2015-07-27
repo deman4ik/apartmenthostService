@@ -53,7 +53,7 @@ namespace apartmenthostService.Authentication
             {
                 UserId = userId
             };
-            AuthUtils.CreateAccount(this.Name, email, userId, email);
+            
             return credentials;
         }
 

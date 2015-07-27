@@ -350,7 +350,7 @@ namespace apartmenthostService.Migrations
                  Id = Guid.NewGuid().ToString(),
                     Name = ConstVals.Restore,
                     Title = "Apartmenthost - Восстановление пароля",
-                    Text = "Для восстановаления пароля используйте слудющий код: <b>{0}</b> <br> или перейдите по ссылке <b>{1}</b>",
+                    Text = "Для восстановления пароля используйте следующий код: <b>{0}</b> <br> или перейдите по ссылке <b>{1}</b>",
                     Lang = ConstLang.RU
             }
             };

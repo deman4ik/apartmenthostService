@@ -224,12 +224,14 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authentication\ConfirmRequest.cs" />
     <Compile Include="Controllers\ApiControllers\MailApiController.cs" />
     <Compile Include="Controllers\SeedDbController.cs" />
+    <Compile Include="Controllers\ApiControllers\UserSocialInfoApiController.cs" />
     <Compile Include="Helpers\Notifications.cs" />
-    <Compile Include="Migrations\201507261534299_Hash.cs" />
-    <Compile Include="Migrations\201507261534299_Hash.Designer.cs">
-      <DependentUpon>201507261534299_Hash.cs</DependentUpon>
+    <Compile Include="Migrations\201507271416216_Confirm.cs" />
+    <Compile Include="Migrations\201507271416216_Confirm.Designer.cs">
+      <DependentUpon>201507271416216_Confirm.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\TestDBPopulator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -335,8 +337,8 @@
     <None Include="Properties\PublishProfiles\apartmenthost - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201507261534299_Hash.resx">
-      <DependentUpon>201507261534299_Hash.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201507271416216_Confirm.resx">
+      <DependentUpon>201507271416216_Confirm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

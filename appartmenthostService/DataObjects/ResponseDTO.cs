@@ -46,6 +46,8 @@ namespace apartmenthostService.DataObjects
         public const string SRV_UNAUTH = "SRV_UNAUTH"; // Пользователь не авторизован
         public const string SRV_FORBIDDEN = "SRV_FORBIDDEN"; // Пользователю запрещено выполнение этого действия
 
+        
+
         public const string SRV_USER_NULL = "SRV_USER_NULL"; // Пустой объект запроса
         public const string SRV_USER_NOTFOUND = "SRV_USER_NOTFOUND"; // Объект не найден
         public const string SRV_USER_INVALID_DICITEM = "SRV_USER_INVALID_DICITEM"; // Не верное значение словаря
@@ -54,6 +56,12 @@ namespace apartmenthostService.DataObjects
         public const string SRV_USER_WRONG_USER = "SRV_USER_WRONG_USER"; // Объект не может быть изменен/удален другим пользователем
         public const string SRV_USER_EXISTS = "SRV_USER_EXISTS"; // Объект уже существует
         public const string SRV_USER_DEPENDENCY = "SRV_USER_DEPENDENCY"; // Объект не может быть изменен/удален т.к. зависит от другого объекта.  
+        public const string SRV_USER_WRONG_CODE = "SRV_USER_WRONG_CODE"; // Не верный код
+        public const string SRV_USER_CONFIRMED = "SRV_USER_CONFIRMED"; // Email уже подтвержден
+        public const string SRV_USER_RESET_REQUESTED = "SRV_USER_RESET_REQUESTED"; // Сброс пароля запрошен
+        public const string SRV_USER_RESET_NOT_REQUESTED = "SRV_USER_RESET_NOT_REQUESTED"; // Сброс пароля не запрошен
+        public const string SRV_USER_RESETED = "SRV_USER_RESETED"; // Пароль изменен
+
 
         //Registration
         public const string SRV_REG_INVALID_EMAIL = "SRV_REG_INVALID_EMAIL"; // Не верный email

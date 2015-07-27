@@ -4,7 +4,7 @@ namespace apartmenthostService.Authentication
 {
     public class RegistrationRequest
     {
-        public String email { get; set; }
-        public String password { get; set; }
+        public String Email { get; set; }
+        public String Password { get; set; }
     }
 }

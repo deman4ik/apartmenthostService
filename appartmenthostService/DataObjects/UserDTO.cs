@@ -136,6 +136,14 @@ namespace apartmenthostService.DataObjects
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public int CardCount { get; set; }
 
+        // Признак подтверждения Email
+        [Metadata(DataType = ConstDataType.Bool)]
+        [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = true)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
+        public bool EmailConfirmed { get; set; }
 
         // Дата и Время создания объекта
         [Metadata(DataType = ConstDataType.Date)]
