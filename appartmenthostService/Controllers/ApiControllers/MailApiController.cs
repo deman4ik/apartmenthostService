@@ -18,7 +18,8 @@ namespace apartmenthostService.Controllers
         {
             try
             {
-                MailSender.Default.Send("apartmenthost@inbox.ru", "deman4ik@gmail.com", "It's working!", "Mail message, can be full HTML page");
+                MailSender mailSender = new MailSender("appSettings");
+                mailSender.Send("apartmenthost@inbox.ru", "deman4ik@gmail.com", "It's working!", "Mail message, can be full HTML page");
                 return "OK";
             }
             catch (Exception e)

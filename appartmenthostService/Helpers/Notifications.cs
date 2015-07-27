@@ -59,7 +59,7 @@ namespace apartmenthostService.Helpers
             try
             {
 
-            
+            MailSender mailSender = new MailSender("appSettings");
             Email email = new Email();
                 string body = "{0}";
                 StringBuilder templBody = new StringBuilder();
@@ -76,7 +76,7 @@ namespace apartmenthostService.Helpers
                     body = article.Text;
                 }
             }
-            email.From = MailSender.Default.Settings.SmtpUserName;
+            email.From = mailSender.Settings.SmtpUserName;
 
             var profile = context.Profile.SingleOrDefault(x => x.Id == userId);
             if (!string.IsNullOrEmpty(profile.ContactEmail))
@@ -152,7 +152,7 @@ namespace apartmenthostService.Helpers
                 content.InnerHtml = greet + "<br><br>" + body;
                 email.Body = doc.DocumentNode.WriteContentTo();
 
-            MailSender.Default.Send(email.From, email.To, email.Title, email.Body);
+                mailSender.Send(email.From, email.To, email.Title, email.Body);
             }
             catch (Exception e)
             {
