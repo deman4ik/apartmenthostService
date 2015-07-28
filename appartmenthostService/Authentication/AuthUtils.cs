@@ -81,33 +81,30 @@ namespace apartmenthostService.Authentication
             }
         }
 
-        public static void CreateAccount(string providerName, string providerId, string accountId, string email = null)
+        public static void CreateAccount(string providerName, string providerId, string accountId, string email = null, string name = null)
         {
             var context = new apartmenthostContext();
             var account =
                 context.Accounts.SingleOrDefault(
                     a =>
-                        a.Provider == StandartLoginProvider.ProviderName && a.ProviderId == providerId &&
+                        a.Provider == providerName && a.ProviderId == providerId &&
                         a.AccountId == accountId);
             if (account == null)
             {
-                User user;
-                if (providerName == StandartLoginProvider.ProviderName)
+                User user = context.Users.SingleOrDefault(u => u.Email == email);
+                if (providerName != StandartLoginProvider.ProviderName)
                 {
-                    user = context.Users.SingleOrDefault(u => u.Email == email);
-                }
-                else
-                {
-                    var salt = generateSalt();
-                    user = new User
+                    if (user == null)
                     {
-                        Id = Guid.NewGuid().ToString(),
-                        Email = email,
-                        Salt = salt,
-                        SaltedAndHashedPassword = hash(randomString(8), salt)
-                    };
-                    context.Users.Add(user);
-                    context.SaveChanges();
+                        user = new User
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Email = email,
+                            EmailConfirmed = true
+                        };
+                        context.Users.Add(user);
+                        context.SaveChanges();
+                    }
                 }
                 account = new Account
                 {
@@ -119,11 +116,19 @@ namespace apartmenthostService.Authentication
                 };
                 context.Accounts.Add(account);
                 context.SaveChanges();
+
+               
                 var profile = context.Profile.SingleOrDefault(p => p.Id == user.Id);
                 if (profile == null)
                 {
                     profile = new Profile();
                     profile.Id = user.Id;
+                    if (name != null)
+                    {
+                        profile.FirstName = name.Split(' ')[0];
+                        profile.LastName = name.Split(' ')[1];
+                    }
+                    
                     context.Profile.Add(profile);
                 }
                 context.SaveChanges();

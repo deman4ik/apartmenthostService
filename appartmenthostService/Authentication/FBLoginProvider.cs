@@ -40,7 +40,8 @@ namespace apartmenthostService.Authentication
                 AppId = settings["FBAppId"],
                 AppSecret = settings["FBAppSecret"],
                 AuthenticationType = Name,
-                Provider = new FBLoginAuthenticationProvider()
+                Provider = new FBLoginAuthenticationProvider(),
+                Scope = {"email"}
             };
             appBuilder.UseFacebookAuthentication(options);
         }
@@ -56,12 +57,15 @@ namespace apartmenthostService.Authentication
             var providerAccessToken = claimsIdentity
                 .FindFirst(ServiceClaimTypes.ProviderAccessToken);
             var userId = TokenHandler.CreateUserId(Name, name?.Value);
+            var emailClaim = claimsIdentity.FindFirst(ClaimTypes.Email);
+            var nameClaim = claimsIdentity.FindFirst(ClaimTypes.Name);
+
             var credentials = new FBCredentials
             {
                 UserId = userId,
                 AccessToken = providerAccessToken?.Value
             };
-            AuthUtils.CreateAccount(Name, userId, name.Value);
+            AuthUtils.CreateAccount(Name, userId, name.Value, emailClaim.Value, nameClaim.Value);
             return credentials;
         }
 
