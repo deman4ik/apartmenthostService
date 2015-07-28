@@ -6,19 +6,18 @@ namespace apartmenthostService.Models
     /*
      * Жилье пользователя
      */
+
     public class Apartment : EntityData
     {
-
         public Apartment()
         {
-            this.Cards = new HashSet<Card>();
-            this.Pictures = new HashSet<Picture>();
-            this.PropVals = new HashSet<PropVal>();
+            Cards = new HashSet<Card>();
+            Pictures = new HashSet<Picture>();
+            PropVals = new HashSet<PropVal>();
         }
 
         // Наименование жилья
         public string Name { get; set; }
-
         /* Тип жилья
         Заполняется из словаря - "D_APARTMENTTYPE"
         Возможные значения:
@@ -29,51 +28,31 @@ namespace apartmenthostService.Models
         "DVAL_HOTEL_ROOM" - Гостинечный номер
         */
         public string Type { get; set; }
-
         // Дополнительные опции жилья (несколько значений через запятую)
         public string Options { get; set; }
-
         // Уникальный идентификатор пользователя
         public string UserId { get; set; }
-
         // Адрес жилья
         public string Adress { get; set; }
-
         // Полный адрес жилья
         public string FormattedAdress { get; set; }
-
         // Тип адреса жилья
         public string AdressTypes { get; set; }
-
         // Координаты широта
         public double? Latitude { get; set; }
-
         // Координаты долгота
         public double? Longitude { get; set; }
-
         // Уникальный идентификатор адреса из Google Places
         public string PlaceId { get; set; }
-
         // Язык "RU","EN"
         public string Lang { get; set; }
-
         // Ссылка на пользователя
         public virtual User User { get; set; }
-
         // Ссылки на список связанных карточек объявлений
         public ICollection<Card> Cards { get; set; }
-
         // Ссылки на список связанных изображений
         public ICollection<Picture> Pictures { get; set; }
-
         // Ссылки на список дополнительных свойств
         public ICollection<PropVal> PropVals { get; set; }
-
-        // Системные поля: 
-        // Id - Уникальный идентификатор записи
-        // CreatedAt - Дата и время создания записи
-        // UpdatedAt - Дата и время изменения записи
-        // Version - Текущая версия записи
-        // Deleted - Признак удаленной записи
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Runtime.Serialization.Formatters;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using apartmenthostService.Authentication;
@@ -15,6 +14,7 @@ namespace apartmenthostService.Controllers
     public class CardController : TableController<Card>
     {
         private apartmenthostContext _context;
+
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
@@ -33,7 +33,7 @@ namespace apartmenthostService.Controllers
             {
                 userId = account.UserId;
             }
-           var result =  Query().Select(x => new CardDTO()
+            var result = Query().Select(x => new CardDTO
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -41,23 +41,23 @@ namespace apartmenthostService.Controllers
                 Description = x.Description,
                 ApartmentId = x.ApartmentId,
                 PriceDay = x.PriceDay,
-                PricePeriod = x.PriceDay * 7,
+                PricePeriod = x.PriceDay*7,
                 Cohabitation = x.Cohabitation,
                 ResidentGender = x.ResidentGender,
                 IsFavorite = x.Favorites.Any(f => f.UserId == userId),
                 CreatedAt = x.CreatedAt,
                 UpdatedAt = x.UpdatedAt,
                 Lang = x.Lang,
-                Dates = x.Dates.Select(d => new DatesDTO()
+                Dates = x.Dates.Select(d => new DatesDTO
                 {
-                   DateFrom = d.DateFrom,
-                   DateTo = d.DateTo
-                }).Union( x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new DatesDTO()
+                    DateFrom = d.DateFrom,
+                    DateTo = d.DateTo
+                }).Union(x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new DatesDTO
                 {
                     DateFrom = rv.DateFrom,
                     DateTo = rv.DateTo
                 }).ToList()).ToList(),
-                User = new UserDTO()
+                User = new UserDTO
                 {
                     Id = x.User.Profile.Id,
                     FirstName = x.User.Profile.FirstName,
@@ -66,7 +66,7 @@ namespace apartmenthostService.Controllers
                     Rating = x.User.Profile.Rating,
                     RatingCount = x.User.Profile.RatingCount,
                     Phone = x.User.Profile.Phone,
-                    Picture = new PictureDTO()
+                    Picture = new PictureDTO
                     {
                         Id = x.User.Profile.Picture.Id,
                         Name = x.User.Profile.Picture.Name,
@@ -76,7 +76,7 @@ namespace apartmenthostService.Controllers
                         CreatedAt = x.User.Profile.Picture.CreatedAt
                     }
                 },
-                Apartment = new ApartmentDTO()
+                Apartment = new ApartmentDTO
                 {
                     Id = x.Apartment.Id,
                     Name = x.Apartment.Name,
@@ -88,7 +88,7 @@ namespace apartmenthostService.Controllers
                     Latitude = x.Apartment.Latitude,
                     Longitude = x.Apartment.Longitude,
                     PlaceId = x.Apartment.PlaceId,
-                    Pictures = x.Apartment.Pictures.Select(apic => new PictureDTO()
+                    Pictures = x.Apartment.Pictures.Select(apic => new PictureDTO
                     {
                         Id = apic.Id,
                         Name = apic.Name,
@@ -106,7 +106,6 @@ namespace apartmenthostService.Controllers
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
         public SingleResult<CardDTO> GetCard(string id)
         {
-
             var currentUser = User as ServiceUser;
             var account = AuthUtils.GetUserAccount(_context, currentUser);
             string userId = null;
@@ -114,7 +113,7 @@ namespace apartmenthostService.Controllers
             {
                 userId = account.UserId;
             }
-            var result = Lookup(id).Queryable.Select(x => new CardDTO()
+            var result = Lookup(id).Queryable.Select(x => new CardDTO
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -122,23 +121,23 @@ namespace apartmenthostService.Controllers
                 Description = x.Description,
                 ApartmentId = x.ApartmentId,
                 PriceDay = x.PriceDay,
-                PricePeriod = x.PriceDay * 7,
+                PricePeriod = x.PriceDay*7,
                 Cohabitation = x.Cohabitation,
                 ResidentGender = x.ResidentGender,
                 IsFavorite = x.Favorites.Any(f => f.UserId == userId),
                 CreatedAt = x.CreatedAt,
                 UpdatedAt = x.UpdatedAt,
                 Lang = x.Lang,
-                Dates = x.Dates.Select(d => new DatesDTO()
+                Dates = x.Dates.Select(d => new DatesDTO
                 {
                     DateFrom = d.DateFrom,
                     DateTo = d.DateTo
-                }).Union(x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new DatesDTO()
+                }).Union(x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new DatesDTO
                 {
                     DateFrom = rv.DateFrom,
                     DateTo = rv.DateTo
                 }).ToList()).ToList(),
-                User = new UserDTO()
+                User = new UserDTO
                 {
                     Id = x.User.Profile.Id,
                     Email = x.User.Email,
@@ -149,7 +148,7 @@ namespace apartmenthostService.Controllers
                     Rating = x.User.Profile.Rating,
                     RatingCount = x.User.Profile.RatingCount,
                     Score = x.User.Profile.Score,
-                    Picture = new PictureDTO()
+                    Picture = new PictureDTO
                     {
                         Id = x.User.Profile.Picture.Id,
                         Name = x.User.Profile.Picture.Name,
@@ -159,7 +158,7 @@ namespace apartmenthostService.Controllers
                         CreatedAt = x.User.Profile.Picture.CreatedAt
                     }
                 },
-                Apartment = new ApartmentDTO()
+                Apartment = new ApartmentDTO
                 {
                     Id = x.Apartment.Id,
                     Name = x.Apartment.Name,
@@ -171,15 +170,15 @@ namespace apartmenthostService.Controllers
                     Latitude = x.Apartment.Latitude,
                     Longitude = x.Apartment.Longitude,
                     PlaceId = x.Apartment.PlaceId,
-                    Pictures = x.Apartment.Pictures.Select(apic => new PictureDTO()
-                        {
-                            Id = apic.Id,
-                            Name = apic.Name,
-                            Description = apic.Description,
-                            Url = apic.Url,
-                            Default = apic.Default,
-                            CreatedAt = apic.CreatedAt
-                        }).ToList()
+                    Pictures = x.Apartment.Pictures.Select(apic => new PictureDTO
+                    {
+                        Id = apic.Id,
+                        Name = apic.Name,
+                        Description = apic.Description,
+                        Url = apic.Url,
+                        Default = apic.Default,
+                        CreatedAt = apic.CreatedAt
+                    }).ToList()
                 },
                 //ApprovedReservations = x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new ReservationDTO()
                 //{
@@ -206,13 +205,13 @@ namespace apartmenthostService.Controllers
                 //        }
                 //    }
                 //}).ToList(),
-                Reviews = x.User.InReviews.Where(inr => inr.Reservation.CardId == x.Id).Select(rev => new ReviewDTO()
+                Reviews = x.User.InReviews.Where(inr => inr.Reservation.CardId == x.Id).Select(rev => new ReviewDTO
                 {
                     Id = rev.Id,
                     Rating = rev.Rating,
                     Text = rev.Text,
                     CreatedAt = rev.CreatedAt,
-                    FromUser = new BaseUserDTO()
+                    FromUser = new BaseUserDTO
                     {
                         Id = rev.FromUser.Profile.Id,
                         Email = rev.FromUser.Email,
@@ -221,7 +220,7 @@ namespace apartmenthostService.Controllers
                         Rating = rev.FromUser.Profile.Rating,
                         RatingCount = rev.FromUser.Profile.RatingCount,
                         Gender = rev.FromUser.Profile.Gender,
-                        Picture = new PictureDTO()
+                        Picture = new PictureDTO
                         {
                             Id = rev.FromUser.Profile.Picture.Id,
                             Name = rev.FromUser.Profile.Picture.Name,
@@ -232,79 +231,80 @@ namespace apartmenthostService.Controllers
                         }
                     }
                 }).ToList(),
-                RelatedCards = _context.Cards.Where(crd => crd.Id != x.Id && crd.ResidentGender == x.ResidentGender && crd.Apartment.Type == x.Apartment.Type).Take(5).Select(card => new RelatedCardDTO
-                {
-                    Id = card.Id,
-                    Name = card.Name,
-                    UserId = card.UserId,
-                    Description = card.Description,
-                    ApartmentId = card.ApartmentId,
-                    PriceDay = card.PriceDay,
-                    PricePeriod = card.PriceDay * 7,
-                    Cohabitation = card.Cohabitation,
-                    ResidentGender = card.ResidentGender,
-                    IsFavorite = card.Favorites.Any(f => f.UserId == userId),
-                    CreatedAt = card.CreatedAt,
-                    Lang = card.Lang,
-                    Dates = card.Dates.Select(d => new DatesDTO()
-                    {
-                        DateFrom = d.DateFrom,
-                        DateTo = d.DateTo
-                    }).Union(card.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new DatesDTO()
-                    {
-                        DateFrom = rv.DateFrom,
-                        DateTo = rv.DateTo
-                    }).ToList()).ToList(),
-
-                    Apartment = new ApartmentDTO()
-                    {
-                        Id = card.Apartment.Id,
-                        Name = card.Apartment.Name,
-                        Type = card.Apartment.Type,
-                        Options = card.Apartment.Options,
-                        UserId = card.Apartment.UserId,
-                        Adress = card.Apartment.Adress,
-                        FormattedAdress = card.Apartment.FormattedAdress,
-                        Latitude = card.Apartment.Latitude,
-                        Longitude = card.Apartment.Longitude,
-                        PlaceId = card.Apartment.PlaceId,
-                        Pictures = card.Apartment.Pictures.Select(apic => new PictureDTO()
-                        {
-                            Id = apic.Id,
-                            Name = apic.Name,
-                            Description = apic.Description,
-                            Url = apic.Url,
-                            Default = apic.Default,
-                            CreatedAt = apic.CreatedAt
-                        }).ToList()
-                    },
-                    User = new BaseUserDTO()
-                    {
-                        Id = card.User.Profile.Id,
-                        Email = card.User.Email,
-                        FirstName = card.User.Profile.FirstName,
-                        LastName = card.User.Profile.LastName,
-                        Rating = card.User.Profile.Rating,
-                        RatingCount = card.User.Profile.RatingCount,
-                        Gender = card.User.Profile.Gender,
-                        Picture = new PictureDTO()
-                        {
-                            Id = card.User.Profile.Picture.Id,
-                            Name = card.User.Profile.Picture.Name,
-                            Description = card.User.Profile.Picture.Description,
-                            Url = card.User.Profile.Picture.Url,
-                            Default = card.User.Profile.Picture.Default,
-                            CreatedAt = card.User.Profile.Picture.CreatedAt
-                        }
-                    }
-
-                }).ToList()
-
+                RelatedCards =
+                    _context.Cards.Where(
+                        crd =>
+                            crd.Id != x.Id && crd.ResidentGender == x.ResidentGender &&
+                            crd.Apartment.Type == x.Apartment.Type).Take(5).Select(card => new RelatedCardDTO
+                            {
+                                Id = card.Id,
+                                Name = card.Name,
+                                UserId = card.UserId,
+                                Description = card.Description,
+                                ApartmentId = card.ApartmentId,
+                                PriceDay = card.PriceDay,
+                                PricePeriod = card.PriceDay*7,
+                                Cohabitation = card.Cohabitation,
+                                ResidentGender = card.ResidentGender,
+                                IsFavorite = card.Favorites.Any(f => f.UserId == userId),
+                                CreatedAt = card.CreatedAt,
+                                Lang = card.Lang,
+                                Dates = card.Dates.Select(d => new DatesDTO
+                                {
+                                    DateFrom = d.DateFrom,
+                                    DateTo = d.DateTo
+                                })
+                                    .Union(
+                                        card.Reservations.Where(r => r.Status == ConstVals.Accepted)
+                                            .Select(rv => new DatesDTO
+                                            {
+                                                DateFrom = rv.DateFrom,
+                                                DateTo = rv.DateTo
+                                            }).ToList()).ToList(),
+                                Apartment = new ApartmentDTO
+                                {
+                                    Id = card.Apartment.Id,
+                                    Name = card.Apartment.Name,
+                                    Type = card.Apartment.Type,
+                                    Options = card.Apartment.Options,
+                                    UserId = card.Apartment.UserId,
+                                    Adress = card.Apartment.Adress,
+                                    FormattedAdress = card.Apartment.FormattedAdress,
+                                    Latitude = card.Apartment.Latitude,
+                                    Longitude = card.Apartment.Longitude,
+                                    PlaceId = card.Apartment.PlaceId,
+                                    Pictures = card.Apartment.Pictures.Select(apic => new PictureDTO
+                                    {
+                                        Id = apic.Id,
+                                        Name = apic.Name,
+                                        Description = apic.Description,
+                                        Url = apic.Url,
+                                        Default = apic.Default,
+                                        CreatedAt = apic.CreatedAt
+                                    }).ToList()
+                                },
+                                User = new BaseUserDTO
+                                {
+                                    Id = card.User.Profile.Id,
+                                    Email = card.User.Email,
+                                    FirstName = card.User.Profile.FirstName,
+                                    LastName = card.User.Profile.LastName,
+                                    Rating = card.User.Profile.Rating,
+                                    RatingCount = card.User.Profile.RatingCount,
+                                    Gender = card.User.Profile.Gender,
+                                    Picture = new PictureDTO
+                                    {
+                                        Id = card.User.Profile.Picture.Id,
+                                        Name = card.User.Profile.Picture.Name,
+                                        Description = card.User.Profile.Picture.Description,
+                                        Url = card.User.Profile.Picture.Url,
+                                        Default = card.User.Profile.Picture.Default,
+                                        CreatedAt = card.User.Profile.Picture.CreatedAt
+                                    }
+                                }
+                            }).ToList()
             });
             return SingleResult.Create(result);
         }
-
-
-
     }
 }

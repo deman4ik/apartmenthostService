@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Diagnostics;
 using System.Linq;
-using System.Net.Mime;
 using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
 using apartmenthostService.Models;
 using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
 
 namespace apartmenthostService.Migrations
 {
@@ -69,8 +67,6 @@ namespace apartmenthostService.Migrations
 
                 //RatingJob ratingJob = new RatingJob();
                 //ratingJob.ExecuteAsync();
-
-
             }
             catch (Exception e)
             {
@@ -79,32 +75,31 @@ namespace apartmenthostService.Migrations
                 Debug.WriteLine("!!!!!!!!!!!!!!!!!!");
                 Debug.WriteLine(e);
             }
-
         }
 
         public static void PopulateTables(apartmenthostContext context)
         {
-            List<Table> tables = new List<Table>()
+            var tables = new List<Table>
             {
-                new Table()
+                new Table
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = ConstTable.ApartmentTable,
+                    Name = ConstTable.ApartmentTable
                 },
-                new Table()
+                new Table
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = ConstTable.CardTable,
+                    Name = ConstTable.CardTable
                 },
-                new Table()
+                new Table
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = ConstTable.ProfileTable,
+                    Name = ConstTable.ProfileTable
                 },
-                new Table()
+                new Table
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = ConstTable.ReservationTable,
+                    Name = ConstTable.ReservationTable
                 }
             };
 
@@ -118,33 +113,31 @@ namespace apartmenthostService.Migrations
                 context.Tables.AddOrUpdate(p => p.Name, table);
                 context.SaveChanges();
             }
-
         }
 
         public static void PopulateDictionaries(apartmenthostContext context)
         {
-            List<Dictionary> dictionaries = new List<Dictionary>()
+            var dictionaries = new List<Dictionary>
             {
-                
-                new Dictionary()
+                new Dictionary
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = ConstDictionary.ApartmentOptions,
+                    Name = ConstDictionary.ApartmentOptions
                 },
-                new Dictionary()
+                new Dictionary
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = ConstDictionary.ApartmentType,
+                    Name = ConstDictionary.ApartmentType
                 },
-                new Dictionary()
+                new Dictionary
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = ConstDictionary.Cohabitation,
+                    Name = ConstDictionary.Cohabitation
                 },
-                new Dictionary()
+                new Dictionary
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = ConstDictionary.Gender,
+                    Name = ConstDictionary.Gender
                 }
             };
             foreach (var dic in dictionaries)
@@ -156,103 +149,101 @@ namespace apartmenthostService.Migrations
                 }
 
                 context.Dictionaries.AddOrUpdate(
-                p => p.Name, dic);
+                    p => p.Name, dic);
                 context.SaveChanges();
             }
-
         }
 
         public static void PopulateDictionaryItems(apartmenthostContext context)
         {
-            Dictionary apartmentTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstDictionary.ApartmentType);
-            Dictionary cohabitationTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstDictionary.Cohabitation);
-            Dictionary genderDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstDictionary.Gender);
+            var apartmentTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstDictionary.ApartmentType);
+            var cohabitationTypeDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstDictionary.Cohabitation);
+            var genderDic = context.Dictionaries.SingleOrDefault(a => a.Name == ConstDictionary.Gender);
 
-            List<DictionaryItem> dictionaryItems = new List<DictionaryItem>()
+            var dictionaryItems = new List<DictionaryItem>
             {
-                 new DictionaryItem()
+                new DictionaryItem
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = apartmentTypeDic.Id,
-                    StrValue = ConstVals.House,
+                    StrValue = ConstVals.House
                 },
-                new DictionaryItem()
+                new DictionaryItem
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = apartmentTypeDic.Id,
-                    StrValue = ConstVals.Flat,
+                    StrValue = ConstVals.Flat
                 },
-                new DictionaryItem()
+                new DictionaryItem
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = apartmentTypeDic.Id,
-                    StrValue = ConstVals.Room,
+                    StrValue = ConstVals.Room
                 },
-                new DictionaryItem()
+                new DictionaryItem
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = apartmentTypeDic.Id,
-                    StrValue = ConstVals.Office,
+                    StrValue = ConstVals.Office
                 },
-                new DictionaryItem()
+                new DictionaryItem
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = apartmentTypeDic.Id,
-                    StrValue = ConstVals.HotelRoom,
+                    StrValue = ConstVals.HotelRoom
                 },
-                new DictionaryItem()
+                new DictionaryItem
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = cohabitationTypeDic.Id,
-                    StrValue = ConstVals.SeperateResidence,
+                    StrValue = ConstVals.SeperateResidence
                 },
-                new DictionaryItem()
+                new DictionaryItem
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = cohabitationTypeDic.Id,
-                    StrValue = ConstVals.Cohabitation,
+                    StrValue = ConstVals.Cohabitation
                 },
-                new DictionaryItem()
+                new DictionaryItem
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = cohabitationTypeDic.Id,
-                    StrValue = ConstVals.Any,
+                    StrValue = ConstVals.Any
                 },
-                new DictionaryItem()
+                new DictionaryItem
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = genderDic.Id,
-                    StrValue = ConstVals.Male,
+                    StrValue = ConstVals.Male
                 },
-                new DictionaryItem()
+                new DictionaryItem
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = genderDic.Id,
-                    StrValue = ConstVals.Female,
+                    StrValue = ConstVals.Female
                 },
-                new DictionaryItem()
+                new DictionaryItem
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = genderDic.Id,
-                    StrValue = ConstVals.Any,
+                    StrValue = ConstVals.Any
                 },
-                new DictionaryItem()
+                new DictionaryItem
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = genderDic.Id,
-                    StrValue = ConstVals.Thing,
+                    StrValue = ConstVals.Thing
                 },
-                new DictionaryItem()
+                new DictionaryItem
                 {
                     Id = Guid.NewGuid().ToString(),
                     DictionaryId = genderDic.Id,
-                    StrValue = ConstVals.Alien,
+                    StrValue = ConstVals.Alien
                 }
             };
 
             foreach (var dicI in dictionaryItems)
             {
-
                 var ex = context.DictionaryItems.FirstOrDefault(x => x.StrValue == dicI.StrValue);
                 if (ex != null)
                 {
@@ -260,104 +251,104 @@ namespace apartmenthostService.Migrations
                 }
 
                 context.DictionaryItems.AddOrUpdate(p => p.StrValue, dicI
-
-                );
+                    );
 
                 context.SaveChanges();
             }
-
-
         }
 
         public static void PopulateArticles(apartmenthostContext context)
         {
-            
-            List<Article> articles = new List<Article>()
+            var articles = new List<Article>
             {
-                new Article()
+                new Article
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = ConstVals.Greet,
                     Text = "Здравствуйте, <b>{0}</b>.",
                     Lang = ConstLang.RU
-               },
-            new Article()
+                },
+                new Article
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = RespH.SRV_NOTIF_CARD_FAVORITED,
                     Title = "Apartmenthost - Ваше объявление добавили в избранное",
                     Text = "Пользователь <b>{0}</b> добавил <a href=\"{1}\"> Ваше объявление </a> в избранное.",
                     Lang = ConstLang.RU
-               },
-            new Article()
+                },
+                new Article
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = RespH.SRV_NOTIF_RESERV_PENDING,
                     Title = "Apartmenthost - Заявка на бронирование",
-                    Text = "Ваша заявку на бронирование <b>{0}</b> в период с <b>{1}</b> по <b>{2}</b> получена. <br><br> Ожидайте подтверждения от владельца.",
+                    Text =
+                        "Ваша заявку на бронирование <b>{0}</b> в период с <b>{1}</b> по <b>{2}</b> получена. <br><br> Ожидайте подтверждения от владельца.",
                     Lang = ConstLang.RU
-               },
-           new Article()
+                },
+                new Article
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = RespH.SRV_NOTIF_RESERV_ACCEPTED,
                     Title = "Apartmenthost - Подтверждение бронирования",
-                    Text = "{0} подтвердил вашу заявку на бронирование <b>{0}</b> в период с <b>{1}</b> по <b>{2}</b>. <br><br> Свяжитесь с владельцем для получения дополнительной информации.",
+                    Text =
+                        "{0} подтвердил вашу заявку на бронирование <b>{0}</b> в период с <b>{1}</b> по <b>{2}</b>. <br><br> Свяжитесь с владельцем для получения дополнительной информации.",
                     Lang = ConstLang.RU
-               },
-           new Article()
+                },
+                new Article
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = RespH.SRV_NOTIF_RESERV_DECLINED,
                     Title = "Apartmenthost - Бронирование отклонено",
-                    Text = "К сожалению ваше бронирование <b>{0}</b> в период с <b>{1}</b> по <b>{2}</b> отклонено владельцем. <br><br> Свяжитесь с владельцем для получения дополнительной информации.",
+                    Text =
+                        "К сожалению ваше бронирование <b>{0}</b> в период с <b>{1}</b> по <b>{2}</b> отклонено владельцем. <br><br> Свяжитесь с владельцем для получения дополнительной информации.",
                     Lang = ConstLang.RU
-               },
-           new Article()
+                },
+                new Article
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = RespH.SRV_NOTIF_REVIEW_ADDED,
                     Title = "Apartmenthost - Вам оставили отзыв",
                     Text = "Пользователь <b>{0}</b> оставил отзыв <b>{1}</b>.",
                     Lang = ConstLang.RU
-               },
-           new Article()
-           {
-                Id = Guid.NewGuid().ToString(),
+                },
+                new Article
+                {
+                    Id = Guid.NewGuid().ToString(),
                     Name = RespH.SRV_NOTIF_REVIEW_RATING_ADDED,
                     Title = "Apartmenthost - Вам оставили отзыв",
                     Text = "Пользователь <b>{0}</b> оставил отзыв <b>{1}</b> и оценил вас в <b>{2}</b> из 5.",
                     Lang = ConstLang.RU
-           },
-            new Article()
-           {
-                Id = Guid.NewGuid().ToString(),
+                },
+                new Article
+                {
+                    Id = Guid.NewGuid().ToString(),
                     Name = RespH.SRV_NOTIF_REVIEW_AVAILABLE,
                     Title = "Apartmenthost - Вы можете оставить отзыв",
                     Text = "По бронированию <b>{0}</b> в период с <b>{1}</b> по <b>{2}</b> вы можете оставить отзыв.",
                     Lang = ConstLang.RU
-           },
-            new Article()
-            {
-                 Id = Guid.NewGuid().ToString(),
+                },
+                new Article
+                {
+                    Id = Guid.NewGuid().ToString(),
                     Name = ConstVals.Reg,
                     Title = "Apartmenthost - Подтверждение Email",
-                    Text = "Спасибо за регистрацию на Apartmenthost! <br> Для подтверждения Email используйте следующий код: <b>{0}</b> <br> или перейдите по ссылке <b>{1}</b>",
+                    Text =
+                        "Спасибо за регистрацию на Apartmenthost! <br> Для подтверждения Email используйте следующий код: <b>{0}</b> <br> или перейдите по ссылке <b>{1}</b>",
                     Lang = ConstLang.RU
-            },
-            new Article()
-            {
-                 Id = Guid.NewGuid().ToString(),
+                },
+                new Article
+                {
+                    Id = Guid.NewGuid().ToString(),
                     Name = ConstVals.Restore,
                     Title = "Apartmenthost - Восстановление пароля",
-                    Text = "Для восстановления пароля используйте следующий код: <b>{0}</b> <br> или перейдите по ссылке <b>{1}</b>",
+                    Text =
+                        "Для восстановления пароля используйте следующий код: <b>{0}</b> <br> или перейдите по ссылке <b>{1}</b>",
                     Lang = ConstLang.RU
-            }
+                }
             };
 
             foreach (var art in articles)
             {
-
                 var ex = context.Article.FirstOrDefault(x => x.Name == art.Name);
                 if (ex != null)
                 {
@@ -365,8 +356,7 @@ namespace apartmenthostService.Migrations
                 }
 
                 context.Article.AddOrUpdate(p => p.Name, art
-
-                );
+                    );
 
                 context.SaveChanges();
             }
@@ -374,16 +364,16 @@ namespace apartmenthostService.Migrations
 
         public static void PopulateUsers(apartmenthostContext context)
         {
-            byte[] salt = AuthUtils.generateSalt();
+            var salt = AuthUtils.generateSalt();
 
-            List<User> users = new List<User>()
+            var users = new List<User>
             {
                 new User
                 {
                     Id = "u1",
                     Email = "parus@parus.ru",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("parusina", salt),
+                    SaltedAndHashedPassword = AuthUtils.hash("parusina", salt)
                 },
                 new User
                 {
@@ -392,7 +382,6 @@ namespace apartmenthostService.Migrations
                     Salt = salt,
                     SaltedAndHashedPassword = AuthUtils.hash("user2", salt)
                 },
-
                 new User
                 {
                     Id = "u3",
@@ -400,7 +389,6 @@ namespace apartmenthostService.Migrations
                     Salt = salt,
                     SaltedAndHashedPassword = AuthUtils.hash("user3", salt)
                 },
-
                 new User
                 {
                     Id = "u4",
@@ -408,7 +396,6 @@ namespace apartmenthostService.Migrations
                     Salt = salt,
                     SaltedAndHashedPassword = AuthUtils.hash("user4", salt)
                 },
-
                 new User
                 {
                     Id = "u5",
@@ -480,254 +467,244 @@ namespace apartmenthostService.Migrations
 
 
             AuthUtils.CreateAccount("standart", "parus@parus.ru", "standart:parus@parus.ru", "parus@parus.ru");
-
         }
 
         public static void PopulateProfiles(apartmenthostContext context)
         {
-            List<Profile> profiles = new List<Profile>()
+            var profiles = new List<Profile>
             {
                 new Profile
-                   {
-                       Id = "u1",
-                       FirstName = "Яна",
-                       LastName = "Парусова",
-                       Birthday = new DateTime(1989, 1, 1),
-                       ContactEmail = "apartmenthost@inbox.ru",
-                       ContactKind = "Phone",
-                       Description = "Информационные Системы Управления",
-                       Gender = ConstVals.Female,
-                       Phone = "+74957777777",
-                       Rating = 0,
-                       RatingCount = 0,
-                       Score = 0,
-                       Lang = ConstLang.RU
-
-                   },
-               new Profile
-                   {
-                       Id = "u2",
-                       FirstName = "Василий",
-                       LastName = "Пупович",
-                       Birthday = new DateTime(1976, 3, 23),
-                       ContactEmail = "apartmenthost@inbox.ru",
-                       ContactKind = "Email",
-                       Description = "Пуповичи 100 лет на рынке недвижимости!",
-                       Gender = ConstVals.Male,
-                       Phone = "+79998887766",
-                       Rating = 0,
-                       RatingCount = 0,
-                       Score = 0,
-                       Lang = ConstLang.RU
-
-                   },
-
-               new Profile
-                   {
-                       Id = "u3",
-                       FirstName = "Елена",
-                       LastName = "Пыжович",
-                       Birthday = new DateTime(1976, 3, 23),
-                       ContactEmail = "apartmenthost@inbox.ru",
-                       ContactKind = "Email",
-                       Description = "Привет. Меня зовут Лена!",
-                       Gender = ConstVals.Female,
-                       Phone = "+79998987766",
-                       Rating = 0,
-                       RatingCount = 0,
-                       Score = 0,
-                       Lang = ConstLang.RU
-
-                   },
-
-              new Profile
-                   {
-                       Id = "u4",
-                       FirstName = "Дмитрий",
-                       LastName = "Трофимов",
-                       Birthday = new DateTime(1965, 7, 12),
-                       ContactEmail = "apartmenthost@inbox.ru",
-                       ContactKind = "Email",
-                       Description = "Трофимов",
-                       Gender = ConstVals.Male,
-                       Phone = "+79995487766",
-                       Rating = 0,
-                       RatingCount = 0,
-                       Score = 0,
-                       Lang = ConstLang.RU
-
-                   },
-
-               new Profile
-                   {
-                       Id = "u5",
-                       FirstName = "Эдуард",
-                       LastName = "Вишняков",
-                       Birthday = new DateTime(1986, 1, 18),
-                       ContactEmail = "apartmenthost@inbox.ru",
-                       ContactKind = "Email",
-                       Description = "Трофимов",
-                       Gender = ConstVals.Male,
-                       Phone = "+78795487766",
-                       Rating = 0,
-                       RatingCount = 0,
-                       Score = 0,
-                       Lang = ConstLang.RU
-
-                   },
-               new Profile
-                   {
-                       Id = "u6",
-                       FirstName = "Леонид",
-                       LastName = "Нефедов",
-                       Birthday = new DateTime(1977, 12, 23),
-                       ContactEmail = "apartmenthost@inbox.ru",
-                       ContactKind = "Phone",
-                       Description = "Вишняков",
-                       Gender = ConstVals.Male,
-                       Phone = "+78795487366",
-                       Rating = 0,
-                       RatingCount = 0,
-                       Score = 0,
-                       Lang = ConstLang.RU
-
-                   },
-               new Profile
-                   {
-                       Id = "u7",
-                       FirstName = "Дарья",
-                       LastName = "Мамонтова",
-                       Birthday = new DateTime(1995, 8, 19),
-                       ContactEmail = "apartmenthost@inbox.ru",
-                       ContactKind = "Email",
-                       Description = "Привет. Меня зовут Дарья!",
-                       Gender = ConstVals.Female,
-                       Phone = "+79998988966",
-                       Rating = 0,
-                       RatingCount = 0,
-                       Score = 0,
-                       Lang = ConstLang.RU
-
-                   },
-               new Profile
-                   {
-                       Id = "u8",
-                       FirstName = "Светлана",
-                       LastName = "Стрелкова",
-                       Birthday = new DateTime(1989, 9, 9),
-                       ContactEmail = "apartmenthost@inbox.ru",
-                       ContactKind = "Email",
-                       Description = "Привет. Меня зовут Светлана!",
-                       Gender = ConstVals.Female,
-                       Phone = "+79994988966",
-                       Rating = 0,
-                       RatingCount = 0,
-                       Score = 0,
-                       Lang = ConstLang.RU
-
-                   },
+                {
+                    Id = "u1",
+                    FirstName = "Яна",
+                    LastName = "Парусова",
+                    Birthday = new DateTime(1989, 1, 1),
+                    ContactEmail = "apartmenthost@inbox.ru",
+                    ContactKind = "Phone",
+                    Description = "Информационные Системы Управления",
+                    Gender = ConstVals.Female,
+                    Phone = "+74957777777",
+                    Rating = 0,
+                    RatingCount = 0,
+                    Score = 0,
+                    Lang = ConstLang.RU
+                },
                 new Profile
-                   {
-                       Id = "u9",
-                       FirstName = "Даша",
-                       LastName = "Демидова",
-                       Birthday = new DateTime(1981, 4, 29),
-                       ContactEmail = "apartmenthost@inbox.ru",
-                       ContactKind = "Email",
-                       Description = "Привет. Меня зовут Светлана!",
-                       Gender = ConstVals.Female,
-                       Phone = "+79994988996",
-                       Rating = 0,
-                       RatingCount = 0,
-                       Score = 0,
-                       Lang = ConstLang.RU
-
-                   },
-               new Profile
-                   {
-                       Id = "u10",
-                       FirstName = "Лариса",
-                       LastName = "Крокодилова",
-                       Birthday = new DateTime(1993, 4, 10),
-                       ContactEmail = "apartmenthost@inbox.ru",
-                       ContactKind = "Email",
-                       Description = "Крокодилова клац-клац",
-                       Gender = ConstVals.Female,
-                       Phone = "+79994938996",
-                       Rating = 0,
-                       RatingCount = 0,
-                       Score = 0,
-                       Lang = ConstLang.RU
-
-                   },
-               new Profile
-                   {
-                       Id = "u11",
-                       FirstName = "Лера",
-                       LastName = "Бундельера",
-                       Birthday = new DateTime(1988, 4, 10),
-                       ContactEmail = "apartmenthost@inbox.ru",
-                       ContactKind = "Email",
-                       Description = "Бундельер цап-цап",
-                       Gender = ConstVals.Female,
-                       Phone = "+79994938996",
-                       Rating = 0,
-                       RatingCount = 0,
-                       Score = 0,
-                       Lang = ConstLang.RU
-
-                   },
-               new Profile
-                   {
-                       Id = "u12",
-                       FirstName = "Владмир",
-                       LastName = "Путкин",
-                       Birthday = new DateTime(1991, 4, 10),
-                       ContactEmail = "apartmenthost@inbox.ru",
-                       ContactKind = "Email",
-                       Description = "не путать с ВВП",
-                       Gender = ConstVals.Male,
-                       Phone = "+79994938996",
-                       Rating = 0,
-                       RatingCount = 0,
-                       Score = 0,
-                       Lang = ConstLang.RU
-
-                   }
+                {
+                    Id = "u2",
+                    FirstName = "Василий",
+                    LastName = "Пупович",
+                    Birthday = new DateTime(1976, 3, 23),
+                    ContactEmail = "apartmenthost@inbox.ru",
+                    ContactKind = "Email",
+                    Description = "Пуповичи 100 лет на рынке недвижимости!",
+                    Gender = ConstVals.Male,
+                    Phone = "+79998887766",
+                    Rating = 0,
+                    RatingCount = 0,
+                    Score = 0,
+                    Lang = ConstLang.RU
+                },
+                new Profile
+                {
+                    Id = "u3",
+                    FirstName = "Елена",
+                    LastName = "Пыжович",
+                    Birthday = new DateTime(1976, 3, 23),
+                    ContactEmail = "apartmenthost@inbox.ru",
+                    ContactKind = "Email",
+                    Description = "Привет. Меня зовут Лена!",
+                    Gender = ConstVals.Female,
+                    Phone = "+79998987766",
+                    Rating = 0,
+                    RatingCount = 0,
+                    Score = 0,
+                    Lang = ConstLang.RU
+                },
+                new Profile
+                {
+                    Id = "u4",
+                    FirstName = "Дмитрий",
+                    LastName = "Трофимов",
+                    Birthday = new DateTime(1965, 7, 12),
+                    ContactEmail = "apartmenthost@inbox.ru",
+                    ContactKind = "Email",
+                    Description = "Трофимов",
+                    Gender = ConstVals.Male,
+                    Phone = "+79995487766",
+                    Rating = 0,
+                    RatingCount = 0,
+                    Score = 0,
+                    Lang = ConstLang.RU
+                },
+                new Profile
+                {
+                    Id = "u5",
+                    FirstName = "Эдуард",
+                    LastName = "Вишняков",
+                    Birthday = new DateTime(1986, 1, 18),
+                    ContactEmail = "apartmenthost@inbox.ru",
+                    ContactKind = "Email",
+                    Description = "Трофимов",
+                    Gender = ConstVals.Male,
+                    Phone = "+78795487766",
+                    Rating = 0,
+                    RatingCount = 0,
+                    Score = 0,
+                    Lang = ConstLang.RU
+                },
+                new Profile
+                {
+                    Id = "u6",
+                    FirstName = "Леонид",
+                    LastName = "Нефедов",
+                    Birthday = new DateTime(1977, 12, 23),
+                    ContactEmail = "apartmenthost@inbox.ru",
+                    ContactKind = "Phone",
+                    Description = "Вишняков",
+                    Gender = ConstVals.Male,
+                    Phone = "+78795487366",
+                    Rating = 0,
+                    RatingCount = 0,
+                    Score = 0,
+                    Lang = ConstLang.RU
+                },
+                new Profile
+                {
+                    Id = "u7",
+                    FirstName = "Дарья",
+                    LastName = "Мамонтова",
+                    Birthday = new DateTime(1995, 8, 19),
+                    ContactEmail = "apartmenthost@inbox.ru",
+                    ContactKind = "Email",
+                    Description = "Привет. Меня зовут Дарья!",
+                    Gender = ConstVals.Female,
+                    Phone = "+79998988966",
+                    Rating = 0,
+                    RatingCount = 0,
+                    Score = 0,
+                    Lang = ConstLang.RU
+                },
+                new Profile
+                {
+                    Id = "u8",
+                    FirstName = "Светлана",
+                    LastName = "Стрелкова",
+                    Birthday = new DateTime(1989, 9, 9),
+                    ContactEmail = "apartmenthost@inbox.ru",
+                    ContactKind = "Email",
+                    Description = "Привет. Меня зовут Светлана!",
+                    Gender = ConstVals.Female,
+                    Phone = "+79994988966",
+                    Rating = 0,
+                    RatingCount = 0,
+                    Score = 0,
+                    Lang = ConstLang.RU
+                },
+                new Profile
+                {
+                    Id = "u9",
+                    FirstName = "Даша",
+                    LastName = "Демидова",
+                    Birthday = new DateTime(1981, 4, 29),
+                    ContactEmail = "apartmenthost@inbox.ru",
+                    ContactKind = "Email",
+                    Description = "Привет. Меня зовут Светлана!",
+                    Gender = ConstVals.Female,
+                    Phone = "+79994988996",
+                    Rating = 0,
+                    RatingCount = 0,
+                    Score = 0,
+                    Lang = ConstLang.RU
+                },
+                new Profile
+                {
+                    Id = "u10",
+                    FirstName = "Лариса",
+                    LastName = "Крокодилова",
+                    Birthday = new DateTime(1993, 4, 10),
+                    ContactEmail = "apartmenthost@inbox.ru",
+                    ContactKind = "Email",
+                    Description = "Крокодилова клац-клац",
+                    Gender = ConstVals.Female,
+                    Phone = "+79994938996",
+                    Rating = 0,
+                    RatingCount = 0,
+                    Score = 0,
+                    Lang = ConstLang.RU
+                },
+                new Profile
+                {
+                    Id = "u11",
+                    FirstName = "Лера",
+                    LastName = "Бундельера",
+                    Birthday = new DateTime(1988, 4, 10),
+                    ContactEmail = "apartmenthost@inbox.ru",
+                    ContactKind = "Email",
+                    Description = "Бундельер цап-цап",
+                    Gender = ConstVals.Female,
+                    Phone = "+79994938996",
+                    Rating = 0,
+                    RatingCount = 0,
+                    Score = 0,
+                    Lang = ConstLang.RU
+                },
+                new Profile
+                {
+                    Id = "u12",
+                    FirstName = "Владмир",
+                    LastName = "Путкин",
+                    Birthday = new DateTime(1991, 4, 10),
+                    ContactEmail = "apartmenthost@inbox.ru",
+                    ContactKind = "Email",
+                    Description = "не путать с ВВП",
+                    Gender = ConstVals.Male,
+                    Phone = "+79994938996",
+                    Rating = 0,
+                    RatingCount = 0,
+                    Score = 0,
+                    Lang = ConstLang.RU
+                }
             };
 
             foreach (var profile in profiles)
             {
-
                 var ex = context.Profile.FirstOrDefault(x => x.Id == profile.Id);
                 if (ex != null)
                 {
                     profile.CreatedAt = ex.CreatedAt;
                 }
                 context.Profile.AddOrUpdate(p => p.Id,
-                 profile);
+                    profile);
 
 
                 context.SaveChanges();
             }
-
         }
 
         public static void PopulateProfilePic(apartmenthostContext context)
         {
-            for (int i = 1; i < 13; i++)
+            for (var i = 1; i < 13; i++)
             {
                 var prof = context.Profile.SingleOrDefault(x => x.Id == "u" + i);
 
-                var pic = new Picture()
+                var pic = new Picture
                 {
                     Id = "p" + i,
                     Name = "profile/u" + i + ".jpg",
                     Url = CloudinaryHelper.Cloudinary.Api.UrlImgUp.BuildUrl("profile/u" + i + ".jpg"),
-                    Small = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(34).Height(34).Crop("thumb")).BuildUrl("profile/u" + i + ".jpg"),
-                    Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(62).Height(62).Crop("thumb")).BuildUrl("profile/u" + i + ".jpg"),
-                    Large = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(76).Height(76).Crop("thumb")).BuildUrl("profile/u" + i + ".jpg"),
-                    Xlarge = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(96).Height(96).Crop("thumb")).BuildUrl("profile/u" + i + ".jpg"),
+                    Small =
+                        CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(
+                            new Transformation().Width(34).Height(34).Crop("thumb")).BuildUrl("profile/u" + i + ".jpg"),
+                    Mid =
+                        CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(
+                            new Transformation().Width(62).Height(62).Crop("thumb")).BuildUrl("profile/u" + i + ".jpg"),
+                    Large =
+                        CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(
+                            new Transformation().Width(76).Height(76).Crop("thumb")).BuildUrl("profile/u" + i + ".jpg"),
+                    Xlarge =
+                        CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(
+                            new Transformation().Width(96).Height(96).Crop("thumb")).BuildUrl("profile/u" + i + ".jpg"),
                     CloudinaryPublicId = "profile/u" + i,
                     Default = true
                 };
@@ -740,20 +717,17 @@ namespace apartmenthostService.Migrations
                     context.SaveChanges();
                 }
 
- 
 
-
-                    prof.Picture = pic;
-                    context.SaveChanges();
-
+                prof.Picture = pic;
+                context.SaveChanges();
             }
         }
 
         public static void PopulateApartments(apartmenthostContext context)
         {
-            List<Apartment> apartments = new List<Apartment>()
+            var apartments = new List<Apartment>
             {
-                new Apartment()
+                new Apartment
                 {
                     Id = "ap1",
                     Name = "Офис Парус",
@@ -768,7 +742,7 @@ namespace apartmenthostService.Migrations
                     PlaceId = "ChIJ5-Lsj9k1tUYR5sJA7m6S7gw",
                     Lang = ConstLang.RU
                 },
-                new Apartment()
+                new Apartment
                 {
                     Id = "ap2",
                     Name = "Пупович Плаза",
@@ -785,7 +759,7 @@ namespace apartmenthostService.Migrations
                     PlaceId = "ChIJA0yVwNKtSkERnMBTTfhj-k8",
                     Lang = ConstLang.RU
                 },
-                new Apartment()
+                new Apartment
                 {
                     Id = "ap3",
                     Name = "Ленкина квартирка в Ясенево",
@@ -800,7 +774,7 @@ namespace apartmenthostService.Migrations
                     PlaceId = "ChIJKdkyK2KtSkERVV3xLtXg7VE",
                     Lang = ConstLang.RU
                 },
-                new Apartment()
+                new Apartment
                 {
                     Id = "ap4",
                     Name = "Удальцова 73",
@@ -815,7 +789,7 @@ namespace apartmenthostService.Migrations
                     PlaceId = "ChIJ1Y6qnqtNtUYR5wu_G5QNWOw",
                     Lang = ConstLang.RU
                 },
-                new Apartment()
+                new Apartment
                 {
                     Id = "ap5",
                     Name = "Сумской проезд",
@@ -830,7 +804,7 @@ namespace apartmenthostService.Migrations
                     PlaceId = "ChIJA7icfOGySkERrX5lm9uDVAY",
                     Lang = ConstLang.RU
                 },
-                new Apartment()
+                new Apartment
                 {
                     Id = "ap6",
                     Name = "Братеево",
@@ -845,7 +819,7 @@ namespace apartmenthostService.Migrations
                     PlaceId = "ChIJQd6MRlSxSkERMgb5At9ic4g",
                     Lang = ConstLang.RU
                 },
-                new Apartment()
+                new Apartment
                 {
                     Id = "ap7",
                     Name = "Замоскворечье",
@@ -860,7 +834,7 @@ namespace apartmenthostService.Migrations
                     PlaceId = "ChIJ4WVEbRxLtUYR__0S1BVkg_k",
                     Lang = ConstLang.RU
                 },
-                new Apartment()
+                new Apartment
                 {
                     Id = "ap8",
                     Name = "Замоскворечье около Парка Горького",
@@ -877,7 +851,7 @@ namespace apartmenthostService.Migrations
                     PlaceId = "ChIJGV4apQZLtUYRcsiTOvz4tc0",
                     Lang = ConstLang.RU
                 },
-                new Apartment()
+                new Apartment
                 {
                     Id = "ap9",
                     Name = "Марфино",
@@ -892,7 +866,7 @@ namespace apartmenthostService.Migrations
                     PlaceId = "ChIJrXf_Wj82tUYRkH6d8hkR4kg",
                     Lang = ConstLang.RU
                 },
-                new Apartment()
+                new Apartment
                 {
                     Id = "ap10",
                     Name = "Крылатское",
@@ -922,68 +896,77 @@ namespace apartmenthostService.Migrations
                 }
                 context.Apartments.AddOrUpdate(p => p.Id, ap);
             }
-
-
         }
 
         public static void PopulateApartmentPics(apartmenthostContext context)
         {
-
-            for (int i = 1; i < 11; i++)
+            for (var i = 1; i < 11; i++)
             {
                 var apart = context.Apartments.SingleOrDefault(x => x.Id == "ap" + i);
-                for (int j = 1; j < 4; j++)
+                for (var j = 1; j < 4; j++)
                 {
-                    var pic = new Picture()
-             {
-                 Id = "pa" + i + "-" + j,
-                 Name = "card/a" + i + "/a" + i + "-" + j + ".jpg",
-                 Url = CloudinaryHelper.Cloudinary.Api.UrlImgUp.BuildUrl("card/a" + i + "/a" + i + "-" + j + ".jpg"),
-                 Xsmall = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(143).Crop("thumb")).BuildUrl("card/a" + i + "/a" + i + "-" + j + ".jpg"),
-                 Small = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(190).Crop("thumb")).BuildUrl("card/a" + i + "/a" + i + "-" + j + ".jpg"),
-                 Mid = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Height(225).Width(370).Crop("fill")).BuildUrl("card/a" + i + "/a" + i + "-" + j + ".jpg"),
-                 Large = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(552).Crop("limit")).BuildUrl("card/a" + i + "/a" + i + "-" + j + ".jpg"),
-                 Xlarge = CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(1024).Crop("limit")).BuildUrl("card/a" + i + "/a" + i + "-" + j + ".jpg"),
-                 CloudinaryPublicId = "card/a" + i + "/a" + i + "-" + j,
-                 Default = j == 1
-             };
+                    var pic = new Picture
+                    {
+                        Id = "pa" + i + "-" + j,
+                        Name = "card/a" + i + "/a" + i + "-" + j + ".jpg",
+                        Url =
+                            CloudinaryHelper.Cloudinary.Api.UrlImgUp.BuildUrl("card/a" + i + "/a" + i + "-" + j + ".jpg"),
+                        Xsmall =
+                            CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(
+                                new Transformation().Width(143).Crop("thumb"))
+                                .BuildUrl("card/a" + i + "/a" + i + "-" + j + ".jpg"),
+                        Small =
+                            CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(
+                                new Transformation().Width(190).Crop("thumb"))
+                                .BuildUrl("card/a" + i + "/a" + i + "-" + j + ".jpg"),
+                        Mid =
+                            CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(
+                                new Transformation().Height(225).Width(370).Crop("fill"))
+                                .BuildUrl("card/a" + i + "/a" + i + "-" + j + ".jpg"),
+                        Large =
+                            CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(
+                                new Transformation().Width(552).Crop("limit"))
+                                .BuildUrl("card/a" + i + "/a" + i + "-" + j + ".jpg"),
+                        Xlarge =
+                            CloudinaryHelper.Cloudinary.Api.UrlImgUp.Transform(
+                                new Transformation().Width(1024).Crop("limit"))
+                                .BuildUrl("card/a" + i + "/a" + i + "-" + j + ".jpg"),
+                        CloudinaryPublicId = "card/a" + i + "/a" + i + "-" + j,
+                        Default = j == 1
+                    };
                     var ex = context.Pictures.FirstOrDefault(x => x.Id == pic.Id);
 
                     if (ex != null)
                     {
                         context.Pictures.Remove(ex);
                         context.SaveChanges();
-
                     }
                     apart.Pictures.Add(pic);
 
-   
-                    context.SaveChanges();
 
-   
+                    context.SaveChanges();
                 }
             }
-
-
         }
 
         public static void PopulateCards(apartmenthostContext context)
         {
-            List<Card> cards = new List<Card>()
+            var cards = new List<Card>
             {
-                 new Card()
+                new Card
                 {
                     Id = "a1",
                     Name = "Офис совместно с Парус",
                     UserId = "u1",
-                    Description = "Бизнес центр ААА-класса. Многоуровневая паркова. Бесплатное питание. У нас есть печеньки!",
+                    Description =
+                        "Бизнес центр ААА-класса. Многоуровневая паркова. Бесплатное питание. У нас есть печеньки!",
                     ApartmentId = "ap1",
                     PriceDay = 1500,
                     Cohabitation = ConstVals.SeperateResidence,
                     ResidentGender = ConstVals.Any,
                     Lang = ConstLang.RU
                 },
-                new Card()
+                new Card
                 {
                     Id = "a2",
                     Name = "Пупович Плаза в Бутово",
@@ -995,7 +978,7 @@ namespace apartmenthostService.Migrations
                     ResidentGender = ConstVals.Female,
                     Lang = ConstLang.RU
                 },
-                new Card()
+                new Card
                 {
                     Id = "a3",
                     Name = "Ленкина квартира в Ясенево",
@@ -1007,19 +990,20 @@ namespace apartmenthostService.Migrations
                     ResidentGender = ConstVals.Male,
                     Lang = ConstLang.RU
                 },
-                new Card()
+                new Card
                 {
                     Id = "a4",
                     Name = "Удальцова 73",
                     UserId = "u4",
-                    Description = "Реально классная квартира! Просторная с качественным евро-ремонтом из дорогих материалов. Полностью меблирована. Никогда раньше не сдавалась, все новое! Порядочные соседи (славяне). Все есть для комфортного проживания, шкаф купе в прихожей и в гостиной, диван, компьютерный стол, телевизор, кухонный гарнитур, варочная панель, двухкамерный холодильник. Внимание: лоджия утепленная и площадь квартиры расширилась, идеальное место для кабинета. ",
+                    Description =
+                        "Реально классная квартира! Просторная с качественным евро-ремонтом из дорогих материалов. Полностью меблирована. Никогда раньше не сдавалась, все новое! Порядочные соседи (славяне). Все есть для комфортного проживания, шкаф купе в прихожей и в гостиной, диван, компьютерный стол, телевизор, кухонный гарнитур, варочная панель, двухкамерный холодильник. Внимание: лоджия утепленная и площадь квартиры расширилась, идеальное место для кабинета. ",
                     ApartmentId = "ap4",
                     PriceDay = 1200,
                     Cohabitation = ConstVals.SeperateResidence,
                     ResidentGender = ConstVals.Any,
                     Lang = ConstLang.RU
                 },
-                new Card()
+                new Card
                 {
                     Id = "a5",
                     Name = "Сумской проезд",
@@ -1031,31 +1015,33 @@ namespace apartmenthostService.Migrations
                     ResidentGender = ConstVals.Female,
                     Lang = ConstLang.RU
                 },
-                new Card()
+                new Card
                 {
                     Id = "a6",
                     Name = "Братеево",
                     UserId = "u6",
-                    Description = "Новая кровать, чистое постельное белье, вся необходимая бытовая техника в наличии, санузел после ремонта.Без комиссии и залогов. Без подселения.Заселение круглосуточно, 24 часа.",
+                    Description =
+                        "Новая кровать, чистое постельное белье, вся необходимая бытовая техника в наличии, санузел после ремонта.Без комиссии и залогов. Без подселения.Заселение круглосуточно, 24 часа.",
                     ApartmentId = "ap6",
                     PriceDay = 860,
                     Cohabitation = ConstVals.SeperateResidence,
                     ResidentGender = ConstVals.Any,
                     Lang = ConstLang.RU
                 },
-                new Card()
+                new Card
                 {
                     Id = "a7",
                     Name = "Замоскворечье",
                     UserId = "u7",
-                    Description = "Квартирка на Соловьином. Жить можно, но не долго. Из окна почти ничего не видно, только стенку морга.",
+                    Description =
+                        "Квартирка на Соловьином. Жить можно, но не долго. Из окна почти ничего не видно, только стенку морга.",
                     ApartmentId = "ap7",
                     PriceDay = 700,
                     Cohabitation = ConstVals.SeperateResidence,
                     ResidentGender = ConstVals.Any,
                     Lang = ConstLang.RU
                 },
-                 new Card()
+                new Card
                 {
                     Id = "a8",
                     Name = "Замоскворечье около Парка Горького",
@@ -1067,7 +1053,7 @@ namespace apartmenthostService.Migrations
                     ResidentGender = ConstVals.Any,
                     Lang = ConstLang.RU
                 },
-                new Card()
+                new Card
                 {
                     Id = "a9",
                     Name = "Марфино",
@@ -1079,13 +1065,13 @@ namespace apartmenthostService.Migrations
                     ResidentGender = ConstVals.Female,
                     Lang = ConstLang.RU
                 },
-
-                new Card()
+                new Card
                 {
                     Id = "a10",
                     Name = "Крылатское",
                     UserId = "u10",
-                    Description = "Евро ремонт, вся бытовая техника(телевизор, холодильник, плита ,стиральная машина, микроволновая печь. точка доступа интернет. Предоставляется постельное белье, полотенце, посуда, гель для душа, шампунь. Во дворе парковка. Предоставляем отчетные документы командировочным для бухгалтерии. Звоните, ждем вас!",
+                    Description =
+                        "Евро ремонт, вся бытовая техника(телевизор, холодильник, плита ,стиральная машина, микроволновая печь. точка доступа интернет. Предоставляется постельное белье, полотенце, посуда, гель для душа, шампунь. Во дворе парковка. Предоставляем отчетные документы командировочным для бухгалтерии. Звоните, ждем вас!",
                     ApartmentId = "ap10",
                     PriceDay = 2000,
                     Cohabitation = ConstVals.SeperateResidence,
@@ -1103,59 +1089,57 @@ namespace apartmenthostService.Migrations
                 }
 
                 context.Cards.AddOrUpdate(p => p.Id,
-               card);
+                    card);
             }
-
-
         }
 
         public static void PopulateCardDates(apartmenthostContext context)
         {
-            List<CardDates> dateses = new List<CardDates>()
+            var dateses = new List<CardDates>
             {
-                new CardDates()
+                new CardDates
                 {
                     Id = "cd1",
                     CardId = "a1",
                     DateFrom = new DateTime(2015, 4, 1),
                     DateTo = new DateTime(2015, 4, 30)
                 },
-                new CardDates()
+                new CardDates
                 {
                     Id = "cd2",
                     CardId = "a2",
                     DateFrom = new DateTime(2015, 5, 10),
                     DateTo = new DateTime(2015, 6, 30)
                 },
-                new CardDates()
+                new CardDates
                 {
                     Id = "cd3",
                     CardId = "a3",
                     DateFrom = new DateTime(2015, 5, 1),
                     DateTo = new DateTime(2015, 5, 31)
                 },
-                new CardDates()
+                new CardDates
                 {
                     Id = "cd4",
                     CardId = "a4",
                     DateFrom = new DateTime(2015, 1, 1),
                     DateTo = new DateTime(2015, 6, 15)
                 },
-                new CardDates()
+                new CardDates
                 {
                     Id = "cd5",
                     CardId = "a5",
                     DateFrom = new DateTime(2015, 5, 1),
                     DateTo = new DateTime(2015, 12, 31)
                 },
-                new CardDates()
+                new CardDates
                 {
                     Id = "cd6",
                     CardId = "a6",
                     DateFrom = new DateTime(2015, 12, 1),
                     DateTo = new DateTime(2015, 12, 31)
                 },
-                new CardDates()
+                new CardDates
                 {
                     Id = "cd7",
                     CardId = "a7",
@@ -1173,16 +1157,15 @@ namespace apartmenthostService.Migrations
                 }
 
                 context.Dates.AddOrUpdate(p => p.Id, d
-                );
+                    );
             }
-
-
         }
+
         public static void PopulateReservations(apartmenthostContext context)
         {
-            List<Reservation> reservations = new List<Reservation>()
+            var reservations = new List<Reservation>
             {
-                new Reservation()
+                new Reservation
                 {
                     Id = "r12",
                     UserId = "u1",
@@ -1190,10 +1173,8 @@ namespace apartmenthostService.Migrations
                     Status = ConstVals.Accepted,
                     DateFrom = new DateTime(2015, 12, 1),
                     DateTo = new DateTime(2015, 12, 25)
-
-
                 },
-                new Reservation()
+                new Reservation
                 {
                     Id = "r110",
                     UserId = "u1",
@@ -1201,10 +1182,8 @@ namespace apartmenthostService.Migrations
                     Status = ConstVals.Accepted,
                     DateFrom = new DateTime(2015, 1, 1),
                     DateTo = new DateTime(2015, 1, 25)
-
-
                 },
-                new Reservation()
+                new Reservation
                 {
                     Id = "r23",
                     UserId = "u2",
@@ -1212,9 +1191,8 @@ namespace apartmenthostService.Migrations
                     Status = ConstVals.Pending,
                     DateFrom = new DateTime(2015, 9, 1),
                     DateTo = new DateTime(2015, 9, 6)
-
                 },
-                new Reservation()
+                new Reservation
                 {
                     Id = "r31",
                     UserId = "u3",
@@ -1222,9 +1200,8 @@ namespace apartmenthostService.Migrations
                     Status = ConstVals.Accepted,
                     DateFrom = new DateTime(2015, 3, 1),
                     DateTo = new DateTime(2015, 3, 6)
-
                 },
-                new Reservation()
+                new Reservation
                 {
                     Id = "r51",
                     UserId = "u5",
@@ -1232,9 +1209,8 @@ namespace apartmenthostService.Migrations
                     Status = ConstVals.Accepted,
                     DateFrom = new DateTime(2010, 5, 10),
                     DateTo = new DateTime(2010, 6, 30)
-
                 },
-                new Reservation()
+                new Reservation
                 {
                     Id = "r91",
                     UserId = "u9",
@@ -1242,9 +1218,8 @@ namespace apartmenthostService.Migrations
                     Status = ConstVals.Accepted,
                     DateFrom = new DateTime(2015, 1, 10),
                     DateTo = new DateTime(2015, 1, 30)
-
                 },
-                new Reservation()
+                new Reservation
                 {
                     Id = "r101",
                     UserId = "u10",
@@ -1252,9 +1227,8 @@ namespace apartmenthostService.Migrations
                     Status = ConstVals.Accepted,
                     DateFrom = new DateTime(2015, 2, 1),
                     DateTo = new DateTime(2015, 2, 20)
-
                 },
-                new Reservation()
+                new Reservation
                 {
                     Id = "r45",
                     UserId = "u4",
@@ -1262,9 +1236,8 @@ namespace apartmenthostService.Migrations
                     Status = ConstVals.Accepted,
                     DateFrom = new DateTime(2014, 1, 1),
                     DateTo = new DateTime(2014, 12, 31)
-
                 },
-                new Reservation()
+                new Reservation
                 {
                     Id = "r52",
                     UserId = "u5",
@@ -1272,9 +1245,8 @@ namespace apartmenthostService.Migrations
                     Status = ConstVals.Accepted,
                     DateFrom = new DateTime(2013, 1, 1),
                     DateTo = new DateTime(2013, 12, 31)
-
                 },
-                new Reservation()
+                new Reservation
                 {
                     Id = "r62",
                     UserId = "u6",
@@ -1283,7 +1255,7 @@ namespace apartmenthostService.Migrations
                     DateFrom = new DateTime(2016, 1, 1),
                     DateTo = new DateTime(2016, 12, 31)
                 },
-                new Reservation()
+                new Reservation
                 {
                     Id = "r71",
                     UserId = "u7",
@@ -1292,7 +1264,7 @@ namespace apartmenthostService.Migrations
                     DateFrom = new DateTime(2016, 1, 1),
                     DateTo = new DateTime(2016, 12, 31)
                 },
-                new Reservation()
+                new Reservation
                 {
                     Id = "r81",
                     UserId = "u8",
@@ -1301,7 +1273,7 @@ namespace apartmenthostService.Migrations
                     DateFrom = new DateTime(2016, 1, 1),
                     DateTo = new DateTime(2016, 12, 31)
                 },
-                new Reservation()
+                new Reservation
                 {
                     Id = "r41",
                     UserId = "u4",
@@ -1309,7 +1281,6 @@ namespace apartmenthostService.Migrations
                     Status = ConstVals.Pending,
                     DateFrom = new DateTime(2015, 8, 1),
                     DateTo = new DateTime(2015, 9, 30)
-
                 }
             };
             foreach (var res in reservations)
@@ -1322,42 +1293,39 @@ namespace apartmenthostService.Migrations
                 }
 
                 context.Reservations.AddOrUpdate(p => p.Id,
-                res);
+                    res);
             }
-
-
         }
+
         public static void PopulateFavorites(apartmenthostContext context)
         {
-            List<Favorite> favorites = new List<Favorite>()
+            var favorites = new List<Favorite>
             {
-                 new Favorite()
+                new Favorite
                 {
                     Id = "f12",
                     UserId = "u1",
                     CardId = "a2"
-
                 },
-                new Favorite()
+                new Favorite
                 {
                     Id = "f13",
                     UserId = "u1",
                     CardId = "a3"
                 },
-                new Favorite()
+                new Favorite
                 {
                     Id = "f23",
                     UserId = "u2",
                     CardId = "a3"
                 },
-                new Favorite()
+                new Favorite
                 {
                     Id = "f32",
                     UserId = "u3",
                     CardId = "a2"
-
                 },
-                new Favorite()
+                new Favorite
                 {
                     Id = "f21",
                     UserId = "u2",
@@ -1374,18 +1342,15 @@ namespace apartmenthostService.Migrations
                     f.CreatedAt = ex.CreatedAt;
                 }
                 context.Favorites.AddOrUpdate(p => p.Id, f
-                );
+                    );
             }
-
-
         }
-
 
         public static void PopulateReviews(apartmenthostContext context)
         {
-            List<Review> reviews = new List<Review>()
+            var reviews = new List<Review>
             {
-                 new Review()
+                new Review
                 {
                     Id = "rw31",
                     FromUserId = "u3",
@@ -1394,7 +1359,7 @@ namespace apartmenthostService.Migrations
                     Text = "Отличный офис! Всем довольны! Арендуем еще на год!",
                     Rating = 5
                 },
-                new Review()
+                new Review
                 {
                     Id = "rw1to10",
                     FromUserId = "u1",
@@ -1403,7 +1368,7 @@ namespace apartmenthostService.Migrations
                     Text = "Просто отлично!",
                     Rating = 5
                 },
-                new Review()
+                new Review
                 {
                     Id = "rw13",
                     FromUserId = "u1",
@@ -1412,7 +1377,7 @@ namespace apartmenthostService.Migrations
                     Text = "Ответственный съемщик. Вежливый и аккуратный. Оплата в срок.",
                     Rating = 5
                 },
-                new Review()
+                new Review
                 {
                     Id = "rw14",
                     FromUserId = "u1",
@@ -1421,7 +1386,7 @@ namespace apartmenthostService.Migrations
                     Text = "Съемщик хороший, но куда-то пропал и отзыв не оставил, хоть и обещал",
                     Rating = 4
                 },
-                new Review()
+                new Review
                 {
                     Id = "rw91",
                     FromUserId = "u9",
@@ -1430,7 +1395,7 @@ namespace apartmenthostService.Migrations
                     Text = "Все хорошо",
                     Rating = 4
                 },
-                new Review()
+                new Review
                 {
                     Id = "rw101",
                     FromUserId = "u10",
@@ -1439,8 +1404,7 @@ namespace apartmenthostService.Migrations
                     Text = "Норм",
                     Rating = 3
                 },
-
-                new Review()
+                new Review
                 {
                     Id = "rw110",
                     FromUserId = "u1",
@@ -1449,7 +1413,7 @@ namespace apartmenthostService.Migrations
                     Text = "Плохой съемщик, куча проблем",
                     Rating = 3
                 },
-                new Review()
+                new Review
                 {
                     Id = "rw45",
                     FromUserId = "u4",
@@ -1469,9 +1433,8 @@ namespace apartmenthostService.Migrations
                     r.CreatedAt = ex.CreatedAt;
                 }
                 context.Reviews.AddOrUpdate(p => p.Id, r
-               );
+                    );
             }
-
         }
 
         public static void UpdateRating(apartmenthostContext context)
@@ -1484,16 +1447,17 @@ namespace apartmenthostService.Migrations
                 if (count > 0)
                 {
                     profile.RatingCount = count;
-                    profile.Rating = reviews.Average(x => (Decimal)x.Rating);
+                    profile.Rating = reviews.Average(x => x.Rating);
                     profile.Score = reviews.Sum(x => x.Rating);
                 }
             }
         }
+
         public static void PopulateNotifications(apartmenthostContext context)
         {
-            List<Notification> notifications = new List<Notification>()
+            var notifications = new List<Notification>
             {
-                new Notification()
+                new Notification
                 {
                     Id = "nreserv1from7",
                     UserId = "u1",
@@ -1503,7 +1467,7 @@ namespace apartmenthostService.Migrations
                     Code = RespH.SRV_NOTIF_RESERV_PENDING,
                     Readed = false
                 },
-                new Notification()
+                new Notification
                 {
                     Id = "nreserv1from4",
                     UserId = "u1",
@@ -1513,7 +1477,7 @@ namespace apartmenthostService.Migrations
                     Code = RespH.SRV_NOTIF_RESERV_PENDING,
                     Readed = false
                 },
-                new Notification()
+                new Notification
                 {
                     Id = "naccept2from1",
                     UserId = "u1",
@@ -1522,7 +1486,7 @@ namespace apartmenthostService.Migrations
                     Code = RespH.SRV_NOTIF_RESERV_ACCEPTED,
                     Readed = false
                 },
-                new Notification()
+                new Notification
                 {
                     Id = "naccept10from1",
                     UserId = "u1",
@@ -1531,7 +1495,7 @@ namespace apartmenthostService.Migrations
                     Code = RespH.SRV_NOTIF_RESERV_ACCEPTED,
                     Readed = false
                 },
-                new Notification()
+                new Notification
                 {
                     Id = "nfav1from2",
                     UserId = "u1",
@@ -1540,7 +1504,7 @@ namespace apartmenthostService.Migrations
                     Code = RespH.SRV_NOTIF_CARD_FAVORITED,
                     Readed = false
                 },
-                new Notification()
+                new Notification
                 {
                     Id = "nrev1from3",
                     UserId = "u1",
@@ -1559,14 +1523,8 @@ namespace apartmenthostService.Migrations
                     n.CreatedAt = ex.CreatedAt;
                 }
                 context.Notifications.AddOrUpdate(p => p.Id, n
-               );
+                    );
             }
-
-
         }
-
-
-
-
     }
 }

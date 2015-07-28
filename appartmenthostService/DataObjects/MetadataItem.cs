@@ -11,8 +11,10 @@ namespace apartmenthostService.DataObjects
         public string Type { get; set; }
         public string DataType { get; set; }
         public string Dictionary { get; set; }
+
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public bool Multi { get; set; }
+
         public MetadataRule GetRule { get; set; }
         public MetadataRule PostRule { get; set; }
         public MetadataRule PutRule { get; set; }

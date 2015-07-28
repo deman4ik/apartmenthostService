@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Data.Entity.Migrations;
-using System.Linq;
-using apartmenthostService.Helpers;
 using apartmenthostService.Models;
 
 namespace apartmenthostService.Migrations
@@ -14,7 +10,6 @@ namespace apartmenthostService.Migrations
             AutomaticMigrationsEnabled = false;
         }
 
-       
         protected override void Seed(apartmenthostContext context)
         {
             //  This method will be called after migrating to the latest version.
@@ -29,7 +24,6 @@ namespace apartmenthostService.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            
         }
     }
 }

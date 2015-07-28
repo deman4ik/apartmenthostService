@@ -13,6 +13,7 @@ namespace apartmenthostService.Controllers
     public class DictionaryController : TableController<Dictionary>
     {
         private apartmenthostContext _context;
+
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
@@ -41,8 +42,8 @@ namespace apartmenthostService.Controllers
         // POST tables/Dictionary
         public async Task<IHttpActionResult> PostDictionary(Dictionary item)
         {
-            Dictionary current = await InsertAsync(item);
-            return CreatedAtRoute("Tables", new { id = current.Id }, current);
+            var current = await InsertAsync(item);
+            return CreatedAtRoute("Tables", new {id = current.Id}, current);
         }
 
         // DELETE tables/Dictionary/48D68C86-6EA6-4C25-AA33-223FC9A27959
@@ -50,6 +51,5 @@ namespace apartmenthostService.Controllers
         {
             return DeleteAsync(id);
         }
-
     }
 }

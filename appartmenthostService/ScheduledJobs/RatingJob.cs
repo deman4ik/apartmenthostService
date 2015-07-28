@@ -1,8 +1,5 @@
-﻿using System;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http;
 using apartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service;
 
@@ -13,7 +10,8 @@ namespace apartmenthostService
 
     public class RatingJob : ScheduledJob
     {
-        readonly apartmenthostContext _context = new apartmenthostContext();
+        private readonly apartmenthostContext _context = new apartmenthostContext();
+
         public override Task ExecuteAsync()
         {
             var profiles = _context.Profile.ToList();
@@ -24,7 +22,7 @@ namespace apartmenthostService
                 if (count > 0)
                 {
                     profile.RatingCount = count;
-                    profile.Rating = reviews.Average(x => (Decimal)x.Rating);
+                    profile.Rating = reviews.Average(x => x.Rating);
                     profile.Score = reviews.Sum(x => x.Rating);
                 }
             }

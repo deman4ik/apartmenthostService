@@ -17,8 +17,8 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class FavoriteApiController : ApiController
     {
-        public ApiServices Services { get; set; }
         private readonly apartmenthostContext _context = new apartmenthostContext();
+        public ApiServices Services { get; set; }
 
         [Route("api/IsFavorite/{cardId}")]
         [AuthorizeLevel(AuthorizationLevel.User)]
@@ -36,8 +36,7 @@ namespace apartmenthostService.Controllers
             {
                 status = _context.Favorites.Any(f => f.CardId == cardId && f.UserId == account.UserId);
             }
-            return this.Request.CreateResponse(HttpStatusCode.OK, RespH.CreateBool(RespH.SRV_DONE, new List<bool>() { status }));
-           
+            return Request.CreateResponse(HttpStatusCode.OK, RespH.CreateBool(RespH.SRV_DONE, new List<bool> {status}));
         }
 
         [Route("api/Favorite/{cardId}")]
@@ -50,24 +49,28 @@ namespace apartmenthostService.Controllers
                 var respList = new List<string>();
 
                 // Check advertId is not NULL 
-                if (cardId == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_FAVORITE_CARDID_NULL));
+                if (cardId == null)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_FAVORITE_CARDID_NULL));
 
                 // Check Current User
                 var currentUser = User as ServiceUser;
                 if (currentUser == null)
-                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
-                var account = AuthUtils.GetUserAccount(_context,currentUser);
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
+                var account = AuthUtils.GetUserAccount(_context, currentUser);
                 if (account == null)
                 {
                     respList.Add(currentUser.Id);
-                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                        RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
 
                 var currentCard = _context.Cards.SingleOrDefault(a => a.Id == cardId);
                 if (currentCard == null)
                 {
                     respList.Add(cardId);
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_NOTFOUND,respList));
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_CARD_NOTFOUND, respList));
                 }
 
                 bool status;
@@ -75,8 +78,8 @@ namespace apartmenthostService.Controllers
                     _context.Favorites.SingleOrDefault(f => f.CardId == cardId && f.UserId == account.UserId);
                 if (favorite == null)
                 {
-                    string favoriteGUID = Guid.NewGuid().ToString();
-                    _context.Set<Favorite>().Add(new Favorite()
+                    var favoriteGUID = Guid.NewGuid().ToString();
+                    _context.Set<Favorite>().Add(new Favorite
                     {
                         Id = favoriteGUID,
                         CardId = cardId,
@@ -97,15 +100,15 @@ namespace apartmenthostService.Controllers
                     status = false;
                 }
                 _context.SaveChanges();
-                return this.Request.CreateResponse(HttpStatusCode.OK, RespH.CreateBool(RespH.SRV_DONE, new List<bool>(){status}));
+                return Request.CreateResponse(HttpStatusCode.OK,
+                    RespH.CreateBool(RespH.SRV_DONE, new List<bool> {status}));
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.InnerException);
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
             }
         }
-
     }
 }

@@ -13,6 +13,7 @@ namespace apartmenthostService.Controllers
     public class PropController : TableController<Prop>
     {
         private apartmenthostContext _context;
+
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
@@ -23,7 +24,7 @@ namespace apartmenthostService.Controllers
         // GET tables/Prop
         public IQueryable<Prop> GetAllProp()
         {
-            return Query(); 
+            return Query();
         }
 
         // GET tables/Prop/48D68C86-6EA6-4C25-AA33-223FC9A27959
@@ -35,21 +36,20 @@ namespace apartmenthostService.Controllers
         // PATCH tables/Prop/48D68C86-6EA6-4C25-AA33-223FC9A27959
         public Task<Prop> PatchProp(string id, Delta<Prop> patch)
         {
-             return UpdateAsync(id, patch);
+            return UpdateAsync(id, patch);
         }
 
         // POST tables/Prop
         public async Task<IHttpActionResult> PostProp(Prop item)
         {
-            Prop current = await InsertAsync(item);
-            return CreatedAtRoute("Tables", new { id = current.Id }, current);
+            var current = await InsertAsync(item);
+            return CreatedAtRoute("Tables", new {id = current.Id}, current);
         }
 
         // DELETE tables/Prop/48D68C86-6EA6-4C25-AA33-223FC9A27959
         public Task DeleteProp(string id)
         {
-             return DeleteAsync(id);
+            return DeleteAsync(id);
         }
-
     }
 }

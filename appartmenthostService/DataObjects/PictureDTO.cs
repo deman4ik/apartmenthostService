@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using apartmenthostService.Attributes;
 using apartmenthostService.Helpers;
 using Newtonsoft.Json;
@@ -99,6 +95,7 @@ namespace apartmenthostService.DataObjects
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string CloudinaryPublicId { get; set; }
+
         // Дата и Время создания объекта
         [Metadata(DataType = ConstDataType.Date)]
         [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = true)]
@@ -106,6 +103,5 @@ namespace apartmenthostService.DataObjects
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public DateTimeOffset? CreatedAt { get; set; }
-
     }
 }

@@ -6,10 +6,11 @@ namespace apartmenthostService.DataObjects
     {
         public Metadata()
         {
-            this.Items = new List<MetadataItem>();
+            Items = new List<MetadataItem>();
         }
+
         public string Name { get; set; }
         public string LangName { get; set; }
-        public ICollection<MetadataItem> Items { get; set; } 
+        public ICollection<MetadataItem> Items { get; set; }
     }
 }

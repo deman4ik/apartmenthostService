@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using apartmenthostService.Attributes;
 using apartmenthostService.Helpers;
-using apartmenthostService.Models;
 using Newtonsoft.Json;
 
 namespace apartmenthostService.DataObjects
@@ -10,7 +9,6 @@ namespace apartmenthostService.DataObjects
     // Объявление
     public class CardDTO
     {
-        
         //public AdvertDTO() 
         //{
         //    this.PropsVals = new List<PropValDTO>();
@@ -186,14 +184,5 @@ namespace apartmenthostService.DataObjects
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public ICollection<RelatedCardDTO> RelatedCards { get; set; }
-
-        // [GET][POST][PUT] - {NN} -Список дополнительных колонок(PropVal)
-        //[Metadata(DataType = ConstDataType.PropVals)]
-        //[GetRule(Order = 9, RequiredForm = false, RequiredTransfer = true, Visible = true)]
-        //[PostRule(Order = 9, RequiredForm = true, RequiredTransfer = true, Visible = true)]
-        //[PutRule(Order = 9, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        //[DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        //public ICollection<PropValDTO> PropsVals { get; set; }
-
     }
 }

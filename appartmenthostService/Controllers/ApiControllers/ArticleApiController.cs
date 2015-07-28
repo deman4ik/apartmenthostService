@@ -18,11 +18,11 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class ArticleApiController : ApiController
     {
+        private readonly apartmenthostContext _context = new apartmenthostContext();
         public ApiServices Services { get; set; }
-        readonly apartmenthostContext _context = new apartmenthostContext();
 
         /// <summary>
-        /// GET api/Articles/
+        ///     GET api/Articles/
         /// </summary>
         [Route("api/Articles/")]
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
@@ -34,12 +34,12 @@ namespace apartmenthostService.Controllers
                 // Создаем предикат
                 var pre = PredicateBuilder.True<Article>();
                 pre = pre.And(x => x.Deleted == false);
-                 // Получаем объект из строки запроса
+                // Получаем объект из строки запроса
                 if (!string.IsNullOrWhiteSpace(filter))
                 {
-                    ArticleDTO artRequest = JsonConvert.DeserializeObject<ArticleDTO>(filter);
+                    var artRequest = JsonConvert.DeserializeObject<ArticleDTO>(filter);
                     if (artRequest == null)
-                        return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                        return Request.CreateResponse(HttpStatusCode.BadRequest,
                             RespH.Create(RespH.SRV_ARTICLE_INVALID_FILTER));
 
                     if (artRequest.Id != null)
@@ -68,7 +68,7 @@ namespace apartmenthostService.Controllers
                     }
                 }
 
-                var result = _context.Article.Where(pre).Select(art => new ArticleDTO()
+                var result = _context.Article.Where(pre).Select(art => new ArticleDTO
                 {
                     Id = art.Id,
                     Name = art.Name,
@@ -77,7 +77,7 @@ namespace apartmenthostService.Controllers
                     Lang = art.Lang,
                     CreatedAt = art.CreatedAt,
                     UpdatedAt = art.UpdatedAt,
-                    Picture = new PictureDTO()
+                    Picture = new PictureDTO
                     {
                         Id = art.Picture.Id,
                         Name = art.Picture.Name,
@@ -93,19 +93,18 @@ namespace apartmenthostService.Controllers
                         CreatedAt = art.Picture.CreatedAt
                     }
                 });
-                return this.Request.CreateResponse(HttpStatusCode.OK, result);
+                return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
             {
-
                 Debug.WriteLine(ex.InnerException);
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
             }
         }
 
         /// <summary>
-        /// POST api/Article/
+        ///     POST api/Article/
         /// </summary>
         [Route("api/Article/")]
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
@@ -116,20 +115,21 @@ namespace apartmenthostService.Controllers
             {
                 var respList = new List<string>();
                 ResponseDTO resp = null;
-                if (article == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ARTICLE_NULL));
+                if (article == null)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ARTICLE_NULL));
 
                 if (article.Name == null)
 
                     resp = CheckHelper.isNull(article.Name, "Name", RespH.SRV_ARTICLE_REQUIRED);
-                    if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 if (article.Title == null && article.Text == null && article.Tag == null)
                 {
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ARTICLE_REQUIRED));
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ARTICLE_REQUIRED));
                 }
-                string articleGuid = Guid.NewGuid().ToString();
+                var articleGuid = Guid.NewGuid().ToString();
                 _context.Set<Article>().Add(
-                    new Article()
+                    new Article
                     {
                         Id = articleGuid,
                         Name = article.Name,
@@ -142,67 +142,14 @@ namespace apartmenthostService.Controllers
                 _context.SaveChanges();
 
                 respList.Add(articleGuid);
-                return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
+                return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
             }
             catch (Exception ex)
             {
-
                 Debug.WriteLine(ex.InnerException);
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
             }
         }
-
-        ///// <summary>
-        ///// PUT api/Article/
-        ///// </summary>
-        //[Route("api/Article/")]
-        //[AuthorizeLevel(AuthorizationLevel.Anonymous)]
-        //[HttpPost]
-        //public HttpResponseMessage PutArticle(ArticleDTO article)
-        //{
-        //    try
-        //    {
-        //        var respList = new List<string>();
-        //        ResponseDTO resp = null;
-        //        if (article == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ARTICLE_NULL));
-
-        //        if (article.Name == null)
-
-        //            resp = CheckHelper.isNull(article.Name, "Name", RespH.SRV_ARTICLE_REQUIRED);
-        //        if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-
-        //        if (article.Title == null && article.Text == null && article.Tag == null)
-        //        {
-        //            return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ARTICLE_REQUIRED));
-        //        }
-
-        //        var currentArticle = _context.Article.SingleOrDefault(x => x.Id == article.Id);
-        //        if (currentArticle == null)
-        //            return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ARTICLE_REQUIRED));
-        //        string articleGuid = Guid.NewGuid().ToString();
-        //        _context.Set<Article>().Add(
-        //            new Article()
-        //            {
-        //                Id = articleGuid,
-        //                Name = article.Name,
-        //                Title = article.Title,
-        //                Text = article.Text,
-        //                Tag = article.Tag
-        //            });
-
-        //        _context.SaveChanges();
-
-        //        respList.Add(articleGuid);
-        //        return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        Debug.WriteLine(ex.InnerException);
-        //        return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-        //            RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
-        //    }
-        //}
     }
 }

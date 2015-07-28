@@ -17,9 +17,8 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class ProfileApiController : ApiController
     {
-        public ApiServices Services { get; set; }
         private readonly apartmenthostContext _context = new apartmenthostContext();
-
+        public ApiServices Services { get; set; }
         //PUT api/Profile/48D68C86-6EA6-4C25-AA33-223FC9A27959
         [Route("api/Profile")]
         [AuthorizeLevel(AuthorizationLevel.User)]
@@ -33,17 +32,17 @@ namespace apartmenthostService.Controllers
 
                 // Check Profile is not NULL 
                 if (profile == null)
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_USER_NULL));
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_USER_NULL));
 
                 // Check Current User
                 var currentUser = User as ServiceUser;
                 if (currentUser == null)
-                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
                 var account = AuthUtils.GetUserAccount(_context, currentUser);
                 if (account == null)
                 {
                     respList.Add(currentUser.Id);
-                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized,
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized,
                         RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
 
@@ -52,7 +51,7 @@ namespace apartmenthostService.Controllers
                 {
                     respList.Add(profile.Id);
                     respList.Add(account.UserId);
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_USER_WRONG_USER, respList));
                 }
 
@@ -61,30 +60,30 @@ namespace apartmenthostService.Controllers
                 if (profileCurrent == null)
                 {
                     respList.Add(account.UserId);
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
 
                 // Check FirstName is not NULL
                 resp = CheckHelper.isNull(profile.FirstName, "FirstName", RespH.SRV_USER_REQUIRED);
-                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check LastName is not NULL
                 resp = CheckHelper.isNull(profile.LastName, "LastName", RespH.SRV_USER_REQUIRED);
-                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Phone is not NULL
                 resp = CheckHelper.isNull(profile.Phone, "Phone", RespH.SRV_USER_REQUIRED);
-                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Genderis not NULL
                 resp = CheckHelper.isNull(profile.Gender, "Gender", RespH.SRV_USER_REQUIRED);
-                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Gender Dictionary
                 resp = CheckHelper.isValidDicItem(_context, profile.Gender, ConstDictionary.Gender, "Gender",
                     RespH.SRV_USER_INVALID_DICITEM);
-                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 profileCurrent.FirstName = profile.FirstName;
                 profileCurrent.LastName = profile.LastName;
@@ -98,13 +97,13 @@ namespace apartmenthostService.Controllers
                 _context.SaveChanges();
 
                 respList.Add(profileCurrent.Id);
-                return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED, respList));
+                return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED, respList));
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.InnerException);
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string>() {ex.InnerException.ToString()}));
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
             }
         }
 
@@ -121,15 +120,14 @@ namespace apartmenthostService.Controllers
                 if (count > 0)
                 {
                     profile.RatingCount = count;
-                    profile.Rating = reviews.Average(x => (Decimal) x.Rating);
+                    profile.Rating = reviews.Average(x => x.Rating);
                     profile.Score = reviews.Sum(x => x.Rating);
                 }
             }
-        
 
-        _context.SaveChanges();
-            return this.Request.CreateResponse(HttpStatusCode.OK);
+
+            _context.SaveChanges();
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
-    
-}
+    }
 }

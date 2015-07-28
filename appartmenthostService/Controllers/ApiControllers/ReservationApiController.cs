@@ -19,8 +19,8 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class ReservationApiController : ApiController
     {
-        public ApiServices Services { get; set; }
         private readonly apartmenthostContext _context = new apartmenthostContext();
+        public ApiServices Services { get; set; }
 
         [Route("api/Reservations/{type?}")]
         [AuthorizeLevel(AuthorizationLevel.User)]
@@ -33,18 +33,19 @@ namespace apartmenthostService.Controllers
                 // Check Current User
                 var currentUser = User as ServiceUser;
                 if (currentUser == null)
-                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
                 var account = AuthUtils.GetUserAccount(_context, currentUser);
                 if (account == null)
                 {
                     respList.Add(currentUser.Id);
-                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                        RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
-                List<ReservationDTO> ownerReserv = new List<ReservationDTO>();
-                List<ReservationDTO> renterReserv = new List<ReservationDTO>();
+                var ownerReserv = new List<ReservationDTO>();
+                var renterReserv = new List<ReservationDTO>();
                 if (type == ConstVals.Owner || string.IsNullOrWhiteSpace(type))
                 {
-                     ownerReserv =
+                    ownerReserv =
                         _context.Reservations.Where(x => x.Card.UserId == account.UserId).Select(r => new ReservationDTO
                         {
                             Id = r.Id,
@@ -56,7 +57,7 @@ namespace apartmenthostService.Controllers
                             DateTo = r.DateTo,
                             CreatedAt = r.CreatedAt,
                             UpdatedAt = r.UpdatedAt,
-                            User = new BaseUserDTO()
+                            User = new BaseUserDTO
                             {
                                 Id = r.User.Profile.Id,
                                 Email = r.User.Email,
@@ -65,7 +66,7 @@ namespace apartmenthostService.Controllers
                                 Rating = r.User.Profile.Rating,
                                 RatingCount = r.User.Profile.RatingCount,
                                 Gender = r.User.Profile.Gender,
-                                Picture = new PictureDTO()
+                                Picture = new PictureDTO
                                 {
                                     Id = r.User.Profile.Picture.Id,
                                     Name = r.User.Profile.Picture.Name,
@@ -79,10 +80,8 @@ namespace apartmenthostService.Controllers
                                     Default = r.User.Profile.Picture.Default,
                                     CreatedAt = r.User.Profile.Picture.CreatedAt
                                 }
-
-
                             },
-                            Card = new CardDTO()
+                            Card = new CardDTO
                             {
                                 Name = r.Card.Name,
                                 UserId = r.Card.UserId,
@@ -93,19 +92,19 @@ namespace apartmenthostService.Controllers
                                 Cohabitation = r.Card.Cohabitation,
                                 ResidentGender = r.Card.ResidentGender,
                                 Lang = r.Card.Lang,
-                                Dates = r.Card.Dates.Select(d => new DatesDTO()
+                                Dates = r.Card.Dates.Select(d => new DatesDTO
                                 {
                                     DateFrom = d.DateFrom,
                                     DateTo = d.DateTo
                                 })
                                     .Union(
                                         r.Card.Reservations.Where(reserv => reserv.Status == ConstVals.Accepted)
-                                            .Select(rv => new DatesDTO()
+                                            .Select(rv => new DatesDTO
                                             {
                                                 DateFrom = rv.DateFrom,
                                                 DateTo = rv.DateTo
                                             }).ToList()).ToList(),
-                                User = new UserDTO()
+                                User = new UserDTO
                                 {
                                     Id = r.Card.User.Profile.Id,
                                     FirstName = r.Card.User.Profile.FirstName,
@@ -114,7 +113,7 @@ namespace apartmenthostService.Controllers
                                     RatingCount = r.Card.User.Profile.RatingCount,
                                     Gender = r.Card.User.Profile.Gender,
                                     Phone = r.Card.User.Profile.Phone,
-                                    Picture = new PictureDTO()
+                                    Picture = new PictureDTO
                                     {
                                         Id = r.Card.User.Profile.Picture.Id,
                                         Name = r.Card.User.Profile.Picture.Name,
@@ -129,7 +128,7 @@ namespace apartmenthostService.Controllers
                                         CreatedAt = r.Card.User.Profile.Picture.CreatedAt
                                     }
                                 },
-                                Apartment = new ApartmentDTO()
+                                Apartment = new ApartmentDTO
                                 {
                                     Id = r.Card.Apartment.Id,
                                     Name = r.Card.Apartment.Name,
@@ -138,15 +137,14 @@ namespace apartmenthostService.Controllers
                                     UserId = r.Card.Apartment.UserId,
                                     Adress = r.Card.Apartment.Adress,
                                     Latitude = r.Card.Apartment.Latitude,
-                                    Longitude = r.Card.Apartment.Longitude,
+                                    Longitude = r.Card.Apartment.Longitude
                                 }
-
                             }
                         }).ToList();
                 }
                 if (type == ConstVals.Renter || string.IsNullOrWhiteSpace(type))
                 {
-                     renterReserv =
+                    renterReserv =
                         _context.Reservations.Where(x => x.UserId == account.UserId).Select(r => new ReservationDTO
                         {
                             Id = r.Id,
@@ -158,7 +156,7 @@ namespace apartmenthostService.Controllers
                             DateTo = r.DateTo,
                             CreatedAt = r.CreatedAt,
                             UpdatedAt = r.UpdatedAt,
-                            User = new BaseUserDTO()
+                            User = new BaseUserDTO
                             {
                                 Id = r.User.Profile.Id,
                                 Email = r.User.Email,
@@ -167,7 +165,7 @@ namespace apartmenthostService.Controllers
                                 Rating = r.User.Profile.Rating,
                                 RatingCount = r.User.Profile.RatingCount,
                                 Gender = r.User.Profile.Gender,
-                                Picture = new PictureDTO()
+                                Picture = new PictureDTO
                                 {
                                     Id = r.User.Profile.Picture.Id,
                                     Name = r.User.Profile.Picture.Name,
@@ -181,10 +179,8 @@ namespace apartmenthostService.Controllers
                                     Default = r.User.Profile.Picture.Default,
                                     CreatedAt = r.User.Profile.Picture.CreatedAt
                                 }
-
-
                             },
-                            Card = new CardDTO()
+                            Card = new CardDTO
                             {
                                 Name = r.Card.Name,
                                 UserId = r.Card.UserId,
@@ -195,19 +191,19 @@ namespace apartmenthostService.Controllers
                                 Cohabitation = r.Card.Cohabitation,
                                 ResidentGender = r.Card.ResidentGender,
                                 Lang = r.Card.Lang,
-                                Dates = r.Card.Dates.Select(d => new DatesDTO()
+                                Dates = r.Card.Dates.Select(d => new DatesDTO
                                 {
                                     DateFrom = d.DateFrom,
                                     DateTo = d.DateTo
                                 })
                                     .Union(
                                         r.Card.Reservations.Where(reserv => reserv.Status == ConstVals.Accepted)
-                                            .Select(rv => new DatesDTO()
+                                            .Select(rv => new DatesDTO
                                             {
                                                 DateFrom = rv.DateFrom,
                                                 DateTo = rv.DateTo
                                             }).ToList()).ToList(),
-                                User = new UserDTO()
+                                User = new UserDTO
                                 {
                                     Id = r.Card.User.Profile.Id,
                                     FirstName = r.Card.User.Profile.FirstName,
@@ -216,7 +212,7 @@ namespace apartmenthostService.Controllers
                                     RatingCount = r.Card.User.Profile.RatingCount,
                                     Gender = r.Card.User.Profile.Gender,
                                     Phone = r.Card.User.Profile.Phone,
-                                    Picture = new PictureDTO()
+                                    Picture = new PictureDTO
                                     {
                                         Id = r.Card.User.Profile.Picture.Id,
                                         Name = r.Card.User.Profile.Picture.Name,
@@ -231,7 +227,7 @@ namespace apartmenthostService.Controllers
                                         CreatedAt = r.Card.User.Profile.Picture.CreatedAt
                                     }
                                 },
-                                Apartment = new ApartmentDTO()
+                                Apartment = new ApartmentDTO
                                 {
                                     Id = r.Card.Apartment.Id,
                                     Name = r.Card.Apartment.Name,
@@ -240,27 +236,27 @@ namespace apartmenthostService.Controllers
                                     UserId = r.Card.Apartment.UserId,
                                     Adress = r.Card.Apartment.Adress,
                                     Latitude = r.Card.Apartment.Latitude,
-                                    Longitude = r.Card.Apartment.Longitude,
+                                    Longitude = r.Card.Apartment.Longitude
                                 }
-
                             }
                         }).ToList();
                 }
-                List<ReservationDTO> result = new List<ReservationDTO>(ownerReserv.Count + renterReserv.Count);
+                var result = new List<ReservationDTO>(ownerReserv.Count + renterReserv.Count);
                 result.AddRange(ownerReserv);
                 result.AddRange(renterReserv);
-                return this.Request.CreateResponse(HttpStatusCode.OK, result);
+                return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
             {
-
                 Debug.WriteLine(ex);
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.ToString() }));
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
             }
         }
 
-        [Route("api/Reservation/Make/{cardId}/{dateFrom:datetime:regex(\\d{4}-\\d{2}-\\d{2})}/{dateTo:datetime:regex(\\d{4}-\\d{2}-\\d{2})}")]
+        [Route(
+            "api/Reservation/Make/{cardId}/{dateFrom:datetime:regex(\\d{4}-\\d{2}-\\d{2})}/{dateTo:datetime:regex(\\d{4}-\\d{2}-\\d{2})}"
+            )]
         [AuthorizeLevel(AuthorizationLevel.User)]
         [HttpPost]
         public HttpResponseMessage MakeReservation(string cardId, DateTime dateFrom, DateTime dateTo)
@@ -270,29 +266,34 @@ namespace apartmenthostService.Controllers
                 var respList = new List<string>();
 
                 // Check Reservation is not NULL 
-                if (cardId == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_RESERVATION_NULL));
+                if (cardId == null)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_RESERVATION_NULL));
 
                 var card = _context.Cards.SingleOrDefault(a => a.Id == cardId);
                 // Check CARD is not NULL 
-                if (card == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_NULL));
+                if (card == null)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_NULL));
 
                 // Check Current User
                 var currentUser = User as ServiceUser;
                 if (currentUser == null)
-                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
                 var account = AuthUtils.GetUserAccount(_context, currentUser);
                 if (account == null)
                 {
                     respList.Add(currentUser.Id);
-                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                        RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
                 // Check Reservation already exists
                 /* TODO: Проверка по дате */
-                var existedReservation = _context.Reservations.SingleOrDefault(x => x.UserId == account.UserId && x.CardId == cardId);
+                var existedReservation =
+                    _context.Reservations.SingleOrDefault(x => x.UserId == account.UserId && x.CardId == cardId);
                 if (existedReservation != null)
                 {
                     respList.Add(existedReservation.Id);
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_RESERVATION_EXISTS, respList));
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_RESERVATION_EXISTS, respList));
                 }
 
                 // Check CARD User
@@ -309,38 +310,43 @@ namespace apartmenthostService.Controllers
                 {
                     respList.Add(dateFrom.ToLocalTime().ToString(CultureInfo.InvariantCulture));
                     respList.Add(dateTo.ToLocalTime().ToString(CultureInfo.InvariantCulture));
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_WRONG_DATE, respList));
-
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_CARD_WRONG_DATE, respList));
                 }
 
                 // Check Available Dates
-                TimeRange reservationDates = new TimeRange(dateFrom, dateTo);
+                var reservationDates = new TimeRange(dateFrom, dateTo);
 
-                List<TimeRange> unavailableDates = _context.Dates.Where(x => x.CardId == card.Id).ToList().Select(unDate => new TimeRange(unDate.DateFrom, unDate.DateTo)).ToList();
+                var unavailableDates =
+                    _context.Dates.Where(x => x.CardId == card.Id)
+                        .ToList()
+                        .Select(unDate => new TimeRange(unDate.DateFrom, unDate.DateTo))
+                        .ToList();
 
                 if (unavailableDates.Any(unavailableDate => unavailableDate.IntersectsWith(reservationDates)))
                 {
                     respList.Add(reservationDates.ToString());
                     respList.Add(unavailableDates.ToString());
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_RESERVATION_UNAVAILABLE_DATE, respList));
                 }
-                
-                var currentReservations = _context.Reservations.Where(r => r.CardId == cardId && r.Status == ConstVals.Accepted);
+
+                var currentReservations =
+                    _context.Reservations.Where(r => r.CardId == cardId && r.Status == ConstVals.Accepted);
                 foreach (var currentReservation in currentReservations)
                 {
-                    TimeRange reservedDates = new TimeRange(currentReservation.DateFrom, currentReservation.DateTo);
+                    var reservedDates = new TimeRange(currentReservation.DateFrom, currentReservation.DateTo);
                     if (reservedDates.IntersectsWith(reservationDates))
                     {
                         respList.Add(reservationDates.ToString());
                         respList.Add(reservedDates.ToString());
-                        return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                        return Request.CreateResponse(HttpStatusCode.BadRequest,
                             RespH.Create(RespH.SRV_RESERVATION_UNAVAILABLE_DATE, respList));
                     }
                 }
 
-                string reservationGuid = Guid.NewGuid().ToString();
-                _context.Set<Reservation>().Add(new Reservation()
+                var reservationGuid = Guid.NewGuid().ToString();
+                _context.Set<Reservation>().Add(new Reservation
                 {
                     Id = reservationGuid,
                     CardId = cardId,
@@ -351,21 +357,19 @@ namespace apartmenthostService.Controllers
                 });
                 _context.SaveChanges();
                 // Create Notification
-                Notifications.Create(_context,card.UserId,ConstVals.General,RespH.SRV_NOTIF_RESERV_PENDING,null,reservationGuid,null,true);
-
+                Notifications.Create(_context, card.UserId, ConstVals.General, RespH.SRV_NOTIF_RESERV_PENDING, null,
+                    reservationGuid, null, true);
 
 
                 respList.Add(reservationGuid);
-                return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
-
+                return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
             }
             catch (Exception ex)
             {
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
             }
         }
-
 
         [Route("api/Reservation/AcceptDecline/{reservId}/{status}")]
         [AuthorizeLevel(AuthorizationLevel.User)]
@@ -377,25 +381,27 @@ namespace apartmenthostService.Controllers
                 var respList = new List<string>();
 
                 // Check status is not NULL 
-                if (status == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_RESERVATION_NULL));
+                if (status == null)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_RESERVATION_NULL));
 
                 // Check Status
                 if (status != ConstVals.Accepted && status != ConstVals.Declined)
                 {
                     respList.Add(status);
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_RESERVATION_WRONG_STATUS, respList));
                 }
 
                 // Check Current User
                 var currentUser = User as ServiceUser;
                 if (currentUser == null)
-                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
                 var account = AuthUtils.GetUserAccount(_context, currentUser);
                 if (account == null)
                 {
                     respList.Add(currentUser.Id);
-                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                        RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
 
                 //Check Reservation
@@ -404,12 +410,14 @@ namespace apartmenthostService.Controllers
                 if (currentReservation == null)
                 {
                     respList.Add(reservId);
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_RESERVATION_NOTFOUND, respList));
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_RESERVATION_NOTFOUND, respList));
                 }
-                
+
                 var card = _context.Cards.SingleOrDefault(a => a.Id == currentReservation.CardId);
                 // Check CARD is not NULL 
-                if (card == null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_NULL));
+                if (card == null)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_NULL));
 
 
                 // Check CARD User
@@ -417,7 +425,7 @@ namespace apartmenthostService.Controllers
                 {
                     respList.Add(card.UserId);
                     respList.Add(account.UserId);
-                    return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_CARD_WRONG_USER, respList));
                 }
 
@@ -427,11 +435,11 @@ namespace apartmenthostService.Controllers
                 if (status == ConstVals.Accepted)
                 {
                     // Check Available Dates
-                    TimeRange reservationDates = new TimeRange((DateTime)currentReservation.DateFrom, (DateTime)currentReservation.DateTo);
+                    var reservationDates = new TimeRange(currentReservation.DateFrom, currentReservation.DateTo);
 
-                    List<TimeRange> unavailableDates = new List<TimeRange>();
+                    var unavailableDates = new List<TimeRange>();
 
-                    var cardDates = _context.Dates.Where(x => x.CardId == card.Id); 
+                    var cardDates = _context.Dates.Where(x => x.CardId == card.Id);
                     if (cardDates.Count() > 0)
                     {
                         foreach (var unDate in cardDates)
@@ -444,20 +452,23 @@ namespace apartmenthostService.Controllers
                             {
                                 respList.Add(reservationDates.ToString());
                                 respList.Add(unavailableDates.ToString());
-                                return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                                return Request.CreateResponse(HttpStatusCode.BadRequest,
                                     RespH.Create(RespH.SRV_RESERVATION_UNAVAILABLE_DATE, respList));
                             }
                         }
                     }
-                    var currentReservations = _context.Reservations.Where(r => r.CardId == currentReservation.CardId && currentReservation.Status == ConstVals.Accepted);
+                    var currentReservations =
+                        _context.Reservations.Where(
+                            r =>
+                                r.CardId == currentReservation.CardId && currentReservation.Status == ConstVals.Accepted);
                     foreach (var currentReserv in currentReservations)
                     {
-                        TimeRange reservedDates = new TimeRange(currentReserv.DateFrom, currentReserv.DateTo);
+                        var reservedDates = new TimeRange(currentReserv.DateFrom, currentReserv.DateTo);
                         if (reservedDates.IntersectsWith(reservationDates))
                         {
                             respList.Add(reservationDates.ToString());
                             respList.Add(reservedDates.ToString());
-                            return this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                            return Request.CreateResponse(HttpStatusCode.BadRequest,
                                 RespH.Create(RespH.SRV_RESERVATION_UNAVAILABLE_DATE, respList));
                         }
                     }
@@ -471,21 +482,18 @@ namespace apartmenthostService.Controllers
                 currentReservation.Status = status;
                 _context.SaveChanges();
                 // Create Notification
-                Notifications.Create(_context, currentReservation.UserId, ConstVals.General, notifCode, null, currentReservation.Id, null, true);
+                Notifications.Create(_context, currentReservation.UserId, ConstVals.General, notifCode, null,
+                    currentReservation.Id, null, true);
 
-
-                
 
                 respList.Add(reservId);
-                return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED, respList));
-
+                return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED, respList));
             }
             catch (Exception ex)
             {
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
             }
         }
-
     }
 }

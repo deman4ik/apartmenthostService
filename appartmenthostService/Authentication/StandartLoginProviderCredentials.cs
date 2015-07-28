@@ -8,6 +8,5 @@ namespace apartmenthostService.Authentication
             : base(StandartLoginProvider.ProviderName)
         {
         }
-        
     }
 }

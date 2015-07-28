@@ -11,67 +11,66 @@ using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace apartmenthostService.Controllers
 {
-
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class MetadataApiController : ApiController
     {
+        private readonly apartmenthostContext _context = new apartmenthostContext();
         public ApiServices Services { get; set; }
-        readonly apartmenthostContext _context = new apartmenthostContext();
         // GET api/Metadata/Apartment
         [Route("api/Metadata/Apartment")]
         public Metadata GetApartment()
         {
-            return GetMetadata(ConstType.Apartment, typeof(ApartmentDTO));
+            return GetMetadata(ConstType.Apartment, typeof (ApartmentDTO));
         }
 
         // GET api/Metadata/Advert
         [Route("api/Metadata/Advert")]
         public Metadata GetAdvert()
         {
-            return GetMetadata(ConstType.Card, typeof(CardDTO));
+            return GetMetadata(ConstType.Card, typeof (CardDTO));
         }
 
         // GET api/Metadata/User
         [Route("api/Metadata/User")]
         public Metadata GetUser()
         {
-            return GetMetadata(ConstType.User, typeof(UserDTO));
+            return GetMetadata(ConstType.User, typeof (UserDTO));
         }
 
         // GET api/Metadata/Reservation
         [Route("api/Metadata/Reservation")]
         public Metadata GetReservation()
         {
-            return GetMetadata(ConstType.Reservation, typeof(ReservationDTO));
+            return GetMetadata(ConstType.Reservation, typeof (ReservationDTO));
         }
 
         private Metadata GetMetadata(string objectType, Type type)
         {
-            Metadata metadata = new Metadata
+            var metadata = new Metadata
             {
                 Name = objectType,
                 LangName = MetaHelper.GetObjectLangName(objectType),
-                Items = type.GetProperties().Select(prop => new MetadataItem()
+                Items = type.GetProperties().Select(prop => new MetadataItem
                 {
                     Name = prop.Name,
                     LangName = MetaHelper.GetItemLangName(prop.Name),
                     Type = MetaHelper.GetTypeName(prop),
                     DataType =
                         (string)
-                            MetaHelper.GetAttributeValue(type, prop.Name, typeof(MetadataAttribute),
+                            MetaHelper.GetAttributeValue(type, prop.Name, typeof (MetadataAttribute),
                                 ConstMetaDataProp.DataType),
                     Dictionary = (string)
-                MetaHelper.GetAttributeValue(type, prop.Name, typeof(MetadataAttribute),
-                    ConstMetaDataProp.Dictionary),
-                    Multi = (bool)MetaHelper.GetAttributeValue(type, prop.Name, typeof(MetadataAttribute),
-                    ConstMetaDataProp.Multi),
-                    GetRule = GetMetadataRule(type,typeof(GetRuleAttribute),prop.Name),
-                    PostRule = GetMetadataRule(type, typeof(PostRuleAttribute), prop.Name),
-                    PutRule = GetMetadataRule(type, typeof(PutRuleAttribute), prop.Name),
-                    DeleteRule = GetMetadataRule(type, typeof(DeleteRuleAttribute), prop.Name),
+                        MetaHelper.GetAttributeValue(type, prop.Name, typeof (MetadataAttribute),
+                            ConstMetaDataProp.Dictionary),
+                    Multi = (bool) MetaHelper.GetAttributeValue(type, prop.Name, typeof (MetadataAttribute),
+                        ConstMetaDataProp.Multi),
+                    GetRule = GetMetadataRule(type, typeof (GetRuleAttribute), prop.Name),
+                    PostRule = GetMetadataRule(type, typeof (PostRuleAttribute), prop.Name),
+                    PutRule = GetMetadataRule(type, typeof (PutRuleAttribute), prop.Name),
+                    DeleteRule = GetMetadataRule(type, typeof (DeleteRuleAttribute), prop.Name),
                     DictionaryItems = GetDictionaryItems((string)
-                MetaHelper.GetAttributeValue(type, prop.Name, typeof(MetadataAttribute),
-                    ConstMetaDataProp.Dictionary)),
+                        MetaHelper.GetAttributeValue(type, prop.Name, typeof (MetadataAttribute),
+                            ConstMetaDataProp.Dictionary)),
                     Metadata = GetSubMetadata(MetaHelper.GetTypeName(prop), objectType)
                 }).ToList()
             };
@@ -139,15 +138,15 @@ namespace apartmenthostService.Controllers
 
         private List<DictionaryItemDTO> GetDictionaryItems(string dictionaryName)
         {
-            if (!String.IsNullOrWhiteSpace(dictionaryName))
+            if (!string.IsNullOrWhiteSpace(dictionaryName))
             {
                 return _context.DictionaryItems.Where(di => di.Dictionary.Name == dictionaryName)
-                    .Select(dicitem => new DictionaryItemDTO()
+                    .Select(dicitem => new DictionaryItemDTO
                     {
                         StrValue = dicitem.StrValue,
                         NumValue = dicitem.NumValue,
                         DateValue = dicitem.DateValue,
-                        BoolValue = dicitem.BoolValue,
+                        BoolValue = dicitem.BoolValue
                     }).ToList();
             }
             return null;
@@ -155,17 +154,16 @@ namespace apartmenthostService.Controllers
 
         private MetadataRule GetMetadataRule(Type objType, Type atrType, string propName)
         {
-            return new MetadataRule()
+            return new MetadataRule
             {
-                Order = (int)MetaHelper.GetAttributeValue(objType, propName, atrType,
-                                ConstMetaDataProp.Order),
-                RequiredForm = (bool)MetaHelper.GetAttributeValue(objType, propName, atrType,
-                ConstMetaDataProp.RequiredForm),
-                RequiredTransfer = (bool)MetaHelper.GetAttributeValue(objType, propName, atrType,
-                ConstMetaDataProp.RequiredTransfer),
-                Visible = (bool)MetaHelper.GetAttributeValue(objType, propName, atrType,
-                ConstMetaDataProp.Visible)
-
+                Order = (int) MetaHelper.GetAttributeValue(objType, propName, atrType,
+                    ConstMetaDataProp.Order),
+                RequiredForm = (bool) MetaHelper.GetAttributeValue(objType, propName, atrType,
+                    ConstMetaDataProp.RequiredForm),
+                RequiredTransfer = (bool) MetaHelper.GetAttributeValue(objType, propName, atrType,
+                    ConstMetaDataProp.RequiredTransfer),
+                Visible = (bool) MetaHelper.GetAttributeValue(objType, propName, atrType,
+                    ConstMetaDataProp.Visible)
             };
         }
     }

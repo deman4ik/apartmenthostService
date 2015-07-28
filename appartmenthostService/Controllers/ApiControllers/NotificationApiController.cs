@@ -15,9 +15,8 @@ namespace apartmenthostService.Controllers
 {
     public class NotificationApiController : ApiController
     {
+        private readonly apartmenthostContext _context = new apartmenthostContext();
         public ApiServices Services { get; set; }
-        readonly apartmenthostContext _context = new apartmenthostContext();
-
         // GET api/Notifications
         [Route("api/Notifications")]
         [AuthorizeLevel(AuthorizationLevel.User)]
@@ -30,19 +29,20 @@ namespace apartmenthostService.Controllers
                 // Check Current User
                 var currentUser = User as ServiceUser;
                 if (currentUser == null)
-                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
                 var account = AuthUtils.GetUserAccount(_context, currentUser);
                 if (account == null)
                 {
                     respList.Add(currentUser.Id);
-                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                        RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
 
                 var notifications = _context.Notifications.Where(n => n.UserId == account.UserId && n.Readed == false);
-                List<NotificationDTO> result = new List<NotificationDTO>();
+                var result = new List<NotificationDTO>();
                 foreach (var notification in notifications)
                 {
-                    NotificationDTO notif = new NotificationDTO();
+                    var notif = new NotificationDTO();
                     notif.Id = notification.Id;
                     notif.Type = notification.Type;
                     notif.UserId = notification.UserId;
@@ -53,7 +53,7 @@ namespace apartmenthostService.Controllers
 
                     switch (notification.Code)
                     {
-                        case  RespH.SRV_NOTIF_RESERV_PENDING :
+                        case RespH.SRV_NOTIF_RESERV_PENDING:
                             notif.Data.CardId = notification.Reservation.CardId;
                             notif.Data.CardName = notification.Reservation.Card.Name;
                             notif.Data.ReservationId = notification.ReservationId;
@@ -62,7 +62,7 @@ namespace apartmenthostService.Controllers
                             notif.Data.FirstName = notification.Reservation.User.Profile.FirstName;
                             notif.Data.LastName = notification.Reservation.User.Profile.LastName;
                             break;
-                        case RespH.SRV_NOTIF_RESERV_ACCEPTED :
+                        case RespH.SRV_NOTIF_RESERV_ACCEPTED:
                             notif.Data.CardId = notification.Reservation.CardId;
                             notif.Data.CardName = notification.Reservation.Card.Name;
                             notif.Data.ReservationId = notification.ReservationId;
@@ -82,7 +82,7 @@ namespace apartmenthostService.Controllers
                             notif.Data.LastName = notification.Reservation.Card.User.Profile.LastName;
                             break;
                         case RespH.SRV_NOTIF_CARD_FAVORITED:
-                             notif.Data.CardId = notification.Favorite.CardId;
+                            notif.Data.CardId = notification.Favorite.CardId;
                             notif.Data.CardName = notification.Favorite.Card.Name;
                             notif.Data.UserId = notification.Favorite.UserId;
                             notif.Data.FirstName = notification.Favorite.User.Profile.FirstName;
@@ -105,7 +105,7 @@ namespace apartmenthostService.Controllers
                             notif.Data.FirstName = notification.Review.FromUser.Profile.FirstName;
                             notif.Data.LastName = notification.Review.FromUser.Profile.LastName;
                             break;
-                            
+
                         case RespH.SRV_NOTIF_REVIEW_AVAILABLE:
                             notif.Data.CardId = notification.Reservation.CardId;
                             notif.Data.CardName = notification.Reservation.Card.Name;
@@ -114,14 +114,13 @@ namespace apartmenthostService.Controllers
                     }
                     result.Add(notif);
                 }
-                return this.Request.CreateResponse(HttpStatusCode.OK, result);
+                return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
             {
-
                 Debug.WriteLine(ex);
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.ToString() }));
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
             }
         }
 
@@ -138,12 +137,13 @@ namespace apartmenthostService.Controllers
                 // Check Current User
                 var currentUser = User as ServiceUser;
                 if (currentUser == null)
-                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
                 var account = AuthUtils.GetUserAccount(_context, currentUser);
                 if (account == null)
                 {
                     respList.Add(currentUser.Id);
-                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                        RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
 
                 var notifications = _context.Notifications.Where(x => x.UserId == account.UserId && x.Readed == false);
@@ -154,13 +154,13 @@ namespace apartmenthostService.Controllers
                 }
 
                 _context.SaveChanges();
-                return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED));
+                return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED));
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.InnerException);
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
             }
         }
 
@@ -174,41 +174,44 @@ namespace apartmenthostService.Controllers
             {
                 var respList = new List<string>();
 
-                
+
                 // Check Current User
                 var currentUser = User as ServiceUser;
                 if (currentUser == null)
-                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
                 var account = AuthUtils.GetUserAccount(_context, currentUser);
                 if (account == null)
                 {
                     respList.Add(currentUser.Id);
-                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                        RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
 
                 var notification = _context.Notifications.SingleOrDefault(x => x.Id == id);
                 if (notification == null)
                 {
                     respList.Add(id);
-                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_NOTIFICATION_NOTFOUND, respList));
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                        RespH.Create(RespH.SRV_NOTIFICATION_NOTFOUND, respList));
                 }
 
                 if (notification.UserId != account.UserId)
                 {
                     respList.Add(notification.UserId);
                     respList.Add(account.UserId);
-                    return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_NOTIFICATION_WRONG_USER, respList));
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                        RespH.Create(RespH.SRV_NOTIFICATION_WRONG_USER, respList));
                 }
 
                 notification.Readed = true;
                 _context.SaveChanges();
-                return this.Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED, respList));
+                return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED, respList));
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.InnerException);
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
             }
         }
     }

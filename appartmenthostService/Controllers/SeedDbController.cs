@@ -15,8 +15,8 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class SeedDbController : ApiController
     {
-        public ApiServices Services { get; set; }
         private readonly apartmenthostContext _context = new apartmenthostContext();
+        public ApiServices Services { get; set; }
         // GET api/SeedDb
         [HttpPost]
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
@@ -26,15 +26,14 @@ namespace apartmenthostService.Controllers
             {
                 TestDBPopulator.Populate(_context);
 
-                return this.Request.CreateResponse(HttpStatusCode.OK);
+                return Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.InnerException);
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_EXCEPTION, new List<string>() { ex.InnerException.ToString() }));
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
             }
-            
         }
-
     }
 }

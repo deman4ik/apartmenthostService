@@ -12,12 +12,12 @@ namespace apartmenthostService.Authentication
     {
         public static string randomString(int size)
         {
-            Random random = new Random((int)DateTime.Now.Ticks);
-            StringBuilder builder = new StringBuilder();
+            var random = new Random((int) DateTime.Now.Ticks);
+            var builder = new StringBuilder();
             char ch;
-            for (int i = 0; i < size; i++)
+            for (var i = 0; i < size; i++)
             {
-                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
+                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26*random.NextDouble() + 65)));
                 builder.Append(ch);
             }
 
@@ -26,12 +26,12 @@ namespace apartmenthostService.Authentication
 
         public static string randomNumString(int size)
         {
-            Random random = new Random((int)DateTime.Now.Ticks);
-            StringBuilder builder = new StringBuilder();
+            var random = new Random((int) DateTime.Now.Ticks);
+            var builder = new StringBuilder();
             char ch;
-            for (int i = 0; i < size; i++)
+            for (var i = 0; i < size; i++)
             {
-               string str = random.Next(0,9).ToString();
+                var str = random.Next(0, 9).ToString();
                 ch = str[0];
                 builder.Append(ch);
             }
@@ -41,9 +41,9 @@ namespace apartmenthostService.Authentication
 
         public static byte[] hash(string plaintext, byte[] salt)
         {
-            SHA512Cng hashFunc = new SHA512Cng();
-            byte[] plainBytes = Encoding.ASCII.GetBytes(plaintext);
-            byte[] toHash = new byte[plainBytes.Length + salt.Length];
+            var hashFunc = new SHA512Cng();
+            var plainBytes = Encoding.ASCII.GetBytes(plaintext);
+            var toHash = new byte[plainBytes.Length + salt.Length];
             plainBytes.CopyTo(toHash, 0);
             salt.CopyTo(toHash, plainBytes.Length);
             return hashFunc.ComputeHash(toHash);
@@ -51,16 +51,16 @@ namespace apartmenthostService.Authentication
 
         public static byte[] generateSalt()
         {
-            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-            byte[] salt = new byte[256];
+            var rng = new RNGCryptoServiceProvider();
+            var salt = new byte[256];
             rng.GetBytes(salt);
             return salt;
         }
 
         public static bool slowEquals(byte[] a, byte[] b)
         {
-            int diff = a.Length ^ b.Length;
-            for (int i = 0; i < a.Length && i < b.Length; i++)
+            var diff = a.Length ^ b.Length;
+            for (var i = 0; i < a.Length && i < b.Length; i++)
             {
                 diff |= a[i] ^ b[i];
             }
@@ -71,7 +71,7 @@ namespace apartmenthostService.Authentication
         {
             try
             {
-                MailAddress m = new MailAddress(email);
+                var m = new MailAddress(email);
 
                 return true;
             }
@@ -81,57 +81,53 @@ namespace apartmenthostService.Authentication
             }
         }
 
-        public static void CreateAccount(string providerName, string providerId, string accountId, string email)
+        public static void CreateAccount(string providerName, string providerId, string accountId, string email = null)
         {
-            apartmenthostContext context = new apartmenthostContext();
-            Account account =
-                        
-                            context.Accounts.SingleOrDefault(
-                                a => a.Provider == StandartLoginProvider.ProviderName && a.ProviderId == providerId && a.AccountId == accountId);
+            var context = new apartmenthostContext();
+            var account =
+                context.Accounts.SingleOrDefault(
+                    a =>
+                        a.Provider == StandartLoginProvider.ProviderName && a.ProviderId == providerId &&
+                        a.AccountId == accountId);
             if (account == null)
             {
                 User user;
                 if (providerName == StandartLoginProvider.ProviderName)
                 {
-                    user =  context.Users.SingleOrDefault(u => u.Email == email);
+                    user = context.Users.SingleOrDefault(u => u.Email == email);
                 }
                 else
                 {
-                    byte[] salt = generateSalt();
-                user = new User
+                    var salt = generateSalt();
+                    user = new User
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Email = email,
+                        Salt = salt,
+                        SaltedAndHashedPassword = hash(randomString(8), salt)
+                    };
+                    context.Users.Add(user);
+                    context.SaveChanges();
+                }
+                account = new Account
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Email = email,
-                    Salt = salt,
-                    SaltedAndHashedPassword = hash(randomString(8), salt)
+                    UserId = user.Id,
+                    AccountId = accountId,
+                    Provider = providerName,
+                    ProviderId = providerId
                 };
-                context.Users.Add(user);
-                context.SaveChanges();
-                }
-                account = new Account()
-            {
-                Id = Guid.NewGuid().ToString(),
-                UserId = user.Id,
-                AccountId = accountId,
-                Provider = providerName,
-                ProviderId = providerId
-            };
                 context.Accounts.Add(account);
                 context.SaveChanges();
                 var profile = context.Profile.SingleOrDefault(p => p.Id == user.Id);
                 if (profile == null)
                 {
-                    profile = new Profile(); 
+                    profile = new Profile();
                     profile.Id = user.Id;
                     context.Profile.Add(profile);
                 }
                 context.SaveChanges();
-
             }
-           
-            
-            
-            
         }
 
         public static Account GetUserAccount(apartmenthostContext context, ServiceUser user)

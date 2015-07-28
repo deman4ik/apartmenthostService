@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace apartmenthostService.Authentication
+﻿namespace apartmenthostService.Authentication
 {
     public class RegistrationRequest
     {
-        public String Email { get; set; }
-        public String Password { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

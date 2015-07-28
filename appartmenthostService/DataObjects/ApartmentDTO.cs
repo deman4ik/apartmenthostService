@@ -12,9 +12,9 @@ namespace apartmenthostService.DataObjects
         // Уникальный идентификатор
         [Metadata(DataType = ConstDataType.Id)]
         [GetRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        [PostRule(Order = 0,RequiredForm = false,RequiredTransfer = false, Visible = false)]
-        [PutRule(Order = 0,RequiredForm = false,RequiredTransfer = true,Visible = false)]
-        [DeleteRule(Order = 0,RequiredForm = false, RequiredTransfer = true, Visible = false)]
+        [PostRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
+        [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = true, Visible = false)]
+        [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = true, Visible = false)]
         public string Id { get; set; }
 
         // Наименование жилья
@@ -138,12 +138,5 @@ namespace apartmenthostService.DataObjects
         [PutRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public PictureDTO DefaultPicture { get; set; }
-        // Список дополнительных колонок(PropVal)
-        //[Metadata(DataType = ConstDataType.PropVals)]
-        //[GetRule(Order = 4, RequiredForm = false, RequiredTransfer = true, Visible = true)]
-        //[PostRule(Order = 4, RequiredForm = true, RequiredTransfer = true, Visible = true)]
-        //[PutRule(Order = 4, RequiredForm = false, RequiredTransfer = false, Visible = true)]
-        //[DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
-        //public ICollection<PropValDTO> PropsVals { get; set; } 
     }
 }

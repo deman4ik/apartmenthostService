@@ -46,7 +46,7 @@ namespace apartmenthostService.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            string schema = ServiceSettingsDictionary.GetSchemaName();
+            var schema = ServiceSettingsDictionary.GetSchemaName();
             if (!string.IsNullOrEmpty(schema))
             {
                 modelBuilder.HasDefaultSchema(schema);
@@ -123,7 +123,6 @@ namespace apartmenthostService.Models
                 .WillCascadeOnDelete(false);
 
 
-
             //Apartment
             modelBuilder.Entity<Apartment>()
                 .HasMany<Card>(s => s.Cards)
@@ -150,10 +149,10 @@ namespace apartmenthostService.Models
             // Card
 
             modelBuilder.Entity<Card>()
-               .HasMany<CardDates>(s => s.Dates)
-               .WithRequired(s => s.Card)
-               .HasForeignKey(s => s.CardId)
-               .WillCascadeOnDelete(false);
+                .HasMany<CardDates>(s => s.Dates)
+                .WithRequired(s => s.Card)
+                .HasForeignKey(s => s.CardId)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Card>()
                 .HasMany<Reservation>(s => s.Reservations)
@@ -230,14 +229,14 @@ namespace apartmenthostService.Models
 
             // Table + Prop
             modelBuilder.Entity<Table>()
-               .HasMany<Prop>(s => s.Props)
-               .WithMany(c => c.Tables)
-               .Map(cs =>
-               {
-                   cs.MapLeftKey("TableRefId");
-                   cs.MapRightKey("PropRefId");
-                   cs.ToTable("TableProp");
-               });
+                .HasMany<Prop>(s => s.Props)
+                .WithMany(c => c.Tables)
+                .Map(cs =>
+                {
+                    cs.MapLeftKey("TableRefId");
+                    cs.MapRightKey("PropRefId");
+                    cs.ToTable("TableProp");
+                });
 
             // Prop + PropVal
             modelBuilder.Entity<Prop>()
@@ -263,9 +262,6 @@ namespace apartmenthostService.Models
                 .HasMany<PropVal>(s => s.PropVals)
                 .WithOptional(s => s.DictionaryItem)
                 .HasForeignKey(s => s.DictionaryItemId);
-
         }
-
     }
-
 }

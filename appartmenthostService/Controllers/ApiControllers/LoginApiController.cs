@@ -16,28 +16,28 @@ namespace apartmenthostService.Controllers
     {
         public ApiServices Services { get; set; }
         public IServiceTokenHandler Handler { get; set; }
-
         // POST api/CustomLogin
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
         public HttpResponseMessage Post(LoginRequest loginRequest)
         {
-           apartmenthostContext context = new apartmenthostContext();
-            
-            User user = context.Users.SingleOrDefault(a => a.Email == loginRequest.email);
+            var context = new apartmenthostContext();
+
+            var user = context.Users.SingleOrDefault(a => a.Email == loginRequest.email);
             if (user != null)
             {
-                byte[] incoming = AuthUtils.hash(loginRequest.password, user.Salt);
+                var incoming = AuthUtils.hash(loginRequest.password, user.Salt);
 
                 if (AuthUtils.slowEquals(incoming, user.SaltedAndHashedPassword))
                 {
-                    ClaimsIdentity claimsIdentity = new ClaimsIdentity();
+                    var claimsIdentity = new ClaimsIdentity();
                     claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, loginRequest.email));
-                    LoginResult loginResult = new StandartLoginProvider(Handler).CreateLoginResult(claimsIdentity, Services.Settings.MasterKey);
-                    return this.Request.CreateResponse(HttpStatusCode.OK, loginResult);
+                    var loginResult = new StandartLoginProvider(Handler).CreateLoginResult(claimsIdentity,
+                        Services.Settings.MasterKey);
+                    return Request.CreateResponse(HttpStatusCode.OK, loginResult);
                 }
-                return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_LOGIN_INVALID_PASS));
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_LOGIN_INVALID_PASS));
             }
-            return this.Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_LOGIN_INVALID_EMAIL));
+            return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_LOGIN_INVALID_EMAIL));
         }
     }
 }

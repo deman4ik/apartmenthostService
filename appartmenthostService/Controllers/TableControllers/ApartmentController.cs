@@ -9,11 +9,11 @@ using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace apartmenthostService.Controllers
 {
-    
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class ApartmentController : TableController<Apartment>
     {
-       private apartmenthostContext _context;
+        private apartmenthostContext _context;
+
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
@@ -22,14 +22,14 @@ namespace apartmenthostService.Controllers
         }
 
         // GET tables/Apartment
-       // [QueryableExpand("User")]
+        // [QueryableExpand("User")]
         [AuthorizeLevel(AuthorizationLevel.User)]
         public IQueryable<ApartmentDTO> GetAllApartment()
         {
             var currentUser = User as ServiceUser;
             var account = AuthUtils.GetUserAccount(_context, currentUser);
             if (account == null) return null;
-            return Query().Where(a => a.UserId == account.UserId).Select(x => new ApartmentDTO()
+            return Query().Where(a => a.UserId == account.UserId).Select(x => new ApartmentDTO
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -43,10 +43,7 @@ namespace apartmenthostService.Controllers
                 CreatedAt = x.CreatedAt,
                 UpdatedAt = x.UpdatedAt
             });
-           
         }
-
-
 
         // GET tables/Apartment/48D68C86-6EA6-4C25-AA33-223FC9A27959
         // [QueryableExpand("User")]
@@ -56,7 +53,7 @@ namespace apartmenthostService.Controllers
             var currentUser = User as ServiceUser;
             var account = AuthUtils.GetUserAccount(_context, currentUser);
             if (account == null) return null;
-            var result = Lookup(id).Queryable.Where(a => a.UserId == account.UserId).Select(x => new ApartmentDTO()
+            var result = Lookup(id).Queryable.Where(a => a.UserId == account.UserId).Select(x => new ApartmentDTO
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -69,10 +66,8 @@ namespace apartmenthostService.Controllers
                 Lang = x.Lang,
                 CreatedAt = x.CreatedAt,
                 UpdatedAt = x.UpdatedAt
-
             });
             return SingleResult.Create(result);
         }
-
     }
 }

@@ -6,6 +6,7 @@ namespace apartmenthostService.Models
     /*
      * Профили пользователей
      */
+
     public class Profile : EntityData
     {
         public string FirstName { get; set; }
@@ -21,15 +22,7 @@ namespace apartmenthostService.Models
         public int RatingCount { get; set; }
         public decimal Score { get; set; }
         public string Lang { get; set; }
-
         public virtual User User { get; set; }
         public virtual Picture Picture { get; set; }
-
-        // Системные поля: 
-        // Id - Уникальный идентификатор записи
-        // CreatedAt - Дата и время создания записи
-        // UpdatedAt - Дата и время изменения записи
-        // Version - Текущая версия записи
-        // Deleted - Признак удаленной записи
     }
 }

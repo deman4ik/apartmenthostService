@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Models;
 using CloudinaryDotNet;
-using Microsoft.WindowsAzure.Mobile.Service;
+using Account = CloudinaryDotNet.Account;
 
 namespace apartmenthostService.Helpers
 {
@@ -23,32 +21,33 @@ namespace apartmenthostService.Helpers
         {
             return "MD_OBJ_" + name.ToUpper();
         }
+
         public static string GetTypeName(PropertyInfo type)
         {
-            if (type.PropertyType == typeof(string))
+            if (type.PropertyType == typeof (string))
                 return ConstType.Str;
-            if (type.PropertyType == typeof(decimal?) || type.PropertyType == typeof(decimal) ||
-                type.PropertyType == typeof(int?) || type.PropertyType == typeof(float?) ||
-                type.PropertyType == typeof(int) || type.PropertyType == typeof(float))
+            if (type.PropertyType == typeof (decimal?) || type.PropertyType == typeof (decimal) ||
+                type.PropertyType == typeof (int?) || type.PropertyType == typeof (float?) ||
+                type.PropertyType == typeof (int) || type.PropertyType == typeof (float))
                 return ConstType.Num;
-            if (type.PropertyType == typeof(DateTime?) || type.PropertyType == typeof(DateTimeOffset?) ||
-                type.PropertyType == typeof(DateTime) || type.PropertyType == typeof(DateTimeOffset))
+            if (type.PropertyType == typeof (DateTime?) || type.PropertyType == typeof (DateTimeOffset?) ||
+                type.PropertyType == typeof (DateTime) || type.PropertyType == typeof (DateTimeOffset))
                 return ConstType.Date;
-            if (type.PropertyType == typeof(bool?) || type.PropertyType == typeof(bool))
+            if (type.PropertyType == typeof (bool?) || type.PropertyType == typeof (bool))
                 return ConstType.Bool;
-            if (type.PropertyType == typeof(ICollection<PropValDTO>))
+            if (type.PropertyType == typeof (ICollection<PropValDTO>))
                 return ConstType.PropCollection;
-            if (type.PropertyType == typeof(UserDTO))
+            if (type.PropertyType == typeof (UserDTO))
                 return ConstType.User;
-            if (type.PropertyType == typeof(ApartmentDTO))
+            if (type.PropertyType == typeof (ApartmentDTO))
                 return ConstType.Apartment;
-            if (type.PropertyType == typeof(CardDTO))
+            if (type.PropertyType == typeof (CardDTO))
                 return ConstType.Card;
             return type.PropertyType.Name;
-
         }
 
-        public static object GetAttributeValue(Type objectType, string propertyName, Type attributeType, string attributePropertyName)
+        public static object GetAttributeValue(Type objectType, string propertyName, Type attributeType,
+            string attributePropertyName)
         {
             var propertyInfo = objectType.GetProperty(propertyName);
             if (propertyInfo != null)
@@ -58,10 +57,11 @@ namespace apartmenthostService.Helpers
                     var attributeInstance = Attribute.GetCustomAttribute(propertyInfo, attributeType);
                     if (attributeInstance != null)
                     {
-                        foreach (PropertyInfo info in attributeType.GetProperties())
+                        foreach (var info in attributeType.GetProperties())
                         {
                             if (info.CanRead &&
-                                String.Compare(info.Name, attributePropertyName, StringComparison.InvariantCultureIgnoreCase) ==
+                                string.Compare(info.Name, attributePropertyName,
+                                    StringComparison.InvariantCultureIgnoreCase) ==
                                 0)
                             {
                                 return info.GetValue(attributeInstance, null);
@@ -73,15 +73,13 @@ namespace apartmenthostService.Helpers
 
             return null;
         }
-
-
     }
 
     public class CheckHelper
     {
         public static ResponseDTO isNull(string item, string itemName, string errType)
         {
-            if (String.IsNullOrWhiteSpace(item))
+            if (string.IsNullOrWhiteSpace(item))
             {
                 var respList = new List<string>();
                 respList.Add(itemName);
@@ -100,6 +98,7 @@ namespace apartmenthostService.Helpers
             }
             return null;
         }
+
         public static ResponseDTO isCardExist(apartmenthostContext context, string userId, string errType)
         {
             var currentAdvertCount = context.Cards.Count(a => a.UserId == userId);
@@ -123,7 +122,9 @@ namespace apartmenthostService.Helpers
             }
             return null;
         }
-        public static ResponseDTO isValidDicItem(apartmenthostContext context, string item, string dicName, string itemName, string errType)
+
+        public static ResponseDTO isValidDicItem(apartmenthostContext context, string item, string dicName,
+            string itemName, string errType)
         {
             var dicItem =
                 context.DictionaryItems.SingleOrDefault(di => di.Dictionary.Name == dicName && di.StrValue == item);
@@ -138,7 +139,8 @@ namespace apartmenthostService.Helpers
             return null;
         }
 
-        public static ResponseDTO isValidDicItem(apartmenthostContext context, decimal item, string dicName, string itemName, string errType)
+        public static ResponseDTO isValidDicItem(apartmenthostContext context, decimal item, string dicName,
+            string itemName, string errType)
         {
             var dicItem =
                 context.DictionaryItems.SingleOrDefault(di => di.Dictionary.Name == dicName && di.NumValue == item);
@@ -152,7 +154,8 @@ namespace apartmenthostService.Helpers
             return null;
         }
 
-        public static ResponseDTO isValidDicItem(apartmenthostContext context, DateTime item, string dicName, string itemName, string errType)
+        public static ResponseDTO isValidDicItem(apartmenthostContext context, DateTime item, string dicName,
+            string itemName, string errType)
         {
             var dicItem =
                 context.DictionaryItems.SingleOrDefault(di => di.Dictionary.Name == dicName && di.DateValue == item);
@@ -169,7 +172,7 @@ namespace apartmenthostService.Helpers
         public static ResponseDTO isValidDates(DateTime dateFrom, DateTime dateTo, string errType)
         {
             // Check Dates
-            if (String.IsNullOrEmpty(dateFrom.ToString()) && String.IsNullOrEmpty(dateTo.ToString()))
+            if (string.IsNullOrEmpty(dateFrom.ToString()) && string.IsNullOrEmpty(dateTo.ToString()))
             {
                 if (DateTimeOffset.Compare(dateFrom, dateTo) >= 0)
                 {
@@ -181,22 +184,18 @@ namespace apartmenthostService.Helpers
             }
             return null;
         }
-
     }
 
     public static class CloudinaryHelper
     {
-        public static Cloudinary Cloudinary { get; set; }
-
         static CloudinaryHelper()
         {
-            CloudinaryDotNet.Account clacc = new CloudinaryDotNet.Account(ConfigurationManager.AppSettings["CLOUDINARY_CLOUD_NAME"],
-                                                                           ConfigurationManager.AppSettings["CLOUDINARY_API_KEY"],
-                                                                           ConfigurationManager.AppSettings["CLOUDINARY_API_SECRET"]);
+            var clacc = new Account(ConfigurationManager.AppSettings["CLOUDINARY_CLOUD_NAME"],
+                ConfigurationManager.AppSettings["CLOUDINARY_API_KEY"],
+                ConfigurationManager.AppSettings["CLOUDINARY_API_SECRET"]);
             Cloudinary = new Cloudinary(clacc);
         }
 
-
+        public static Cloudinary Cloudinary { get; set; }
     }
-
 }

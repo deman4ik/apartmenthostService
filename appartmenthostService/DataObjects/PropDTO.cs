@@ -7,8 +7,9 @@ namespace apartmenthostService.DataObjects
     {
         public PropDTO()
         {
-            this.DictionaryItems = new List<DictionaryItemDTO>();
+            DictionaryItems = new List<DictionaryItemDTO>();
         }
+
         public string Id { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }

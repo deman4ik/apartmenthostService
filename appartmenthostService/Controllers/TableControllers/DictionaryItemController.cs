@@ -13,6 +13,7 @@ namespace apartmenthostService.Controllers
     public class DictionaryItemController : TableController<DictionaryItem>
     {
         private apartmenthostContext _context;
+
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
@@ -23,7 +24,7 @@ namespace apartmenthostService.Controllers
         // GET tables/DictionaryItem
         public IQueryable<DictionaryItem> GetAllDictionaryItem()
         {
-            return Query(); 
+            return Query();
         }
 
         // GET tables/DictionaryItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
@@ -35,21 +36,20 @@ namespace apartmenthostService.Controllers
         // PATCH tables/DictionaryItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
         public Task<DictionaryItem> PatchDictionaryItem(string id, Delta<DictionaryItem> patch)
         {
-             return UpdateAsync(id, patch);
+            return UpdateAsync(id, patch);
         }
 
         // POST tables/DictionaryItem
         public async Task<IHttpActionResult> PostDictionaryItem(DictionaryItem item)
         {
-            DictionaryItem current = await InsertAsync(item);
-            return CreatedAtRoute("Tables", new { id = current.Id }, current);
+            var current = await InsertAsync(item);
+            return CreatedAtRoute("Tables", new {id = current.Id}, current);
         }
 
         // DELETE tables/DictionaryItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
         public Task DeleteDictionaryItem(string id)
         {
-             return DeleteAsync(id);
+            return DeleteAsync(id);
         }
-
     }
 }

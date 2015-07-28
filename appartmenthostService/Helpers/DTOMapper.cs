@@ -11,8 +11,8 @@ namespace apartmenthostService.Helpers
         {
             cfg.CreateMap<Notification, NotificationDTO>();
             cfg.CreateMap<Apartment, ApartmentDTO>();
-           cfg.CreateMap<Profile, UserDTO>()
-               .ForMember(userDTO => userDTO.Email, map => map.MapFrom(profile => profile.User.Email));
+            cfg.CreateMap<Profile, UserDTO>()
+                .ForMember(userDTO => userDTO.Email, map => map.MapFrom(profile => profile.User.Email));
 
             cfg.CreateMap<Card, CardDTO>()
                 .ForMember(advertDTO => advertDTO.User, map => map.MapFrom(advert => advert.User))
@@ -21,7 +21,6 @@ namespace apartmenthostService.Helpers
             cfg.CreateMap<CardDTO, Card>()
                 .ForMember(advert => advert.User, map => map.Ignore())
                 .ForMember(advert => advert.Apartment, map => map.Ignore());
-
         }
     }
 }

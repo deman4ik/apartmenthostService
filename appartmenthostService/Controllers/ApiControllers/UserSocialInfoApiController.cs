@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -18,7 +16,7 @@ namespace apartmenthostService.Controllers
         [AuthorizeLevel(AuthorizationLevel.User)]
         public async Task<JObject> GetUserInfo()
         {
-            ServiceUser user = this.User as ServiceUser;
+            var user = User as ServiceUser;
             if (user == null)
             {
                 throw new InvalidOperationException("This can only be called by authenticated clients");
@@ -30,7 +28,8 @@ namespace apartmenthostService.Controllers
             if (fb != null)
             {
                 var accessToken = fb.AccessToken;
-                result.Add("facebook", await GetProviderInfo("https://graph.facebook.com/me?access_token=" + accessToken));
+                result.Add("facebook",
+                    await GetProviderInfo("https://graph.facebook.com/me?access_token=" + accessToken));
             }
 
             return result;

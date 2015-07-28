@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace apartmenthostService.Authentication
+﻿namespace apartmenthostService.Authentication
 {
-   public class ConfirmRequest
+    public class ConfirmRequest
     {
         public string UserId { get; set; }
         public string Email { get; set; }

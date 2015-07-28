@@ -7,29 +7,18 @@ namespace apartmenthostService.Models
      * (может быть несколько связанных непосредственно
      * с одним пользователем, например для различных соц. сетей)
      */
+
     public class Account : EntityData
     {
-        
         // Уникальный идентификатор аккаунта 
         public string AccountId { get; set; }
-
         // Уникальный идентификатор пользователя
         public string UserId { get; set; }
-
         // Наименование провайдера для входа
         public string Provider { get; set; }
-
         // Уникальный идентификатор провайдера
         public string ProviderId { get; set; }
-
         // Ссылка на пользователя
         public User User { get; set; }
-
-        // Системные поля: 
-        // Id - Уникальный идентификатор записи
-        // CreatedAt - Дата и время создания записи
-        // UpdatedAt - Дата и время изменения записи
-        // Version - Текущая версия записи
-        // Deleted - Признак удаленной записи
     }
 }

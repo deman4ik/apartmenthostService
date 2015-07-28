@@ -8,18 +8,19 @@ namespace apartmenthostService.Models
         /*
          * Пользователи
          */
+
         public User()
         {
-            this.Notifications = new HashSet<Notification>();
-            this.Favorites = new HashSet<Favorite>();
-            this.Accounts = new HashSet<Account>();
-            this.Apartments = new HashSet<Apartment>();
-            this.Cards = new HashSet<Card>();
-            this.Reservations = new HashSet<Reservation>();
-            this.OutReviews = new HashSet<Review>();
-            this.InReviews = new HashSet<Review>();
-
+            Notifications = new HashSet<Notification>();
+            Favorites = new HashSet<Favorite>();
+            Accounts = new HashSet<Account>();
+            Apartments = new HashSet<Apartment>();
+            Cards = new HashSet<Card>();
+            Reservations = new HashSet<Reservation>();
+            OutReviews = new HashSet<Review>();
+            InReviews = new HashSet<Review>();
         }
+
         public string Email { get; set; }
         public byte[] Salt { get; set; }
         public byte[] SaltedAndHashedPassword { get; set; }
@@ -27,7 +28,6 @@ namespace apartmenthostService.Models
         public byte[] SaltedAndHashedCode { get; set; }
         public bool EmailConfirmed { get; set; }
         public bool ResetRequested { get; set; }
-
         public virtual Profile Profile { get; set; }
         public ICollection<Notification> Notifications { get; set; }
         public ICollection<Favorite> Favorites { get; set; }
@@ -37,12 +37,5 @@ namespace apartmenthostService.Models
         public ICollection<Reservation> Reservations { get; set; }
         public ICollection<Review> OutReviews { get; set; }
         public ICollection<Review> InReviews { get; set; }
-
-        // Системные поля: 
-        // Id - Уникальный идентификатор записи
-        // CreatedAt - Дата и время создания записи
-        // UpdatedAt - Дата и время изменения записи
-        // Version - Текущая версия записи
-        // Deleted - Признак удаленной записи
     }
 }

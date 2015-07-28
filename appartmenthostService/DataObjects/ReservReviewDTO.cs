@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace apartmenthostService.DataObjects
 {
@@ -12,6 +8,7 @@ namespace apartmenthostService.DataObjects
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public bool CanResponse { get; set; }
+
         public ReservationDTO Reservation { get; set; }
         public ReviewDTO OwnerReview { get; set; }
         public ReviewDTO RenterReview { get; set; }
