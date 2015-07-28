@@ -25,6 +25,9 @@ namespace apartmenthostService.Controllers
             var user = context.Users.SingleOrDefault(a => a.Email == loginRequest.email);
             if (user != null)
             {
+                if (user.Blocked)
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_BLOCKED));
+
                 var incoming = AuthUtils.hash(loginRequest.password, user.Salt);
 
                 if (AuthUtils.slowEquals(incoming, user.SaltedAndHashedPassword))

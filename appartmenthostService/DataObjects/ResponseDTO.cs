@@ -45,6 +45,7 @@ namespace apartmenthostService.DataObjects
         public const string SRV_USER_INVALID_DICITEM = "SRV_USER_INVALID_DICITEM"; // Не верное значение словаря
         public const string SRV_USER_PROP_NOTFOUND = "SRV_USER_PROP_NOTFOUND"; // Объект не найден
         public const string SRV_USER_REQUIRED = "SRV_USER_REQUIRED"; // Не заполнено обязательно поле
+        public const string SRV_USER_BLOCKED = "SRV_USER_BLOCKED"; // Пользователь заблокирован
 
         public const string SRV_USER_WRONG_USER = "SRV_USER_WRONG_USER";
             // Объект не может быть изменен/удален другим пользователем
