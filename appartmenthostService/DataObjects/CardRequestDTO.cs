@@ -20,13 +20,13 @@ namespace apartmenthostService.DataObjects
         // Уникальный идентификатор Google Places
         public string PlaceId { get; set; }
         // Левый верхний угол области Широта
-        public decimal? SwLat { get; set; }
+        public double? SwLat { get; set; }
         // Левый верхний угол области Долгота
-        public decimal? SwLong { get; set; }
+        public double? SwLong { get; set; }
         // Правый нижний угол области Широта
-        public decimal? NeLat { get; set; }
+        public double? NeLat { get; set; }
         // Правый нижний угол области Долгота
-        public decimal? NeLong { get; set; }
+        public double? NeLong { get; set; }
         // Уникальный Идентификатор Владельца
         public string UserId { get; set; }
         // Описание Карточки

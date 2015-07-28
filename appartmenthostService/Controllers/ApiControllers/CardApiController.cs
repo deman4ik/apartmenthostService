@@ -81,11 +81,11 @@ namespace apartmenthostService.Controllers
                     // Поиск по координатам
                     if (cardRequest.SwLat != null && cardRequest.SwLong != null && cardRequest.NeLat != null &&
                         cardRequest.NeLong != null)
-                    {
-                        pre = pre.And(x => (decimal) x.Apartment.Latitude >= cardRequest.SwLat);
-                        pre = pre.And(x => (decimal) x.Apartment.Longitude >= cardRequest.SwLong);
-                        pre = pre.And(x => (decimal) x.Apartment.Latitude <= cardRequest.NeLat);
-                        pre = pre.And(x => (decimal) x.Apartment.Longitude <= cardRequest.NeLong);
+                    { 
+                        pre = pre.And(x =>  x.Apartment.Latitude >= cardRequest.SwLat);
+                        pre = pre.And(x =>  x.Apartment.Longitude >= cardRequest.SwLong);
+                        pre = pre.And(x =>  x.Apartment.Latitude <= cardRequest.NeLat);
+                        pre = pre.And(x =>  x.Apartment.Longitude <= cardRequest.NeLong);
                     }
                     // Уникальный Идентификатор Владельца
                     if (cardRequest.UserId != null)
