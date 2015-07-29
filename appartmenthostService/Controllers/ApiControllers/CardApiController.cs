@@ -72,20 +72,27 @@ namespace apartmenthostService.Controllers
                     // Наименование Карточки
                     if (cardRequest.Name != null)
                         pre = pre.And(x => x.Name == cardRequest.Name);
-                    // Адрес Жилья
-                    if (cardRequest.Adress != null)
-                        pre = pre.And(x => x.Apartment.FormattedAdress.Contains(cardRequest.Adress));
+                    
                     // Уникальный идентификатор Google Places
                     if (cardRequest.PlaceId != null)
                         pre = pre.And(x => x.Apartment.PlaceId == cardRequest.PlaceId);
                     // Поиск по координатам
                     if (cardRequest.SwLat != null && cardRequest.SwLong != null && cardRequest.NeLat != null &&
                         cardRequest.NeLong != null)
-                    { 
-                        pre = pre.And(x =>  x.Apartment.Latitude >= cardRequest.SwLat);
-                        pre = pre.And(x =>  x.Apartment.Longitude >= cardRequest.SwLong);
-                        pre = pre.And(x =>  x.Apartment.Latitude <= cardRequest.NeLat);
-                        pre = pre.And(x =>  x.Apartment.Longitude <= cardRequest.NeLong);
+                    {
+                        pre = pre.And(x => x.Apartment.Latitude >= cardRequest.SwLat);
+                        pre = pre.And(x => x.Apartment.Longitude >= cardRequest.SwLong);
+                        pre = pre.And(x => x.Apartment.Latitude <= cardRequest.NeLat);
+                        pre = pre.And(x => x.Apartment.Longitude <= cardRequest.NeLong);
+                    }
+                    else
+                    {
+                        // Адрес Жилья
+                        if (cardRequest.Adress != null)
+                        {
+                            string[] adresStrs = cardRequest.Adress.Split(' ','.',',');
+                            pre = adresStrs.Aggregate(pre, (current, adresStr) => current.And(x => x.Apartment.FormattedAdress.Contains(adresStr)));
+                        }
                     }
                     // Уникальный Идентификатор Владельца
                     if (cardRequest.UserId != null)
