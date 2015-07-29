@@ -17,6 +17,7 @@ namespace apartmenthostService
             options.LoginProviders.Remove(typeof (AzureActiveDirectoryLoginProvider));
             options.LoginProviders.Add(typeof (AzureActiveDirectoryExtendedLoginProvider));
             options.LoginProviders.Add(typeof (FBLoginProvider));
+            options.LoginProviders.Add(typeof(VKLoginProvider));
             // Use this class to set WebAPI configuration options
             var config = ServiceConfig.Initialize(new ConfigBuilder(options));
 
