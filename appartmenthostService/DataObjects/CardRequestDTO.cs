@@ -53,6 +53,8 @@ namespace apartmenthostService.DataObjects
         public List<string> Cohabitation { get; set; }
         // Пол проживающего
         public List<string> ResidentGender { get; set; }
+        // Пол проживающего
+        public List<string> Genders { get; set; }
         // Избранное (Уникальный идентификатор пользователя)
         public string IsFavoritedUserId { get; set; }
         // Дата добавления с

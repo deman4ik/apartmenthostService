@@ -185,13 +185,7 @@ namespace apartmenthostService.Controllers
                             );
                     }
 
-                    // Цена за день с
-                    if (cardRequest.PriceDayFrom != null)
-                        pre = pre.And(x => x.PriceDay >= cardRequest.PriceDayFrom);
-
-                    // Цена за день по
-                    if (cardRequest.PriceDayTo != null)
-                        pre = pre.And(x => x.PriceDay <= cardRequest.PriceDayTo);
+                   
 
                     // Тип проживания
                     if (cardRequest.Cohabitation != null)
@@ -204,6 +198,7 @@ namespace apartmenthostService.Controllers
                     }
 
                     // Пол проживающего
+                    // TODO: Deprecate
                     if (cardRequest.ResidentGender != null)
                     {
                         var genPre = PredicateBuilder.False<Card>();
@@ -211,6 +206,32 @@ namespace apartmenthostService.Controllers
                         genPre = cardRequest.ResidentGender.Aggregate(genPre,
                             (current, gen) => current.Or(t => t.ResidentGender.Contains(gen)));
                         pre = pre.And(genPre);
+                    }
+
+                    // Пол постояльца
+                    if (cardRequest.Genders != null)
+                    {
+                        var genPre = PredicateBuilder.False<Card>();
+                        genPre = cardRequest.Genders.Aggregate(genPre,
+                            (current, gender) => current.Or(x => x.Genders.Any(g => g.Name == gender)));
+                        pre = pre.And(genPre);
+
+                        var pricePre = PredicateBuilder.False<Card>();
+                        // Цена за день с (с учетом пола)
+                        pricePre = cardRequest.Genders.Where(gender => cardRequest.PriceDayFrom != null).Aggregate(pricePre, (current, gender) => current.Or(x => x.Genders.Any(g => g.Price > 0 && g.Name == gender && g.Price >= cardRequest.PriceDayFrom)));
+                        // Цена за день по(с учетом пола)
+                        pricePre = cardRequest.Genders.Where(gender => cardRequest.PriceDayTo != null).Aggregate(pricePre, (current, gender) => current.Or(x => x.Genders.Any(g => g.Price > 0 && g.Name == gender && g.Price <= cardRequest.PriceDayTo)));
+                        pre = pre.And(pricePre);
+                    }
+                    else
+                    {
+                        // Цена за день с 
+                        if (cardRequest.PriceDayFrom != null)
+                            pre = pre.And(x => x.PriceDay >= cardRequest.PriceDayFrom);
+
+                        // Цена за день по
+                        if (cardRequest.PriceDayTo != null)
+                            pre = pre.And(x => x.PriceDay <= cardRequest.PriceDayTo);
                     }
 
                     // Избранное (Уникальный идентификатор пользователя)
@@ -259,6 +280,11 @@ namespace apartmenthostService.Controllers
                         CreatedAt = x.CreatedAt,
                         UpdatedAt = x.UpdatedAt,
                         Lang = x.Lang,
+                        Genders = x.Genders.Select(g => new GendersDTO
+                        {
+                            Name = g.Name,
+                            Price = g.Price
+                        }).ToList(),
                         Dates = x.Dates.Select(d => new DatesDTO
                         {
                             DateFrom = d.DateFrom,
@@ -563,6 +589,24 @@ namespace apartmenthostService.Controllers
                         });
                     }
                 }
+
+                var cardGenders = new List<CardGenders>();
+                if (card.Genders != null)
+                {
+                    foreach (var gender in card.Genders)
+                    {
+                        resp = CheckHelper.isNull(gender.Name, "Genders.Name", RespH.SRV_CARD_REQUIRED);
+                        if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                        cardGenders.Add(new CardGenders()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            CardId = cardGuid,
+                            Name = gender.Name,
+                            Price = gender.Price
+                        });
+                    }
+                }
+
                 var pics = new List<Picture>();
                 // Check Apartment Pictures
                 if (card.Apartment.Pictures != null)
@@ -636,6 +680,7 @@ namespace apartmenthostService.Controllers
                     }
                 });
                 _context.Set<CardDates>().AddRange(cardDates);
+                _context.Set<CardGenders>().AddRange(cardGenders);
                 _context.SaveChanges();
                 respList.Add(cardGuid);
                 return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
@@ -738,6 +783,23 @@ namespace apartmenthostService.Controllers
                         });
                     }
                 }
+
+                var cardGenders = new List<CardGenders>();
+                if (card.Genders != null)
+                {
+                    foreach (var gender in card.Genders)
+                    {
+                        resp = CheckHelper.isNull(gender.Name, "Genders.Name", RespH.SRV_CARD_REQUIRED);
+                        if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                        cardGenders.Add(new CardGenders()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            CardId = id,
+                            Name = gender.Name,
+                            Price = gender.Price
+                        });
+                    }
+                }
                 //Apartment
                 if (card.Apartment == null)
                     return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NULL));
@@ -772,6 +834,13 @@ namespace apartmenthostService.Controllers
                     _context.SaveChanges();
                 }
 
+                //Delete Card Genders
+                var currentGenders = _context.Genders.Where(g => g.CardId == id);
+                if (currentGenders.Any())
+                {
+                    _context.Genders.RemoveRange(currentGenders);
+                    _context.SaveChanges();
+                }
                 // Update CARD
                 cardCurrent.Name = card.Name;
                 cardCurrent.Description = card.Description;
@@ -792,6 +861,7 @@ namespace apartmenthostService.Controllers
 
                 _context.SaveChanges();
                 _context.Set<CardDates>().AddRange(cardDates);
+                _context.Set<CardGenders>().AddRange(cardGenders);
                 _context.SaveChanges();
 
                 respList.Add(id);
@@ -860,6 +930,10 @@ namespace apartmenthostService.Controllers
                 // Delete Dates
                 var cardDates = _context.Dates.Where(x => x.CardId == card.Id);
                 _context.Dates.RemoveRange(cardDates);
+                _context.SaveChanges();
+                // Delete Genders
+                var cardGenders = _context.Genders.Where(x => x.CardId == card.Id);
+                _context.Genders.RemoveRange(cardGenders);
                 _context.SaveChanges();
                 // Delete Notifications
                 var notifications =

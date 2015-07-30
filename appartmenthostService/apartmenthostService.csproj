@@ -236,6 +236,7 @@
     <Compile Include="Controllers\ApiControllers\MailApiController.cs" />
     <Compile Include="Controllers\SeedDbController.cs" />
     <Compile Include="Controllers\ApiControllers\UserSocialInfoApiController.cs" />
+    <Compile Include="DataObjects\GendersDTO.cs" />
     <Compile Include="Helpers\Notifications.cs" />
     <Compile Include="Migrations\201507271416216_Confirm.cs" />
     <Compile Include="Migrations\201507271416216_Confirm.Designer.cs">
@@ -303,6 +304,7 @@
     <Compile Include="Models\Article.cs" />
     <Compile Include="Models\CardDates.cs" />
     <Compile Include="DataObjects\DatesDTO.cs" />
+    <Compile Include="Models\CardGenders.cs" />
     <Compile Include="Models\Dictionary.cs" />
     <Compile Include="Models\DictionaryItem.cs" />
     <Compile Include="Models\Favorite.cs" />

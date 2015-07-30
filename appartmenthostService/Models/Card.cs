@@ -14,6 +14,7 @@ namespace apartmenthostService.Models
             Pictures = new HashSet<Picture>();
             Favorites = new HashSet<Favorite>();
             Reservations = new HashSet<Reservation>();
+            Genders = new HashSet<CardGenders>();
         }
 
         public string Name { get; set; }
@@ -22,11 +23,12 @@ namespace apartmenthostService.Models
         public string ApartmentId { get; set; }
         public decimal PriceDay { get; set; }
         public string Cohabitation { get; set; }
-        public string ResidentGender { get; set; }
+        public string ResidentGender { get; set; } // TODO: Deprecate
         public string Lang { get; set; }
         public virtual User User { get; set; }
         public virtual Apartment Apartment { get; set; }
         public ICollection<CardDates> Dates { get; set; }
+        public ICollection<CardGenders> Genders { get; set; } 
         public ICollection<Reservation> Reservations { get; set; }
         public ICollection<Picture> Pictures { get; set; }
         public ICollection<Favorite> Favorites { get; set; }

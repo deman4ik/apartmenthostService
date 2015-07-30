@@ -89,12 +89,15 @@ namespace apartmenthostService.DataObjects
         public string Cohabitation { get; set; }
 
         // Пол постояльца
+        // TODO: Deprecate
         [Metadata(DataType = ConstDataType.List, Dictionary = ConstDictionary.Gender)]
         [GetRule(Order = 6, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [PostRule(Order = 6, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [PutRule(Order = 6, RequiredForm = true, RequiredTransfer = true, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public string ResidentGender { get; set; }
+
+
 
         // Избранное
         [Metadata(DataType = ConstDataType.Favorite)]
@@ -160,6 +163,9 @@ namespace apartmenthostService.DataObjects
         [PutRule(Order = 4, RequiredForm = false, RequiredTransfer = false, Visible = true)]
         [DeleteRule(Order = 0, RequiredForm = false, RequiredTransfer = false, Visible = false)]
         public ICollection<DatesDTO> Dates { get; set; }
+
+        // Пол постояльца и цена
+        public ICollection<GendersDTO> Genders { get; set; }
 
         // Бронирование
         [Metadata(DataType = ConstDataType.ApprovedReservations)]

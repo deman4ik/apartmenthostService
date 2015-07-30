@@ -29,6 +29,7 @@ namespace apartmenthostService.Models
         public DbSet<Apartment> Apartments { get; set; }
         public DbSet<Card> Cards { get; set; }
         public DbSet<CardDates> Dates { get; set; }
+        public DbSet<CardGenders> Genders { get; set; } 
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<User> Users { get; set; }
@@ -150,6 +151,12 @@ namespace apartmenthostService.Models
 
             modelBuilder.Entity<Card>()
                 .HasMany<CardDates>(s => s.Dates)
+                .WithRequired(s => s.Card)
+                .HasForeignKey(s => s.CardId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Card>()
+                .HasMany<CardGenders>(s => s.Genders)
                 .WithRequired(s => s.Card)
                 .HasForeignKey(s => s.CardId)
                 .WillCascadeOnDelete(false);
