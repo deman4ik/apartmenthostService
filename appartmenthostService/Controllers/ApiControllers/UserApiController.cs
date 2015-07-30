@@ -73,5 +73,31 @@ namespace apartmenthostService.Controllers
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
             }
         }
+
+
+        //TODO: Deprecate
+        // For TEST ONLY
+        // DELETE IN PRODUCTION!!!
+        [Route("api/DelUser/{email}")]
+        [HttpGet]
+        public string DeleteUser(string email)
+        {
+            var user = _context.Users.SingleOrDefault(x => x.Email == email);
+            if (user != null)
+            {
+                var profile = _context.Profile.SingleOrDefault(x => x.Id == user.Id);
+                var accounts = _context.Accounts.Where(x => x.UserId == user.Id);
+
+                if (profile != null)
+                    _context.Profile.Remove(profile);
+
+                if (accounts.Any())
+                    _context.Accounts.RemoveRange(accounts);
+                _context.Users.Remove(user);
+                return "Пользователь " + email + " удален";
+            }
+
+            return "Нечего удалять";
+        }
     }
 }
