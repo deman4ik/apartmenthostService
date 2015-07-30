@@ -13,7 +13,6 @@ namespace apartmenthostService.Models
         {
             Cards = new HashSet<Card>();
             Pictures = new HashSet<Picture>();
-            PropVals = new HashSet<PropVal>();
         }
 
         // Наименование жилья
@@ -52,7 +51,5 @@ namespace apartmenthostService.Models
         public ICollection<Card> Cards { get; set; }
         // Ссылки на список связанных изображений
         public ICollection<Picture> Pictures { get; set; }
-        // Ссылки на список дополнительных свойств
-        public ICollection<PropVal> PropVals { get; set; }
     }
 }

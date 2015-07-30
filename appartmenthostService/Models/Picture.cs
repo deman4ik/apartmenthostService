@@ -30,6 +30,5 @@ namespace apartmenthostService.Models
         public ICollection<Notification> Notifications { get; set; }
         public ICollection<Apartment> Apartments { get; set; }
         public ICollection<Card> Cards { get; set; }
-        public ICollection<Article> Articles { get; set; }
     }
 }

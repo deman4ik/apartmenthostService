@@ -172,11 +172,11 @@ namespace apartmenthostService.Helpers
                         break;
                     case ConstVals.Reg:
                         body = string.Format(body, confirmCode,
-                            "https://apartmenthost.azurewebsites.net/#/confirm/" + userId + "/" + confirmCode);
+                            "https://apartmenthost.azurewebsites.net/#/confirm?userId=" + userId + "&code=" + confirmCode);
                         break;
                     case ConstVals.Restore:
                         body = string.Format(body, confirmCode,
-                            "https://apartmenthost.azurewebsites.net/#/reset/" + userId + "/" + confirmCode);
+                            "https://apartmenthost.azurewebsites.net/#/reset?userId=" + userId + "&code=" + confirmCode);
                         break;
                 }
                 var doc = new HtmlDocument();

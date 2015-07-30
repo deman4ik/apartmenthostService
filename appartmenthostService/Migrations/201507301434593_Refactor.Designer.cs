@@ -7,13 +7,13 @@ namespace apartmenthostService.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.1-30610")]
-    public sealed partial class Confirm : IMigrationMetadata
+    public sealed partial class Refactor : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Confirm));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Refactor));
         
         string IMigrationMetadata.Id
         {
-            get { return "201507271416216_Confirm"; }
+            get { return "201507301434593_Refactor"; }
         }
         
         string IMigrationMetadata.Source

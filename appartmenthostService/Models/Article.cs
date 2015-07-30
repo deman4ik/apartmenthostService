@@ -18,9 +18,5 @@ namespace apartmenthostService.Models
         public string Tag { get; set; }
         // Язык статьи "RU", "EN"
         public string Lang { get; set; }
-        // Уникальный идентификатор изображения
-        public string PictureId { get; set; }
-        // Ссылка на связанное изображение
-        public virtual Picture Picture { get; set; }
     }
 }

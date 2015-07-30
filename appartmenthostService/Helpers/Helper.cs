@@ -12,40 +12,7 @@ namespace apartmenthostService.Helpers
 {
     public class MetaHelper
     {
-        public static string GetItemLangName(string name)
-        {
-            return "MD_ITM_" + name.ToUpper();
-        }
-
-        public static string GetObjectLangName(string name)
-        {
-            return "MD_OBJ_" + name.ToUpper();
-        }
-
-        public static string GetTypeName(PropertyInfo type)
-        {
-            if (type.PropertyType == typeof (string))
-                return ConstType.Str;
-            if (type.PropertyType == typeof (decimal?) || type.PropertyType == typeof (decimal) ||
-                type.PropertyType == typeof (int?) || type.PropertyType == typeof (float?) ||
-                type.PropertyType == typeof (int) || type.PropertyType == typeof (float))
-                return ConstType.Num;
-            if (type.PropertyType == typeof (DateTime?) || type.PropertyType == typeof (DateTimeOffset?) ||
-                type.PropertyType == typeof (DateTime) || type.PropertyType == typeof (DateTimeOffset))
-                return ConstType.Date;
-            if (type.PropertyType == typeof (bool?) || type.PropertyType == typeof (bool))
-                return ConstType.Bool;
-            if (type.PropertyType == typeof (ICollection<PropValDTO>))
-                return ConstType.PropCollection;
-            if (type.PropertyType == typeof (UserDTO))
-                return ConstType.User;
-            if (type.PropertyType == typeof (ApartmentDTO))
-                return ConstType.Apartment;
-            if (type.PropertyType == typeof (CardDTO))
-                return ConstType.Card;
-            return type.PropertyType.Name;
-        }
-
+      
         public static object GetAttributeValue(Type objectType, string propertyName, Type attributeType,
             string attributePropertyName)
         {
@@ -57,16 +24,7 @@ namespace apartmenthostService.Helpers
                     var attributeInstance = Attribute.GetCustomAttribute(propertyInfo, attributeType);
                     if (attributeInstance != null)
                     {
-                        foreach (var info in attributeType.GetProperties())
-                        {
-                            if (info.CanRead &&
-                                string.Compare(info.Name, attributePropertyName,
-                                    StringComparison.InvariantCultureIgnoreCase) ==
-                                0)
-                            {
-                                return info.GetValue(attributeInstance, null);
-                            }
-                        }
+                        return (from info in attributeType.GetProperties() where info.CanRead && string.Compare(info.Name, attributePropertyName, StringComparison.InvariantCultureIgnoreCase) == 0 select info.GetValue(attributeInstance, null)).FirstOrDefault();
                     }
                 }
             }
@@ -119,52 +77,6 @@ namespace apartmenthostService.Helpers
                 var respList = new List<string>();
                 respList.Add(name);
                 return RespH.Create(RespH.SRV_CARD_EXISTS, respList);
-            }
-            return null;
-        }
-
-        public static ResponseDTO isValidDicItem(apartmenthostContext context, string item, string dicName,
-            string itemName, string errType)
-        {
-            var dicItem =
-                context.DictionaryItems.SingleOrDefault(di => di.Dictionary.Name == dicName && di.StrValue == item);
-            if (dicItem == null)
-            {
-                var respList = new List<string>();
-                respList.Add(item);
-                respList.Add(itemName);
-                respList.Add(dicName);
-                return RespH.Create(errType, respList);
-            }
-            return null;
-        }
-
-        public static ResponseDTO isValidDicItem(apartmenthostContext context, decimal item, string dicName,
-            string itemName, string errType)
-        {
-            var dicItem =
-                context.DictionaryItems.SingleOrDefault(di => di.Dictionary.Name == dicName && di.NumValue == item);
-            if (dicItem == null)
-            {
-                var respList = new List<string>();
-                respList.Add(itemName);
-                respList.Add(dicName);
-                return RespH.Create(errType, respList);
-            }
-            return null;
-        }
-
-        public static ResponseDTO isValidDicItem(apartmenthostContext context, DateTime item, string dicName,
-            string itemName, string errType)
-        {
-            var dicItem =
-                context.DictionaryItems.SingleOrDefault(di => di.Dictionary.Name == dicName && di.DateValue == item);
-            if (dicItem == null)
-            {
-                var respList = new List<string>();
-                respList.Add(itemName);
-                respList.Add(dicName);
-                return RespH.Create(errType, respList);
             }
             return null;
         }

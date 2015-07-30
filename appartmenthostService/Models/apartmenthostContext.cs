@@ -38,11 +38,6 @@ namespace apartmenthostService.Models
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
-        public DbSet<Table> Tables { get; set; }
-        public DbSet<Prop> Props { get; set; }
-        public DbSet<PropVal> PropVals { get; set; }
-        public DbSet<Dictionary> Dictionaries { get; set; }
-        public DbSet<DictionaryItem> DictionaryItems { get; set; }
         public DbSet<Article> Article { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -141,11 +136,7 @@ namespace apartmenthostService.Models
                     cs.ToTable("ApartmentPicture");
                 });
 
-            modelBuilder.Entity<Apartment>()
-                .HasMany<PropVal>(s => s.PropVals)
-                .WithOptional(s => s.Apartment)
-                .HasForeignKey(s => s.ApartmentItemId)
-                .WillCascadeOnDelete(false);
+
 
             // Card
 
@@ -189,11 +180,7 @@ namespace apartmenthostService.Models
                     cs.ToTable("CardPicture");
                 });
 
-            modelBuilder.Entity<Card>()
-                .HasMany<PropVal>(s => s.PropVals)
-                .WithOptional(s => s.Card)
-                .HasForeignKey(s => s.AdvertItemId)
-                .WillCascadeOnDelete(false);
+
 
             // Reservation
             modelBuilder.Entity<Reservation>()
@@ -202,11 +189,7 @@ namespace apartmenthostService.Models
                 .HasForeignKey(s => s.ReservationId)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Reservation>()
-                .HasMany<PropVal>(s => s.PropVals)
-                .WithOptional(s => s.Reservation)
-                .HasForeignKey(s => s.ReservationItemId)
-                .WillCascadeOnDelete(false);
+
 
             // Review
             modelBuilder.Entity<Review>()
@@ -222,53 +205,16 @@ namespace apartmenthostService.Models
                 .HasForeignKey(s => s.FavoriteId)
                 .WillCascadeOnDelete(true);
 
-            // Picture + Article
-            modelBuilder.Entity<Picture>()
-                .HasMany<Article>(s => s.Articles)
-                .WithOptional(s => s.Picture)
-                .HasForeignKey(s => s.PictureId);
-
             // Picture + Profile
             modelBuilder.Entity<Picture>()
                 .HasMany<Profile>(s => s.Profiles)
                 .WithOptional(s => s.Picture)
                 .HasForeignKey(s => s.PictureId);
 
-            // Table + Prop
-            modelBuilder.Entity<Table>()
-                .HasMany<Prop>(s => s.Props)
-                .WithMany(c => c.Tables)
-                .Map(cs =>
-                {
-                    cs.MapLeftKey("TableRefId");
-                    cs.MapRightKey("PropRefId");
-                    cs.ToTable("TableProp");
-                });
-
-            // Prop + PropVal
-            modelBuilder.Entity<Prop>()
-                .HasMany<PropVal>(s => s.PropVals)
-                .WithRequired(s => s.Prop)
-                .HasForeignKey(s => s.PropId);
 
 
-            // Dictionary + Dictionary Items
-            modelBuilder.Entity<Dictionary>()
-                .HasMany<DictionaryItem>(s => s.DictionaryItems)
-                .WithRequired(s => s.Dictionary)
-                .HasForeignKey(s => s.DictionaryId);
 
-            // Dictionary + Prop
-            modelBuilder.Entity<Dictionary>()
-                .HasMany<Prop>(s => s.Props)
-                .WithOptional(s => s.Dictionary)
-                .HasForeignKey(s => s.DictionaryId);
-
-            // DictionaryItem + PropVal
-            modelBuilder.Entity<DictionaryItem>()
-                .HasMany<PropVal>(s => s.PropVals)
-                .WithOptional(s => s.DictionaryItem)
-                .HasForeignKey(s => s.DictionaryItemId);
+           
         }
     }
 }

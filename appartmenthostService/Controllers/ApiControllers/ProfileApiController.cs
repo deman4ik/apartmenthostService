@@ -80,11 +80,6 @@ namespace apartmenthostService.Controllers
                 resp = CheckHelper.isNull(profile.Gender, "Gender", RespH.SRV_USER_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                // Check Gender Dictionary
-                resp = CheckHelper.isValidDicItem(_context, profile.Gender, ConstDictionary.Gender, "Gender",
-                    RespH.SRV_USER_INVALID_DICITEM);
-                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-
                 profileCurrent.FirstName = profile.FirstName;
                 profileCurrent.LastName = profile.LastName;
                 profileCurrent.Gender = profile.Gender;

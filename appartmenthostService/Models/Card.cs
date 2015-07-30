@@ -33,6 +33,5 @@ namespace apartmenthostService.Models
         public ICollection<Picture> Pictures { get; set; }
         public ICollection<Favorite> Favorites { get; set; }
         public ICollection<Notification> Notifications { get; set; }
-        public ICollection<PropVal> PropVals { get; set; }
     }
 }

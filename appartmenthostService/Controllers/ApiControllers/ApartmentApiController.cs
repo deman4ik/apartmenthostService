@@ -47,11 +47,6 @@ namespace apartmenthostService.Controllers
                 resp = CheckHelper.isNull(apartment.Type, "Type", RespH.SRV_APARTMENT_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                // Check Apartment Type Dictionary
-                resp = CheckHelper.isValidDicItem(_context, apartment.Type, ConstDictionary.ApartmentType, "Type",
-                    RespH.SRV_APARTMENT_INVALID_DICITEM);
-                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-
                 // Check Current User
                 var currentUser = User as ServiceUser;
                 if (currentUser == null)
@@ -128,10 +123,6 @@ namespace apartmenthostService.Controllers
                 resp = CheckHelper.isNull(apartment.Type, "Type", RespH.SRV_APARTMENT_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                // Check Apartment Type Dictionary
-                resp = CheckHelper.isValidDicItem(_context, apartment.Type, ConstDictionary.ApartmentType, "Type",
-                    RespH.SRV_APARTMENT_INVALID_DICITEM);
-                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Current User
                 var currentUser = User as ServiceUser;

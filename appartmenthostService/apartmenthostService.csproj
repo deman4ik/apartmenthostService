@@ -235,20 +235,14 @@
     <Compile Include="Authentication\VK\VKLoginProvider.cs" />
     <Compile Include="Controllers\ApiControllers\MailApiController.cs" />
     <Compile Include="Controllers\SeedDbController.cs" />
-    <Compile Include="Controllers\ApiControllers\UserSocialInfoApiController.cs" />
     <Compile Include="DataObjects\GendersDTO.cs" />
     <Compile Include="Helpers\Notifications.cs" />
-    <Compile Include="Migrations\201507271416216_Confirm.cs" />
-    <Compile Include="Migrations\201507271416216_Confirm.Designer.cs">
-      <DependentUpon>201507271416216_Confirm.cs</DependentUpon>
+    <Compile Include="Migrations\201507301434593_Refactor.cs" />
+    <Compile Include="Migrations\201507301434593_Refactor.Designer.cs">
+      <DependentUpon>201507301434593_Refactor.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\TestDBPopulator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Attributes\DeleteRuleAttribute.cs" />
-    <Compile Include="Attributes\GetRuleAttribute.cs" />
-    <Compile Include="Attributes\MetadataAttribute.cs" />
-    <Compile Include="Attributes\PostRuleAttribute.cs" />
-    <Compile Include="Attributes\PutRuleAttribute.cs" />
     <Compile Include="Attributes\QueryableExpandAttribute.cs" />
     <Compile Include="Authentication\FB\FBCredentials.cs" />
     <Compile Include="Authentication\FB\FBLoginAuthenticationProvider.cs" />
@@ -267,14 +261,8 @@
     <Compile Include="Controllers\ApiControllers\NotificationApiController.cs" />
     <Compile Include="Controllers\ApiControllers\PictureApiController.cs" />
     <Compile Include="Controllers\ApiControllers\ArticleApiController.cs" />
-    <Compile Include="Controllers\TableControllers\ApartmentController.cs" />
-    <Compile Include="Controllers\TableControllers\DictionaryController.cs" />
-    <Compile Include="Controllers\TableControllers\DictionaryItemController.cs" />
     <Compile Include="Controllers\ApiControllers\LoginApiController.cs" />
-    <Compile Include="Controllers\ApiControllers\MetadataApiController.cs" />
-    <Compile Include="Controllers\TableControllers\PropController.cs" />
     <Compile Include="Controllers\ApiControllers\RegistrationApiController.cs" />
-    <Compile Include="Controllers\TableControllers\CardController.cs" />
     <Compile Include="Controllers\TableControllers\ProfileController.cs" />
     <Compile Include="Controllers\ApiControllers\UserApiController.cs" />
     <Compile Include="DataObjects\ArticleDTO.cs" />
@@ -282,15 +270,9 @@
     <Compile Include="DataObjects\ApartmentDTO.cs" />
     <Compile Include="DataObjects\BaseUserDTO.cs" />
     <Compile Include="DataObjects\CardRequestDTO.cs" />
-    <Compile Include="DataObjects\DictionaryItemDTO.cs" />
-    <Compile Include="DataObjects\Metadata.cs" />
-    <Compile Include="DataObjects\MetadataItem.cs" />
-    <Compile Include="DataObjects\MetadataRule.cs" />
     <Compile Include="DataObjects\NotificationData.cs" />
     <Compile Include="DataObjects\NotificationDTO.cs" />
     <Compile Include="DataObjects\PictureDTO.cs" />
-    <Compile Include="DataObjects\PropDTO.cs" />
-    <Compile Include="DataObjects\PropValDTO.cs" />
     <Compile Include="DataObjects\RelatedCardDTO.cs" />
     <Compile Include="DataObjects\ReservationDTO.cs" />
     <Compile Include="DataObjects\ReservReviewDTO.cs" />
@@ -305,18 +287,13 @@
     <Compile Include="Models\CardDates.cs" />
     <Compile Include="DataObjects\DatesDTO.cs" />
     <Compile Include="Models\CardGenders.cs" />
-    <Compile Include="Models\Dictionary.cs" />
-    <Compile Include="Models\DictionaryItem.cs" />
     <Compile Include="Models\Favorite.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Picture.cs" />
     <Compile Include="Models\Profile.cs" />
-    <Compile Include="Models\Prop.cs" />
-    <Compile Include="Models\PropVal.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\Review.cs" />
     <Compile Include="Models\Account.cs" />
-    <Compile Include="Models\Table.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Helpers\Helper.cs" />
     <Compile Include="Models\apartmenthostContext.cs" />
@@ -347,8 +324,8 @@
     <None Include="Properties\PublishProfiles\apartmenthost - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201507271416216_Confirm.resx">
-      <DependentUpon>201507271416216_Confirm.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201507301434593_Refactor.resx">
+      <DependentUpon>201507301434593_Refactor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

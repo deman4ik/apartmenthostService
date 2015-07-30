@@ -549,11 +549,6 @@ namespace apartmenthostService.Controllers
                 resp = CheckHelper.isNull(card.Apartment.Type, "Type", RespH.SRV_APARTMENT_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                // Check Apartment Type Dictionary
-                resp = CheckHelper.isValidDicItem(_context, card.Apartment.Type, ConstDictionary.ApartmentType, "Type",
-                    RespH.SRV_APARTMENT_INVALID_DICITEM);
-                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-
 
                 // Get User Profile
                 var profile = _context.Profile.SingleOrDefault(x => x.Id == account.UserId);
@@ -819,11 +814,6 @@ namespace apartmenthostService.Controllers
 
                 // Check Apartment Type is not NULL
                 resp = CheckHelper.isNull(card.Apartment.Type, "Type", RespH.SRV_APARTMENT_REQUIRED);
-                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-
-                // Check Apartment Type Dictionary
-                resp = CheckHelper.isValidDicItem(_context, card.Apartment.Type, ConstDictionary.ApartmentType, "Type",
-                    RespH.SRV_APARTMENT_INVALID_DICITEM);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Delete Card Dates

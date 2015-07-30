@@ -76,22 +76,7 @@ namespace apartmenthostService.Controllers
                     Text = art.Text,
                     Lang = art.Lang,
                     CreatedAt = art.CreatedAt,
-                    UpdatedAt = art.UpdatedAt,
-                    Picture = new PictureDTO
-                    {
-                        Id = art.Picture.Id,
-                        Name = art.Picture.Name,
-                        Description = art.Picture.Description,
-                        Url = art.Picture.Url,
-                        Xsmall = art.Picture.Xsmall,
-                        Small = art.Picture.Small,
-                        Mid = art.Picture.Mid,
-                        Large = art.Picture.Large,
-                        Xlarge = art.Picture.Xlarge,
-                        CloudinaryPublicId = art.Picture.CloudinaryPublicId,
-                        Default = art.Picture.Default,
-                        CreatedAt = art.Picture.CreatedAt
-                    }
+                    UpdatedAt = art.UpdatedAt
                 });
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }
