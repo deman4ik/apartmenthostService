@@ -94,6 +94,7 @@ namespace apartmenthostService.Controllers
                 if (accounts.Any())
                     _context.Accounts.RemoveRange(accounts);
                 _context.Users.Remove(user);
+                _context.SaveChanges();
                 return "Пользователь " + email + " удален";
             }
 
