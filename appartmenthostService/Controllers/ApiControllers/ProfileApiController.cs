@@ -65,19 +65,19 @@ namespace apartmenthostService.Controllers
                 }
 
                 // Check FirstName is not NULL
-                resp = CheckHelper.isNull(profile.FirstName, "FirstName", RespH.SRV_USER_REQUIRED);
+                resp = CheckHelper.IsNull(profile.FirstName, "FirstName", RespH.SRV_USER_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check LastName is not NULL
-                resp = CheckHelper.isNull(profile.LastName, "LastName", RespH.SRV_USER_REQUIRED);
+                resp = CheckHelper.IsNull(profile.LastName, "LastName", RespH.SRV_USER_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Phone is not NULL
-                resp = CheckHelper.isNull(profile.Phone, "Phone", RespH.SRV_USER_REQUIRED);
+                resp = CheckHelper.IsNull(profile.Phone, "Phone", RespH.SRV_USER_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Genderis not NULL
-                resp = CheckHelper.isNull(profile.Gender, "Gender", RespH.SRV_USER_REQUIRED);
+                resp = CheckHelper.IsNull(profile.Gender, "Gender", RespH.SRV_USER_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 profileCurrent.FirstName = profile.FirstName;

@@ -495,12 +495,12 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_NULL));
 
                 // Check CARD Name is not NULL
-                resp = CheckHelper.isNull(card.Name, "Name", RespH.SRV_CARD_REQUIRED);
+                resp = CheckHelper.IsNull(card.Name, "Name", RespH.SRV_CARD_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
 
                 // Check CARD Cohabitation is not null
-                //resp = CheckHelper.isNull(CARD.Cohabitation, "Cohabitation", RespH.SRV_CARD_REQUIRED);
+                //resp = CheckHelper.IsNull(CARD.Cohabitation, "Cohabitation", RespH.SRV_CARD_REQUIRED);
                 //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
                 if (card.Cohabitation == null) card.Cohabitation = ConstVals.Any;
                 // Check CARD Cohabitation Dictionary
@@ -508,7 +508,7 @@ namespace apartmenthostService.Controllers
                 //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check CARD Resident Gender is not null
-                //resp = CheckHelper.isNull(card.ResidentGender, "ResidentGender", RespH.SRV_CARD_REQUIRED);
+                //resp = CheckHelper.IsNull(card.ResidentGender, "ResidentGender", RespH.SRV_CARD_REQUIRED);
                 //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
 
@@ -523,9 +523,11 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.Unauthorized,
                         RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
+                resp = CheckHelper.IsProfileFill(_context, account.UserId);
+                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check CARD not Already Exists
-                resp = CheckHelper.isCardExist(_context, account.UserId, RespH.SRV_CARD_EXISTS);
+                resp = CheckHelper.IsCardExist(_context, account.UserId, RespH.SRV_CARD_EXISTS);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 //Apartment
@@ -533,20 +535,20 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_APARTMENT_NULL));
 
                 // Check Apartment Adress is not NULL
-                resp = CheckHelper.isNull(card.Apartment.Adress, "Adress", RespH.SRV_APARTMENT_REQUIRED);
+                resp = CheckHelper.IsNull(card.Apartment.Adress, "Adress", RespH.SRV_APARTMENT_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Apartment FormatedAdress is not NULL
-                //resp = CheckHelper.isNull(card.Apartment.FormattedAdress, "FormattedAdress", RespH.SRV_APARTMENT_REQUIRED);
+                //resp = CheckHelper.IsNull(card.Apartment.FormattedAdress, "FormattedAdress", RespH.SRV_APARTMENT_REQUIRED);
                 //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
 
                 // Check Apartment PlaceId is not NULL
-                //resp = CheckHelper.isNull(card.Apartment.PlaceId, "PlaceId", RespH.SRV_APARTMENT_REQUIRED);
+                //resp = CheckHelper.IsNull(card.Apartment.PlaceId, "PlaceId", RespH.SRV_APARTMENT_REQUIRED);
                 //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Apartment Type is not NULL
-                resp = CheckHelper.isNull(card.Apartment.Type, "Type", RespH.SRV_APARTMENT_REQUIRED);
+                resp = CheckHelper.IsNull(card.Apartment.Type, "Type", RespH.SRV_APARTMENT_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
 
@@ -573,7 +575,7 @@ namespace apartmenthostService.Controllers
                 {
                     foreach (var dates in card.Dates)
                     {
-                        resp = CheckHelper.isValidDates(dates.DateFrom, dates.DateTo, RespH.SRV_CARD_WRONG_DATE);
+                        resp = CheckHelper.IsValidDates(dates.DateFrom, dates.DateTo, RespH.SRV_CARD_WRONG_DATE);
                         if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
                         cardDates.Add(new CardDates
                         {
@@ -590,7 +592,7 @@ namespace apartmenthostService.Controllers
                 {
                     foreach (var gender in card.Genders)
                     {
-                        resp = CheckHelper.isNull(gender.Name, "Genders.Name", RespH.SRV_CARD_REQUIRED);
+                        resp = CheckHelper.IsNull(gender.Name, "Genders.Name", RespH.SRV_CARD_REQUIRED);
                         if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
                         cardGenders.Add(new CardGenders()
                         {
@@ -609,11 +611,11 @@ namespace apartmenthostService.Controllers
                     foreach (var picture in card.Apartment.Pictures)
                     {
                         // Check Picture name is not NULL
-                        resp = CheckHelper.isNull(picture.Name, "Name", RespH.SRV_PICTURE_REQUIRED);
+                        resp = CheckHelper.IsNull(picture.Name, "Name", RespH.SRV_PICTURE_REQUIRED);
                         if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                         // Check Picture CloudinaryPublicId is not NULL
-                        resp = CheckHelper.isNull(picture.CloudinaryPublicId, "CloudinaryPublicId",
+                        resp = CheckHelper.IsNull(picture.CloudinaryPublicId, "CloudinaryPublicId",
                             RespH.SRV_PICTURE_REQUIRED);
                         if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
                     }
@@ -726,6 +728,8 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.Unauthorized,
                         RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
+                resp = CheckHelper.IsProfileFill(_context, account.UserId);
+                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check CARD User
                 if (cardCurrent.UserId != account.UserId)
@@ -737,15 +741,15 @@ namespace apartmenthostService.Controllers
                 }
 
                 // Check CARD Name is not NULL
-                resp = CheckHelper.isNull(card.Name, "Name", RespH.SRV_CARD_REQUIRED);
+                resp = CheckHelper.IsNull(card.Name, "Name", RespH.SRV_CARD_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check CARD not Already Exists
-                resp = CheckHelper.isCardExist(_context, card.Name, RespH.SRV_CARD_EXISTS);
+                resp = CheckHelper.IsCardExist(_context, card.Name, RespH.SRV_CARD_EXISTS);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check CARD Cohabitation is not null
-                //resp = CheckHelper.isNull(CARD.Cohabitation, "Cohabitation", RespH.SRV_CARD_REQUIRED);
+                //resp = CheckHelper.IsNull(CARD.Cohabitation, "Cohabitation", RespH.SRV_CARD_REQUIRED);
                 //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
                 if (card.Cohabitation == null) card.Cohabitation = ConstVals.Any;
                 // Check CARD Cohabitation Dictionary
@@ -753,7 +757,7 @@ namespace apartmenthostService.Controllers
                 //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check CARD Resident Gender is not null
-                resp = CheckHelper.isNull(card.ResidentGender, "ResidentGender", RespH.SRV_CARD_REQUIRED);
+                resp = CheckHelper.IsNull(card.ResidentGender, "ResidentGender", RespH.SRV_CARD_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check CARD Resident Gender Dictionary
@@ -767,7 +771,7 @@ namespace apartmenthostService.Controllers
                 {
                     foreach (var dates in card.Dates)
                     {
-                        resp = CheckHelper.isValidDates(dates.DateFrom, dates.DateTo, RespH.SRV_CARD_WRONG_DATE);
+                        resp = CheckHelper.IsValidDates(dates.DateFrom, dates.DateTo, RespH.SRV_CARD_WRONG_DATE);
                         if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
                         cardDates.Add(new CardDates
                         {
@@ -784,7 +788,7 @@ namespace apartmenthostService.Controllers
                 {
                     foreach (var gender in card.Genders)
                     {
-                        resp = CheckHelper.isNull(gender.Name, "Genders.Name", RespH.SRV_CARD_REQUIRED);
+                        resp = CheckHelper.IsNull(gender.Name, "Genders.Name", RespH.SRV_CARD_REQUIRED);
                         if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
                         cardGenders.Add(new CardGenders()
                         {
@@ -809,11 +813,11 @@ namespace apartmenthostService.Controllers
                 }
 
                 // Check Apartment Adress is not NULL
-                resp = CheckHelper.isNull(card.Apartment.Adress, "Adress", RespH.SRV_APARTMENT_REQUIRED);
+                resp = CheckHelper.IsNull(card.Apartment.Adress, "Adress", RespH.SRV_APARTMENT_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Apartment Type is not NULL
-                resp = CheckHelper.isNull(card.Apartment.Type, "Type", RespH.SRV_APARTMENT_REQUIRED);
+                resp = CheckHelper.IsNull(card.Apartment.Type, "Type", RespH.SRV_APARTMENT_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Delete Card Dates

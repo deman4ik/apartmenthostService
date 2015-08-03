@@ -37,11 +37,11 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_PICTURE_NULL));
 
                 // Check Picture name is not NULL
-                resp = CheckHelper.isNull(picture.Name, "Name", RespH.SRV_PICTURE_REQUIRED);
+                resp = CheckHelper.IsNull(picture.Name, "Name", RespH.SRV_PICTURE_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Picture CloudinaryPublicId is not NULL
-                resp = CheckHelper.isNull(picture.CloudinaryPublicId, "CloudinaryPublicId", RespH.SRV_PICTURE_REQUIRED);
+                resp = CheckHelper.IsNull(picture.CloudinaryPublicId, "CloudinaryPublicId", RespH.SRV_PICTURE_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Current Profile is not NULL
@@ -156,11 +156,11 @@ namespace apartmenthostService.Controllers
                 foreach (var picture in pictures)
                 {
                     // Check Picture name is not NULL
-                    resp = CheckHelper.isNull(picture.Name, "Name", RespH.SRV_PICTURE_REQUIRED);
+                    resp = CheckHelper.IsNull(picture.Name, "Name", RespH.SRV_PICTURE_REQUIRED);
                     if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                     // Check Picture CloudinaryPublicId is not NULL
-                    resp = CheckHelper.isNull(picture.CloudinaryPublicId, "CloudinaryPublicId",
+                    resp = CheckHelper.IsNull(picture.CloudinaryPublicId, "CloudinaryPublicId",
                         RespH.SRV_PICTURE_REQUIRED);
                     if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
                 }

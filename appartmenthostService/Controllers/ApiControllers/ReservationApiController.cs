@@ -285,6 +285,9 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.Unauthorized,
                         RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
+                ResponseDTO resp = CheckHelper.IsProfileFill(_context, account.UserId);
+                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+
                 // Check Reservation already exists
                 /* TODO: Проверка по дате */
                 var existedReservation =
@@ -403,6 +406,8 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.Unauthorized,
                         RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
+                ResponseDTO resp = CheckHelper.IsProfileFill(_context, account.UserId);
+                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 //Check Reservation
                 var currentReservation = _context.Reservations.SingleOrDefault(r => r.Id == reservId);

@@ -105,7 +105,7 @@ namespace apartmenthostService.Controllers
 
                 if (article.Name == null)
 
-                    resp = CheckHelper.isNull(article.Name, "Name", RespH.SRV_ARTICLE_REQUIRED);
+                    resp = CheckHelper.IsNull(article.Name, "Name", RespH.SRV_ARTICLE_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 if (article.Title == null && article.Text == null && article.Tag == null)

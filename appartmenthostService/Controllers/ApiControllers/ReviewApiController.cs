@@ -264,11 +264,11 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_REVIEW_WRONG_DATE));
 
                 // Check Review Text is not NULL
-                resp = CheckHelper.isNull(review.Text, "Text", RespH.SRV_REVIEW_REQUIRED);
+                resp = CheckHelper.IsNull(review.Text, "Text", RespH.SRV_REVIEW_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Review Rating is not NULL
-                //resp = CheckHelper.isNull(review.Rating, "Rating", RespH.SRV_REVIEW_REQUIRED);
+                //resp = CheckHelper.IsNull(review.Rating, "Rating", RespH.SRV_REVIEW_REQUIRED);
                 //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Current User
@@ -282,6 +282,9 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.Unauthorized,
                         RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
+                resp = CheckHelper.IsProfileFill(_context, account.UserId);
+                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+
                 var newReview = new Review();
                 // Set FromUserId
                 newReview.FromUserId = account.UserId;
@@ -393,7 +396,7 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_REVIEW_WRONG_DATE));
 
                 // Check Review Text is not NULL
-                resp = CheckHelper.isNull(review.Text, "Text", RespH.SRV_REVIEW_REQUIRED);
+                resp = CheckHelper.IsNull(review.Text, "Text", RespH.SRV_REVIEW_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Current User
@@ -407,6 +410,8 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.Unauthorized,
                         RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
+                resp = CheckHelper.IsProfileFill(_context, account.UserId);
+                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Review User
                 if (currentReview.FromUserId != account.UserId)
@@ -416,6 +421,7 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.Unauthorized,
                         RespH.Create(RespH.SRV_REVIEW_WRONG_USER, respList));
                 }
+                
 
                 currentReview.Text = review.Text;
 

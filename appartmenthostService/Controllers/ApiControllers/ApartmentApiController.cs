@@ -35,16 +35,16 @@ namespace apartmenthostService.Controllers
 
 
                 // Check Apartment Name is not NULL
-                resp = CheckHelper.isNull(apartment.Name, "Name", RespH.SRV_APARTMENT_REQUIRED);
+                resp = CheckHelper.IsNull(apartment.Name, "Name", RespH.SRV_APARTMENT_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Apartment Adress is not NULL
-                resp = CheckHelper.isNull(apartment.Adress, "Adress", RespH.SRV_APARTMENT_REQUIRED);
+                resp = CheckHelper.IsNull(apartment.Adress, "Adress", RespH.SRV_APARTMENT_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
 
                 // Check Apartment Type is not NULL
-                resp = CheckHelper.isNull(apartment.Type, "Type", RespH.SRV_APARTMENT_REQUIRED);
+                resp = CheckHelper.IsNull(apartment.Type, "Type", RespH.SRV_APARTMENT_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Current User
@@ -111,16 +111,16 @@ namespace apartmenthostService.Controllers
                 }
 
                 // Check Apartment Name is not NULL
-                resp = CheckHelper.isNull(apartment.Name, "Name", RespH.SRV_APARTMENT_REQUIRED);
+                resp = CheckHelper.IsNull(apartment.Name, "Name", RespH.SRV_APARTMENT_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Apartment Adress is not NULL
-                resp = CheckHelper.isNull(apartment.Adress, "Adress", RespH.SRV_APARTMENT_REQUIRED);
+                resp = CheckHelper.IsNull(apartment.Adress, "Adress", RespH.SRV_APARTMENT_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
 
                 // Check Apartment Type is not NULL
-                resp = CheckHelper.isNull(apartment.Type, "Type", RespH.SRV_APARTMENT_REQUIRED);
+                resp = CheckHelper.IsNull(apartment.Type, "Type", RespH.SRV_APARTMENT_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
 

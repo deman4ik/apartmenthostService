@@ -12,7 +12,6 @@ namespace apartmenthostService.Helpers
 {
     public class MetaHelper
     {
-      
         public static object GetAttributeValue(Type objectType, string propertyName, Type attributeType,
             string attributePropertyName)
         {
@@ -24,7 +23,12 @@ namespace apartmenthostService.Helpers
                     var attributeInstance = Attribute.GetCustomAttribute(propertyInfo, attributeType);
                     if (attributeInstance != null)
                     {
-                        return (from info in attributeType.GetProperties() where info.CanRead && string.Compare(info.Name, attributePropertyName, StringComparison.InvariantCultureIgnoreCase) == 0 select info.GetValue(attributeInstance, null)).FirstOrDefault();
+                        return (from info in attributeType.GetProperties()
+                            where
+                                info.CanRead &&
+                                string.Compare(info.Name, attributePropertyName,
+                                    StringComparison.InvariantCultureIgnoreCase) == 0
+                            select info.GetValue(attributeInstance, null)).FirstOrDefault();
                     }
                 }
             }
@@ -35,7 +39,7 @@ namespace apartmenthostService.Helpers
 
     public class CheckHelper
     {
-        public static ResponseDTO isNull(string item, string itemName, string errType)
+        public static ResponseDTO IsNull(string item, string itemName, string errType)
         {
             if (string.IsNullOrWhiteSpace(item))
             {
@@ -46,7 +50,7 @@ namespace apartmenthostService.Helpers
             return null;
         }
 
-        public static ResponseDTO isNull(double item, string itemName, string errType)
+        public static ResponseDTO IsNull(double item, string itemName, string errType)
         {
             if (item <= 0)
             {
@@ -57,7 +61,7 @@ namespace apartmenthostService.Helpers
             return null;
         }
 
-        public static ResponseDTO isCardExist(apartmenthostContext context, string userId, string errType)
+        public static ResponseDTO IsCardExist(apartmenthostContext context, string userId, string errType)
         {
             var currentAdvertCount = context.Cards.Count(a => a.UserId == userId);
             if (currentAdvertCount > 0)
@@ -69,7 +73,7 @@ namespace apartmenthostService.Helpers
             return null;
         }
 
-        public static ResponseDTO isCardNameExist(apartmenthostContext context, string name, string errType)
+        public static ResponseDTO IsCardNameExist(apartmenthostContext context, string name, string errType)
         {
             var currentAdvertCount = context.Cards.Count(a => a.Name == name);
             if (currentAdvertCount > 0)
@@ -81,7 +85,7 @@ namespace apartmenthostService.Helpers
             return null;
         }
 
-        public static ResponseDTO isValidDates(DateTime dateFrom, DateTime dateTo, string errType)
+        public static ResponseDTO IsValidDates(DateTime dateFrom, DateTime dateTo, string errType)
         {
             // Check Dates
             if (string.IsNullOrEmpty(dateFrom.ToString()) && string.IsNullOrEmpty(dateTo.ToString()))
@@ -94,6 +98,18 @@ namespace apartmenthostService.Helpers
                     return RespH.Create(errType, respList);
                 }
             }
+            return null;
+        }
+
+        public static ResponseDTO IsProfileFill(apartmenthostContext context, string userId)
+        {
+            var user = context.Users.SingleOrDefault(x => x.Id == userId);
+            var profile = context.Profile.SingleOrDefault(x => x.Id == userId);
+            if (user == null || profile == null) return RespH.Create(RespH.SRV_USER_NOTFOUND);
+            if (user.Blocked) return RespH.Create(RespH.SRV_USER_BLOCKED);
+            if (!user.EmailConfirmed) return RespH.Create(RespH.SRV_USER_NOT_CONFIRMED);
+            if (string.IsNullOrWhiteSpace(profile.FirstName) || string.IsNullOrWhiteSpace(profile.LastName))
+                return RespH.Create(RespH.SRV_USER_NO_NAME);
             return null;
         }
     }
