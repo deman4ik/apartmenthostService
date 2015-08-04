@@ -198,6 +198,13 @@ namespace apartmenthostService.Controllers
                     _context.SaveChanges();
                     respList.Add(pictureGuid);
                 }
+                var defaultPic = apartment.Pictures.SingleOrDefault(x => x.Default);
+                if (defaultPic == null)
+                {
+                    var pic = _context.Pictures.SingleOrDefault(x => x.Id == apartment.Pictures.First().Id);
+                    pic.Default = true;
+                    _context.SaveChanges();
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
             }
             catch (Exception ex)
@@ -343,6 +350,16 @@ namespace apartmenthostService.Controllers
                         _context.SaveChanges();
                     }
                 }
+                if (apartment.Pictures.Any())
+                {
+                    var defaultPic = apartment.Pictures.SingleOrDefault(x => x.Default);
+                    if (defaultPic == null)
+                    {
+                        var pic = _context.Pictures.SingleOrDefault(x => x.Id == apartment.Pictures.First().Id);
+                        pic.Default = true;
+                        _context.SaveChanges();
+                    }
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_DELETED, respList));
             }
             catch (Exception ex)
@@ -351,6 +368,11 @@ namespace apartmenthostService.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
             }
+        }
+
+        public void SetDefaultPicture(string cardId)
+        {
+            
         }
     }
 }
