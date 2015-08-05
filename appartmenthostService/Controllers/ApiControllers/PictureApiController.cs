@@ -215,6 +215,68 @@ namespace apartmenthostService.Controllers
             }
         }
 
+        //POST api/Picture/Default
+        [Route("api/Picture/Default/{id}")]
+        [AuthorizeLevel(AuthorizationLevel.User)]
+        [HttpPost]
+        public HttpResponseMessage SetDefault(string id)
+        {
+            try
+            {
+                var respList = new List<string>();
+                var pic = _context.Pictures.SingleOrDefault(x => x.Id == id);
+                if (pic == null)
+                {
+                    respList.Add(id);
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_PICTURE_NOTFOUND, respList));
+                }
+
+                // Check Current User
+                var currentUser = User as ServiceUser;
+                if (currentUser == null)
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
+                var account = AuthUtils.GetUserAccount(_context, currentUser);
+                if (account == null)
+                {
+                    respList.Add(currentUser.Id);
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                        RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
+                }
+                var pics =
+                    _context.Pictures.Where(
+                        x => x.Apartments.Any(a => a.UserId == account.UserId && a.Pictures.Any(p => p.Id == id)));
+                if (pics.Any())
+                {
+                    foreach (var other in pics.Where(x => x.Id != id && x.Default))
+                    {
+                        other.Default = false;
+                    }
+                    pic.Default = true;
+                }
+                else
+                {
+                    if (_context.Profile.Any(x => x.Picture.Id == id && x.Id == account.UserId))
+                    {
+                        pic.Default = true;
+                    }
+                }
+                if (pic.Default)
+                {
+                    _context.SaveChanges();
+                    return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED));
+                }
+
+                return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_USER_WRONG_USER));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
+            }
+        }
+
         // POST api/Picture/Delete
         [Route("api/Picture/Delete/Profile/{id}")]
         [AuthorizeLevel(AuthorizationLevel.User)]
@@ -372,7 +434,6 @@ namespace apartmenthostService.Controllers
 
         public void SetDefaultPicture(string cardId)
         {
-            
         }
     }
 }
