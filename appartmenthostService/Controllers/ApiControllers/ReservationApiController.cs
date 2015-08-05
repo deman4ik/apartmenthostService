@@ -288,16 +288,7 @@ namespace apartmenthostService.Controllers
                 ResponseDTO resp = CheckHelper.IsProfileFill(_context, account.UserId);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                // Check Reservation already exists
-                /* TODO: Проверка по дате */
-                var existedReservation =
-                    _context.Reservations.SingleOrDefault(x => x.UserId == account.UserId && x.CardId == cardId);
-                if (existedReservation != null)
-                {
-                    respList.Add(existedReservation.Id);
-                    return Request.CreateResponse(HttpStatusCode.BadRequest,
-                        RespH.Create(RespH.SRV_RESERVATION_EXISTS, respList));
-                }
+                
 
                 // Check CARD User
                 //if (CARD.UserId != account.UserId)
@@ -315,6 +306,13 @@ namespace apartmenthostService.Controllers
                     respList.Add(dateTo.ToLocalTime().ToString(CultureInfo.InvariantCulture));
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_CARD_WRONG_DATE, respList));
+                }
+
+                // Check Reservation already exists
+                if (_context.Reservations.Any(x => x.UserId == account.UserId && x.CardId == cardId && x.DateFrom == dateFrom && x.DateTo == dateTo))
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_RESERVATION_EXISTS));
                 }
 
                 // Check Available Dates
