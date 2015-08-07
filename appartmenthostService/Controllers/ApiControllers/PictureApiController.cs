@@ -198,7 +198,7 @@ namespace apartmenthostService.Controllers
                     _context.SaveChanges();
                     respList.Add(pictureGuid);
                 }
-                var defaultPic = apartment.Pictures.SingleOrDefault(x => x.Default);
+                var defaultPic = _context.Pictures.SingleOrDefault(x => x.Default && x.Apartments.Any(a => a.Id == apartment.Id));
                 if (defaultPic == null)
                 {
                     var pic = _context.Pictures.SingleOrDefault(x => x.Id == apartment.Pictures.First().Id);
