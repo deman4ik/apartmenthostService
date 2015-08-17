@@ -187,6 +187,16 @@ namespace apartmenthostService.Controllers
                             RespH.Create(RespH.SRV_USER_RESET_NOT_REQUESTED,
                                 new List<string> {resetRequest.UserId ?? resetRequest.Email}));
                     }
+                    var incoming = AuthUtils.hash(resetRequest.Code, user.Salt);
+
+                    if (!AuthUtils.slowEquals(incoming, user.SaltedAndHashedCode))
+                    {
+                        return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    RespH.Create(RespH.SRV_USER_WRONG_CODE,
+                        new List<string> { resetRequest.UserId ?? resetRequest.Email, resetRequest.Code }));
+                      
+                    }
+
                     user.SaltedAndHashedCode = null;
                     user.ResetRequested = false;
                 }
@@ -230,21 +240,20 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_USER_REQUIRED, new List<string> {"password"}));
                 }
-                var incoming = AuthUtils.hash(resetRequest.Code, user.Salt);
-
-                if (AuthUtils.slowEquals(incoming, user.SaltedAndHashedCode))
+                if (resetRequest.Password.Length < 8)
                 {
-                    var salt = AuthUtils.generateSalt();
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_REG_INVALID_PASSWORD, new List<string> { resetRequest.Password }));
+                }
+                var salt = AuthUtils.generateSalt();
                     user.Salt = salt;
                     user.SaltedAndHashedPassword = AuthUtils.hash(resetRequest.Password, salt);
                     _context.SaveChanges();
                     return Request.CreateResponse(HttpStatusCode.OK,
                         RespH.Create(RespH.SRV_USER_RESETED, new List<string> {user.Id}));
-                }
+               
 
-                return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_USER_WRONG_CODE,
-                        new List<string> {resetRequest.UserId ?? resetRequest.Email, resetRequest.Code}));
+                
             }
             catch (Exception ex)
             {
