@@ -163,29 +163,68 @@ namespace apartmenthostService.Controllers
         {
             try
             {
-                if (resetRequest.Code == null)
+                User user;
+                if (!string.IsNullOrEmpty(resetRequest.UserId) || !string.IsNullOrEmpty(resetRequest.Email))
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest,
-                        RespH.Create(RespH.SRV_USER_REQUIRED, new List<string> {"code"}));
+                    if (resetRequest.Code == null)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.BadRequest,
+                            RespH.Create(RespH.SRV_USER_REQUIRED, new List<string> {"code"}));
+                    }
+                    
+                     user =
+                        _context.Users.SingleOrDefault(x => x.Id == resetRequest.UserId || x.Email == resetRequest.Email);
+                    if (user == null)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.BadRequest,
+                            RespH.Create(RespH.SRV_USER_NOTFOUND,
+                                new List<string> {resetRequest.UserId ?? resetRequest.Email}));
+                    }
+                    if (!user.ResetRequested)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.BadRequest,
+                            RespH.Create(RespH.SRV_USER_RESET_NOT_REQUESTED,
+                                new List<string> {resetRequest.UserId ?? resetRequest.Email}));
+                    }
+                    user.SaltedAndHashedCode = null;
+                    user.ResetRequested = false;
+                }
+                else
+                {
+                    // Check Current User
+                var currentUser = User as ServiceUser;
+                if (currentUser == null)
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
+                var account = AuthUtils.GetUserAccount(_context, currentUser);
+                if (account == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                        RespH.Create(RespH.SRV_USER_NOTFOUND, new List<string> { currentUser.Id }));
+                }
+                    user =
+                           _context.Users.SingleOrDefault(x => x.Id == account.UserId);
+                    if (user == null)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.BadRequest,
+                            RespH.Create(RespH.SRV_USER_NOTFOUND,
+                                new List<string> { account.UserId }));
+                    }
+
+                    if (string.IsNullOrWhiteSpace(resetRequest.CurrentPassword))
+                    {
+                        return Request.CreateResponse(HttpStatusCode.BadRequest,
+                            RespH.Create(RespH.SRV_USER_REQUIRED, new List<string> { "current password" }));
+                    }
+
+                    if (!AuthUtils.slowEquals(AuthUtils.hash(resetRequest.CurrentPassword, user.Salt), user.SaltedAndHashedPassword))
+                    {
+                        return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_LOGIN_INVALID_PASS));
+                    }
                 }
                 if (string.IsNullOrWhiteSpace(resetRequest.Password))
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
-                        RespH.Create(RespH.SRV_USER_REQUIRED, new List<string> {"password"}));
-                }
-                var user =
-                    _context.Users.SingleOrDefault(x => x.Id == resetRequest.UserId || x.Email == resetRequest.Email);
-                if (user == null)
-                {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest,
-                        RespH.Create(RespH.SRV_USER_NOTFOUND,
-                            new List<string> {resetRequest.UserId ?? resetRequest.Email}));
-                }
-                if (!user.ResetRequested)
-                {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest,
-                        RespH.Create(RespH.SRV_USER_RESET_NOT_REQUESTED,
-                            new List<string> {resetRequest.UserId ?? resetRequest.Email}));
+                        RespH.Create(RespH.SRV_USER_REQUIRED, new List<string> { "password" }));
                 }
                 var incoming = AuthUtils.hash(resetRequest.Code, user.Salt);
 
@@ -194,8 +233,6 @@ namespace apartmenthostService.Controllers
                     var salt = AuthUtils.generateSalt();
                     user.Salt = salt;
                     user.SaltedAndHashedPassword = AuthUtils.hash(resetRequest.Password, salt);
-                    user.SaltedAndHashedCode = null;
-                    user.ResetRequested = false;
                     _context.SaveChanges();
                     return Request.CreateResponse(HttpStatusCode.OK,
                         RespH.Create(RespH.SRV_USER_RESETED, new List<string> {user.Id}));
