@@ -81,7 +81,8 @@ namespace apartmenthostService.Authentication
             }
         }
 
-        public static void CreateAccount(string providerName, string providerId, string accountId, string email = null, string name = null)
+        public static void CreateAccount(string providerName, string providerId, string accountId, string email = null,
+            string name = null)
         {
             var context = new apartmenthostContext();
             var account =
@@ -117,7 +118,7 @@ namespace apartmenthostService.Authentication
                 context.Accounts.Add(account);
                 context.SaveChanges();
 
-               
+
                 var profile = context.Profile.SingleOrDefault(p => p.Id == user.Id);
                 if (profile == null)
                 {
@@ -128,7 +129,7 @@ namespace apartmenthostService.Authentication
                         profile.FirstName = name.Split(' ')[0];
                         profile.LastName = name.Split(' ')[1];
                     }
-                    
+
                     context.Profile.Add(profile);
                 }
                 context.SaveChanges();

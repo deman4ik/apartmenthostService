@@ -172,7 +172,8 @@ namespace apartmenthostService.Helpers
                         break;
                     case ConstVals.Reg:
                         body = string.Format(body, confirmCode,
-                            "https://apartmenthost.azurewebsites.net/#/confirm?userId=" + userId + "&code=" + confirmCode);
+                            "https://apartmenthost.azurewebsites.net/#/confirm?userId=" + userId + "&code=" +
+                            confirmCode);
                         break;
                     case ConstVals.Restore:
                         body = string.Format(body, confirmCode,

@@ -7,7 +7,6 @@ namespace apartmenthostService.DataObjects
 {
     public class UserDTO
     {
-       
         // Уникальный идентификатор(User)
         public string Id { get; set; }
 

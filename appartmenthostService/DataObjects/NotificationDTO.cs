@@ -34,6 +34,6 @@ namespace apartmenthostService.DataObjects
         public DateTimeOffset? CreatedAt { get; set; }
 
         // Дата и Время изменения объекта
-       public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
     }
 }

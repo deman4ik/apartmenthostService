@@ -39,7 +39,7 @@ namespace apartmenthostService.Authentication
                 ClientSecret = settings["VKClientSecret"],
                 Provider = new VKLoginAuthenticationProvider(),
                 AuthenticationType = this.Name,
-                Scope = { "email" }
+                Scope = {"email"}
             };
             appBuilder.
                 UseVkontakteAuthentication(options);
@@ -56,7 +56,7 @@ namespace apartmenthostService.Authentication
             var providerAccessToken = claimsIdentity
                 .FindFirst(ServiceClaimTypes.ProviderAccessToken);
             var userId = TokenHandler.CreateUserId(Name, name?.Value);
-           var emailClaim = claimsIdentity.FindFirst(ClaimTypes.Email);
+            var emailClaim = claimsIdentity.FindFirst(ClaimTypes.Email);
             var nameClaim = claimsIdentity.FindFirst(ClaimTypes.Name);
 
             var credentials = new VKCredentials

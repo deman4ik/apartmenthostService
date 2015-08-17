@@ -72,7 +72,7 @@ namespace apartmenthostService.Controllers
                     // Наименование Карточки
                     if (cardRequest.Name != null)
                         pre = pre.And(x => x.Name == cardRequest.Name);
-                    
+
                     // Уникальный идентификатор Google Places
                     if (cardRequest.PlaceId != null)
                         pre = pre.And(x => x.Apartment.PlaceId == cardRequest.PlaceId);
@@ -90,8 +90,9 @@ namespace apartmenthostService.Controllers
                         // Адрес Жилья
                         if (cardRequest.Adress != null)
                         {
-                            string[] adresStrs = cardRequest.Adress.Split(' ','.',',');
-                            pre = adresStrs.Aggregate(pre, (current, adresStr) => current.And(x => x.Apartment.FormattedAdress.Contains(adresStr)));
+                            string[] adresStrs = cardRequest.Adress.Split(' ', '.', ',');
+                            pre = adresStrs.Aggregate(pre,
+                                (current, adresStr) => current.And(x => x.Apartment.FormattedAdress.Contains(adresStr)));
                         }
                     }
                     // Уникальный Идентификатор Владельца
@@ -185,7 +186,6 @@ namespace apartmenthostService.Controllers
                             );
                     }
 
-                   
 
                     // Тип проживания
                     if (cardRequest.Cohabitation != null)
@@ -218,9 +218,27 @@ namespace apartmenthostService.Controllers
 
                         var pricePre = PredicateBuilder.False<Card>();
                         // Цена за день с (с учетом пола)
-                        pricePre = cardRequest.Genders.Where(gender => cardRequest.PriceDayFrom != null).Aggregate(pricePre, (current, gender) => current.Or(x => x.Genders.Any(g => g.Price > 0 && g.Name == gender && g.Price >= cardRequest.PriceDayFrom)));
+                        pricePre =
+                            cardRequest.Genders.Where(gender => cardRequest.PriceDayFrom != null)
+                                .Aggregate(pricePre,
+                                    (current, gender) =>
+                                        current.Or(
+                                            x =>
+                                                x.Genders.Any(
+                                                    g =>
+                                                        g.Price > 0 && g.Name == gender &&
+                                                        g.Price >= cardRequest.PriceDayFrom)));
                         // Цена за день по(с учетом пола)
-                        pricePre = cardRequest.Genders.Where(gender => cardRequest.PriceDayTo != null).Aggregate(pricePre, (current, gender) => current.Or(x => x.Genders.Any(g => g.Price > 0 && g.Name == gender && g.Price <= cardRequest.PriceDayTo)));
+                        pricePre =
+                            cardRequest.Genders.Where(gender => cardRequest.PriceDayTo != null)
+                                .Aggregate(pricePre,
+                                    (current, gender) =>
+                                        current.Or(
+                                            x =>
+                                                x.Genders.Any(
+                                                    g =>
+                                                        g.Price > 0 && g.Name == gender &&
+                                                        g.Price <= cardRequest.PriceDayTo)));
                         pre = pre.And(pricePre);
                     }
                     else

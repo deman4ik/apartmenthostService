@@ -421,7 +421,7 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.Unauthorized,
                         RespH.Create(RespH.SRV_REVIEW_WRONG_USER, respList));
                 }
-                
+
 
                 currentReview.Text = review.Text;
 

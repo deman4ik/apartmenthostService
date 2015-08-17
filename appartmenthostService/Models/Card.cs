@@ -28,7 +28,7 @@ namespace apartmenthostService.Models
         public virtual User User { get; set; }
         public virtual Apartment Apartment { get; set; }
         public ICollection<CardDates> Dates { get; set; }
-        public ICollection<CardGenders> Genders { get; set; } 
+        public ICollection<CardGenders> Genders { get; set; }
         public ICollection<Reservation> Reservations { get; set; }
         public ICollection<Picture> Pictures { get; set; }
         public ICollection<Favorite> Favorites { get; set; }

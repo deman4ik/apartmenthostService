@@ -288,7 +288,6 @@ namespace apartmenthostService.Controllers
                 ResponseDTO resp = CheckHelper.IsProfileFill(_context, account.UserId);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                
 
                 // Check CARD User
                 //if (CARD.UserId != account.UserId)
@@ -309,7 +308,11 @@ namespace apartmenthostService.Controllers
                 }
 
                 // Check Reservation already exists
-                if (_context.Reservations.Any(x => x.UserId == account.UserId && x.CardId == cardId && x.DateFrom == dateFrom && x.DateTo == dateTo))
+                if (
+                    _context.Reservations.Any(
+                        x =>
+                            x.UserId == account.UserId && x.CardId == cardId && x.DateFrom == dateFrom &&
+                            x.DateTo == dateTo))
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_RESERVATION_EXISTS));

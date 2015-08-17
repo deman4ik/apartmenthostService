@@ -29,7 +29,7 @@ namespace apartmenthostService.Models
         public DbSet<Apartment> Apartments { get; set; }
         public DbSet<Card> Cards { get; set; }
         public DbSet<CardDates> Dates { get; set; }
-        public DbSet<CardGenders> Genders { get; set; } 
+        public DbSet<CardGenders> Genders { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<User> Users { get; set; }
@@ -137,7 +137,6 @@ namespace apartmenthostService.Models
                 });
 
 
-
             // Card
 
             modelBuilder.Entity<Card>()
@@ -181,14 +180,12 @@ namespace apartmenthostService.Models
                 });
 
 
-
             // Reservation
             modelBuilder.Entity<Reservation>()
                 .HasMany<Notification>(s => s.Notifications)
                 .WithOptional(s => s.Reservation)
                 .HasForeignKey(s => s.ReservationId)
                 .WillCascadeOnDelete(false);
-
 
 
             // Review
@@ -210,11 +207,6 @@ namespace apartmenthostService.Models
                 .HasMany<Profile>(s => s.Profiles)
                 .WithOptional(s => s.Picture)
                 .HasForeignKey(s => s.PictureId);
-
-
-
-
-           
         }
     }
 }

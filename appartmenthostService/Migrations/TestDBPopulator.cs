@@ -17,7 +17,6 @@ namespace apartmenthostService.Migrations
         {
             try
             {
-
                 PopulateArticles(context);
                 context.SaveChanges();
 
