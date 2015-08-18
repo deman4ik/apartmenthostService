@@ -43,6 +43,9 @@ namespace apartmenthostService.DataObjects
         // TODO: Deprecate
         public string ResidentGender { get; set; }
 
+        // Пол текущей цены
+        public string PriceGender { get; set; }
+
         // Избранное
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public bool IsFavorite { get; set; }

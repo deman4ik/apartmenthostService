@@ -245,11 +245,11 @@ namespace apartmenthostService.Controllers
                     {
                         // Цена за день с 
                         if (cardRequest.PriceDayFrom != null)
-                            pre = pre.And(x => x.PriceDay >= cardRequest.PriceDayFrom);
+                            pre = pre.And(x => x.Genders.Any(g => g.Price >= cardRequest.PriceDayFrom && g.Price == x.Genders.Min(ge => ge.Price)));
 
                         // Цена за день по
                         if (cardRequest.PriceDayTo != null)
-                            pre = pre.And(x => x.PriceDay <= cardRequest.PriceDayTo);
+                            pre = pre.And(x => x.Genders.Any(g => g.Price <= cardRequest.PriceDayTo && g.Price == x.Genders.Min(ge => ge.Price)));
                     }
 
                     // Избранное (Уникальный идентификатор пользователя)
