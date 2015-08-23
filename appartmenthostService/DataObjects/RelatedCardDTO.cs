@@ -16,11 +16,11 @@ namespace apartmenthostService.DataObjects
         // Уникальный идентификатор жилья(Apartment)
         public string ApartmentId { get; set; }
         // Цена за сутки
-        public decimal PriceDay { get; set; }
+        public decimal? PriceDay { get; set; }
         // Пол текущей цены
         public string PriceGender { get; set; }
         // Цена за период 
-        public decimal PricePeriod { get; set; }
+        public decimal? PricePeriod { get; set; }
         // Сожительство
         public string Cohabitation { get; set; }
         // Пол постояльца

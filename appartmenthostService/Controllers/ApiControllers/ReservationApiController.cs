@@ -88,9 +88,8 @@ namespace apartmenthostService.Controllers
                                 UserId = r.Card.UserId,
                                 Description = r.Card.Description,
                                 ApartmentId = r.Card.ApartmentId,
-                                PriceDay = (decimal)r.Card.Genders.FirstOrDefault(ge => ge.Name == r.Gender).Price,
+                                PriceDay = r.Card.Genders.FirstOrDefault(ge => ge.Name == r.Gender).Price,
                                 Cohabitation = r.Card.Cohabitation,
-                                ResidentGender = r.Card.ResidentGender,
                                 Lang = r.Card.Lang,
                                 Dates = r.Card.Dates.Select(d => new DatesDTO
                                 {
@@ -187,9 +186,8 @@ namespace apartmenthostService.Controllers
                                 UserId = r.Card.UserId,
                                 Description = r.Card.Description,
                                 ApartmentId = r.Card.ApartmentId,
-                                PriceDay = (decimal)r.Card.Genders.FirstOrDefault(ge => ge.Name == r.Gender).Price,
+                                PriceDay = r.Card.Genders.FirstOrDefault(ge => ge.Name == r.Gender).Price,
                                 Cohabitation = r.Card.Cohabitation,
-                                ResidentGender = r.Card.ResidentGender,
                                 Lang = r.Card.Lang,
                                 Dates = r.Card.Dates.Select(d => new DatesDTO
                                 {

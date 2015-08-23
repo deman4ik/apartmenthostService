@@ -143,7 +143,7 @@ namespace apartmenthostService.Controllers
                                         Id = x.Card.Id,
                                         Name = x.Card.Name,
                                         UserId = x.Card.UserId,
-                                        PriceDay = (decimal)x.Card.Genders.FirstOrDefault(ge => ge.Name == x.Gender).Price,
+                                        PriceDay = x.Card.Genders.FirstOrDefault(ge => ge.Name == x.Gender).Price,
                                         Cohabitation = x.Card.Cohabitation,
                                         IsFavorite = x.Card.Favorites.Any(f => f.UserId == account.UserId),
                                         Apartment = new ApartmentDTO
