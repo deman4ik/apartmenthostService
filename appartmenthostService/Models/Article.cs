@@ -14,8 +14,8 @@ namespace apartmenthostService.Models
         public string Title { get; set; }
         // Содержимое статьи
         public string Text { get; set; }
-        // Теги статьи (не используется)
-        public string Tag { get; set; }
+        // Тип
+        public string Type { get; set; }
         // Язык статьи "RU", "EN"
         public string Lang { get; set; }
     }

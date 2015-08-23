@@ -35,6 +35,7 @@ namespace apartmenthostService.Controllers
             {
                 var limit = 100;
                 var skip = 0;
+                string currGender = null;
                 // Создаем предикат
                 var pre = PredicateBuilder.True<Card>();
                 string id = null;
@@ -137,13 +138,13 @@ namespace apartmenthostService.Controllers
                              date.DateFrom <= cardRequest.AvailableDateTo
                              && date.DateTo >= cardRequest.AvailableDateFrom &&
                              date.DateTo >= cardRequest.AvailableDateTo)
-                                // \\--||--||--\\
+                            // \\--||--||--\\
                             ||
                             (date.DateFrom >= cardRequest.AvailableDateFrom &&
                              date.DateFrom <= cardRequest.AvailableDateTo
                              && date.DateTo >= cardRequest.AvailableDateFrom &&
                              date.DateTo >= cardRequest.AvailableDateTo)
-                                // ||--\\--||--\\
+                            // ||--\\--||--\\
                             ||
                             (date.DateFrom <= cardRequest.AvailableDateFrom &&
                              date.DateFrom <= cardRequest.AvailableDateTo
@@ -207,10 +208,12 @@ namespace apartmenthostService.Controllers
                             (current, gen) => current.Or(t => t.ResidentGender.Contains(gen)));
                         pre = pre.And(genPre);
                     }
-
+                    
                     // Пол постояльца
                     if (cardRequest.Genders != null)
                     {
+                        currGender = cardRequest.Genders.FirstOrDefault();
+
                         var genPre = PredicateBuilder.False<Card>();
                         genPre = cardRequest.Genders.Aggregate(genPre,
                             (current, gender) => current.Or(x => x.Genders.Any(g => g.Name == gender)));
@@ -218,7 +221,8 @@ namespace apartmenthostService.Controllers
 
                         var pricePre = PredicateBuilder.False<Card>();
                         // Цена за день с (с учетом пола)
-                        pricePre =
+                        if (cardRequest.PriceDayFrom != null)
+                           pricePre =
                             cardRequest.Genders.Where(gender => cardRequest.PriceDayFrom != null)
                                 .Aggregate(pricePre,
                                     (current, gender) =>
@@ -229,7 +233,8 @@ namespace apartmenthostService.Controllers
                                                         g.Price > 0 && g.Name == gender &&
                                                         g.Price >= cardRequest.PriceDayFrom)));
                         // Цена за день по(с учетом пола)
-                        pricePre =
+                        if (cardRequest.PriceDayTo != null)
+                            pricePre =
                             cardRequest.Genders.Where(gender => cardRequest.PriceDayTo != null)
                                 .Aggregate(pricePre,
                                     (current, gender) =>
@@ -239,7 +244,9 @@ namespace apartmenthostService.Controllers
                                                     g =>
                                                         g.Price > 0 && g.Name == gender &&
                                                         g.Price <= cardRequest.PriceDayTo)));
-                        pre = pre.And(pricePre);
+
+                        if (cardRequest.PriceDayFrom != null || cardRequest.PriceDayTo != null)
+                            pre = pre.And(pricePre);
                     }
                     else
                     {
@@ -288,8 +295,9 @@ namespace apartmenthostService.Controllers
                         UserId = x.UserId,
                         Description = x.Description,
                         ApartmentId = x.ApartmentId,
-                        PriceDay = x.PriceDay,
-                        PricePeriod = x.PriceDay*periodDays,
+                        PriceDay = currGender !=null ? (decimal)x.Genders.FirstOrDefault(g => g.Name == currGender).Price : (decimal)x.Genders.Min(ge => ge.Price),
+                        PriceGender = currGender ?? x.Genders.Aggregate((c, d) => c.Price < d.Price ? c : d).Name,
+                        PricePeriod = currGender != null ? (decimal)x.Genders.FirstOrDefault(g => g.Name == currGender).Price * periodDays : (decimal)x.Genders.Min(ge => ge.Price) * periodDays,
                         PeriodDays = periodDays,
                         Cohabitation = x.Cohabitation,
                         ResidentGender = x.ResidentGender,
@@ -406,8 +414,9 @@ namespace apartmenthostService.Controllers
                                     UserId = card.UserId,
                                     Description = card.Description,
                                     ApartmentId = card.ApartmentId,
-                                    PriceDay = card.PriceDay,
-                                    PricePeriod = card.PriceDay*periodDays,
+                                    PriceDay = (decimal)card.Genders.Min(ge => ge.Price),
+                                    PriceGender = card.Genders.Aggregate((c, d) => c.Price < d.Price ? c : d).Name,
+                                    PricePeriod = (decimal)card.Genders.Min(ge => ge.Price) * periodDays,
                                     Cohabitation = card.Cohabitation,
                                     ResidentGender = card.ResidentGender,
                                     IsFavorite = card.Favorites.Any(f => f.UserId == userId),
@@ -515,19 +524,7 @@ namespace apartmenthostService.Controllers
                 resp = CheckHelper.IsNull(card.Name, "Name", RespH.SRV_CARD_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-
-                // Check CARD Cohabitation is not null
-                //resp = CheckHelper.IsNull(CARD.Cohabitation, "Cohabitation", RespH.SRV_CARD_REQUIRED);
-                //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
                 if (card.Cohabitation == null) card.Cohabitation = ConstVals.Any;
-                // Check CARD Cohabitation Dictionary
-                //resp = CheckHelper.isValidDicItem(context, CARD.Cohabitation, ConstDictionary.Cohabitation, "Cohabitation", RespH.SRV_CARD_INVALID_DICITEM);
-                //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-
-                // Check CARD Resident Gender is not null
-                //resp = CheckHelper.IsNull(card.ResidentGender, "ResidentGender", RespH.SRV_CARD_REQUIRED);
-                //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-
 
                 // Check Current User
                 var currentUser = User as ServiceUser;
@@ -556,13 +553,9 @@ namespace apartmenthostService.Controllers
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Apartment FormatedAdress is not NULL
-                //resp = CheckHelper.IsNull(card.Apartment.FormattedAdress, "FormattedAdress", RespH.SRV_APARTMENT_REQUIRED);
-                //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                resp = CheckHelper.IsNull(card.Apartment.FormattedAdress, "FormattedAdress", RespH.SRV_APARTMENT_REQUIRED);
+                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-
-                // Check Apartment PlaceId is not NULL
-                //resp = CheckHelper.IsNull(card.Apartment.PlaceId, "PlaceId", RespH.SRV_APARTMENT_REQUIRED);
-                //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Apartment Type is not NULL
                 resp = CheckHelper.IsNull(card.Apartment.Type, "Type", RespH.SRV_APARTMENT_REQUIRED);
@@ -673,7 +666,6 @@ namespace apartmenthostService.Controllers
                     UserId = account.UserId,
                     Description = card.Description,
                     ApartmentId = apartmentGuid,
-                    PriceDay = card.PriceDay,
                     Cohabitation = card.Cohabitation,
                     ResidentGender = card.ResidentGender,
                     Lang = card.Lang,
@@ -765,22 +757,7 @@ namespace apartmenthostService.Controllers
                 resp = CheckHelper.IsCardExist(_context, card.Name, RespH.SRV_CARD_EXISTS);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                // Check CARD Cohabitation is not null
-                //resp = CheckHelper.IsNull(CARD.Cohabitation, "Cohabitation", RespH.SRV_CARD_REQUIRED);
-                //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
                 if (card.Cohabitation == null) card.Cohabitation = ConstVals.Any;
-                // Check CARD Cohabitation Dictionary
-                //resp = CheckHelper.isValidDicItem(context, CARD.Cohabitation, ConstDictionary.Cohabitation, "Cohabitation", RespH.SRV_CARD_INVALID_DICITEM);
-                //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-
-                // Check CARD Resident Gender is not null
-                resp = CheckHelper.IsNull(card.ResidentGender, "ResidentGender", RespH.SRV_CARD_REQUIRED);
-                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-
-                // Check CARD Resident Gender Dictionary
-                //resp = CheckHelper.isValidDicItem(_context, card.ResidentGender, ConstDictionary.Gender, "ResidentGender", RespH.SRV_CARD_INVALID_DICITEM);
-                //if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-
 
                 var cardDates = new List<CardDates>();
                 // Check Dates
@@ -855,7 +832,6 @@ namespace apartmenthostService.Controllers
                 // Update CARD
                 cardCurrent.Name = card.Name;
                 cardCurrent.Description = card.Description;
-                cardCurrent.PriceDay = card.PriceDay;
                 cardCurrent.Cohabitation = card.Cohabitation;
                 cardCurrent.ResidentGender = card.ResidentGender;
 

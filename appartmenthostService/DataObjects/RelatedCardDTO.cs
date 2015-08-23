@@ -17,6 +17,8 @@ namespace apartmenthostService.DataObjects
         public string ApartmentId { get; set; }
         // Цена за сутки
         public decimal PriceDay { get; set; }
+        // Пол текущей цены
+        public string PriceGender { get; set; }
         // Цена за период 
         public decimal PricePeriod { get; set; }
         // Сожительство

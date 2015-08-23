@@ -237,9 +237,17 @@
     <Compile Include="Controllers\SeedDbController.cs" />
     <Compile Include="DataObjects\GendersDTO.cs" />
     <Compile Include="Helpers\Notifications.cs" />
-    <Compile Include="Migrations\201507301434593_Refactor.cs" />
-    <Compile Include="Migrations\201507301434593_Refactor.Designer.cs">
-      <DependentUpon>201507301434593_Refactor.cs</DependentUpon>
+    <Compile Include="Migrations\201508231137399_ResGender.cs" />
+    <Compile Include="Migrations\201508231137399_ResGender.Designer.cs">
+      <DependentUpon>201508231137399_ResGender.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508231147095_ArticleType.cs" />
+    <Compile Include="Migrations\201508231147095_ArticleType.Designer.cs">
+      <DependentUpon>201508231147095_ArticleType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508231912457_CardPrice.cs" />
+    <Compile Include="Migrations\201508231912457_CardPrice.Designer.cs">
+      <DependentUpon>201508231912457_CardPrice.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\TestDBPopulator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -324,8 +332,14 @@
     <None Include="Properties\PublishProfiles\apartmenthost - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201507301434593_Refactor.resx">
-      <DependentUpon>201507301434593_Refactor.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201508231137399_ResGender.resx">
+      <DependentUpon>201508231137399_ResGender.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508231147095_ArticleType.resx">
+      <DependentUpon>201508231147095_ArticleType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508231912457_CardPrice.resx">
+      <DependentUpon>201508231912457_CardPrice.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

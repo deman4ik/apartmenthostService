@@ -41,6 +41,9 @@ namespace apartmenthostService.Migrations
                 PopulateCardDates(context);
                 context.SaveChanges();
 
+                PopulateCardGenders(context);
+                context.SaveChanges();
+
                 PopulateFavorites(context);
                 context.SaveChanges();
 
@@ -77,6 +80,7 @@ namespace apartmenthostService.Migrations
                     Id = Guid.NewGuid().ToString(),
                     Name = ConstVals.Greet,
                     Text = "Здравствуйте, <b>{0}</b>.",
+                    Type = ConstVals.EmailTemp,
                     Lang = ConstLang.RU
                 },
                 new Article
@@ -85,6 +89,7 @@ namespace apartmenthostService.Migrations
                     Name = RespH.SRV_NOTIF_CARD_FAVORITED,
                     Title = "Apartmenthost - Ваше объявление добавили в избранное",
                     Text = "Пользователь <b>{0}</b> добавил <a href=\"{1}\"> Ваше объявление </a> в избранное.",
+                    Type = ConstVals.EmailTemp,
                     Lang = ConstLang.RU
                 },
                 new Article
@@ -94,6 +99,7 @@ namespace apartmenthostService.Migrations
                     Title = "Apartmenthost - Заявка на бронирование",
                     Text =
                         "Ваша заявку на бронирование <b>{0}</b> в период с <b>{1}</b> по <b>{2}</b> получена. <br><br> Ожидайте подтверждения от владельца.",
+                    Type = ConstVals.EmailTemp,
                     Lang = ConstLang.RU
                 },
                 new Article
@@ -103,6 +109,7 @@ namespace apartmenthostService.Migrations
                     Title = "Apartmenthost - Подтверждение бронирования",
                     Text =
                         "{0} подтвердил вашу заявку на бронирование <b>{0}</b> в период с <b>{1}</b> по <b>{2}</b>. <br><br> Свяжитесь с владельцем для получения дополнительной информации.",
+                    Type = ConstVals.EmailTemp,
                     Lang = ConstLang.RU
                 },
                 new Article
@@ -112,6 +119,7 @@ namespace apartmenthostService.Migrations
                     Title = "Apartmenthost - Бронирование отклонено",
                     Text =
                         "К сожалению ваше бронирование <b>{0}</b> в период с <b>{1}</b> по <b>{2}</b> отклонено владельцем. <br><br> Свяжитесь с владельцем для получения дополнительной информации.",
+                    Type = ConstVals.EmailTemp,
                     Lang = ConstLang.RU
                 },
                 new Article
@@ -120,6 +128,7 @@ namespace apartmenthostService.Migrations
                     Name = RespH.SRV_NOTIF_REVIEW_ADDED,
                     Title = "Apartmenthost - Вам оставили отзыв",
                     Text = "Пользователь <b>{0}</b> оставил отзыв <b>{1}</b>.",
+                    Type = ConstVals.EmailTemp,
                     Lang = ConstLang.RU
                 },
                 new Article
@@ -128,6 +137,7 @@ namespace apartmenthostService.Migrations
                     Name = RespH.SRV_NOTIF_REVIEW_RATING_ADDED,
                     Title = "Apartmenthost - Вам оставили отзыв",
                     Text = "Пользователь <b>{0}</b> оставил отзыв <b>{1}</b> и оценил вас в <b>{2}</b> из 5.",
+                    Type = ConstVals.EmailTemp,
                     Lang = ConstLang.RU
                 },
                 new Article
@@ -136,6 +146,7 @@ namespace apartmenthostService.Migrations
                     Name = RespH.SRV_NOTIF_REVIEW_AVAILABLE,
                     Title = "Apartmenthost - Вы можете оставить отзыв",
                     Text = "По бронированию <b>{0}</b> в период с <b>{1}</b> по <b>{2}</b> вы можете оставить отзыв.",
+                    Type = ConstVals.EmailTemp,
                     Lang = ConstLang.RU
                 },
                 new Article
@@ -145,6 +156,7 @@ namespace apartmenthostService.Migrations
                     Title = "Apartmenthost - Подтверждение Email",
                     Text =
                         "Спасибо за регистрацию на Apartmenthost! <br> Для подтверждения Email используйте следующий код: <b>{0}</b> <br> или перейдите по ссылке <b>{1}</b>",
+                    Type = ConstVals.EmailTemp,
                     Lang = ConstLang.RU
                 },
                 new Article
@@ -154,6 +166,7 @@ namespace apartmenthostService.Migrations
                     Title = "Apartmenthost - Восстановление пароля",
                     Text =
                         "Для восстановления пароля используйте следующий код: <b>{0}</b> <br> или перейдите по ссылке <b>{1}</b>",
+                    Type = ConstVals.EmailTemp,
                     Lang = ConstLang.RU
                 }
             };
@@ -293,7 +306,7 @@ namespace apartmenthostService.Migrations
                     ContactEmail = "apartmenthost@inbox.ru",
                     ContactKind = "Phone",
                     Description = "Информационные Системы Управления",
-                    Gender = ConstVals.Female,
+                    Gender = ConstVals.PFemale,
                     Phone = "+74957777777",
                     Rating = 0,
                     RatingCount = 0,
@@ -309,7 +322,7 @@ namespace apartmenthostService.Migrations
                     ContactEmail = "apartmenthost@inbox.ru",
                     ContactKind = "Email",
                     Description = "Пуповичи 100 лет на рынке недвижимости!",
-                    Gender = ConstVals.Male,
+                    Gender = ConstVals.PMale,
                     Phone = "+79998887766",
                     Rating = 0,
                     RatingCount = 0,
@@ -325,7 +338,7 @@ namespace apartmenthostService.Migrations
                     ContactEmail = "apartmenthost@inbox.ru",
                     ContactKind = "Email",
                     Description = "Привет. Меня зовут Лена!",
-                    Gender = ConstVals.Female,
+                    Gender = ConstVals.PFemale,
                     Phone = "+79998987766",
                     Rating = 0,
                     RatingCount = 0,
@@ -341,7 +354,7 @@ namespace apartmenthostService.Migrations
                     ContactEmail = "apartmenthost@inbox.ru",
                     ContactKind = "Email",
                     Description = "Трофимов",
-                    Gender = ConstVals.Male,
+                    Gender = ConstVals.PMale,
                     Phone = "+79995487766",
                     Rating = 0,
                     RatingCount = 0,
@@ -357,7 +370,7 @@ namespace apartmenthostService.Migrations
                     ContactEmail = "apartmenthost@inbox.ru",
                     ContactKind = "Email",
                     Description = "Трофимов",
-                    Gender = ConstVals.Male,
+                    Gender = ConstVals.PMale,
                     Phone = "+78795487766",
                     Rating = 0,
                     RatingCount = 0,
@@ -373,7 +386,7 @@ namespace apartmenthostService.Migrations
                     ContactEmail = "apartmenthost@inbox.ru",
                     ContactKind = "Phone",
                     Description = "Вишняков",
-                    Gender = ConstVals.Male,
+                    Gender = ConstVals.PMale,
                     Phone = "+78795487366",
                     Rating = 0,
                     RatingCount = 0,
@@ -389,7 +402,7 @@ namespace apartmenthostService.Migrations
                     ContactEmail = "apartmenthost@inbox.ru",
                     ContactKind = "Email",
                     Description = "Привет. Меня зовут Дарья!",
-                    Gender = ConstVals.Female,
+                    Gender = ConstVals.PFemale,
                     Phone = "+79998988966",
                     Rating = 0,
                     RatingCount = 0,
@@ -405,7 +418,7 @@ namespace apartmenthostService.Migrations
                     ContactEmail = "apartmenthost@inbox.ru",
                     ContactKind = "Email",
                     Description = "Привет. Меня зовут Светлана!",
-                    Gender = ConstVals.Female,
+                    Gender = ConstVals.PFemale,
                     Phone = "+79994988966",
                     Rating = 0,
                     RatingCount = 0,
@@ -421,7 +434,7 @@ namespace apartmenthostService.Migrations
                     ContactEmail = "apartmenthost@inbox.ru",
                     ContactKind = "Email",
                     Description = "Привет. Меня зовут Светлана!",
-                    Gender = ConstVals.Female,
+                    Gender = ConstVals.PFemale,
                     Phone = "+79994988996",
                     Rating = 0,
                     RatingCount = 0,
@@ -437,7 +450,7 @@ namespace apartmenthostService.Migrations
                     ContactEmail = "apartmenthost@inbox.ru",
                     ContactKind = "Email",
                     Description = "Крокодилова клац-клац",
-                    Gender = ConstVals.Female,
+                    Gender = ConstVals.PFemale,
                     Phone = "+79994938996",
                     Rating = 0,
                     RatingCount = 0,
@@ -453,7 +466,7 @@ namespace apartmenthostService.Migrations
                     ContactEmail = "apartmenthost@inbox.ru",
                     ContactKind = "Email",
                     Description = "Бундельер цап-цап",
-                    Gender = ConstVals.Female,
+                    Gender = ConstVals.PFemale,
                     Phone = "+79994938996",
                     Rating = 0,
                     RatingCount = 0,
@@ -469,7 +482,7 @@ namespace apartmenthostService.Migrations
                     ContactEmail = "apartmenthost@inbox.ru",
                     ContactKind = "Email",
                     Description = "не путать с ВВП",
-                    Gender = ConstVals.Male,
+                    Gender = ConstVals.PMale,
                     Phone = "+79994938996",
                     Rating = 0,
                     RatingCount = 0,
@@ -772,7 +785,6 @@ namespace apartmenthostService.Migrations
                     Description =
                         "Бизнес центр ААА-класса. Многоуровневая паркова. Бесплатное питание. У нас есть печеньки!",
                     ApartmentId = "ap1",
-                    PriceDay = 1500,
                     Cohabitation = ConstVals.SeperateResidence,
                     ResidentGender = ConstVals.Any,
                     Lang = ConstLang.RU
@@ -784,7 +796,6 @@ namespace apartmenthostService.Migrations
                     UserId = "u2",
                     Description = "Великолепное жилье в центре Бутово. Комфортно и уютно.",
                     ApartmentId = "ap2",
-                    PriceDay = 1000,
                     Cohabitation = ConstVals.Cohabitation,
                     ResidentGender = ConstVals.Female,
                     Lang = ConstLang.RU
@@ -796,7 +807,6 @@ namespace apartmenthostService.Migrations
                     UserId = "u3",
                     Description = "Квартирка на Соловьином. Жить можно.",
                     ApartmentId = "ap3",
-                    PriceDay = 1300,
                     Cohabitation = ConstVals.SeperateResidence,
                     ResidentGender = ConstVals.Male,
                     Lang = ConstLang.RU
@@ -809,7 +819,6 @@ namespace apartmenthostService.Migrations
                     Description =
                         "Реально классная квартира! Просторная с качественным евро-ремонтом из дорогих материалов. Полностью меблирована. Никогда раньше не сдавалась, все новое! Порядочные соседи (славяне). Все есть для комфортного проживания, шкаф купе в прихожей и в гостиной, диван, компьютерный стол, телевизор, кухонный гарнитур, варочная панель, двухкамерный холодильник. Внимание: лоджия утепленная и площадь квартиры расширилась, идеальное место для кабинета. ",
                     ApartmentId = "ap4",
-                    PriceDay = 1200,
                     Cohabitation = ConstVals.SeperateResidence,
                     ResidentGender = ConstVals.Any,
                     Lang = ConstLang.RU
@@ -821,7 +830,6 @@ namespace apartmenthostService.Migrations
                     UserId = "u5",
                     Description = "Обычная кв. с мебелью (дивана пока нет), на длительный срок, для всех семейных.",
                     ApartmentId = "ap5",
-                    PriceDay = 1000,
                     Cohabitation = ConstVals.Cohabitation,
                     ResidentGender = ConstVals.Female,
                     Lang = ConstLang.RU
@@ -834,7 +842,6 @@ namespace apartmenthostService.Migrations
                     Description =
                         "Новая кровать, чистое постельное белье, вся необходимая бытовая техника в наличии, санузел после ремонта.Без комиссии и залогов. Без подселения.Заселение круглосуточно, 24 часа.",
                     ApartmentId = "ap6",
-                    PriceDay = 860,
                     Cohabitation = ConstVals.SeperateResidence,
                     ResidentGender = ConstVals.Any,
                     Lang = ConstLang.RU
@@ -847,7 +854,6 @@ namespace apartmenthostService.Migrations
                     Description =
                         "Квартирка на Соловьином. Жить можно, но не долго. Из окна почти ничего не видно, только стенку морга.",
                     ApartmentId = "ap7",
-                    PriceDay = 700,
                     Cohabitation = ConstVals.SeperateResidence,
                     ResidentGender = ConstVals.Any,
                     Lang = ConstLang.RU
@@ -859,7 +865,6 @@ namespace apartmenthostService.Migrations
                     UserId = "u8",
                     Description = "Хорошая квартира. 5 минут до Парка Горького",
                     ApartmentId = "ap8",
-                    PriceDay = 1800,
                     Cohabitation = ConstVals.SeperateResidence,
                     ResidentGender = ConstVals.Any,
                     Lang = ConstLang.RU
@@ -871,7 +876,6 @@ namespace apartmenthostService.Migrations
                     UserId = "u9",
                     Description = "Уютная квартира в пешей доступности. Район с развитой инфраструктурой.",
                     ApartmentId = "ap9",
-                    PriceDay = 1300,
                     Cohabitation = ConstVals.Cohabitation,
                     ResidentGender = ConstVals.Female,
                     Lang = ConstLang.RU
@@ -884,7 +888,6 @@ namespace apartmenthostService.Migrations
                     Description =
                         "Евро ремонт, вся бытовая техника(телевизор, холодильник, плита ,стиральная машина, микроволновая печь. точка доступа интернет. Предоставляется постельное белье, полотенце, посуда, гель для душа, шампунь. Во дворе парковка. Предоставляем отчетные документы командировочным для бухгалтерии. Звоните, ждем вас!",
                     ApartmentId = "ap10",
-                    PriceDay = 2000,
                     Cohabitation = ConstVals.SeperateResidence,
                     ResidentGender = ConstVals.Any,
                     Lang = ConstLang.RU
@@ -968,6 +971,130 @@ namespace apartmenthostService.Migrations
                 }
 
                 context.Dates.AddOrUpdate(p => p.Id, d
+                    );
+            }
+        }
+
+        public static void PopulateCardGenders(apartmenthostContext context)
+        {
+            var genders = new List<CardGenders>
+            {
+                new CardGenders()
+                {
+                    Id = "cg11",
+                    CardId = "a1",
+                    Name = ConstVals.Female,
+                    Price = 30000
+                },
+               new CardGenders()
+                {
+                    Id = "cg12",
+                    CardId = "a1",
+                    Name = ConstVals.Male,
+                    Price = 40000
+                },
+               new CardGenders()
+                {
+                    Id = "cg13",
+                    CardId = "a1",
+                    Name = ConstVals.Alien,
+                    Price = 50000
+                },
+                new CardGenders()
+                {
+                    Id = "cg21",
+                    CardId = "a2",
+                    Name = ConstVals.Female,
+                    Price = 33000
+                },
+               new CardGenders()
+                {
+                    Id = "cg22",
+                    CardId = "a2",
+                    Name = ConstVals.Male,
+                    Price = 20000
+                },
+               new CardGenders()
+                {
+                    Id = "cg31",
+                    CardId = "a3",
+                    Name = ConstVals.Alien,
+                    Price = 55000
+                },
+               new CardGenders()
+                {
+                    Id = "cg41",
+                    CardId = "a4",
+                    Name = ConstVals.Female,
+                    Price = 13000
+                },
+               new CardGenders()
+                {
+                    Id = "cg52",
+                    CardId = "a5",
+                    Name = ConstVals.Male,
+                    Price = 10000
+                },
+               new CardGenders()
+                {
+                    Id = "cg61",
+                    CardId = "a6",
+                    Name = ConstVals.Alien,
+                    Price = 15000
+                },
+               new CardGenders()
+                {
+                    Id = "cg62",
+                    CardId = "a6",
+                    Name = ConstVals.Female,
+                    Price = 13000
+                },
+               new CardGenders()
+                {
+                    Id = "cg72",
+                    CardId = "a7",
+                    Name = ConstVals.Male,
+                    Price = 90000
+                },
+               new CardGenders()
+                {
+                    Id = "cg71",
+                    CardId = "a7",
+                    Name = ConstVals.Alien,
+                    Price = 85000
+                },
+                new CardGenders()
+                {
+                    Id = "cg81",
+                    CardId = "a8",
+                    Name = ConstVals.Female,
+                    Price = 19000
+                },
+               new CardGenders()
+                {
+                    Id = "cg91",
+                    CardId = "a9",
+                    Name = ConstVals.Male,
+                    Price = 20000
+                },
+               new CardGenders()
+                {
+                    Id = "cg101",
+                    CardId = "a10",
+                    Name = ConstVals.Alien,
+                    Price = 76000
+                }
+            };
+            foreach (var d in genders)
+            {
+                var ex = context.Genders.FirstOrDefault(x => x.Id == d.Id);
+
+                if (ex != null)
+                {
+                    d.CreatedAt = ex.CreatedAt;
+                }
+
+                context.Genders.AddOrUpdate(p => p.Id, d
                     );
             }
         }

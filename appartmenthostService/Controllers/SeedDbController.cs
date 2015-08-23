@@ -20,11 +20,50 @@ namespace apartmenthostService.Controllers
         // GET api/SeedDb
         [HttpPost]
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
-        public HttpResponseMessage Post()
+        public HttpResponseMessage Post(string method)
         {
             try
             {
-                TestDBPopulator.Populate(_context);
+                switch (method)
+                {
+                    case "PopulateArticles":
+                        TestDBPopulator.PopulateArticles(_context);
+                        break;
+                    case "PopulateProfiles":
+                        TestDBPopulator.PopulateProfiles(_context);
+                        break;
+                    case "PopulateProfilePic":
+                        TestDBPopulator.PopulateProfilePic(_context);
+                        break;
+                    case "PopulateApartments":
+                        TestDBPopulator.PopulateApartments(_context);
+                        break;
+                    case "PopulateApartmentPics":
+                        TestDBPopulator.PopulateApartmentPics(_context);
+                        break;
+                    case "PopulateCards":
+                        TestDBPopulator.PopulateCards(_context);
+                        break;
+                    case "PopulateCardDates":
+                        TestDBPopulator.PopulateCardDates(_context);
+                        break;
+                    case "PopulateCardGenders":
+                        TestDBPopulator.PopulateCardGenders(_context);
+                        break;
+                    case "PopulateFavorites":
+                        TestDBPopulator.PopulateFavorites(_context);
+                        break;
+                    case "PopulateReservations":
+                        TestDBPopulator.PopulateReservations(_context);
+                        break;
+                    case "PopulateReviews":
+                        TestDBPopulator.PopulateReviews(_context);
+                        break;
+                    case "PopulateNotifications":
+                        TestDBPopulator.PopulateNotifications(_context);
+                        break;
+                }
+                _context.SaveChanges();
 
                 return Request.CreateResponse(HttpStatusCode.OK);
             }

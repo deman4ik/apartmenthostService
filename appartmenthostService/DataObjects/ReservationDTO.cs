@@ -17,6 +17,8 @@ namespace apartmenthostService.DataObjects
 
         public string Type { get; set; }
 
+        public string Gender { get; set; }
+
         public DateTime DateFrom { get; set; }
 
         public DateTime DateTo { get; set; }
