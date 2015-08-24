@@ -19,6 +19,69 @@ namespace apartmenthostService.Controllers
     {
         private readonly apartmenthostContext _context = new apartmenthostContext();
         public ApiServices Services { get; set; }
+
+
+        // GET api/Profile/{id}
+        [Route("api/Profile/{userId}")]
+        [AuthorizeLevel(AuthorizationLevel.Anonymous)]
+        [HttpGet]
+        public HttpResponseMessage GetProfile(string userId)
+        {
+            try
+            {
+                var result = _context.Profile.Where(p => p.Id == userId).Select(x => new UserDTO
+                {
+                    Id = x.Id,
+                    Email = x.User.Email,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    Gender = x.Gender,
+                    Birthday = x.Birthday,
+                    Phone = x.Phone,
+                    ContactEmail = x.ContactEmail,
+                    ContactKind = x.ContactKind,
+                    Description = x.Description,
+                    Rating = x.Rating,
+                    RatingCount = x.RatingCount,
+                    Score = x.Score,
+                    CardCount = _context.Cards.Count(c => c.UserId == x.Id),
+                    CreatedAt = x.CreatedAt,
+                    UpdatedAt = x.UpdatedAt,
+                    Picture = new PictureDTO
+                    {
+                        Id = x.Picture.Id,
+                        Name = x.Picture.Name,
+                        Description = x.Picture.Description,
+                        Url = x.Picture.Url,
+                        Xsmall = x.Picture.Xsmall,
+                        Small = x.Picture.Small,
+                        Mid = x.Picture.Mid,
+                        Large = x.Picture.Large,
+                        Xlarge = x.Picture.Xlarge,
+                        Default = x.Picture.Default,
+                        CreatedAt = x.Picture.CreatedAt
+                    },
+                    Reviews = x.User.InReviews.Select(owrev => new ReviewDTO
+                    {
+                        Id = owrev.Id,
+                        FromUserId = owrev.FromUserId,
+                        ToUserId = owrev.ToUserId,
+                        ReservationId = owrev.ReservationId,
+                        Rating = owrev.Rating,
+                        Text = owrev.Text,
+                        CreatedAt = owrev.CreatedAt,
+                        UpdatedAt = owrev.UpdatedAt
+                    }).ToList()
+                });
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> { ex.ToString() }));
+            }
+        }
         //PUT api/Profile/48D68C86-6EA6-4C25-AA33-223FC9A27959
         [Route("api/Profile")]
         [AuthorizeLevel(AuthorizationLevel.User)]
