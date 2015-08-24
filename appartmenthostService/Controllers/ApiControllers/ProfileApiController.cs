@@ -61,6 +61,50 @@ namespace apartmenthostService.Controllers
                         Default = x.Picture.Default,
                         CreatedAt = x.Picture.CreatedAt
                     },
+                    Cards = x.User.Cards.Select(c => new CardDTO
+                    {
+                        Name = c.Name,
+                        UserId = c.UserId,
+                        Description = c.Description,
+                        ApartmentId = c.ApartmentId,
+                        PriceDay = c.Genders.Min(ge => ge.Price),
+                        PriceGender = c.Genders.FirstOrDefault(gn => gn.Price == c.Genders.Min(ge => ge.Price)).Name,
+                        Cohabitation = c.Cohabitation,
+                        Lang = c.Lang,
+                        Dates = c.Dates.Select(d => new DatesDTO
+                        {
+                            DateFrom = d.DateFrom,
+                            DateTo = d.DateTo
+                        }
+                            ).ToList(),
+                        Apartment = new ApartmentDTO
+                        {
+                            Id = c.Apartment.Id,
+                            Name = c.Apartment.Name,
+                            Type = c.Apartment.Type,
+                            Options = c.Apartment.Options,
+                            UserId = c.Apartment.UserId,
+                            Adress = c.Apartment.Adress,
+                            FormattedAdress = c.Apartment.FormattedAdress,
+                            Latitude = c.Apartment.Latitude,
+                            Longitude = c.Apartment.Longitude,
+                            PlaceId = c.Apartment.PlaceId,
+                            Pictures = c.Apartment.Pictures.Select(apic => new PictureDTO
+                            {
+                                Id = apic.Id,
+                                Name = apic.Name,
+                                Description = apic.Description,
+                                Url = apic.Url,
+                                Xsmall = apic.Xsmall,
+                                Small = apic.Small,
+                                Mid = apic.Mid,
+                                Large = apic.Large,
+                                Xlarge = apic.Xlarge,
+                                Default = apic.Default,
+                                CreatedAt = apic.CreatedAt
+                            }).ToList()
+                        },
+                    }).ToList(),
                     Reviews = x.User.InReviews.Select(owrev => new ReviewDTO
                     {
                         Id = owrev.Id,
@@ -71,7 +115,7 @@ namespace apartmenthostService.Controllers
                         Text = owrev.Text,
                         CreatedAt = owrev.CreatedAt,
                         UpdatedAt = owrev.UpdatedAt
-                    }).ToList()
+                    }).OrderByDescending(r => r.CreatedAt).ToList()
                 });
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }
@@ -79,9 +123,10 @@ namespace apartmenthostService.Controllers
             {
                 Debug.WriteLine(ex);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> { ex.ToString() }));
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
             }
         }
+
         //PUT api/Profile/48D68C86-6EA6-4C25-AA33-223FC9A27959
         [Route("api/Profile")]
         [AuthorizeLevel(AuthorizationLevel.User)]

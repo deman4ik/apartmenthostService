@@ -46,7 +46,7 @@ namespace apartmenthostService.Controllers
                 if (type == ConstVals.Owner || string.IsNullOrWhiteSpace(type))
                 {
                     ownerReserv =
-                        _context.Reservations.Where(x => x.Card.UserId == account.UserId).Select(r => new ReservationDTO
+                        _context.Reservations.Where(x => x.Card.UserId == account.UserId).OrderByDescending(r => r.CreatedAt).Select(r => new ReservationDTO
                         {
                             Id = r.Id,
                             Type = ConstVals.Owner,
@@ -144,7 +144,7 @@ namespace apartmenthostService.Controllers
                 if (type == ConstVals.Renter || string.IsNullOrWhiteSpace(type))
                 {
                     renterReserv =
-                        _context.Reservations.Where(x => x.UserId == account.UserId).Select(r => new ReservationDTO
+                        _context.Reservations.Where(x => x.UserId == account.UserId).OrderByDescending(r => r.CreatedAt).Select(r => new ReservationDTO
                         {
                             Id = r.Id,
                             Type = ConstVals.Renter,

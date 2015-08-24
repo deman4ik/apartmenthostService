@@ -73,5 +73,8 @@ namespace apartmenthostService.DataObjects
 
         // Отзывы
         public ICollection<ReviewDTO> Reviews { get; set; }
+
+        // Карточки
+        public ICollection<CardDTO> Cards { get; set; }
     }
 }

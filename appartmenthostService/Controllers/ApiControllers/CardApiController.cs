@@ -287,7 +287,7 @@ namespace apartmenthostService.Controllers
                 {
                     userId = account.UserId;
                 }
-                var result = _context.Cards.AsExpandable().Where(pre).OrderBy(o => o.CreatedAt).Skip(skip).Take(limit).
+                var result = _context.Cards.AsExpandable().Where(pre).OrderByDescending(o => o.CreatedAt).Skip(skip).Take(limit).
                     Select(x => new CardDTO
                     {
                         Id = x.Id,

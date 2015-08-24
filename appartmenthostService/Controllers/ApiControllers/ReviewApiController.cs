@@ -47,7 +47,7 @@ namespace apartmenthostService.Controllers
                     _context.Reservations.Where(
                         r => r.Card.UserId == account.UserId &&
                              r.Status == ConstVals.Accepted
-                        )
+                        ).OrderByDescending(r => r.CreatedAt)
                         .Select(
                             x => new ReservReviewDTO
                             {
@@ -90,7 +90,7 @@ namespace apartmenthostService.Controllers
                                     }
                                 },
                                 OwnerReview =
-                                    x.Reviews.Where(rev => rev.ReservationId == x.Id && rev.FromUserId == account.UserId)
+                                    x.Reviews.Where(rev => rev.ReservationId == x.Id && rev.FromUserId == account.UserId).OrderByDescending(r => r.CreatedAt)
                                         .Select(owrev => new ReviewDTO
                                         {
                                             Id = owrev.Id,
@@ -103,7 +103,7 @@ namespace apartmenthostService.Controllers
                                             UpdatedAt = owrev.UpdatedAt
                                         }).FirstOrDefault(),
                                 RenterReview =
-                                    x.Reviews.Where(rev => rev.ReservationId == x.Id && rev.ToUserId == account.UserId)
+                                    x.Reviews.Where(rev => rev.ReservationId == x.Id && rev.ToUserId == account.UserId).OrderByDescending(r => r.CreatedAt)
                                         .Select(renrev => new ReviewDTO
                                         {
                                             Id = renrev.Id,
@@ -121,7 +121,7 @@ namespace apartmenthostService.Controllers
             if (type == ConstVals.Renter || string.IsNullOrWhiteSpace(type))
             {
                 renterReviews =
-                    _context.Reservations.Where(r => r.UserId == account.UserId && r.Status == ConstVals.Accepted)
+                    _context.Reservations.Where(r => r.UserId == account.UserId && r.Status == ConstVals.Accepted).OrderByDescending(r => r.CreatedAt)
                         .Select(
                             x => new ReservReviewDTO
                             {
@@ -201,7 +201,7 @@ namespace apartmenthostService.Controllers
                                     }
                                 },
                                 OwnerReview =
-                                    x.Reviews.Where(rev => rev.ReservationId == x.Id && rev.ToUserId == account.UserId)
+                                    x.Reviews.Where(rev => rev.ReservationId == x.Id && rev.ToUserId == account.UserId).OrderByDescending(r => r.CreatedAt)
                                         .Select(owrev => new ReviewDTO
                                         {
                                             Id = owrev.Id,
@@ -214,7 +214,7 @@ namespace apartmenthostService.Controllers
                                             UpdatedAt = owrev.UpdatedAt
                                         }).FirstOrDefault(),
                                 RenterReview =
-                                    x.Reviews.Where(rev => rev.ReservationId == x.Id && rev.FromUserId == account.UserId)
+                                    x.Reviews.Where(rev => rev.ReservationId == x.Id && rev.FromUserId == account.UserId).OrderByDescending(r => r.CreatedAt)
                                         .Select(renrev => new ReviewDTO
                                         {
                                             Id = renrev.Id,
