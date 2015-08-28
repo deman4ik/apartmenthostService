@@ -21,7 +21,6 @@ namespace apartmenthostService.Models
         public string UserId { get; set; }
         public string Description { get; set; }
         public string ApartmentId { get; set; }
-        public decimal PriceDay { get; set; }
         public string Cohabitation { get; set; }
         public string ResidentGender { get; set; } // TODO: Deprecate
         public string Lang { get; set; }

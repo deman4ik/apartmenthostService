@@ -101,7 +101,7 @@ namespace apartmenthostService.Authentication
                         {
                             Id = Guid.NewGuid().ToString(),
                             Email = email,
-                            EmailConfirmed = true
+                            EmailConfirmed = email != null
                         };
                         context.Users.Add(user);
                         context.SaveChanges();

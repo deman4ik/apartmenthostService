@@ -62,6 +62,11 @@ namespace apartmenthostService.Controllers
                         pre = pre.And(x => x.Text.Contains(artRequest.Text));
                     }
 
+                    if (artRequest.Type != null)
+                    {
+                        pre = pre.And(x => x.Text.Contains(artRequest.Type));
+                    }
+
                     if (artRequest.Lang != null)
                     {
                         pre = pre.And(x => x.Lang == artRequest.Lang);
@@ -74,6 +79,7 @@ namespace apartmenthostService.Controllers
                     Name = art.Name,
                     Title = art.Title,
                     Text = art.Text,
+                    Type = art.Type,
                     Lang = art.Lang,
                     CreatedAt = art.CreatedAt,
                     UpdatedAt = art.UpdatedAt
@@ -108,7 +114,7 @@ namespace apartmenthostService.Controllers
                     resp = CheckHelper.IsNull(article.Name, "Name", RespH.SRV_ARTICLE_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                if (article.Title == null && article.Text == null && article.Tag == null)
+                if (article.Title == null && article.Text == null && article.Type == null)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ARTICLE_REQUIRED));
                 }
@@ -121,7 +127,7 @@ namespace apartmenthostService.Controllers
                         Title = article.Title,
                         Text = article.Text,
                         Lang = article.Lang,
-                        Tag = article.Tag
+                        Type = article.Type
                     });
 
                 _context.SaveChanges();

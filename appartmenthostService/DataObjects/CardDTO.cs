@@ -26,11 +26,11 @@ namespace apartmenthostService.DataObjects
 
         // Цена за сутки
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
-        public decimal PriceDay { get; set; }
+        public decimal? PriceDay { get; set; }
 
         // Цена за период 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
-        public decimal PricePeriod { get; set; }
+        public decimal? PricePeriod { get; set; }
 
         // Количество дней в периоде
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]

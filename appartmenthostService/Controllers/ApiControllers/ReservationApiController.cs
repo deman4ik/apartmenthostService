@@ -46,13 +46,14 @@ namespace apartmenthostService.Controllers
                 if (type == ConstVals.Owner || string.IsNullOrWhiteSpace(type))
                 {
                     ownerReserv =
-                        _context.Reservations.Where(x => x.Card.UserId == account.UserId).Select(r => new ReservationDTO
+                        _context.Reservations.Where(x => x.Card.UserId == account.UserId).OrderByDescending(r => r.CreatedAt).Select(r => new ReservationDTO
                         {
                             Id = r.Id,
                             Type = ConstVals.Owner,
                             CardId = r.CardId,
                             UserId = r.UserId,
                             Status = r.Status,
+                            Gender = r.Gender,
                             DateFrom = r.DateFrom,
                             DateTo = r.DateTo,
                             CreatedAt = r.CreatedAt,
@@ -87,10 +88,8 @@ namespace apartmenthostService.Controllers
                                 UserId = r.Card.UserId,
                                 Description = r.Card.Description,
                                 ApartmentId = r.Card.ApartmentId,
-                                PriceDay = r.Card.PriceDay,
-                                PricePeriod = r.Card.PriceDay*7,
+                                PriceDay = r.Card.Genders.FirstOrDefault(ge => ge.Name == r.Gender).Price,
                                 Cohabitation = r.Card.Cohabitation,
-                                ResidentGender = r.Card.ResidentGender,
                                 Lang = r.Card.Lang,
                                 Dates = r.Card.Dates.Select(d => new DatesDTO
                                 {
@@ -145,13 +144,14 @@ namespace apartmenthostService.Controllers
                 if (type == ConstVals.Renter || string.IsNullOrWhiteSpace(type))
                 {
                     renterReserv =
-                        _context.Reservations.Where(x => x.UserId == account.UserId).Select(r => new ReservationDTO
+                        _context.Reservations.Where(x => x.UserId == account.UserId).OrderByDescending(r => r.CreatedAt).Select(r => new ReservationDTO
                         {
                             Id = r.Id,
                             Type = ConstVals.Renter,
                             CardId = r.CardId,
                             UserId = r.UserId,
                             Status = r.Status,
+                            Gender = r.Gender,
                             DateFrom = r.DateFrom,
                             DateTo = r.DateTo,
                             CreatedAt = r.CreatedAt,
@@ -186,10 +186,8 @@ namespace apartmenthostService.Controllers
                                 UserId = r.Card.UserId,
                                 Description = r.Card.Description,
                                 ApartmentId = r.Card.ApartmentId,
-                                PriceDay = r.Card.PriceDay,
-                                PricePeriod = r.Card.PriceDay*7,
+                                PriceDay = r.Card.Genders.FirstOrDefault(ge => ge.Name == r.Gender).Price,
                                 Cohabitation = r.Card.Cohabitation,
-                                ResidentGender = r.Card.ResidentGender,
                                 Lang = r.Card.Lang,
                                 Dates = r.Card.Dates.Select(d => new DatesDTO
                                 {
@@ -259,7 +257,7 @@ namespace apartmenthostService.Controllers
             )]
         [AuthorizeLevel(AuthorizationLevel.User)]
         [HttpPost]
-        public HttpResponseMessage MakeReservation(string cardId, DateTime dateFrom, DateTime dateTo)
+        public HttpResponseMessage MakeReservation(string cardId, string gender, DateTime dateFrom, DateTime dateTo)
         {
             try
             {
@@ -356,6 +354,7 @@ namespace apartmenthostService.Controllers
                     CardId = cardId,
                     UserId = account.UserId,
                     Status = ConstVals.Pending,
+                    Gender = gender,
                     DateFrom = dateFrom,
                     DateTo = dateTo
                 });

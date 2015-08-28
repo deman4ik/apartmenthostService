@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 using Microsoft.Owin.Security.Facebook;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
@@ -53,20 +54,30 @@ namespace apartmenthostService.Authentication
         public override ProviderCredentials CreateCredentials(
             ClaimsIdentity claimsIdentity)
         {
-            var name = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-            var providerAccessToken = claimsIdentity
-                .FindFirst(ServiceClaimTypes.ProviderAccessToken);
-            var userId = TokenHandler.CreateUserId(Name, name?.Value);
-            var emailClaim = claimsIdentity.FindFirst(ClaimTypes.Email);
-            var nameClaim = claimsIdentity.FindFirst(ClaimTypes.Name);
-
-            var credentials = new FBCredentials
+            try
             {
-                UserId = userId,
-                AccessToken = providerAccessToken?.Value
-            };
-            AuthUtils.CreateAccount(Name, name.Value, userId, emailClaim.Value, nameClaim.Value);
-            return credentials;
+                
+                var providerAccessToken = claimsIdentity
+                    .FindFirst(ServiceClaimTypes.ProviderAccessToken);
+                if (providerAccessToken == null) return null;
+                var name = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                var userId = TokenHandler.CreateUserId(Name, name?.Value);
+                var emailClaim = claimsIdentity.FindFirst(ClaimTypes.Email);
+                var nameClaim = claimsIdentity.FindFirst(ClaimTypes.Name);
+
+                var credentials = new FBCredentials
+                {
+                    UserId = userId,
+                    AccessToken = providerAccessToken?.Value
+                };
+                if (name != null) AuthUtils.CreateAccount(Name, name.Value, userId, emailClaim.Value, nameClaim.Value);
+                return credentials;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
         }
 
         /// <summary>

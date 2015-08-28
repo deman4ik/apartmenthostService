@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using apartmenthostService.Attributes;
 using apartmenthostService.Helpers;
 using Newtonsoft.Json;
@@ -69,5 +70,11 @@ namespace apartmenthostService.DataObjects
 
         // Изображение
         public PictureDTO Picture { get; set; }
+
+        // Отзывы
+        public ICollection<ReviewDTO> Reviews { get; set; }
+
+        // Карточки
+        public ICollection<CardDTO> Cards { get; set; }
     }
 }

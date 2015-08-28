@@ -19,6 +19,114 @@ namespace apartmenthostService.Controllers
     {
         private readonly apartmenthostContext _context = new apartmenthostContext();
         public ApiServices Services { get; set; }
+
+
+        // GET api/Profile/{id}
+        [Route("api/Profile/{userId}")]
+        [AuthorizeLevel(AuthorizationLevel.Anonymous)]
+        [HttpGet]
+        public HttpResponseMessage GetProfile(string userId)
+        {
+            try
+            {
+                var result = _context.Profile.Where(p => p.Id == userId).Select(x => new UserDTO
+                {
+                    Id = x.Id,
+                    Email = x.User.Email,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    Gender = x.Gender,
+                    Birthday = x.Birthday,
+                    Phone = x.Phone,
+                    ContactEmail = x.ContactEmail,
+                    ContactKind = x.ContactKind,
+                    Description = x.Description,
+                    Rating = x.Rating,
+                    RatingCount = x.RatingCount,
+                    Score = x.Score,
+                    CardCount = _context.Cards.Count(c => c.UserId == x.Id),
+                    CreatedAt = x.CreatedAt,
+                    UpdatedAt = x.UpdatedAt,
+                    Picture = new PictureDTO
+                    {
+                        Id = x.Picture.Id,
+                        Name = x.Picture.Name,
+                        Description = x.Picture.Description,
+                        Url = x.Picture.Url,
+                        Xsmall = x.Picture.Xsmall,
+                        Small = x.Picture.Small,
+                        Mid = x.Picture.Mid,
+                        Large = x.Picture.Large,
+                        Xlarge = x.Picture.Xlarge,
+                        Default = x.Picture.Default,
+                        CreatedAt = x.Picture.CreatedAt
+                    },
+                    Cards = x.User.Cards.Select(c => new CardDTO
+                    {
+                        Name = c.Name,
+                        UserId = c.UserId,
+                        Description = c.Description,
+                        ApartmentId = c.ApartmentId,
+                        PriceDay = c.Genders.Min(ge => ge.Price),
+                        PriceGender = c.Genders.FirstOrDefault(gn => gn.Price == c.Genders.Min(ge => ge.Price)).Name,
+                        Cohabitation = c.Cohabitation,
+                        Lang = c.Lang,
+                        Dates = c.Dates.Select(d => new DatesDTO
+                        {
+                            DateFrom = d.DateFrom,
+                            DateTo = d.DateTo
+                        }
+                            ).ToList(),
+                        Apartment = new ApartmentDTO
+                        {
+                            Id = c.Apartment.Id,
+                            Name = c.Apartment.Name,
+                            Type = c.Apartment.Type,
+                            Options = c.Apartment.Options,
+                            UserId = c.Apartment.UserId,
+                            Adress = c.Apartment.Adress,
+                            FormattedAdress = c.Apartment.FormattedAdress,
+                            Latitude = c.Apartment.Latitude,
+                            Longitude = c.Apartment.Longitude,
+                            PlaceId = c.Apartment.PlaceId,
+                            Pictures = c.Apartment.Pictures.Select(apic => new PictureDTO
+                            {
+                                Id = apic.Id,
+                                Name = apic.Name,
+                                Description = apic.Description,
+                                Url = apic.Url,
+                                Xsmall = apic.Xsmall,
+                                Small = apic.Small,
+                                Mid = apic.Mid,
+                                Large = apic.Large,
+                                Xlarge = apic.Xlarge,
+                                Default = apic.Default,
+                                CreatedAt = apic.CreatedAt
+                            }).ToList()
+                        },
+                    }).ToList(),
+                    Reviews = x.User.InReviews.Select(owrev => new ReviewDTO
+                    {
+                        Id = owrev.Id,
+                        FromUserId = owrev.FromUserId,
+                        ToUserId = owrev.ToUserId,
+                        ReservationId = owrev.ReservationId,
+                        Rating = owrev.Rating,
+                        Text = owrev.Text,
+                        CreatedAt = owrev.CreatedAt,
+                        UpdatedAt = owrev.UpdatedAt
+                    }).OrderByDescending(r => r.CreatedAt).ToList()
+                });
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
+            }
+        }
+
         //PUT api/Profile/48D68C86-6EA6-4C25-AA33-223FC9A27959
         [Route("api/Profile")]
         [AuthorizeLevel(AuthorizationLevel.User)]
