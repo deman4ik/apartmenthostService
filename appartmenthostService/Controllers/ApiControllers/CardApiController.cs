@@ -128,8 +128,8 @@ namespace apartmenthostService.Controllers
                     // Если заданы обе даты
                     if (cardRequest.AvailableDateFrom != null && cardRequest.AvailableDateTo != null)
                     {
-                        var t = (DateTime) cardRequest.AvailableDateTo - (DateTime) cardRequest.AvailableDateFrom;
-                        periodDays = (int) t.TotalDays;
+                        var t = (DateTime)cardRequest.AvailableDateTo - (DateTime)cardRequest.AvailableDateFrom;
+                        periodDays = (int)t.TotalDays;
                         // Ищем когда жилье доступно
                         pre = pre.And(x => x.Dates.Count(date =>
                             // ||--\\--\\--||
@@ -137,19 +137,19 @@ namespace apartmenthostService.Controllers
                              date.DateFrom <= cardRequest.AvailableDateTo
                              && date.DateTo >= cardRequest.AvailableDateFrom &&
                              date.DateTo >= cardRequest.AvailableDateTo)
-                                // \\--||--||--\\
+                            // \\--||--||--\\
                             ||
                             (date.DateFrom >= cardRequest.AvailableDateFrom &&
                              date.DateFrom <= cardRequest.AvailableDateTo
                              && date.DateTo >= cardRequest.AvailableDateFrom &&
                              date.DateTo >= cardRequest.AvailableDateTo)
-                                // ||--\\--||--\\
+                            // ||--\\--||--\\
                             ||
                             (date.DateFrom <= cardRequest.AvailableDateFrom &&
                              date.DateFrom <= cardRequest.AvailableDateTo
                              && date.DateTo >= cardRequest.AvailableDateFrom &&
                              date.DateTo <= cardRequest.AvailableDateTo)
-                                //  \\--||--||--\\
+                            //  \\--||--||--\\
                             ||
                             (date.DateFrom >= cardRequest.AvailableDateFrom &&
                              date.DateFrom <= cardRequest.AvailableDateTo
@@ -164,19 +164,19 @@ namespace apartmenthostService.Controllers
                               reserv.DateFrom <= cardRequest.AvailableDateTo
                               && reserv.DateTo >= cardRequest.AvailableDateFrom &&
                               reserv.DateTo >= cardRequest.AvailableDateTo)
-                                // \\--||--||--\\
+                             // \\--||--||--\\
                              ||
                              (reserv.DateFrom >= cardRequest.AvailableDateFrom &&
                               reserv.DateFrom <= cardRequest.AvailableDateTo
                               && reserv.DateTo >= cardRequest.AvailableDateFrom &&
                               reserv.DateTo >= cardRequest.AvailableDateTo)
-                                // ||--\\--||--\\
+                             // ||--\\--||--\\
                              ||
                              (reserv.DateFrom <= cardRequest.AvailableDateFrom &&
                               reserv.DateFrom <= cardRequest.AvailableDateTo
                               && reserv.DateTo >= cardRequest.AvailableDateFrom &&
                               reserv.DateTo <= cardRequest.AvailableDateTo)
-                                //  \\--||--||--\\
+                             //  \\--||--||--\\
                              ||
                              (reserv.DateFrom >= cardRequest.AvailableDateFrom &&
                               reserv.DateFrom <= cardRequest.AvailableDateTo
@@ -289,7 +289,7 @@ namespace apartmenthostService.Controllers
                         Description = x.Description,
                         ApartmentId = x.ApartmentId,
                         PriceDay = x.PriceDay,
-                        PricePeriod = x.PriceDay*periodDays,
+                        PricePeriod = x.PriceDay * periodDays,
                         PeriodDays = periodDays,
                         Cohabitation = x.Cohabitation,
                         ResidentGender = x.ResidentGender,
@@ -407,7 +407,7 @@ namespace apartmenthostService.Controllers
                                     Description = card.Description,
                                     ApartmentId = card.ApartmentId,
                                     PriceDay = card.PriceDay,
-                                    PricePeriod = card.PriceDay*periodDays,
+                                    PricePeriod = card.PriceDay * periodDays,
                                     Cohabitation = card.Cohabitation,
                                     ResidentGender = card.ResidentGender,
                                     IsFavorite = card.Favorites.Any(f => f.UserId == userId),
@@ -484,13 +484,13 @@ namespace apartmenthostService.Controllers
             catch (JsonReaderException ex)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_CARD_INVALID_FILTER, new List<string> {ex.ToString()}));
+                    RespH.Create(RespH.SRV_CARD_INVALID_FILTER, new List<string> { ex.ToString() }));
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> { ex.ToString() }));
             }
         }
 
@@ -703,7 +703,7 @@ namespace apartmenthostService.Controllers
             {
                 Debug.WriteLine(ex.InnerException);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> { ex.InnerException.ToString() }));
             }
         }
 
@@ -882,7 +882,7 @@ namespace apartmenthostService.Controllers
             {
                 Debug.WriteLine(ex.InnerException);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> { ex.InnerException.ToString() }));
             }
         }
 
@@ -978,7 +978,7 @@ namespace apartmenthostService.Controllers
             {
                 Debug.WriteLine(ex.InnerException);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> { ex.InnerException.ToString() }));
             }
         }
     }
