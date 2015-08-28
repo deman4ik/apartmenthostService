@@ -198,6 +198,7 @@ namespace apartmenthostService.Controllers
                     }
 
                     user.SaltedAndHashedCode = null;
+                    user.EmailConfirmed = true;
                     user.ResetRequested = false;
                 }
                 else
