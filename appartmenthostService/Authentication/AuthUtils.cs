@@ -106,6 +106,10 @@ namespace apartmenthostService.Authentication
                         context.Users.Add(user);
                         context.SaveChanges();
                     }
+                    else
+                    {
+                        user.EmailConfirmed = email != null;
+                    }
                 }
                 account = new Account
                 {

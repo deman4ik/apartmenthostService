@@ -61,7 +61,9 @@ namespace apartmenthostService.Authentication
                     .FindFirst(ServiceClaimTypes.ProviderAccessToken);
                 if (providerAccessToken == null) return null;
                 var name = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                if (name == null) return null;
                 var userId = TokenHandler.CreateUserId(Name, name?.Value);
+                if (userId == null) return null;
                 var emailClaim = claimsIdentity.FindFirst(ClaimTypes.Email);
                 var nameClaim = claimsIdentity.FindFirst(ClaimTypes.Name);
 
@@ -70,7 +72,7 @@ namespace apartmenthostService.Authentication
                     UserId = userId,
                     AccessToken = providerAccessToken?.Value
                 };
-                if (name != null) AuthUtils.CreateAccount(Name, name.Value, userId, emailClaim.Value, nameClaim.Value);
+                if (name != null) AuthUtils.CreateAccount(Name, name.Value, userId, emailClaim?.Value, nameClaim?.Value);
                 return credentials;
             }
             catch (Exception e)
