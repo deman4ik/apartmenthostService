@@ -126,8 +126,14 @@ namespace apartmenthostService.Authentication
                     profile.Id = user.Id;
                     if (name != null)
                     {
-                        profile.FirstName = name.Split(' ')[0];
-                        profile.LastName = name.Split(' ')[1];
+                        string[] names = name.Split(' ');
+                        if (names.Length == 1)
+                        profile.FirstName = name;
+                        if (names.Length > 1)
+                        {
+                            profile.FirstName = name.Split(' ')[0];
+                            profile.LastName = name.Split(' ')[1];
+                        }
                     }
 
                     context.Profile.Add(profile);

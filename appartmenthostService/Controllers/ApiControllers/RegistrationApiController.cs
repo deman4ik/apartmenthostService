@@ -62,7 +62,7 @@ namespace apartmenthostService.Controllers
                 _context.SaveChanges();
                 AuthUtils.CreateAccount(StandartLoginProvider.ProviderName, registrationRequest.Email,
                     StandartLoginProvider.ProviderName + ":" + registrationRequest.Email,
-                    registrationRequest.Email);
+                    registrationRequest.Email, registrationRequest.FirstName);
                 Notifications.SendEmail(_context, newUser.Id, ConstVals.General, ConstVals.Reg, null, null, null,
                     confirmCode);
                 respList.Add(newUser.Id);
