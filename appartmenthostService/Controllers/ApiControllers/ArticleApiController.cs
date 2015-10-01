@@ -73,7 +73,7 @@ namespace apartmenthostService.Controllers
                     }
                 }
 
-                var result = _context.Article.Where(pre).Select(art => new ArticleDTO
+                var result = _context.Article.AsExpandable().Where(pre).Select(art => new ArticleDTO
                 {
                     Id = art.Id,
                     Name = art.Name,
@@ -83,14 +83,14 @@ namespace apartmenthostService.Controllers
                     Lang = art.Lang,
                     CreatedAt = art.CreatedAt,
                     UpdatedAt = art.UpdatedAt
-                });
+                }).ToList();
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.InnerException);
+                Debug.WriteLine(ex);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
             }
         }
 
