@@ -94,7 +94,7 @@ namespace apartmenthostService.Authentication
             {
                 User user = null;
                 if (!string.IsNullOrEmpty(email))
-                user = context.Users.SingleOrDefault(u => u.Email == email);
+                    user = context.Users.SingleOrDefault(u => u.Email == email);
                 if (providerName != StandartLoginProvider.ProviderName)
                 {
                     if (user == null)
@@ -128,13 +128,12 @@ namespace apartmenthostService.Authentication
                 var profile = context.Profile.SingleOrDefault(p => p.Id == user.Id);
                 if (profile == null)
                 {
-                    profile = new Profile();
-                    profile.Id = user.Id;
+                    profile = new Profile {Id = user.Id};
                     if (name != null)
                     {
                         string[] names = name.Split(' ');
                         if (names.Length == 1)
-                        profile.FirstName = name;
+                            profile.FirstName = name;
                         if (names.Length > 1)
                         {
                             profile.FirstName = names[0];

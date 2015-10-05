@@ -53,7 +53,6 @@ namespace apartmenthostService.Authentication
         {
             try
             {
-                
                 var providerAccessToken = claimsIdentity
                     .FindFirst(ServiceClaimTypes.ProviderAccessToken);
                 if (providerAccessToken == null) return null;
@@ -69,7 +68,7 @@ namespace apartmenthostService.Authentication
                     UserId = userId,
                     AccessToken = providerAccessToken?.Value
                 };
-                AuthUtils.CreateAccount(Name, name.Value, userId, emailClaim?.Value, nameClaim?.Value);
+                AuthUtils.CreateAccount(Name, name?.Value, userId, emailClaim?.Value, nameClaim?.Value);
                 return credentials;
             }
             catch (Exception e)
