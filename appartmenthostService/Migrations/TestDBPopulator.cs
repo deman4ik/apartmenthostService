@@ -986,14 +986,14 @@ namespace apartmenthostService.Migrations
                     Name = ConstVals.Female,
                     Price = 30000
                 },
-               new CardGenders()
+                new CardGenders()
                 {
                     Id = "cg12",
                     CardId = "a1",
                     Name = ConstVals.Male,
                     Price = 40000
                 },
-               new CardGenders()
+                new CardGenders()
                 {
                     Id = "cg13",
                     CardId = "a1",
@@ -1007,56 +1007,56 @@ namespace apartmenthostService.Migrations
                     Name = ConstVals.Female,
                     Price = 33000
                 },
-               new CardGenders()
+                new CardGenders()
                 {
                     Id = "cg22",
                     CardId = "a2",
                     Name = ConstVals.Male,
                     Price = 20000
                 },
-               new CardGenders()
+                new CardGenders()
                 {
                     Id = "cg31",
                     CardId = "a3",
                     Name = ConstVals.Alien,
                     Price = 55000
                 },
-               new CardGenders()
+                new CardGenders()
                 {
                     Id = "cg41",
                     CardId = "a4",
                     Name = ConstVals.Female,
                     Price = 13000
                 },
-               new CardGenders()
+                new CardGenders()
                 {
                     Id = "cg52",
                     CardId = "a5",
                     Name = ConstVals.Male,
                     Price = 10000
                 },
-               new CardGenders()
+                new CardGenders()
                 {
                     Id = "cg61",
                     CardId = "a6",
                     Name = ConstVals.Alien,
                     Price = 15000
                 },
-               new CardGenders()
+                new CardGenders()
                 {
                     Id = "cg62",
                     CardId = "a6",
                     Name = ConstVals.Female,
                     Price = 13000
                 },
-               new CardGenders()
+                new CardGenders()
                 {
                     Id = "cg72",
                     CardId = "a7",
                     Name = ConstVals.Male,
                     Price = 90000
                 },
-               new CardGenders()
+                new CardGenders()
                 {
                     Id = "cg71",
                     CardId = "a7",
@@ -1070,14 +1070,14 @@ namespace apartmenthostService.Migrations
                     Name = ConstVals.Female,
                     Price = 19000
                 },
-               new CardGenders()
+                new CardGenders()
                 {
                     Id = "cg91",
                     CardId = "a9",
                     Name = ConstVals.Male,
                     Price = 20000
                 },
-               new CardGenders()
+                new CardGenders()
                 {
                     Id = "cg101",
                     CardId = "a10",

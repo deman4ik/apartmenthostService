@@ -192,9 +192,8 @@ namespace apartmenthostService.Controllers
                     if (!AuthUtils.slowEquals(incoming, user.SaltedAndHashedCode))
                     {
                         return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_USER_WRONG_CODE,
-                        new List<string> { resetRequest.UserId ?? resetRequest.Email, resetRequest.Code }));
-                      
+                            RespH.Create(RespH.SRV_USER_WRONG_CODE,
+                                new List<string> {resetRequest.UserId ?? resetRequest.Email, resetRequest.Code}));
                     }
 
                     user.SaltedAndHashedCode = null;
@@ -244,17 +243,14 @@ namespace apartmenthostService.Controllers
                 if (resetRequest.Password.Length < 8)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
-                        RespH.Create(RespH.SRV_REG_INVALID_PASSWORD, new List<string> { resetRequest.Password }));
+                        RespH.Create(RespH.SRV_REG_INVALID_PASSWORD, new List<string> {resetRequest.Password}));
                 }
                 var salt = AuthUtils.generateSalt();
-                    user.Salt = salt;
-                    user.SaltedAndHashedPassword = AuthUtils.hash(resetRequest.Password, salt);
-                    _context.SaveChanges();
-                    return Request.CreateResponse(HttpStatusCode.OK,
-                        RespH.Create(RespH.SRV_USER_RESETED, new List<string> {user.Id}));
-               
-
-                
+                user.Salt = salt;
+                user.SaltedAndHashedPassword = AuthUtils.hash(resetRequest.Password, salt);
+                _context.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK,
+                    RespH.Create(RespH.SRV_USER_RESETED, new List<string> {user.Id}));
             }
             catch (Exception ex)
             {

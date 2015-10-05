@@ -138,13 +138,13 @@ namespace apartmenthostService.Controllers
                              date.DateFrom <= cardRequest.AvailableDateTo
                              && date.DateTo >= cardRequest.AvailableDateFrom &&
                              date.DateTo >= cardRequest.AvailableDateTo)
-                            // \\--||--||--\\
+                                // \\--||--||--\\
                             ||
                             (date.DateFrom >= cardRequest.AvailableDateFrom &&
                              date.DateFrom <= cardRequest.AvailableDateTo
                              && date.DateTo >= cardRequest.AvailableDateFrom &&
                              date.DateTo >= cardRequest.AvailableDateTo)
-                            // ||--\\--||--\\
+                                // ||--\\--||--\\
                             ||
                             (date.DateFrom <= cardRequest.AvailableDateFrom &&
                              date.DateFrom <= cardRequest.AvailableDateTo
@@ -208,7 +208,7 @@ namespace apartmenthostService.Controllers
                             (current, gen) => current.Or(t => t.ResidentGender.Contains(gen)));
                         pre = pre.And(genPre);
                     }
-                    
+
                     // Пол постояльца
                     if (cardRequest.Genders != null)
                     {
@@ -222,28 +222,28 @@ namespace apartmenthostService.Controllers
                         var pricePre = PredicateBuilder.False<Card>();
                         // Цена за день с (с учетом пола)
                         if (cardRequest.PriceDayFrom != null)
-                           pricePre =
-                            cardRequest.Genders.Where(gender => cardRequest.PriceDayFrom != null)
-                                .Aggregate(pricePre,
-                                    (current, gender) =>
-                                        current.Or(
-                                            x =>
-                                                x.Genders.Any(
-                                                    g =>
-                                                        g.Price > 0 && g.Name == gender &&
-                                                        g.Price >= cardRequest.PriceDayFrom)));
+                            pricePre =
+                                cardRequest.Genders.Where(gender => cardRequest.PriceDayFrom != null)
+                                    .Aggregate(pricePre,
+                                        (current, gender) =>
+                                            current.Or(
+                                                x =>
+                                                    x.Genders.Any(
+                                                        g =>
+                                                            g.Price > 0 && g.Name == gender &&
+                                                            g.Price >= cardRequest.PriceDayFrom)));
                         // Цена за день по(с учетом пола)
                         if (cardRequest.PriceDayTo != null)
                             pricePre =
-                            cardRequest.Genders.Where(gender => cardRequest.PriceDayTo != null)
-                                .Aggregate(pricePre,
-                                    (current, gender) =>
-                                        current.Or(
-                                            x =>
-                                                x.Genders.Any(
-                                                    g =>
-                                                        g.Price > 0 && g.Name == gender &&
-                                                        g.Price <= cardRequest.PriceDayTo)));
+                                cardRequest.Genders.Where(gender => cardRequest.PriceDayTo != null)
+                                    .Aggregate(pricePre,
+                                        (current, gender) =>
+                                            current.Or(
+                                                x =>
+                                                    x.Genders.Any(
+                                                        g =>
+                                                            g.Price > 0 && g.Name == gender &&
+                                                            g.Price <= cardRequest.PriceDayTo)));
 
                         if (cardRequest.PriceDayFrom != null || cardRequest.PriceDayTo != null)
                             pre = pre.And(pricePre);
@@ -252,11 +252,23 @@ namespace apartmenthostService.Controllers
                     {
                         // Цена за день с 
                         if (cardRequest.PriceDayFrom != null)
-                            pre = pre.And(x => x.Genders.Any(g => g.Price >= cardRequest.PriceDayFrom && g.Price == x.Genders.Min(ge => ge.Price)));
+                            pre =
+                                pre.And(
+                                    x =>
+                                        x.Genders.Any(
+                                            g =>
+                                                g.Price >= cardRequest.PriceDayFrom &&
+                                                g.Price == x.Genders.Min(ge => ge.Price)));
 
                         // Цена за день по
                         if (cardRequest.PriceDayTo != null)
-                            pre = pre.And(x => x.Genders.Any(g => g.Price <= cardRequest.PriceDayTo && g.Price == x.Genders.Min(ge => ge.Price)));
+                            pre =
+                                pre.And(
+                                    x =>
+                                        x.Genders.Any(
+                                            g =>
+                                                g.Price <= cardRequest.PriceDayTo &&
+                                                g.Price == x.Genders.Min(ge => ge.Price)));
                     }
 
                     // Избранное (Уникальный идентификатор пользователя)
@@ -287,7 +299,12 @@ namespace apartmenthostService.Controllers
                 {
                     userId = account.UserId;
                 }
-                var result = _context.Cards.AsExpandable().Where(pre).OrderByDescending(o => o.CreatedAt).Skip(skip).Take(limit).
+                var result = _context.Cards.AsExpandable()
+                    .Where(pre)
+                    .OrderByDescending(o => o.CreatedAt)
+                    .Skip(skip)
+                    .Take(limit)
+                    .
                     Select(x => new CardDTO
                     {
                         Id = x.Id,
@@ -295,9 +312,16 @@ namespace apartmenthostService.Controllers
                         UserId = x.UserId,
                         Description = x.Description,
                         ApartmentId = x.ApartmentId,
-                        PriceDay = currGender !=null ? x.Genders.FirstOrDefault(g => g.Name == currGender).Price : x.Genders.Min(ge => ge.Price),
-                        PriceGender = currGender ?? x.Genders.FirstOrDefault(gn => gn.Price == x.Genders.Min(ge => ge.Price)).Name,
-                        PricePeriod = currGender != null ? x.Genders.FirstOrDefault(g => g.Name == currGender).Price * periodDays : x.Genders.Min(ge => ge.Price) * periodDays,
+                        PriceDay =
+                            currGender != null
+                                ? x.Genders.FirstOrDefault(g => g.Name == currGender).Price
+                                : x.Genders.Min(ge => ge.Price),
+                        PriceGender =
+                            currGender ?? x.Genders.FirstOrDefault(gn => gn.Price == x.Genders.Min(ge => ge.Price)).Name,
+                        PricePeriod =
+                            currGender != null
+                                ? x.Genders.FirstOrDefault(g => g.Name == currGender).Price*periodDays
+                                : x.Genders.Min(ge => ge.Price)*periodDays,
                         PeriodDays = periodDays,
                         Cohabitation = x.Cohabitation,
                         IsFavorite = x.Favorites.Any(f => f.UserId == userId),
@@ -414,8 +438,10 @@ namespace apartmenthostService.Controllers
                                     Description = card.Description,
                                     ApartmentId = card.ApartmentId,
                                     PriceDay = card.Genders.Min(ge => ge.Price),
-                                    PriceGender = card.Genders.FirstOrDefault(gn => gn.Price == x.Genders.Min(ge => ge.Price)).Name,
-                                    PricePeriod = card.Genders.Min(ge => ge.Price) * periodDays,
+                                    PriceGender =
+                                        card.Genders.FirstOrDefault(gn => gn.Price == x.Genders.Min(ge => ge.Price))
+                                            .Name,
+                                    PricePeriod = card.Genders.Min(ge => ge.Price)*periodDays,
                                     Cohabitation = card.Cohabitation,
                                     IsFavorite = card.Favorites.Any(f => f.UserId == userId),
                                     CreatedAt = card.CreatedAt,
@@ -551,7 +577,8 @@ namespace apartmenthostService.Controllers
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Apartment FormatedAdress is not NULL
-                resp = CheckHelper.IsNull(card.Apartment.FormattedAdress, "FormattedAdress", RespH.SRV_APARTMENT_REQUIRED);
+                resp = CheckHelper.IsNull(card.Apartment.FormattedAdress, "FormattedAdress",
+                    RespH.SRV_APARTMENT_REQUIRED);
                 if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
 
