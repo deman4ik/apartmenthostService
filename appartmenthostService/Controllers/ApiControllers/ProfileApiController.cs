@@ -163,6 +163,13 @@ namespace apartmenthostService.Controllers
                         RespH.Create(RespH.SRV_USER_WRONG_USER, respList));
                 }
 
+                var user = _context.Users.SingleOrDefault(u => u.Id == account.UserId);
+                if (user == null)
+                {
+                    respList.Add(account.UserId);
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
+                }
                 // Check Current Profile is not NULL
                 var profileCurrent = _context.Profile.SingleOrDefault(a => a.Id == account.UserId);
                 if (profileCurrent == null)
@@ -172,29 +179,28 @@ namespace apartmenthostService.Controllers
                         RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
 
+
                 // Check FirstName is not NULL
-                resp = CheckHelper.IsNull(profile.FirstName, "FirstName", RespH.SRV_USER_REQUIRED);
-                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                //resp = CheckHelper.IsNull(profile.FirstName, "FirstName", RespH.SRV_USER_REQUIRED);
+                //if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check LastName is not NULL
-                resp = CheckHelper.IsNull(profile.LastName, "LastName", RespH.SRV_USER_REQUIRED);
-                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                //resp = CheckHelper.IsNull(profile.LastName, "LastName", RespH.SRV_USER_REQUIRED);
+                //if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Phone is not NULL
-                resp = CheckHelper.IsNull(profile.Phone, "Phone", RespH.SRV_USER_REQUIRED);
-                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                //resp = CheckHelper.IsNull(profile.Phone, "Phone", RespH.SRV_USER_REQUIRED);
+                //if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check Genderis not NULL
-                resp = CheckHelper.IsNull(profile.Gender, "Gender", RespH.SRV_USER_REQUIRED);
-                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                //resp = CheckHelper.IsNull(profile.Gender, "Gender", RespH.SRV_USER_REQUIRED);
+                //if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 profileCurrent.FirstName = profile.FirstName;
                 profileCurrent.LastName = profile.LastName;
                 profileCurrent.Gender = profile.Gender;
                 profileCurrent.Birthday = profile.Birthday;
                 profileCurrent.Phone = profile.Phone;
-                profileCurrent.ContactEmail = profile.ContactEmail;
-                profileCurrent.ContactKind = profile.ContactKind;
                 profileCurrent.Description = profile.Description;
 
                 _context.SaveChanges();

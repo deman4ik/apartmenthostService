@@ -92,7 +92,9 @@ namespace apartmenthostService.Authentication
                         a.AccountId == accountId);
             if (account == null)
             {
-                User user = context.Users.SingleOrDefault(u => u.Email == email);
+                User user = null;
+                if (!string.IsNullOrEmpty(email))
+                user = context.Users.SingleOrDefault(u => u.Email == email);
                 if (providerName != StandartLoginProvider.ProviderName)
                 {
                     if (user == null)
@@ -104,12 +106,12 @@ namespace apartmenthostService.Authentication
                             EmailConfirmed = email != null
                         };
                         context.Users.Add(user);
-                        context.SaveChanges();
                     }
                     else
                     {
                         user.EmailConfirmed = email != null;
                     }
+                    context.SaveChanges();
                 }
                 account = new Account
                 {

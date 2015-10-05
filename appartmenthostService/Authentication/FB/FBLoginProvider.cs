@@ -24,10 +24,7 @@ namespace apartmenthostService.Authentication
 
         /// <summary>
         /// </summary>
-        public override string Name
-        {
-            get { return ProviderName; }
-        }
+        public override string Name => ProviderName;
 
         /// <summary>
         /// </summary>
@@ -72,7 +69,7 @@ namespace apartmenthostService.Authentication
                     UserId = userId,
                     AccessToken = providerAccessToken?.Value
                 };
-                if (name != null) AuthUtils.CreateAccount(Name, name.Value, userId, emailClaim?.Value, nameClaim?.Value);
+                AuthUtils.CreateAccount(Name, name.Value, userId, emailClaim?.Value, nameClaim?.Value);
                 return credentials;
             }
             catch (Exception e)
