@@ -113,6 +113,7 @@ namespace apartmenthostService.Controllers
                         ReservationId = owrev.ReservationId,
                         Rating = owrev.Rating,
                         Text = owrev.Text,
+                        Type = _context.Reservations.FirstOrDefault(res => res.Id == owrev.ReservationId).UserId == userId ? ConstVals.Renter : ConstVals.Owner,
                         CreatedAt = owrev.CreatedAt,
                         UpdatedAt = owrev.UpdatedAt
                     }).OrderByDescending(r => r.CreatedAt).ToList()
@@ -136,7 +137,6 @@ namespace apartmenthostService.Controllers
             try
             {
                 var respList = new List<string>();
-                ResponseDTO resp;
 
                 // Check Profile is not NULL 
                 if (profile == null)

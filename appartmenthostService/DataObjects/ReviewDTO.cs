@@ -19,6 +19,9 @@ namespace apartmenthostService.DataObjects
         // Уникальный идентификатор пользователя - Брониерование
         public string ReservationId { get; set; }
 
+        // Тип отзыва
+        public string Type { get; set; }
+
         // Рейтинг
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public decimal Rating { get; set; }
