@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 
 namespace apartmenthostService.Controllers
 {
+    /* TODO: ПРОВЕРКА ПРАВ ДОСТУПА */
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class ArticleApiController : ApiController
     {
@@ -35,12 +36,13 @@ namespace apartmenthostService.Controllers
                 var pre = PredicateBuilder.True<Article>();
                 pre = pre.And(x => x.Deleted == false);
                 // Получаем объект из строки запроса
-                if (!string.IsNullOrWhiteSpace(filter))
+                if (!string.IsNullOrWhiteSpace(filter) && filter != "{}" && filter != "{filter}")
                 {
                     var artRequest = JsonConvert.DeserializeObject<ArticleDTO>(filter);
                     if (artRequest == null)
                         return Request.CreateResponse(HttpStatusCode.BadRequest,
                             RespH.Create(RespH.SRV_ARTICLE_INVALID_FILTER));
+
 
                     if (artRequest.Id != null)
                     {
@@ -139,7 +141,98 @@ namespace apartmenthostService.Controllers
             {
                 Debug.WriteLine(ex.InnerException);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
+            }
+        }
+
+        /// <summary>
+        ///     PUT api/Article/
+        /// </summary>
+        [Route("api/Article/{id}")]
+        [AuthorizeLevel(AuthorizationLevel.Anonymous)]
+        [HttpPut]
+        public HttpResponseMessage PutArticle(string id, ArticleDTO article)
+        {
+            try
+            {
+                var respList = new List<string>();
+                ResponseDTO resp = null;
+                if (article == null)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ARTICLE_NULL));
+
+                var articleCurrent = _context.Article.SingleOrDefault(a => a.Id == id);
+                if (articleCurrent == null)
+                {
+                    respList.Add(id);
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_ARTICLE_NOTFOUND, respList));
+                }
+
+                if (article.Name == null)
+
+                    resp = CheckHelper.IsNull(article.Name, "Name", RespH.SRV_ARTICLE_REQUIRED);
+                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+
+                if (article.Title == null && article.Text == null && article.Type == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ARTICLE_REQUIRED));
+                }
+
+
+                articleCurrent.Name = article.Name;
+                articleCurrent.Title = article.Title;
+                articleCurrent.Text = article.Text;
+                articleCurrent.Lang = article.Lang;
+                articleCurrent.Type = article.Type;
+                 
+
+                _context.SaveChanges();
+
+                respList.Add(id);
+                return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED, respList));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.InnerException);
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> { ex.ToString() }));
+            }
+        }
+
+        /// <summary>
+        ///     DELETE api/Article/
+        /// </summary>
+        [Route("api/Article/{id}")]
+        [AuthorizeLevel(AuthorizationLevel.Anonymous)]
+        [HttpDelete]
+        public HttpResponseMessage DeleteArticle(string id)
+        {
+            try
+            {
+                var respList = new List<string>();
+                ResponseDTO resp = null;
+
+                var article = _context.Article.SingleOrDefault(a => a.Id == id);
+                if (article == null)
+                {
+                    respList.Add(id);
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_ARTICLE_NOTFOUND, respList));
+                }
+
+                _context.Article.Remove(article);
+
+
+                _context.SaveChanges();
+
+                respList.Add(id);
+                return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_DELETED, respList));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.InnerException);
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> { ex.ToString() }));
             }
         }
     }

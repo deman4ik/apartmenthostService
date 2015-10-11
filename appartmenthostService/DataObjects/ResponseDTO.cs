@@ -153,6 +153,7 @@ namespace apartmenthostService.DataObjects
 
         //Article
         public const string SRV_ARTICLE_NULL = "SRV_ARTICLE_NULL"; // Пустой объект запроса
+        public const string SRV_ARTICLE_NOTFOUND = "SRV_ARTICLE_NOTFOUND"; // Объект не найден
         public const string SRV_ARTICLE_INVALID_FILTER = "SRV_ARTICLE_INVALID_FILTER"; // Не верный объект запроса
         public const string SRV_ARTICLE_REQUIRED = "SRV_ARTICLE_REQUIRED"; // Не заполнено обязательно поле
 
