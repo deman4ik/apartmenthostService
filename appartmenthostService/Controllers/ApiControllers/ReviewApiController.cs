@@ -318,7 +318,7 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.Unauthorized,
                         RespH.Create(RespH.SRV_REVIEW_EXISTS, respList));
                 }
-                var reviewGuid = Guid.NewGuid().ToString();
+                var reviewGuid = SequentialGuid.NewGuid().ToString();
                 newReview.Id = reviewGuid;
                 newReview.ReservationId = reservation.Id;
                 newReview.Text = review.Text;

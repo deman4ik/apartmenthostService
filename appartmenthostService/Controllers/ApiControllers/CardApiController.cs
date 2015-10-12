@@ -601,8 +601,8 @@ namespace apartmenthostService.Controllers
                     profile.Phone = card.Phone;
                 }
                 // Generate 
-                var cardGuid = Guid.NewGuid().ToString();
-                var apartmentGuid = Guid.NewGuid().ToString();
+                var cardGuid = SequentialGuid.NewGuid().ToString();
+                var apartmentGuid = SequentialGuid.NewGuid().ToString();
 
                 var cardDates = new List<CardDates>();
                 // Check Dates
@@ -614,7 +614,7 @@ namespace apartmenthostService.Controllers
                         if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
                         cardDates.Add(new CardDates
                         {
-                            Id = Guid.NewGuid().ToString(),
+                            Id = SequentialGuid.NewGuid().ToString(),
                             CardId = cardGuid,
                             DateFrom = dates.DateFrom,
                             DateTo = dates.DateTo
@@ -631,7 +631,7 @@ namespace apartmenthostService.Controllers
                         if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
                         cardGenders.Add(new CardGenders()
                         {
-                            Id = Guid.NewGuid().ToString(),
+                            Id = SequentialGuid.NewGuid().ToString(),
                             CardId = cardGuid,
                             Name = gender.Name,
                             Price = gender.Price
@@ -657,7 +657,7 @@ namespace apartmenthostService.Controllers
 
                     foreach (var picture in card.Apartment.Pictures)
                     {
-                        var pictureGuid = Guid.NewGuid().ToString();
+                        var pictureGuid = SequentialGuid.NewGuid().ToString();
                         var pic = new Picture
                         {
                             Id = pictureGuid,
@@ -794,7 +794,7 @@ namespace apartmenthostService.Controllers
                         if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
                         cardDates.Add(new CardDates
                         {
-                            Id = Guid.NewGuid().ToString(),
+                            Id = SequentialGuid.NewGuid().ToString(),
                             CardId = id,
                             DateFrom = dates.DateFrom,
                             DateTo = dates.DateTo
@@ -811,7 +811,7 @@ namespace apartmenthostService.Controllers
                         if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
                         cardGenders.Add(new CardGenders()
                         {
-                            Id = Guid.NewGuid().ToString(),
+                            Id = SequentialGuid.NewGuid().ToString(),
                             CardId = id,
                             Name = gender.Name,
                             Price = gender.Price

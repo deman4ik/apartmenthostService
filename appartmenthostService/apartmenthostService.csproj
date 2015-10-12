@@ -237,6 +237,7 @@
     <Compile Include="Controllers\SeedDbController.cs" />
     <Compile Include="DataObjects\GendersDTO.cs" />
     <Compile Include="Helpers\Notifications.cs" />
+    <Compile Include="Helpers\SequentialGuid.cs" />
     <Compile Include="Migrations\201508231137399_ResGender.cs" />
     <Compile Include="Migrations\201508231137399_ResGender.Designer.cs">
       <DependentUpon>201508231137399_ResGender.cs</DependentUpon>

@@ -351,7 +351,7 @@ namespace apartmenthostService.Controllers
                     }
                 }
 
-                var reservationGuid = Guid.NewGuid().ToString();
+                var reservationGuid = SequentialGuid.NewGuid().ToString();
                 _context.Set<Reservation>().Add(new Reservation
                 {
                     Id = reservationGuid,

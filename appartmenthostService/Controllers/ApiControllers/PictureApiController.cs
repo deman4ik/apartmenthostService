@@ -73,7 +73,7 @@ namespace apartmenthostService.Controllers
                         RespH.Create(RespH.SRV_USER_WRONG_USER, respList));
                 }
 
-                var pictureGuid = Guid.NewGuid().ToString();
+                var pictureGuid = SequentialGuid.NewGuid().ToString();
                 profile.Picture = new Picture
                 {
                     Id = pictureGuid,
@@ -167,7 +167,7 @@ namespace apartmenthostService.Controllers
 
                 foreach (var picture in pictures)
                 {
-                    var pictureGuid = Guid.NewGuid().ToString();
+                    var pictureGuid = SequentialGuid.NewGuid().ToString();
                     var pic = new Picture
                     {
                         Id = pictureGuid,

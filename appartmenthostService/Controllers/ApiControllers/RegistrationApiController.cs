@@ -52,7 +52,7 @@ namespace apartmenthostService.Controllers
                 var confirmCode = AuthUtils.randomNumString(6);
                 var newUser = new User
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = SequentialGuid.NewGuid().ToString(),
                     Email = registrationRequest.Email,
                     Salt = salt,
                     SaltedAndHashedPassword = AuthUtils.hash(registrationRequest.Password, salt),

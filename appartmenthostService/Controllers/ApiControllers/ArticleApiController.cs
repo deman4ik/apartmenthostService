@@ -120,7 +120,7 @@ namespace apartmenthostService.Controllers
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ARTICLE_REQUIRED));
                 }
-                var articleGuid = Guid.NewGuid().ToString();
+                var articleGuid = SequentialGuid.NewGuid().ToString();
                 _context.Set<Article>().Add(
                     new Article
                     {

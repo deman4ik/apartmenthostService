@@ -60,7 +60,7 @@ namespace apartmenthostService.Controllers
                 }
 
                 // Generate 
-                var apartmentGuid = Guid.NewGuid().ToString();
+                var apartmentGuid = SequentialGuid.NewGuid().ToString();
                 _context.Set<Apartment>().Add(new Apartment
                 {
                     Id = apartmentGuid,

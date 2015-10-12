@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
+using apartmenthostService.Helpers;
 using apartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
@@ -101,7 +102,7 @@ namespace apartmenthostService.Authentication
                     {
                         user = new User
                         {
-                            Id = Guid.NewGuid().ToString(),
+                            Id = SequentialGuid.NewGuid().ToString(),
                             Email = email,
                             EmailConfirmed = email != null
                         };
@@ -115,7 +116,7 @@ namespace apartmenthostService.Authentication
                 }
                 account = new Account
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = SequentialGuid.NewGuid().ToString(),
                     UserId = user.Id,
                     AccountId = accountId,
                     Provider = providerName,
