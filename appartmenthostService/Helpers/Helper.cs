@@ -61,7 +61,7 @@ namespace apartmenthostService.Helpers
             return null;
         }
 
-        public static ResponseDTO IsCardExist(apartmenthostContext context, string userId, string errType)
+        public static ResponseDTO IsCardExist(IApartmenthostContext context, string userId, string errType)
         {
             var currentAdvertCount = context.Cards.Count(a => a.UserId == userId);
             if (currentAdvertCount > 0)
@@ -73,7 +73,7 @@ namespace apartmenthostService.Helpers
             return null;
         }
 
-        public static ResponseDTO IsCardNameExist(apartmenthostContext context, string name, string errType)
+        public static ResponseDTO IsCardNameExist(IApartmenthostContext context, string name, string errType)
         {
             var currentAdvertCount = context.Cards.Count(a => a.Name == name);
             if (currentAdvertCount > 0)
@@ -101,7 +101,7 @@ namespace apartmenthostService.Helpers
             return null;
         }
 
-        public static ResponseDTO IsProfileFill(apartmenthostContext context, string userId)
+        public static ResponseDTO IsProfileFill(IApartmenthostContext context, string userId)
         {
             var user = context.Users.SingleOrDefault(x => x.Id == userId);
             var profile = context.Profile.SingleOrDefault(x => x.Id == userId);

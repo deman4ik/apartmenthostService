@@ -17,8 +17,17 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class FavoriteApiController : ApiController
     {
-        private readonly apartmenthostContext _context = new apartmenthostContext();
+        private readonly IApartmenthostContext _context = new ApartmenthostContext();
         public ApiServices Services { get; set; }
+
+        public FavoriteApiController()
+        {
+        }
+
+        public FavoriteApiController(IApartmenthostContext context)
+        {
+            _context = context;
+        }
 
         [Route("api/IsFavorite/{cardId}")]
         [AuthorizeLevel(AuthorizationLevel.User)]

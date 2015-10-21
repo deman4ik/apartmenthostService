@@ -20,9 +20,17 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class CardApiController : ApiController
     {
-        private readonly apartmenthostContext _context = new apartmenthostContext();
+        private readonly IApartmenthostContext _context = new ApartmenthostContext();
         public ApiServices Services { get; set; }
 
+        public CardApiController()
+        {
+        }
+
+        public CardApiController(IApartmenthostContext context)
+        {
+            _context = context;
+        }
         /// <summary>
         ///     GET api/Cards/
         /// </summary>

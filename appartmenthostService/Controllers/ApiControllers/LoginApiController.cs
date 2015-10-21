@@ -14,15 +14,24 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class StandartLoginController : ApiController
     {
+        private readonly IApartmenthostContext _context = new ApartmenthostContext();
+
+        public StandartLoginController()
+        {
+        }
+
+        public StandartLoginController(IApartmenthostContext context)
+        {
+            _context = context;
+        }
+
         public ApiServices Services { get; set; }
         public IServiceTokenHandler Handler { get; set; }
         // POST api/CustomLogin
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
         public HttpResponseMessage Post(LoginRequest loginRequest)
         {
-            var context = new apartmenthostContext();
-
-            var user = context.Users.SingleOrDefault(a => a.Email == loginRequest.email);
+            var user = _context.Users.SingleOrDefault(a => a.Email == loginRequest.email);
             if (user != null)
             {
                 if (user.Blocked)

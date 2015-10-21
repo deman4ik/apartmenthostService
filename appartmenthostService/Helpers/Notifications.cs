@@ -19,7 +19,7 @@ namespace apartmenthostService.Helpers
 
     public static class Notifications
     {
-        public static void Create(apartmenthostContext context, string userId, string type, string code,
+        public static void Create(IApartmenthostContext context, string userId, string type, string code,
             string favoriteId = null, string reservationId = null, string reviewId = null, bool sendMail = false)
         {
             try
@@ -52,7 +52,7 @@ namespace apartmenthostService.Helpers
             }
         }
 
-        public static void SendEmail(apartmenthostContext context, string userId, string type, string code,
+        public static void SendEmail(IApartmenthostContext context, string userId, string type, string code,
             string favoriteId = null, string reservationId = null, string reviewId = null, string confirmCode = null)
         {
             try

@@ -10,7 +10,7 @@ namespace apartmenthostService
 
     public class RatingJob : ScheduledJob
     {
-        private readonly apartmenthostContext _context = new apartmenthostContext();
+        private readonly ApartmenthostContext _context = new ApartmenthostContext();
 
         public override Task ExecuteAsync()
         {

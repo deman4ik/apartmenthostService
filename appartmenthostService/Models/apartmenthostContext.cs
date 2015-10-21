@@ -6,7 +6,7 @@ using Microsoft.WindowsAzure.Mobile.Service.Tables;
 
 namespace apartmenthostService.Models
 {
-    public class apartmenthostContext : DbContext
+    public class ApartmenthostContext : DbContext, IApartmenthostContext
     {
         // You can add custom code to this file. Changes will not be overwritten.
         // 
@@ -20,10 +20,10 @@ namespace apartmenthostService.Models
         // Web.config, is the same as the service name when hosted in Azure.
         private const string connectionStringName = "Name=MS_TableConnectionString";
 
-        public apartmenthostContext()
+        public ApartmenthostContext()
             : base(connectionStringName)
         {
-            Database.SetInitializer<apartmenthostContext>(null);
+            Database.SetInitializer<ApartmenthostContext>(null);
         }
 
         public DbSet<Apartment> Apartments { get; set; }
@@ -39,6 +39,11 @@ namespace apartmenthostService.Models
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<Article> Article { get; set; }
+
+        public void MarkAsModified(object item)
+        {
+            Entry(item).State = EntityState.Modified;
+        }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

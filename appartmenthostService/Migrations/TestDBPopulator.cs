@@ -13,7 +13,7 @@ namespace apartmenthostService.Migrations
 {
     public class TestDBPopulator
     {
-        public static void Populate(apartmenthostContext context)
+        public static void Populate(ApartmenthostContext context)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace apartmenthostService.Migrations
             }
         }
 
-        public static void PopulateArticles(apartmenthostContext context)
+        public static void PopulateArticles(ApartmenthostContext context)
         {
             var articles = new List<Article>
             {
@@ -186,7 +186,7 @@ namespace apartmenthostService.Migrations
             }
         }
 
-        public static void PopulateUsers(apartmenthostContext context)
+        public static void PopulateUsers(ApartmenthostContext context)
         {
             var salt = AuthUtils.generateSalt();
 
@@ -290,10 +290,10 @@ namespace apartmenthostService.Migrations
             }
 
 
-            AuthUtils.CreateAccount("standart", "parus@parus.ru", "standart:parus@parus.ru", "parus@parus.ru");
+            AuthUtils.CreateAccount(context, "standart", "parus@parus.ru", "standart:parus@parus.ru", "parus@parus.ru");
         }
 
-        public static void PopulateProfiles(apartmenthostContext context)
+        public static void PopulateProfiles(ApartmenthostContext context)
         {
             var profiles = new List<Profile>
             {
@@ -506,7 +506,7 @@ namespace apartmenthostService.Migrations
             }
         }
 
-        public static void PopulateProfilePic(apartmenthostContext context)
+        public static void PopulateProfilePic(ApartmenthostContext context)
         {
             for (var i = 1; i < 13; i++)
             {
@@ -547,7 +547,7 @@ namespace apartmenthostService.Migrations
             }
         }
 
-        public static void PopulateApartments(apartmenthostContext context)
+        public static void PopulateApartments(ApartmenthostContext context)
         {
             var apartments = new List<Apartment>
             {
@@ -722,7 +722,7 @@ namespace apartmenthostService.Migrations
             }
         }
 
-        public static void PopulateApartmentPics(apartmenthostContext context)
+        public static void PopulateApartmentPics(ApartmenthostContext context)
         {
             for (var i = 1; i < 11; i++)
             {
@@ -773,7 +773,7 @@ namespace apartmenthostService.Migrations
             }
         }
 
-        public static void PopulateCards(apartmenthostContext context)
+        public static void PopulateCards(ApartmenthostContext context)
         {
             var cards = new List<Card>
             {
@@ -907,7 +907,7 @@ namespace apartmenthostService.Migrations
             }
         }
 
-        public static void PopulateCardDates(apartmenthostContext context)
+        public static void PopulateCardDates(ApartmenthostContext context)
         {
             var dateses = new List<CardDates>
             {
@@ -975,7 +975,7 @@ namespace apartmenthostService.Migrations
             }
         }
 
-        public static void PopulateCardGenders(apartmenthostContext context)
+        public static void PopulateCardGenders(ApartmenthostContext context)
         {
             var genders = new List<CardGenders>
             {
@@ -1099,7 +1099,7 @@ namespace apartmenthostService.Migrations
             }
         }
 
-        public static void PopulateReservations(apartmenthostContext context)
+        public static void PopulateReservations(ApartmenthostContext context)
         {
             var reservations = new List<Reservation>
             {
@@ -1235,7 +1235,7 @@ namespace apartmenthostService.Migrations
             }
         }
 
-        public static void PopulateFavorites(apartmenthostContext context)
+        public static void PopulateFavorites(ApartmenthostContext context)
         {
             var favorites = new List<Favorite>
             {
@@ -1284,7 +1284,7 @@ namespace apartmenthostService.Migrations
             }
         }
 
-        public static void PopulateReviews(apartmenthostContext context)
+        public static void PopulateReviews(ApartmenthostContext context)
         {
             var reviews = new List<Review>
             {
@@ -1375,7 +1375,7 @@ namespace apartmenthostService.Migrations
             }
         }
 
-        public static void UpdateRating(apartmenthostContext context)
+        public static void UpdateRating(ApartmenthostContext context)
         {
             var profiles = context.Profile.ToList();
             foreach (var profile in profiles)
@@ -1391,7 +1391,7 @@ namespace apartmenthostService.Migrations
             }
         }
 
-        public static void PopulateNotifications(apartmenthostContext context)
+        public static void PopulateNotifications(ApartmenthostContext context)
         {
             var notifications = new List<Notification>
             {

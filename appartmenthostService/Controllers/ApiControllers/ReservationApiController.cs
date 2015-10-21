@@ -19,8 +19,17 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class ReservationApiController : ApiController
     {
-        private readonly apartmenthostContext _context = new apartmenthostContext();
+        private readonly IApartmenthostContext _context = new ApartmenthostContext();
         public ApiServices Services { get; set; }
+
+        public ReservationApiController()
+        {
+        }
+
+        public ReservationApiController(IApartmenthostContext context)
+        {
+            _context = context;
+        }
 
         [Route("api/Reservations/{type?}")]
         [AuthorizeLevel(AuthorizationLevel.User)]

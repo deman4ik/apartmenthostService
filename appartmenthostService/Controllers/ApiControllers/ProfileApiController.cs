@@ -17,9 +17,17 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class ProfileApiController : ApiController
     {
-        private readonly apartmenthostContext _context = new apartmenthostContext();
+        private readonly IApartmenthostContext _context = new ApartmenthostContext();
         public ApiServices Services { get; set; }
 
+        public ProfileApiController()
+        {
+        }
+
+        public ProfileApiController(IApartmenthostContext context)
+        {
+            _context = context;
+        }
 
         // GET api/Profile/{id}
         [Route("api/Profile/{userId}")]
@@ -113,7 +121,10 @@ namespace apartmenthostService.Controllers
                         ReservationId = owrev.ReservationId,
                         Rating = owrev.Rating,
                         Text = owrev.Text,
-                        Type = _context.Reservations.FirstOrDefault(res => res.Id == owrev.ReservationId).UserId == userId ? ConstVals.Renter : ConstVals.Owner,
+                        Type =
+                            _context.Reservations.FirstOrDefault(res => res.Id == owrev.ReservationId).UserId == userId
+                                ? ConstVals.Renter
+                                : ConstVals.Owner,
                         CreatedAt = owrev.CreatedAt,
                         UpdatedAt = owrev.UpdatedAt
                     }).OrderByDescending(r => r.CreatedAt).ToList()
