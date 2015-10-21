@@ -19,9 +19,17 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class ArticleApiController : ApiController
     {
-        private readonly apartmenthostContext _context = new apartmenthostContext();
+        private readonly IApartmenthostContext _context = new ApartmenthostContext();
         public ApiServices Services { get; set; }
 
+        public ArticleApiController()
+        {
+        }
+
+        public ArticleApiController(IApartmenthostContext context)
+        {
+            _context = context;
+        }
         /// <summary>
         ///     GET api/Articles/
         /// </summary>
@@ -66,7 +74,7 @@ namespace apartmenthostService.Controllers
 
                     if (artRequest.Type != null)
                     {
-                        pre = pre.And(x => x.Text.Contains(artRequest.Type));
+                        pre = pre.And(x => x.Type == artRequest.Type);
                     }
 
                     if (artRequest.Lang != null)
@@ -210,7 +218,6 @@ namespace apartmenthostService.Controllers
             try
             {
                 var respList = new List<string>();
-                ResponseDTO resp = null;
 
                 var article = _context.Article.SingleOrDefault(a => a.Id == id);
                 if (article == null)

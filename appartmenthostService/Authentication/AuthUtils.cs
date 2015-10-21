@@ -82,10 +82,9 @@ namespace apartmenthostService.Authentication
             }
         }
 
-        public static void CreateAccount(string providerName, string providerId, string accountId, string email = null,
+        public static void CreateAccount(IApartmenthostContext context, string providerName, string providerId, string accountId, string email = null,
             string name = null)
         {
-            var context = new apartmenthostContext();
             var account =
                 context.Accounts.SingleOrDefault(
                     a =>
@@ -148,7 +147,7 @@ namespace apartmenthostService.Authentication
             }
         }
 
-        public static Account GetUserAccount(apartmenthostContext context, ServiceUser user)
+        public static Account GetUserAccount(IApartmenthostContext context, ServiceUser user)
         {
             return context.Accounts.SingleOrDefault(a => a.AccountId == user.Id);
         }

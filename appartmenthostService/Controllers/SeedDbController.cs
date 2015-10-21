@@ -15,7 +15,7 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class SeedDbController : ApiController
     {
-        private readonly apartmenthostContext _context = new apartmenthostContext();
+        private readonly ApartmenthostContext _context = new ApartmenthostContext();
         public ApiServices Services { get; set; }
         // GET api/SeedDb
         [HttpPost]

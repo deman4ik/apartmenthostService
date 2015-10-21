@@ -15,8 +15,18 @@ namespace apartmenthostService.Controllers
 {
     public class NotificationApiController : ApiController
     {
-        private readonly apartmenthostContext _context = new apartmenthostContext();
+        private readonly IApartmenthostContext _context = new ApartmenthostContext();
         public ApiServices Services { get; set; }
+
+        public NotificationApiController()
+        {
+        }
+
+        public NotificationApiController(IApartmenthostContext context)
+        {
+            _context = context;
+        }
+
         // GET api/Notifications
         [Route("api/Notifications")]
         [AuthorizeLevel(AuthorizationLevel.User)]

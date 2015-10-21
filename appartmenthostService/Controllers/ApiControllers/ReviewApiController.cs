@@ -16,7 +16,16 @@ namespace apartmenthostService.Controllers
 {
     public class ReviewApiController : ApiController
     {
-        private readonly apartmenthostContext _context = new apartmenthostContext();
+        private readonly IApartmenthostContext _context = new ApartmenthostContext();
+
+        public ReviewApiController()
+        {
+        }
+
+        public ReviewApiController(IApartmenthostContext context)
+        {
+            _context = context;
+        }
         public ApiServices Services { get; set; }
         // GET api/Reviews/{type}
         [Route("api/Reviews/{type?}")]

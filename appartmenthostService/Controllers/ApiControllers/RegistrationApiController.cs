@@ -17,8 +17,18 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class StandartRegistrationController : ApiController
     {
-        private readonly apartmenthostContext _context = new apartmenthostContext();
+        private readonly IApartmenthostContext _context = new ApartmenthostContext();
         public ApiServices Services { get; set; }
+
+        public StandartRegistrationController()
+        {
+        }
+
+        public StandartRegistrationController(IApartmenthostContext context)
+        {
+            _context = context;
+        }
+
         // POST api/CustomRegistration
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
         [HttpPost]
@@ -60,7 +70,7 @@ namespace apartmenthostService.Controllers
                 };
                 _context.Users.Add(newUser);
                 _context.SaveChanges();
-                AuthUtils.CreateAccount(StandartLoginProvider.ProviderName, registrationRequest.Email,
+                AuthUtils.CreateAccount(_context, StandartLoginProvider.ProviderName, registrationRequest.Email,
                     StandartLoginProvider.ProviderName + ":" + registrationRequest.Email,
                     registrationRequest.Email, registrationRequest.FirstName);
                 Notifications.SendEmail(_context, newUser.Id, ConstVals.General, ConstVals.Reg, null, null, null,

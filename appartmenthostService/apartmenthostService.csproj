@@ -297,6 +297,7 @@
     <Compile Include="DataObjects\DatesDTO.cs" />
     <Compile Include="Models\CardGenders.cs" />
     <Compile Include="Models\Favorite.cs" />
+    <Compile Include="Models\IApartmenthostContext.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Picture.cs" />
     <Compile Include="Models\Profile.cs" />
@@ -305,7 +306,7 @@
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Helpers\Helper.cs" />
-    <Compile Include="Models\apartmenthostContext.cs" />
+    <Compile Include="Models\ApartmenthostContext.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="ScheduledJobs\RatingJob.cs" />
     <Compile Include="Global.asax.cs">

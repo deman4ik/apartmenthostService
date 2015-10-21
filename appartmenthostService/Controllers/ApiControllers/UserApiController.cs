@@ -15,8 +15,17 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class UserApiController : ApiController
     {
-        private readonly apartmenthostContext _context = new apartmenthostContext();
+        private readonly IApartmenthostContext _context = new ApartmenthostContext();
         public ApiServices Services { get; set; }
+
+        public UserApiController()
+        {
+        }
+
+        public UserApiController(IApartmenthostContext context)
+        {
+            _context = context;
+        }
         // GET api/User
         [Route("api/User")]
         [AuthorizeLevel(AuthorizationLevel.User)]

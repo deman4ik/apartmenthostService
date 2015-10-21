@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Claims;
+using apartmenthostService.Models;
 using KatanaContrib.Security.VK;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
@@ -66,7 +67,7 @@ namespace apartmenthostService.Authentication
                     UserId = userId,
                     AccessToken = providerAccessToken?.Value
                 };
-                AuthUtils.CreateAccount(Name, name?.Value, userId, emailClaim?.Value, nameClaim?.Value);
+                AuthUtils.CreateAccount(new ApartmenthostContext(), Name, name?.Value, userId, emailClaim?.Value, nameClaim?.Value);
                 return credentials;
             }
             catch (Exception e)

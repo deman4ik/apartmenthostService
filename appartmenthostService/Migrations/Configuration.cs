@@ -3,14 +3,14 @@ using apartmenthostService.Models;
 
 namespace apartmenthostService.Migrations
 {
-    internal sealed class Configuration : DbMigrationsConfiguration<apartmenthostContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ApartmenthostContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(apartmenthostContext context)
+        protected override void Seed(ApartmenthostContext context)
         {
             //  This method will be called after migrating to the latest version.
 
