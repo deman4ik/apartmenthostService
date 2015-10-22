@@ -71,7 +71,7 @@ namespace apartmenthostService.Controllers
 
                 // Generate 
                 var apartmentGuid = SequentialGuid.NewGuid().ToString();
-                _context.Set<Apartment>().Add(new Apartment
+                _context.Apartments.Add(new Apartment
                 {
                     Id = apartmentGuid,
                     Name = apartment.Name,
@@ -170,7 +170,7 @@ namespace apartmenthostService.Controllers
                 apartmentCurrent.Latitude = apartment.Latitude;
                 apartmentCurrent.Longitude = apartment.Longitude;
                 apartmentCurrent.Lang = apartment.Lang;
-
+                _context.MarkAsModified(apartmentCurrent);
                 _context.SaveChanges();
 
                 respList.Add(apartment.Id);

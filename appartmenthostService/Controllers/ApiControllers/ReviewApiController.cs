@@ -333,7 +333,7 @@ namespace apartmenthostService.Controllers
                 newReview.Text = review.Text;
 
 
-                _context.Set<Review>().Add(newReview);
+                _context.Reviews.Add(newReview);
 
                 string notifCode;
                 // Rating Calculation
@@ -440,7 +440,7 @@ namespace apartmenthostService.Controllers
 
 
                 currentReview.Text = review.Text;
-
+                _context.MarkAsModified(currentReview);
                 _context.SaveChanges();
                 respList.Add(currentReview.Id);
                 return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED, respList));

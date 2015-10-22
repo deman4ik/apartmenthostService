@@ -361,7 +361,7 @@ namespace apartmenthostService.Controllers
                 }
 
                 var reservationGuid = SequentialGuid.NewGuid().ToString();
-                _context.Set<Reservation>().Add(new Reservation
+                _context.Reservations.Add(new Reservation
                 {
                     Id = reservationGuid,
                     CardId = cardId,
@@ -498,6 +498,7 @@ namespace apartmenthostService.Controllers
                 }
 
                 currentReservation.Status = status;
+                _context.MarkAsModified(currentReservation);
                 _context.SaveChanges();
                 // Create Notification
                 Notifications.Create(_context, currentReservation.UserId, ConstVals.General, notifCode, null,

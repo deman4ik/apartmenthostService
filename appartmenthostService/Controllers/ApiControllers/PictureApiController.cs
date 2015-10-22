@@ -201,7 +201,7 @@ namespace apartmenthostService.Controllers
                                 new Transformation().Width(1024).Crop("limit")).BuildUrl(picture.Name),
                         Default = picture.Default ?? false
                     };
-                    _context.Set<Picture>().Add(pic);
+                    _context.Pictures.Add(pic);
 
                     _context.SaveChanges();
                     apartment.Pictures.Add(pic);
@@ -274,6 +274,7 @@ namespace apartmenthostService.Controllers
                 }
                 if (pic.Default)
                 {
+                    _context.MarkAsModified(pic);
                     _context.SaveChanges();
                     return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED));
                 }
@@ -441,10 +442,6 @@ namespace apartmenthostService.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
             }
-        }
-
-        public void SetDefaultPicture(string cardId)
-        {
         }
     }
 }

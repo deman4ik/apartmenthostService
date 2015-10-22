@@ -11,53 +11,60 @@ using CloudinaryDotNet;
 
 namespace apartmenthostService.Migrations
 {
-    public class TestDBPopulator
+    public class TestDbPopulator
     {
-        public static void Populate(ApartmenthostContext context)
+        private IApartmenthostContext _context;
+
+        public TestDbPopulator(IApartmenthostContext context)
+        {
+            _context = context;
+        }
+
+        public void Populate()
         {
             try
             {
-                PopulateArticles(context);
-                context.SaveChanges();
+                PopulateArticles();
+                _context.SaveChanges();
 
                 //PopulateUsers(context);
                 //context.SaveChanges();
 
-                PopulateProfiles(context);
-                context.SaveChanges();
+                PopulateProfiles();
+                _context.SaveChanges();
 
-                PopulateProfilePic(context);
-                context.SaveChanges();
+                PopulateProfilePic();
+                _context.SaveChanges();
 
-                PopulateApartments(context);
-                context.SaveChanges();
+                PopulateApartments();
+                _context.SaveChanges();
 
-                PopulateApartmentPics(context);
-                context.SaveChanges();
+                PopulateApartmentPics();
+                _context.SaveChanges();
 
-                PopulateCards(context);
-                context.SaveChanges();
+                PopulateCards();
+                _context.SaveChanges();
 
-                PopulateCardDates(context);
-                context.SaveChanges();
+                PopulateCardDates();
+                _context.SaveChanges();
 
-                PopulateCardGenders(context);
-                context.SaveChanges();
+                PopulateCardGenders();
+                _context.SaveChanges();
 
-                PopulateFavorites(context);
-                context.SaveChanges();
+                PopulateFavorites();
+                _context.SaveChanges();
 
-                PopulateReservations(context);
-                context.SaveChanges();
+                PopulateReservations();
+                _context.SaveChanges();
 
-                PopulateReviews(context);
-                context.SaveChanges();
+                PopulateReviews();
+                _context.SaveChanges();
 
-                UpdateRating(context);
-                context.SaveChanges();
+                UpdateRating();
+                _context.SaveChanges();
 
-                PopulateNotifications(context);
-                context.SaveChanges();
+                PopulateNotifications();
+                _context.SaveChanges();
 
                 //RatingJob ratingJob = new RatingJob();
                 //ratingJob.ExecuteAsync();
@@ -65,15 +72,14 @@ namespace apartmenthostService.Migrations
             catch (Exception e)
             {
                 Debug.WriteLine("!!!!!!!!!!!!!!!!!!");
-                Debug.WriteLine(e.InnerException);
-                Debug.WriteLine("!!!!!!!!!!!!!!!!!!");
                 Debug.WriteLine(e);
+                Debug.WriteLine("!!!!!!!!!!!!!!!!!!");
             }
         }
 
-        public static void PopulateArticles(ApartmenthostContext context)
+        public List<Article> GetArticles()
         {
-            var articles = new List<Article>
+            return new List<Article>
             {
                 new Article
                 {
@@ -170,23 +176,42 @@ namespace apartmenthostService.Migrations
                     Lang = ConstLang.RU
                 }
             };
+        }
 
-            foreach (var art in articles)
+        public ArticleDTO GetTestArticleDto()
+        {
+            return new ArticleDTO
             {
-                var ex = context.Article.FirstOrDefault(x => x.Name == art.Name);
+                Id = Guid.NewGuid().ToString(),
+                Name = "TestArticle",
+                Title = "TestArticleTitle",
+                Text = "Test Article Text",
+                Type = "Article",
+                Lang = ConstLang.RU,
+                CreatedAt = DateTimeOffset.Now,
+                UpdatedAt = null
+
+            };
+        } 
+
+        public void PopulateArticles()
+        {
+            foreach (var art in GetArticles())
+            {
+                var ex = _context.Article.FirstOrDefault(x => x.Name == art.Name);
                 if (ex != null)
                 {
                     art.CreatedAt = ex.CreatedAt;
                 }
 
-                context.Article.AddOrUpdate(p => p.Name, art
+                _context.Article.AddOrUpdate(p => p.Name, art
                     );
 
-                context.SaveChanges();
+                _context.SaveChanges();
             }
         }
 
-        public static void PopulateUsers(ApartmenthostContext context)
+        public void PopulateUsers()
         {
             var salt = AuthUtils.generateSalt();
 
@@ -280,20 +305,20 @@ namespace apartmenthostService.Migrations
 
             foreach (var user in users)
             {
-                var ex = context.Users.FirstOrDefault(x => x.Id == user.Id);
+                var ex = _context.Users.FirstOrDefault(x => x.Id == user.Id);
                 if (ex != null)
                 {
                     user.CreatedAt = ex.CreatedAt;
                 }
-                context.Users.AddOrUpdate(p => p.Id, user);
-                context.SaveChanges();
+                _context.Users.AddOrUpdate(p => p.Id, user);
+                _context.SaveChanges();
             }
 
 
-            AuthUtils.CreateAccount(context, "standart", "parus@parus.ru", "standart:parus@parus.ru", "parus@parus.ru");
+            AuthUtils.CreateAccount(_context, "standart", "parus@parus.ru", "standart:parus@parus.ru", "parus@parus.ru");
         }
 
-        public static void PopulateProfiles(ApartmenthostContext context)
+        public void PopulateProfiles()
         {
             var profiles = new List<Profile>
             {
@@ -493,24 +518,24 @@ namespace apartmenthostService.Migrations
 
             foreach (var profile in profiles)
             {
-                var ex = context.Profile.FirstOrDefault(x => x.Id == profile.Id);
+                var ex = _context.Profile.FirstOrDefault(x => x.Id == profile.Id);
                 if (ex != null)
                 {
                     profile.CreatedAt = ex.CreatedAt;
                 }
-                context.Profile.AddOrUpdate(p => p.Id,
+                _context.Profile.AddOrUpdate(p => p.Id,
                     profile);
 
 
-                context.SaveChanges();
+                _context.SaveChanges();
             }
         }
 
-        public static void PopulateProfilePic(ApartmenthostContext context)
+        public void PopulateProfilePic()
         {
             for (var i = 1; i < 13; i++)
             {
-                var prof = context.Profile.SingleOrDefault(x => x.Id == "u" + i);
+                var prof = _context.Profile.SingleOrDefault(x => x.Id == "u" + i);
 
                 var pic = new Picture
                 {
@@ -533,21 +558,21 @@ namespace apartmenthostService.Migrations
                     Default = true
                 };
 
-                var ex = context.Pictures.FirstOrDefault(x => x.Id == pic.Id);
+                var ex = _context.Pictures.FirstOrDefault(x => x.Id == pic.Id);
 
                 if (ex != null)
                 {
-                    context.Pictures.Remove(ex);
-                    context.SaveChanges();
+                    _context.Pictures.Remove(ex);
+                    _context.SaveChanges();
                 }
 
 
                 prof.Picture = pic;
-                context.SaveChanges();
+                _context.SaveChanges();
             }
         }
 
-        public static void PopulateApartments(ApartmenthostContext context)
+        public void PopulateApartments()
         {
             var apartments = new List<Apartment>
             {
@@ -712,21 +737,21 @@ namespace apartmenthostService.Migrations
 
             foreach (var ap in apartments)
             {
-                var ex = context.Apartments.FirstOrDefault(x => x.Id == ap.Id);
+                var ex = _context.Apartments.FirstOrDefault(x => x.Id == ap.Id);
 
                 if (ex != null)
                 {
                     ap.CreatedAt = ex.CreatedAt;
                 }
-                context.Apartments.AddOrUpdate(p => p.Id, ap);
+                _context.Apartments.AddOrUpdate(p => p.Id, ap);
             }
         }
 
-        public static void PopulateApartmentPics(ApartmenthostContext context)
+        public void PopulateApartmentPics()
         {
             for (var i = 1; i < 11; i++)
             {
-                var apart = context.Apartments.SingleOrDefault(x => x.Id == "ap" + i);
+                var apart = _context.Apartments.SingleOrDefault(x => x.Id == "ap" + i);
                 for (var j = 1; j < 4; j++)
                 {
                     var pic = new Picture
@@ -758,22 +783,22 @@ namespace apartmenthostService.Migrations
                         CloudinaryPublicId = "card/a" + i + "/a" + i + "-" + j,
                         Default = j == 1
                     };
-                    var ex = context.Pictures.FirstOrDefault(x => x.Id == pic.Id);
+                    var ex = _context.Pictures.FirstOrDefault(x => x.Id == pic.Id);
 
                     if (ex != null)
                     {
-                        context.Pictures.Remove(ex);
-                        context.SaveChanges();
+                        _context.Pictures.Remove(ex);
+                        _context.SaveChanges();
                     }
                     apart.Pictures.Add(pic);
 
 
-                    context.SaveChanges();
+                    _context.SaveChanges();
                 }
             }
         }
 
-        public static void PopulateCards(ApartmenthostContext context)
+        public void PopulateCards()
         {
             var cards = new List<Card>
             {
@@ -895,19 +920,19 @@ namespace apartmenthostService.Migrations
             };
             foreach (var card in cards)
             {
-                var ex = context.Cards.FirstOrDefault(x => x.Id == card.Id);
+                var ex = _context.Cards.FirstOrDefault(x => x.Id == card.Id);
 
                 if (ex != null)
                 {
                     card.CreatedAt = ex.CreatedAt;
                 }
 
-                context.Cards.AddOrUpdate(p => p.Id,
+                _context.Cards.AddOrUpdate(p => p.Id,
                     card);
             }
         }
 
-        public static void PopulateCardDates(ApartmenthostContext context)
+        public void PopulateCardDates()
         {
             var dateses = new List<CardDates>
             {
@@ -963,19 +988,19 @@ namespace apartmenthostService.Migrations
             };
             foreach (var d in dateses)
             {
-                var ex = context.Dates.FirstOrDefault(x => x.Id == d.Id);
+                var ex = _context.Dates.FirstOrDefault(x => x.Id == d.Id);
 
                 if (ex != null)
                 {
                     d.CreatedAt = ex.CreatedAt;
                 }
 
-                context.Dates.AddOrUpdate(p => p.Id, d
+                _context.Dates.AddOrUpdate(p => p.Id, d
                     );
             }
         }
 
-        public static void PopulateCardGenders(ApartmenthostContext context)
+        public void PopulateCardGenders()
         {
             var genders = new List<CardGenders>
             {
@@ -1087,19 +1112,19 @@ namespace apartmenthostService.Migrations
             };
             foreach (var d in genders)
             {
-                var ex = context.Genders.FirstOrDefault(x => x.Id == d.Id);
+                var ex = _context.Genders.FirstOrDefault(x => x.Id == d.Id);
 
                 if (ex != null)
                 {
                     d.CreatedAt = ex.CreatedAt;
                 }
 
-                context.Genders.AddOrUpdate(p => p.Id, d
+                _context.Genders.AddOrUpdate(p => p.Id, d
                     );
             }
         }
 
-        public static void PopulateReservations(ApartmenthostContext context)
+        public void PopulateReservations()
         {
             var reservations = new List<Reservation>
             {
@@ -1223,19 +1248,19 @@ namespace apartmenthostService.Migrations
             };
             foreach (var res in reservations)
             {
-                var ex = context.Reservations.FirstOrDefault(x => x.Id == res.Id);
+                var ex = _context.Reservations.FirstOrDefault(x => x.Id == res.Id);
 
                 if (ex != null)
                 {
                     res.CreatedAt = ex.CreatedAt;
                 }
 
-                context.Reservations.AddOrUpdate(p => p.Id,
+                _context.Reservations.AddOrUpdate(p => p.Id,
                     res);
             }
         }
 
-        public static void PopulateFavorites(ApartmenthostContext context)
+        public void PopulateFavorites()
         {
             var favorites = new List<Favorite>
             {
@@ -1273,18 +1298,18 @@ namespace apartmenthostService.Migrations
 
             foreach (var f in favorites)
             {
-                var ex = context.Favorites.FirstOrDefault(x => x.Id == f.Id);
+                var ex = _context.Favorites.FirstOrDefault(x => x.Id == f.Id);
 
                 if (ex != null)
                 {
                     f.CreatedAt = ex.CreatedAt;
                 }
-                context.Favorites.AddOrUpdate(p => p.Id, f
+                _context.Favorites.AddOrUpdate(p => p.Id, f
                     );
             }
         }
 
-        public static void PopulateReviews(ApartmenthostContext context)
+        public void PopulateReviews()
         {
             var reviews = new List<Review>
             {
@@ -1364,23 +1389,23 @@ namespace apartmenthostService.Migrations
 
             foreach (var r in reviews)
             {
-                var ex = context.Reviews.FirstOrDefault(x => x.Id == r.Id);
+                var ex = _context.Reviews.FirstOrDefault(x => x.Id == r.Id);
 
                 if (ex != null)
                 {
                     r.CreatedAt = ex.CreatedAt;
                 }
-                context.Reviews.AddOrUpdate(p => p.Id, r
+                _context.Reviews.AddOrUpdate(p => p.Id, r
                     );
             }
         }
 
-        public static void UpdateRating(ApartmenthostContext context)
+        public void UpdateRating()
         {
-            var profiles = context.Profile.ToList();
+            var profiles = _context.Profile.ToList();
             foreach (var profile in profiles)
             {
-                var reviews = context.Reviews.Where(rev => rev.ToUserId == profile.Id && rev.Rating > 0);
+                var reviews = _context.Reviews.Where(rev => rev.ToUserId == profile.Id && rev.Rating > 0);
                 var count = reviews.Count();
                 if (count > 0)
                 {
@@ -1391,7 +1416,7 @@ namespace apartmenthostService.Migrations
             }
         }
 
-        public static void PopulateNotifications(ApartmenthostContext context)
+        public void PopulateNotifications()
         {
             var notifications = new List<Notification>
             {
@@ -1454,13 +1479,13 @@ namespace apartmenthostService.Migrations
             };
             foreach (var n in notifications)
             {
-                var ex = context.Notifications.FirstOrDefault(x => x.Id == n.Id);
+                var ex = _context.Notifications.FirstOrDefault(x => x.Id == n.Id);
 
                 if (ex != null)
                 {
                     n.CreatedAt = ex.CreatedAt;
                 }
-                context.Notifications.AddOrUpdate(p => p.Id, n
+                _context.Notifications.AddOrUpdate(p => p.Id, n
                     );
             }
         }

@@ -20,8 +20,6 @@ namespace apartmenthostService.Models
          DbSet<Favorite> Favorites { get;  }
          DbSet<Article> Article { get;  }
 
-        DbSet Set(Type entityType);
-        DbSet<TEntity> Set<TEntity>() where TEntity : class;
         int SaveChanges();
         void MarkAsModified(object item);
     }
