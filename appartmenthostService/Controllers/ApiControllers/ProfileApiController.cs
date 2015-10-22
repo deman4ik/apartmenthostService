@@ -214,6 +214,7 @@ namespace apartmenthostService.Controllers
                 profileCurrent.Phone = profile.Phone;
                 profileCurrent.Description = profile.Description;
 
+                _context.MarkAsModified(profileCurrent);
                 _context.SaveChanges();
 
                 respList.Add(profileCurrent.Id);
@@ -242,10 +243,11 @@ namespace apartmenthostService.Controllers
                     profile.RatingCount = count;
                     profile.Rating = reviews.Average(x => x.Rating);
                     profile.Score = reviews.Sum(x => x.Rating);
+                    _context.MarkAsModified(profile);
                 }
             }
 
-
+           
             _context.SaveChanges();
             return Request.CreateResponse(HttpStatusCode.OK);
         }

@@ -692,7 +692,7 @@ namespace apartmenthostService.Controllers
                         pics.Add(pic);
                     }
                 }
-                _context.Set<Card>().Add(new Card
+                _context.Cards.Add(new Card
                 {
                     Id = cardGuid,
                     Name = card.Name,
@@ -718,8 +718,8 @@ namespace apartmenthostService.Controllers
                         Pictures = pics
                     }
                 });
-                _context.Set<CardDates>().AddRange(cardDates);
-                _context.Set<CardGenders>().AddRange(cardGenders);
+                _context.Dates.AddRange(cardDates);
+                _context.Genders.AddRange(cardGenders);
                 _context.SaveChanges();
                 respList.Add(cardGuid);
                 return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
@@ -879,9 +879,9 @@ namespace apartmenthostService.Controllers
                 apartment.PlaceId = card.Apartment.PlaceId;
                 apartment.Lang = card.Apartment.Lang;
 
-                _context.SaveChanges();
-                _context.Set<CardDates>().AddRange(cardDates);
-                _context.Set<CardGenders>().AddRange(cardGenders);
+                _context.MarkAsModified(apartment);
+                _context.Dates.AddRange(cardDates);
+                _context.Genders.AddRange(cardGenders);
                 _context.SaveChanges();
 
                 respList.Add(id);

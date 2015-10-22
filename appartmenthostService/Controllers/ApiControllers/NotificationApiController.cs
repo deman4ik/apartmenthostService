@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
+using apartmenthostService.Helpers;
 using apartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
@@ -161,8 +162,9 @@ namespace apartmenthostService.Controllers
                 foreach (var notification in notifications)
                 {
                     notification.Readed = true;
+                    _context.MarkAsModified(notification);
                 }
-
+                
                 _context.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED));
             }
@@ -214,6 +216,7 @@ namespace apartmenthostService.Controllers
                 }
 
                 notification.Readed = true;
+                _context.MarkAsModified(notification);
                 _context.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED, respList));
             }

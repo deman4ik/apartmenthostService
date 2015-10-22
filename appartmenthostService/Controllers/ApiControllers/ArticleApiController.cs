@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 namespace apartmenthostService.Controllers
 {
     /* TODO: ПРОВЕРКА ПРАВ ДОСТУПА */
+
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class ArticleApiController : ApiController
     {
@@ -30,6 +31,7 @@ namespace apartmenthostService.Controllers
         {
             _context = context;
         }
+
         /// <summary>
         ///     GET api/Articles/
         /// </summary>
@@ -115,21 +117,37 @@ namespace apartmenthostService.Controllers
             try
             {
                 var respList = new List<string>();
-                ResponseDTO resp = null;
                 if (article == null)
                     return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ARTICLE_NULL));
 
+
                 if (article.Name == null)
-
-                    resp = CheckHelper.IsNull(article.Name, "Name", RespH.SRV_ARTICLE_REQUIRED);
-                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-
-                if (article.Title == null && article.Text == null && article.Type == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ARTICLE_REQUIRED));
+                    respList.Add("Name");
                 }
+                if (article.Title == null)
+                {
+                    respList.Add("Title");
+                }
+                if (article.Text == null)
+                {
+                    respList.Add("Text");
+                }
+                if (article.Type == null)
+                {
+                    respList.Add("Type");
+                }
+                if (article.Lang == null)
+                {
+                    respList.Add("Lang");
+                }
+
+                if (respList.Count > 0)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_ARTICLE_REQUIRED, respList));
+
                 var articleGuid = SequentialGuid.NewGuid().ToString();
-                _context.Set<Article>().Add(
+                _context.Article.Add(
                     new Article
                     {
                         Id = articleGuid,
@@ -147,7 +165,7 @@ namespace apartmenthostService.Controllers
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.InnerException);
+                Debug.WriteLine(ex);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
             }
@@ -164,7 +182,6 @@ namespace apartmenthostService.Controllers
             try
             {
                 var respList = new List<string>();
-                ResponseDTO resp = null;
                 if (article == null)
                     return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ARTICLE_NULL));
 
@@ -177,23 +194,37 @@ namespace apartmenthostService.Controllers
                 }
 
                 if (article.Name == null)
-
-                    resp = CheckHelper.IsNull(article.Name, "Name", RespH.SRV_ARTICLE_REQUIRED);
-                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-
-                if (article.Title == null && article.Text == null && article.Type == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_ARTICLE_REQUIRED));
+                    respList.Add("Name");
                 }
+                if (article.Title == null)
+                {
+                    respList.Add("Title");
+                }
+                if (article.Text == null)
+                {
+                    respList.Add("Text");
+                }
+                if (article.Type == null)
+                {
+                    respList.Add("Type");
+                }
+                if (article.Lang == null)
+                {
+                    respList.Add("Lang");
+                }
+                if (respList.Count > 0)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_ARTICLE_REQUIRED, respList));
 
 
                 articleCurrent.Name = article.Name;
                 articleCurrent.Title = article.Title;
                 articleCurrent.Text = article.Text;
-                articleCurrent.Lang = article.Lang;
                 articleCurrent.Type = article.Type;
-                 
+                articleCurrent.Lang = article.Lang;
 
+                _context.MarkAsModified(articleCurrent);
                 _context.SaveChanges();
 
                 respList.Add(id);
@@ -203,7 +234,7 @@ namespace apartmenthostService.Controllers
             {
                 Debug.WriteLine(ex.InnerException);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> { ex.ToString() }));
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
             }
         }
 
@@ -239,7 +270,7 @@ namespace apartmenthostService.Controllers
             {
                 Debug.WriteLine(ex.InnerException);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> { ex.ToString() }));
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
             }
         }
     }

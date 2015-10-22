@@ -88,7 +88,7 @@ namespace apartmenthostService.Controllers
                 if (favorite == null)
                 {
                     var favoriteGUID = SequentialGuid.NewGuid().ToString();
-                    _context.Set<Favorite>().Add(new Favorite
+                    _context.Favorites.Add(new Favorite
                     {
                         Id = favoriteGUID,
                         CardId = cardId,

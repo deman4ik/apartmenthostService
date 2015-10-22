@@ -38,7 +38,7 @@ namespace apartmenthostService.Helpers
                     notif.ReservationId = reservationId;
                 if (!string.IsNullOrEmpty(reviewId))
                     notif.ReviewId = reviewId;
-                context.Set<Notification>().Add(notif);
+                context.Notifications.Add(notif);
                 context.SaveChanges();
                 if (sendMail)
                 {

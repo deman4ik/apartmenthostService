@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using apartmenthostService.DataObjects;
+using apartmenthostService.Helpers;
 using apartmenthostService.Migrations;
 using apartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service;
@@ -12,6 +13,7 @@ using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace apartmenthostService.Controllers
 {
+    /* TODO: DEPRECATE TEST ONLY */
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class SeedDbController : ApiController
     {
@@ -24,43 +26,44 @@ namespace apartmenthostService.Controllers
         {
             try
             {
+                TestDbPopulator testDbPopulator = new TestDbPopulator(_context);
                 switch (method)
                 {
                     case "PopulateArticles":
-                        TestDBPopulator.PopulateArticles(_context);
+                        testDbPopulator.PopulateArticles();
                         break;
                     case "PopulateProfiles":
-                        TestDBPopulator.PopulateProfiles(_context);
+                        testDbPopulator.PopulateProfiles();
                         break;
                     case "PopulateProfilePic":
-                        TestDBPopulator.PopulateProfilePic(_context);
+                        testDbPopulator.PopulateProfilePic();
                         break;
                     case "PopulateApartments":
-                        TestDBPopulator.PopulateApartments(_context);
+                        testDbPopulator.PopulateApartments();
                         break;
                     case "PopulateApartmentPics":
-                        TestDBPopulator.PopulateApartmentPics(_context);
+                        testDbPopulator.PopulateApartmentPics();
                         break;
                     case "PopulateCards":
-                        TestDBPopulator.PopulateCards(_context);
+                        testDbPopulator.PopulateCards();
                         break;
                     case "PopulateCardDates":
-                        TestDBPopulator.PopulateCardDates(_context);
+                        testDbPopulator.PopulateCardDates();
                         break;
                     case "PopulateCardGenders":
-                        TestDBPopulator.PopulateCardGenders(_context);
+                        testDbPopulator.PopulateCardGenders();
                         break;
                     case "PopulateFavorites":
-                        TestDBPopulator.PopulateFavorites(_context);
+                        testDbPopulator.PopulateFavorites();
                         break;
                     case "PopulateReservations":
-                        TestDBPopulator.PopulateReservations(_context);
+                        testDbPopulator.PopulateReservations();
                         break;
                     case "PopulateReviews":
-                        TestDBPopulator.PopulateReviews(_context);
+                        testDbPopulator.PopulateReviews();
                         break;
                     case "PopulateNotifications":
-                        TestDBPopulator.PopulateNotifications(_context);
+                        testDbPopulator.PopulateNotifications();
                         break;
                 }
                 _context.SaveChanges();
