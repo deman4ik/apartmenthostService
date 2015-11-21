@@ -287,6 +287,14 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.Unauthorized,
                         RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
+
+                // Check Card Owner
+                if (card.UserId == account.UserId)
+                {
+                    respList.Add(account.UserId);
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_RESERVATION_SELF, respList));
+                }
                 ResponseDTO resp = CheckHelper.IsProfileFill(_context, account.UserId);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
