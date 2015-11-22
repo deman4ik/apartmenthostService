@@ -53,7 +53,7 @@ namespace apartmenthostService.Controllers
                         return Request.CreateResponse(HttpStatusCode.BadRequest,
                             RespH.Create(RespH.SRV_ARTICLE_INVALID_FILTER));
 
-
+                    
                     if (artRequest.Id != null)
                     {
                         pre = pre.And(x => x.Id == artRequest.Id);
@@ -85,7 +85,7 @@ namespace apartmenthostService.Controllers
                     }
                 }
 
-                var result = _context.Article.AsExpandable().Where(pre).Select(art => new ArticleDTO
+                var result = _context.Article.AsQueryable().Where(pre.Compile()).Select(art => new ArticleDTO
                 {
                     Id = art.Id,
                     Name = art.Name,

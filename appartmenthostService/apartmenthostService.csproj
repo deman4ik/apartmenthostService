@@ -332,6 +332,7 @@
   <ItemGroup>
     <None Include="Properties\PublishProfiles\apartmenthost - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\apartmenthost - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\mobile-apartmenthost.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201508231137399_ResGender.resx">
