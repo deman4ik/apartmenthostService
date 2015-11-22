@@ -126,7 +126,31 @@ namespace apartmenthostService.Controllers
                                 ? ConstVals.Renter
                                 : ConstVals.Owner,
                         CreatedAt = owrev.CreatedAt,
-                        UpdatedAt = owrev.UpdatedAt
+                        UpdatedAt = owrev.UpdatedAt,
+                        FromUser = new BaseUserDTO()
+                        {
+                            Id = owrev.FromUser.Profile.Id,
+                            Email = owrev.FromUser.Email,
+                            FirstName = owrev.FromUser.Profile.FirstName,
+                            LastName = owrev.FromUser.Profile.LastName,
+                            Rating = owrev.FromUser.Profile.Rating,
+                            RatingCount = owrev.FromUser.Profile.RatingCount,
+                            Gender = owrev.FromUser.Profile.Gender,
+                            Picture = new PictureDTO
+                            {
+                                Id = owrev.FromUser.Profile.Picture.Id,
+                                Name = owrev.FromUser.Profile.Picture.Name,
+                                Description = owrev.FromUser.Profile.Picture.Description,
+                                Url = owrev.FromUser.Profile.Picture.Url,
+                                Xsmall = owrev.FromUser.Profile.Picture.Xsmall,
+                                Small = owrev.FromUser.Profile.Picture.Small,
+                                Mid = owrev.FromUser.Profile.Picture.Mid,
+                                Large = owrev.FromUser.Profile.Picture.Large,
+                                Xlarge = owrev.FromUser.Profile.Picture.Xlarge,
+                                Default = owrev.FromUser.Profile.Picture.Default,
+                                CreatedAt = owrev.FromUser.Profile.Picture.CreatedAt
+                            }
+                        }
                     }).OrderByDescending(r => r.CreatedAt).ToList()
                 });
                 return Request.CreateResponse(HttpStatusCode.OK, result);
@@ -247,7 +271,7 @@ namespace apartmenthostService.Controllers
                 }
             }
 
-           
+
             _context.SaveChanges();
             return Request.CreateResponse(HttpStatusCode.OK);
         }
