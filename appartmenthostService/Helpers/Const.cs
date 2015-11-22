@@ -115,7 +115,7 @@ namespace apartmenthostService.Helpers
         public const string SRV_RESERVATION_STATUS_NULL = "SRV_RESERVATION_STATUS_NULL"; //Пустой объект запроса
         public const string SRV_RESERVATION_NOTFOUND = "SRV_RESERVATION_NOTFOUND"; // Объект не найден
         public const string SRV_RESERVATION_EXISTS = "SRV_RESERVATION_EXISTS"; // Объект уже существует
-
+        public const string SRV_RESERVATION_SELF = "SRV_RESERVATION_SELF"; // Нельзя бронировать свое же жилье
         public const string SRV_RESERVATION_WRONG_DATE = "SRV_RESERVATION_WRONG_DATE";
         // Дата С должна быть меньше Даты ПО
 
