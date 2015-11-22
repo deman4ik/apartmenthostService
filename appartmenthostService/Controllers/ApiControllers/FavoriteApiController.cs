@@ -73,7 +73,7 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.Unauthorized,
                         RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
-
+                
                 var currentCard = _context.Cards.SingleOrDefault(a => a.Id == cardId);
                 if (currentCard == null)
                 {
@@ -82,7 +82,12 @@ namespace apartmenthostService.Controllers
                         RespH.Create(RespH.SRV_CARD_NOTFOUND, respList));
                 }
 
-                bool status;
+                if (currentCard.UserId == account.UserId)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    RespH.CreateBool(RespH.SRV_FAVORITE_WRONG_USER));
+                }
+                    bool status;
                 var favorite =
                     _context.Favorites.SingleOrDefault(f => f.CardId == cardId && f.UserId == account.UserId);
                 if (favorite == null)
