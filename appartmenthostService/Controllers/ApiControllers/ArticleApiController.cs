@@ -85,7 +85,7 @@ namespace apartmenthostService.Controllers
                     Lang = art.Lang,
                     CreatedAt = art.CreatedAt,
                     UpdatedAt = art.UpdatedAt
-                }).ToList();
+                }).ToList().OrderBy(o => o.Lang).ThenBy(o => o.Type).ThenBy(o => o.Name);
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
