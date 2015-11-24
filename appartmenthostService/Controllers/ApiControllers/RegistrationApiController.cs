@@ -183,8 +183,7 @@ namespace apartmenthostService.Controllers
                             RespH.Create(RespH.SRV_USER_REQUIRED, new List<string> {"code"}));
                     }
 
-                    user =
-                        _context.Users.SingleOrDefault(x => x.Id == resetRequest.UserId || x.Email == resetRequest.Email);
+                    user = !string.IsNullOrEmpty(resetRequest.UserId) ? _context.Users.SingleOrDefault(x => x.Id == resetRequest.UserId) : _context.Users.SingleOrDefault(x => x.Email == resetRequest.Email);
                     if (user == null)
                     {
                         return Request.CreateResponse(HttpStatusCode.BadRequest,
