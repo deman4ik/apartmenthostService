@@ -39,6 +39,7 @@ namespace apartmenthostService.Models
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<Article> Article { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
 
         public void MarkAsModified(object item)
         {
@@ -123,6 +124,11 @@ namespace apartmenthostService.Models
                 .HasForeignKey(s => s.ToUserId)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<User>()
+                .HasMany<Feedback>(s => s.Feedbacks)
+                .WithOptional(s => s.User)
+                .HasForeignKey(s => s.UserId)
+                .WillCascadeOnDelete(false);
 
             //Apartment
             modelBuilder.Entity<Apartment>()

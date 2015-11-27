@@ -234,7 +234,9 @@
     <Compile Include="Authentication\VK\VKLoginAuthenticationProvider.cs" />
     <Compile Include="Authentication\VK\VKLoginProvider.cs" />
     <Compile Include="Controllers\ApiControllers\MailApiController.cs" />
+    <Compile Include="Controllers\FeedbackController.cs" />
     <Compile Include="Controllers\SeedDbController.cs" />
+    <Compile Include="DataObjects\FeedbackDTO.cs" />
     <Compile Include="DataObjects\GendersDTO.cs" />
     <Compile Include="Helpers\Notifications.cs" />
     <Compile Include="Helpers\SequentialGuid.cs" />
@@ -249,6 +251,10 @@
     <Compile Include="Migrations\201508231912457_CardPrice.cs" />
     <Compile Include="Migrations\201508231912457_CardPrice.Designer.cs">
       <DependentUpon>201508231912457_CardPrice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511272014491_Feedback.cs" />
+    <Compile Include="Migrations\201511272014491_Feedback.Designer.cs">
+      <DependentUpon>201511272014491_Feedback.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\TestDBPopulator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -297,6 +303,7 @@
     <Compile Include="DataObjects\DatesDTO.cs" />
     <Compile Include="Models\CardGenders.cs" />
     <Compile Include="Models\Favorite.cs" />
+    <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\IApartmenthostContext.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Picture.cs" />
@@ -343,6 +350,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508231912457_CardPrice.resx">
       <DependentUpon>201508231912457_CardPrice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511272014491_Feedback.resx">
+      <DependentUpon>201511272014491_Feedback.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

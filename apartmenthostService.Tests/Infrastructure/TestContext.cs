@@ -21,6 +21,7 @@ namespace apartmenthostService.Tests.Infrastructure
             this.Pictures = new TestDbSet<Picture>();
             this.Favorites = new TestDbSet<Favorite>();
             this.Article = new TestDbSet<Article>();
+            this.Feedbacks = new TestDbSet<Feedback>();
         }
 
         public DbSet<Apartment> Apartments { get; }
@@ -36,7 +37,7 @@ namespace apartmenthostService.Tests.Infrastructure
         public DbSet<Picture> Pictures { get; }
         public DbSet<Favorite> Favorites { get; }
         public DbSet<Article> Article { get; }
-
+        public DbSet<Feedback> Feedbacks { get; }
         public int SaveChanges()
         {
             return 0;

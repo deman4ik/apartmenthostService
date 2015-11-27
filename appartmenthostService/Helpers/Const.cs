@@ -174,6 +174,12 @@ namespace apartmenthostService.Helpers
         public const string SRV_ARTICLE_INVALID_FILTER = "SRV_ARTICLE_INVALID_FILTER"; // Не верный объект запроса
         public const string SRV_ARTICLE_REQUIRED = "SRV_ARTICLE_REQUIRED"; // Не заполнено обязательно поле
 
+        //Feedback
+        public const string SRV_FEEDBACK_NULL = "SRV_FEEDBACK_NULL"; // Пустой объект запроса
+        public const string SRV_FEEDBACK_NOTFOUND = "SRV_FEEDBACK_NOTFOUND"; // Объект не найден
+        public const string SRV_FEEDBACK_INVALID_FILTER = "SRV_FEEDBACK_INVALID_FILTER"; // Не верный объект запроса
+        public const string SRV_FEEDBACK_REQUIRED = "SRV_FEEDBACK_REQUIRED"; // Не заполнено обязательно поле
+
         public static ResponseDTO Create(string code, List<string> data = null)
         {
             return new ResponseDTO
