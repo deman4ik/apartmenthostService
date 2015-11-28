@@ -81,7 +81,6 @@ namespace apartmenthostService.Messages
                 StringBuilder bodyTemplate = new StringBuilder();
                 var bodyTemplateTv = new Dictionary<string, string>();
                 var bodyTokenValues = new Dictionary<string, string>();
-                MailMessage bodyMsg;
 
                 // Считывание шаблона
                 if (!string.IsNullOrEmpty(basemessage.Code))
@@ -93,8 +92,7 @@ namespace apartmenthostService.Messages
                         bodyTemplate.Append(article.Text);
                     }
                 }
-                // Дополнение к шаблону
-                string ext = null;
+
                 switch (basemessage.Code)
                 {
                     case RespH.SRV_NOTIF_CARD_FAVORITED:
@@ -146,23 +144,26 @@ namespace apartmenthostService.Messages
                         bodyTokenValues.Add("username", basemessage.FromUserName);
                         bodyTokenValues.Add("text", basemessage.Text);
                         if (!string.IsNullOrWhiteSpace(basemessage.FromUserEmail) && basemessage.AnswerByEmail)
-                            ext = "<br>Email для связи с пользователем <" + basemessage.FromUserEmail + ">";
+                        { bodyTokenValues.Add("email", basemessage.FromUserEmail);}
+                        else
+                        {
+                            bodyTokenValues.Add("email", "не указан");
+                        }
                         break;
                 }
                 // Формируем основное тело
-                bodyMsg = emailFactory
+                emailFactory = new MergedEmailFactory(new TemplateParser());
+                var bodyMsg = emailFactory
                     .WithTokenValues(bodyTokenValues)
                     .WithHtmlBody(bodyTemplate.ToString())
                     .Create();
-                // Если есть дополнение то объединяем
-                if (!string.IsNullOrWhiteSpace(ext))
-                    bodyMsg.Body = bodyMsg.Body + ext;
                 // Соединяем все вместе
                 StringBuilder fullEmail = new StringBuilder();
                 fullEmail.Append(greetMsg.Body);
                 fullEmail.Append("<br><br>");
                 fullEmail.Append(bodyMsg.Body);
                 bodyTemplateTv.Add("content", fullEmail.ToString());
+                emailFactory = new MergedEmailFactory(new TemplateParser());
                 MailMessage fullMailMessage = emailFactory.WithTokenValues(bodyTemplateTv)
                     .WithHtmlBody(htmlTemplate.ToString())
                     .Create();

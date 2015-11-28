@@ -167,15 +167,15 @@ namespace apartmenthostService.Controllers
                 user.ResetRequested = true;
                 _context.SaveChanges();
 
-
+                var profile = _context.Profile.SingleOrDefault(x => x.Id == user.Id);
                 using (MailSender mailSender = new MailSender())
                 {
                     var bem = new BaseEmailMessage
                     {
                         Code = ConstVals.Restore,
                         ToUserId = user.Id,
-                        ToUserName = user.Profile.FirstName,
-                        ToUserEmail = user.Email,
+                        ToUserName = profile.FirstName,
+                        ToUserEmail = profile.ContactEmail ?? user.Email,
                         ConfirmCode = confirmCode
                     };
                     mailSender.Create(_context, bem);

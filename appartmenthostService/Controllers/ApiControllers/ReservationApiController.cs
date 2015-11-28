@@ -384,7 +384,8 @@ namespace apartmenthostService.Controllers
                 Notifications.Create(_context, card.UserId, ConstVals.General, RespH.SRV_NOTIF_RESERV_PENDING, null,
                     reservationGuid, null);
 
-
+                var user = _context.Users.SingleOrDefault(x => x.Id == account.UserId);
+                var profile = _context.Profile.SingleOrDefault(x => x.Id == account.UserId);
                 using (MailSender mailSender = new MailSender())
                 {
                     var bem = new BaseEmailMessage
@@ -393,8 +394,8 @@ namespace apartmenthostService.Controllers
                         CardName = card.Name,
                         DateFrom = dateFrom,
                         DateTo = dateTo,
-                        ToUserName = account.User.Profile.FirstName,
-                        ToUserEmail = account.User.Email
+                        ToUserName = profile.FirstName,
+                        ToUserEmail = profile.ContactEmail ?? user.Email
                     };
                     mailSender.Create(_context, bem);
                 }
@@ -522,6 +523,10 @@ namespace apartmenthostService.Controllers
                 Notifications.Create(_context, currentReservation.UserId, ConstVals.General, notifCode, null,
                     currentReservation.Id, null);
 
+                var fromUser = _context.Users.SingleOrDefault(x => x.Id == account.UserId);
+                var fromProfile = _context.Profile.SingleOrDefault(x => x.Id == account.UserId);
+                var toUser = _context.Users.SingleOrDefault(x => x.Id == currentReservation.UserId);
+                var toProfile = _context.Profile.SingleOrDefault(x => x.Id == currentReservation.UserId);
                 using (MailSender mailSender = new MailSender())
                 {
                     var bem = new BaseEmailMessage
@@ -530,10 +535,10 @@ namespace apartmenthostService.Controllers
                         CardName = card.Name,
                         DateFrom = currentReservation.DateFrom,
                         DateTo = currentReservation.DateTo,
-                        FromUserName = account.User.Profile.FirstName,
-                        FromUserEmail = account.User.Email,
-                        ToUserName = currentReservation.User.Profile.FirstName,
-                        ToUserEmail = currentReservation.User.Email
+                        FromUserName = fromProfile.FirstName,
+                        FromUserEmail = fromProfile.ContactEmail ?? fromUser.Email,
+                        ToUserName = toProfile.FirstName,
+                        ToUserEmail = toProfile.ContactEmail ?? toUser.Email
                     };
                     mailSender.Create(_context, bem);
                 }

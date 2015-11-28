@@ -362,16 +362,19 @@ namespace apartmenthostService.Controllers
                 _context.SaveChanges();
                 // Create Notification
                 Notifications.Create(_context, newReview.ToUserId, ConstVals.General, notifCode, null, null, reviewGuid);
-                var user = _context.Users.SingleOrDefault(x => x.Id == newReview.ToUserId);
+                var fromUser = _context.Users.SingleOrDefault(x => x.Id == account.UserId);
+                var fromProfile = _context.Profile.SingleOrDefault(x => x.Id == account.UserId);
+                var toUser = _context.Users.SingleOrDefault(x => x.Id == newReview.ToUserId);
+                var toProfile = _context.Profile.SingleOrDefault(x => x.Id == newReview.ToUserId);
                 using (MailSender mailSender = new MailSender())
                 {
                     var bem = new BaseEmailMessage
                     {
                         Code = notifCode,
-                        FromUserName = account.User.Profile.FirstName,
-                        FromUserEmail = account.User.Email,
-                        ToUserName = user.Profile.FirstName,
-                        ToUserEmail = user.Email,
+                        FromUserName = fromProfile.FirstName,
+                        FromUserEmail = fromProfile.ContactEmail ?? fromUser.Email,
+                        ToUserName = toProfile.FirstName,
+                        ToUserEmail = toProfile.ContactEmail ?? toUser.Email,
                         ReviewText = newReview.Text,
                         ReviewRating = newReview.Rating
                     };

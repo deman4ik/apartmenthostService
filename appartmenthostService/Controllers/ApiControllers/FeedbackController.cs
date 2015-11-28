@@ -32,7 +32,7 @@ namespace apartmenthostService.Controllers
 
         // POST api/Feedback/
         [Route("api/Feedback/")]
-        [AuthorizeLevel(AuthorizationLevel.User)]
+        [AuthorizeLevel(AuthorizationLevel.Anonymous)]
         [HttpPost]
         public HttpResponseMessage PostFeedback(FeedbackDTO feedback)
         {

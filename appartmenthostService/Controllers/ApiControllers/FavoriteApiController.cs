@@ -103,14 +103,17 @@ namespace apartmenthostService.Controllers
                     // Create Notification
                     Notifications.Create(_context, currentCard.UserId, ConstVals.General, RespH.SRV_NOTIF_CARD_FAVORITED,
                         favoriteGUID, null, null);
+
+                    var user = _context.Users.SingleOrDefault(x => x.Id == account.UserId);
+                    var profile = _context.Profile.SingleOrDefault(x => x.Id == account.UserId);
                     using (MailSender mailSender = new MailSender())
                     {
                         var bem = new BaseEmailMessage
                         {
                             Code = RespH.SRV_NOTIF_CARD_FAVORITED,
                             CardId = currentCard.Id,
-                            FromUserName = account.User.Profile.FirstName,
-                            FromUserEmail = account.User.Email,
+                            FromUserName = profile.FirstName,
+                            FromUserEmail = profile.ContactEmail ?? user.Email,
                             ToUserName = currentCard.User.Profile.FirstName,
                             ToUserEmail = currentCard.User.Email
                         };
