@@ -164,7 +164,7 @@ namespace apartmenthostService.Controllers
                     notification.Readed = true;
                     _context.MarkAsModified(notification);
                 }
-                
+
                 _context.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED));
             }

@@ -9,6 +9,7 @@ using System.Web.Http;
 using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
+using apartmenthostService.Messages;
 using apartmenthostService.Models;
 using Itenso.TimePeriod;
 using Microsoft.WindowsAzure.Mobile.Service;
@@ -297,12 +298,12 @@ namespace apartmenthostService.Controllers
                         RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
                 // Check Card Owner
-                                if (card.UserId == account.UserId)
-                                    {
+                if (card.UserId == account.UserId)
+                {
                     respList.Add(account.UserId);
-                                        return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_RESERVATION_SELF, respList));
-                                    }
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_RESERVATION_SELF, respList));
+                }
                 ResponseDTO resp = CheckHelper.IsProfileFill(_context, account.UserId);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
@@ -381,9 +382,22 @@ namespace apartmenthostService.Controllers
                 _context.SaveChanges();
                 // Create Notification
                 Notifications.Create(_context, card.UserId, ConstVals.General, RespH.SRV_NOTIF_RESERV_PENDING, null,
-                    reservationGuid, null, true);
+                    reservationGuid, null);
 
 
+                using (MailSender mailSender = new MailSender())
+                {
+                    var bem = new BaseEmailMessage
+                    {
+                        Code = RespH.SRV_NOTIF_RESERV_PENDING,
+                        CardName = card.Name,
+                        DateFrom = dateFrom,
+                        DateTo = dateTo,
+                        ToUserName = account.User.Profile.FirstName,
+                        ToUserEmail = account.User.Email
+                    };
+                    mailSender.Create(_context, bem);
+                }
                 respList.Add(reservationGuid);
                 return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
             }
@@ -465,21 +479,18 @@ namespace apartmenthostService.Controllers
                     var unavailableDates = new List<TimeRange>();
 
                     var cardDates = _context.Dates.Where(x => x.CardId == card.Id);
-                    if (cardDates.Count() > 0)
+                    if (cardDates.Any())
                     {
                         foreach (var unDate in cardDates)
                         {
                             unavailableDates.Add(new TimeRange(unDate.DateFrom, unDate.DateTo));
                         }
-                        foreach (var unavailableDate in unavailableDates)
+                        if (unavailableDates.Any(unavailableDate => unavailableDate.IntersectsWith(reservationDates)))
                         {
-                            if (unavailableDate.IntersectsWith(reservationDates))
-                            {
-                                respList.Add(reservationDates.ToString());
-                                respList.Add(unavailableDates.ToString());
-                                return Request.CreateResponse(HttpStatusCode.BadRequest,
-                                    RespH.Create(RespH.SRV_RESERVATION_UNAVAILABLE_DATE, respList));
-                            }
+                            respList.Add(reservationDates.ToString());
+                            respList.Add(unavailableDates.ToString());
+                            return Request.CreateResponse(HttpStatusCode.BadRequest,
+                                RespH.Create(RespH.SRV_RESERVATION_UNAVAILABLE_DATE, respList));
                         }
                     }
                     var currentReservations =
@@ -509,9 +520,23 @@ namespace apartmenthostService.Controllers
                 _context.SaveChanges();
                 // Create Notification
                 Notifications.Create(_context, currentReservation.UserId, ConstVals.General, notifCode, null,
-                    currentReservation.Id, null, true);
+                    currentReservation.Id, null);
 
-
+                using (MailSender mailSender = new MailSender())
+                {
+                    var bem = new BaseEmailMessage
+                    {
+                        Code = notifCode,
+                        CardName = card.Name,
+                        DateFrom = currentReservation.DateFrom,
+                        DateTo = currentReservation.DateTo,
+                        FromUserName = account.User.Profile.FirstName,
+                        FromUserEmail = account.User.Email,
+                        ToUserName = currentReservation.User.Profile.FirstName,
+                        ToUserEmail = currentReservation.User.Email
+                    };
+                    mailSender.Create(_context, bem);
+                }
                 respList.Add(reservId);
                 return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED, respList));
             }

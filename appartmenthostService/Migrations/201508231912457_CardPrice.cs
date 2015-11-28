@@ -1,8 +1,7 @@
+using System.Data.Entity.Migrations;
+
 namespace apartmenthostService.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-
     public partial class CardPrice : DbMigration
     {
         public override void Up()
@@ -12,7 +11,7 @@ namespace apartmenthostService.Migrations
 
         public override void Down()
         {
-            AddColumn("apartmenthost.Cards", "PriceDay", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AddColumn("apartmenthost.Cards", "PriceDay", c => c.Decimal(false, 18, 2));
         }
     }
 }

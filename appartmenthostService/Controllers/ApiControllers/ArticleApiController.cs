@@ -53,7 +53,7 @@ namespace apartmenthostService.Controllers
                         return Request.CreateResponse(HttpStatusCode.BadRequest,
                             RespH.Create(RespH.SRV_ARTICLE_INVALID_FILTER));
 
-                    
+
                     if (artRequest.Id != null)
                     {
                         pre = pre.And(x => x.Id == artRequest.Id);

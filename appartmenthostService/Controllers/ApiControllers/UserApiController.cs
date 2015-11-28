@@ -27,6 +27,7 @@ namespace apartmenthostService.Controllers
         {
             _context = context;
         }
+
         // GET api/User
         [Route("api/User")]
         [AuthorizeLevel(AuthorizationLevel.User)]

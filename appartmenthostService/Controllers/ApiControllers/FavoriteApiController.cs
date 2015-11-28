@@ -6,8 +6,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using apartmenthostService.Authentication;
-using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
+using apartmenthostService.Messages;
 using apartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
@@ -73,7 +73,7 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.Unauthorized,
                         RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
-                
+
                 var currentCard = _context.Cards.SingleOrDefault(a => a.Id == cardId);
                 if (currentCard == null)
                 {
@@ -85,9 +85,9 @@ namespace apartmenthostService.Controllers
                 if (currentCard.UserId == account.UserId)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.CreateBool(RespH.SRV_FAVORITE_WRONG_USER));
+                        RespH.CreateBool(RespH.SRV_FAVORITE_WRONG_USER));
                 }
-                    bool status;
+                bool status;
                 var favorite =
                     _context.Favorites.SingleOrDefault(f => f.CardId == cardId && f.UserId == account.UserId);
                 if (favorite == null)
@@ -102,7 +102,20 @@ namespace apartmenthostService.Controllers
                     _context.SaveChanges();
                     // Create Notification
                     Notifications.Create(_context, currentCard.UserId, ConstVals.General, RespH.SRV_NOTIF_CARD_FAVORITED,
-                        favoriteGUID, null, null, true);
+                        favoriteGUID, null, null);
+                    using (MailSender mailSender = new MailSender())
+                    {
+                        var bem = new BaseEmailMessage
+                        {
+                            Code = RespH.SRV_NOTIF_CARD_FAVORITED,
+                            CardId = currentCard.Id,
+                            FromUserName = account.User.Profile.FirstName,
+                            FromUserEmail = account.User.Email,
+                            ToUserName = currentCard.User.Profile.FirstName,
+                            ToUserEmail = currentCard.User.Email
+                        };
+                        mailSender.Create(_context, bem);
+                    }
                     status = true;
                 }
                 else

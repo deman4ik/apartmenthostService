@@ -6,8 +6,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using apartmenthostService.Authentication;
-using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
+using apartmenthostService.Messages;
 using apartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
@@ -73,8 +73,20 @@ namespace apartmenthostService.Controllers
                 AuthUtils.CreateAccount(_context, StandartLoginProvider.ProviderName, registrationRequest.Email,
                     StandartLoginProvider.ProviderName + ":" + registrationRequest.Email,
                     registrationRequest.Email, registrationRequest.FirstName);
-                Notifications.SendEmail(_context, newUser.Id, ConstVals.General, ConstVals.Reg, null, null, null,
-                    confirmCode);
+
+                using (MailSender mailSender = new MailSender())
+                {
+                    var bem = new BaseEmailMessage
+                    {
+                        Code = ConstVals.Reg,
+                        ToUserId = newUser.Id,
+                        ToUserEmail = registrationRequest.Email,
+                        ToUserName = registrationRequest.FirstName,
+                        ConfirmCode = confirmCode
+                    };
+                    mailSender.Create(_context, bem);
+                }
+
                 respList.Add(newUser.Id);
                 return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
             }
@@ -154,8 +166,20 @@ namespace apartmenthostService.Controllers
                 user.SaltedAndHashedCode = AuthUtils.hash(confirmCode, user.Salt);
                 user.ResetRequested = true;
                 _context.SaveChanges();
-                Notifications.SendEmail(_context, user.Id, ConstVals.General, ConstVals.Restore, null, null, null,
-                    confirmCode);
+
+
+                using (MailSender mailSender = new MailSender())
+                {
+                    var bem = new BaseEmailMessage
+                    {
+                        Code = ConstVals.Restore,
+                        ToUserId = user.Id,
+                        ToUserName = user.Profile.FirstName,
+                        ToUserEmail = user.Email,
+                        ConfirmCode = confirmCode
+                    };
+                    mailSender.Create(_context, bem);
+                }
                 return Request.CreateResponse(HttpStatusCode.OK,
                     RespH.Create(RespH.SRV_USER_RESET_REQUESTED, new List<string> {user.Id}));
             }
@@ -183,7 +207,9 @@ namespace apartmenthostService.Controllers
                             RespH.Create(RespH.SRV_USER_REQUIRED, new List<string> {"code"}));
                     }
 
-                    user = !string.IsNullOrEmpty(resetRequest.UserId) ? _context.Users.SingleOrDefault(x => x.Id == resetRequest.UserId) : _context.Users.SingleOrDefault(x => x.Email == resetRequest.Email);
+                    user = !string.IsNullOrEmpty(resetRequest.UserId)
+                        ? _context.Users.SingleOrDefault(x => x.Id == resetRequest.UserId)
+                        : _context.Users.SingleOrDefault(x => x.Email == resetRequest.Email);
                     if (user == null)
                     {
                         return Request.CreateResponse(HttpStatusCode.BadRequest,

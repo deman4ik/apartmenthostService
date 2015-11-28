@@ -8,6 +8,7 @@ using System.Web.Http;
 using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
+using apartmenthostService.Messages;
 using apartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
@@ -26,6 +27,7 @@ namespace apartmenthostService.Controllers
         {
             _context = context;
         }
+
         public ApiServices Services { get; set; }
         // GET api/Reviews/{type}
         [Route("api/Reviews/{type?}")]
@@ -359,9 +361,22 @@ namespace apartmenthostService.Controllers
                 }
                 _context.SaveChanges();
                 // Create Notification
-                Notifications.Create(_context, newReview.ToUserId, ConstVals.General, notifCode, null, null, reviewGuid,
-                    true);
-
+                Notifications.Create(_context, newReview.ToUserId, ConstVals.General, notifCode, null, null, reviewGuid);
+                var user = _context.Users.SingleOrDefault(x => x.Id == newReview.ToUserId);
+                using (MailSender mailSender = new MailSender())
+                {
+                    var bem = new BaseEmailMessage
+                    {
+                        Code = notifCode,
+                        FromUserName = account.User.Profile.FirstName,
+                        FromUserEmail = account.User.Email,
+                        ToUserName = user.Profile.FirstName,
+                        ToUserEmail = user.Email,
+                        ReviewText = newReview.Text,
+                        ReviewRating = newReview.Rating
+                    };
+                    mailSender.Create(_context, bem);
+                }
 
                 respList.Add(reviewGuid);
                 return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));

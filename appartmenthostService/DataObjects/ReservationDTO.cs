@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using apartmenthostService.Attributes;
-using apartmenthostService.Helpers;
 
 namespace apartmenthostService.DataObjects
 {

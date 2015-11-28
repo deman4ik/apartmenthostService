@@ -31,6 +31,7 @@ namespace apartmenthostService.Controllers
         {
             _context = context;
         }
+
         /// <summary>
         ///     GET api/Cards/
         /// </summary>
@@ -587,7 +588,7 @@ namespace apartmenthostService.Controllers
                 // Check Apartment FormatedAdress is not NULL
                 resp = CheckHelper.IsNull(card.Apartment.FormattedAdress, "FormattedAdress",
                     RespH.SRV_APARTMENT_REQUIRED);
-                if (resp != null) return this.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
 
                 // Check Apartment Type is not NULL
@@ -637,7 +638,7 @@ namespace apartmenthostService.Controllers
                     {
                         resp = CheckHelper.IsNull(gender.Name, "Genders.Name", RespH.SRV_CARD_REQUIRED);
                         if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-                        cardGenders.Add(new CardGenders()
+                        cardGenders.Add(new CardGenders
                         {
                             Id = SequentialGuid.NewGuid().ToString(),
                             CardId = cardGuid,
@@ -817,7 +818,7 @@ namespace apartmenthostService.Controllers
                     {
                         resp = CheckHelper.IsNull(gender.Name, "Genders.Name", RespH.SRV_CARD_REQUIRED);
                         if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-                        cardGenders.Add(new CardGenders()
+                        cardGenders.Add(new CardGenders
                         {
                             Id = SequentialGuid.NewGuid().ToString(),
                             CardId = id,

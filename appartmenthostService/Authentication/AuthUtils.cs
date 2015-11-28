@@ -82,7 +82,8 @@ namespace apartmenthostService.Authentication
             }
         }
 
-        public static void CreateAccount(IApartmenthostContext context, string providerName, string providerId, string accountId, string email = null,
+        public static void CreateAccount(IApartmenthostContext context, string providerName, string providerId,
+            string accountId, string email = null,
             string name = null)
         {
             var account =

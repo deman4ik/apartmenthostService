@@ -1,8 +1,7 @@
+using System.Data.Entity.Migrations;
+
 namespace apartmenthostService.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-
     public partial class ArticleType : DbMigration
     {
         public override void Up()

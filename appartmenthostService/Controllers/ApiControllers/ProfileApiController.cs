@@ -111,7 +111,7 @@ namespace apartmenthostService.Controllers
                                 Default = apic.Default,
                                 CreatedAt = apic.CreatedAt
                             }).ToList()
-                        },
+                        }
                     }).ToList(),
                     Reviews = x.User.InReviews.Select(owrev => new ReviewDTO
                     {
@@ -127,7 +127,7 @@ namespace apartmenthostService.Controllers
                                 : ConstVals.Owner,
                         CreatedAt = owrev.CreatedAt,
                         UpdatedAt = owrev.UpdatedAt,
-                        FromUser = new BaseUserDTO()
+                        FromUser = new BaseUserDTO
                         {
                             Id = owrev.FromUser.Profile.Id,
                             Email = owrev.FromUser.Email,

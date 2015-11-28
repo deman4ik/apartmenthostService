@@ -8,6 +8,7 @@ using System.Web.Http;
 using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
+using apartmenthostService.Messages;
 using apartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
@@ -61,7 +62,7 @@ namespace apartmenthostService.Controllers
                             RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                     }
 
-                    var user =   _context.Users.SingleOrDefault(x => x.Id == account.UserId);
+                    var user = _context.Users.SingleOrDefault(x => x.Id == account.UserId);
                     var profile = _context.Profile.SingleOrDefault(x => x.Id == account.UserId);
                     if (user == null || profile == null)
                     {
@@ -77,7 +78,7 @@ namespace apartmenthostService.Controllers
                 {
                     respList.Add("Email");
                 }
-                
+
                 if (respList.Count > 0)
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_FEEDBACK_REQUIRED, respList));
@@ -93,11 +94,24 @@ namespace apartmenthostService.Controllers
                         Email = feedback.Email,
                         Text = feedback.Text,
                         AnswerByEmail = feedback.AnswerByEmail
-                       
                     });
 
                 _context.SaveChanges();
 
+                using (MailSender mailSender = new MailSender())
+                {
+                    var bem = new BaseEmailMessage
+                    {
+                        Code = ConstVals.Feedback,
+                        ToUserEmail = Environment.GetEnvironmentVariable("FEEDBACK_EMAIL"),
+                        ToUserName = "Команда Petforaweek",
+                        FromUserEmail = feedback.Email,
+                        FromUserName = feedback.UserName,
+                        Text = feedback.Text,
+                        AnswerByEmail = feedback.AnswerByEmail
+                    };
+                    mailSender.Create(_context, bem);
+                }
                 respList.Add(feedbackGuid);
                 return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
             }

@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
 using apartmenthostService.Migrations;
 using apartmenthostService.Models;
@@ -14,6 +13,7 @@ using Microsoft.WindowsAzure.Mobile.Service.Security;
 namespace apartmenthostService.Controllers
 {
     /* TODO: DEPRECATE TEST ONLY */
+
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class SeedDbController : ApiController
     {

@@ -69,7 +69,8 @@ namespace apartmenthostService.Authentication
                     UserId = userId,
                     AccessToken = providerAccessToken?.Value
                 };
-                AuthUtils.CreateAccount(new ApartmenthostContext(), Name, name?.Value, userId, emailClaim?.Value, nameClaim?.Value);
+                AuthUtils.CreateAccount(new ApartmenthostContext(), Name, name?.Value, userId, emailClaim?.Value,
+                    nameClaim?.Value);
                 return credentials;
             }
             catch (Exception e)

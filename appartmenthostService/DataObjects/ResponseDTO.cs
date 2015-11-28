@@ -27,5 +27,4 @@ namespace apartmenthostService.DataObjects
         /* Список значений */
         public List<bool> Data { get; set; }
     }
-
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Reflection;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Models;
 using CloudinaryDotNet;

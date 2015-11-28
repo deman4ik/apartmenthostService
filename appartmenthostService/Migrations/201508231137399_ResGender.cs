@@ -1,10 +1,9 @@
+using System.Collections.Generic;
+using System.Data.Entity.Infrastructure.Annotations;
+using System.Data.Entity.Migrations;
+
 namespace apartmenthostService.Migrations
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data.Entity.Infrastructure.Annotations;
-    using System.Data.Entity.Migrations;
-
     public partial class ResGender : DbMigration
     {
         public override void Up()
@@ -38,49 +37,49 @@ namespace apartmenthostService.Migrations
                 "apartmenthost.CardGenders",
                 c => new
                 {
-                    Id = c.String(nullable: false, maxLength: 128,
+                    Id = c.String(false, 128,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "Id")
-                            },
+                                new AnnotationValues(null, "Id")
+                            }
                         }),
                     Name = c.String(),
                     Price = c.Decimal(precision: 18, scale: 2),
-                    CardId = c.String(nullable: false, maxLength: 128),
-                    Version = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion",
+                    CardId = c.String(false, 128),
+                    Version = c.Binary(false, fixedLength: true, timestamp: true, storeType: "rowversion",
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "Version")
-                            },
+                                new AnnotationValues(null, "Version")
+                            }
                         }),
-                    CreatedAt = c.DateTimeOffset(nullable: false, precision: 7,
+                    CreatedAt = c.DateTimeOffset(false, 7,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "CreatedAt")
-                            },
+                                new AnnotationValues(null, "CreatedAt")
+                            }
                         }),
                     UpdatedAt = c.DateTimeOffset(precision: 7,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "UpdatedAt")
-                            },
+                                new AnnotationValues(null, "UpdatedAt")
+                            }
                         }),
-                    Deleted = c.Boolean(nullable: false,
+                    Deleted = c.Boolean(false,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "Deleted")
-                            },
-                        }),
+                                new AnnotationValues(null, "Deleted")
+                            }
+                        })
                 })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("apartmenthost.Cards", t => t.CardId)
@@ -89,207 +88,202 @@ namespace apartmenthostService.Migrations
 
             AddColumn("apartmenthost.Users", "SaltedAndHashedEmail", c => c.Binary());
             AddColumn("apartmenthost.Users", "SaltedAndHashedCode", c => c.Binary());
-            AddColumn("apartmenthost.Users", "EmailConfirmed", c => c.Boolean(nullable: false));
-            AddColumn("apartmenthost.Users", "ResetRequested", c => c.Boolean(nullable: false));
-            AddColumn("apartmenthost.Users", "Blocked", c => c.Boolean(nullable: false));
-            AddColumn("apartmenthost.Notifications", "Emailed", c => c.Boolean(nullable: false));
+            AddColumn("apartmenthost.Users", "EmailConfirmed", c => c.Boolean(false));
+            AddColumn("apartmenthost.Users", "ResetRequested", c => c.Boolean(false));
+            AddColumn("apartmenthost.Users", "Blocked", c => c.Boolean(false));
+            AddColumn("apartmenthost.Notifications", "Emailed", c => c.Boolean(false));
             AddColumn("apartmenthost.Reservations", "Gender", c => c.String());
             DropColumn("apartmenthost.Articles", "PictureId");
-            DropTable("apartmenthost.PropVals",
-                removedColumnAnnotations: new Dictionary<string, IDictionary<string, object>>
+            DropTable("apartmenthost.PropVals", new Dictionary<string, IDictionary<string, object>>
+            {
                 {
+                    "CreatedAt",
+                    new Dictionary<string, object>
                     {
-                        "CreatedAt",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "CreatedAt"},
-                        }
-                    },
-                    {
-                        "Deleted",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "Deleted"},
-                        }
-                    },
-                    {
-                        "Id",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "Id"},
-                        }
-                    },
-                    {
-                        "UpdatedAt",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "UpdatedAt"},
-                        }
-                    },
-                    {
-                        "Version",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "Version"},
-                        }
-                    },
-                });
-            DropTable("apartmenthost.DictionaryItems",
-                removedColumnAnnotations: new Dictionary<string, IDictionary<string, object>>
+                        {"ServiceTableColumn", "CreatedAt"}
+                    }
+                },
                 {
+                    "Deleted",
+                    new Dictionary<string, object>
                     {
-                        "CreatedAt",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "CreatedAt"},
-                        }
-                    },
-                    {
-                        "Deleted",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "Deleted"},
-                        }
-                    },
-                    {
-                        "Id",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "Id"},
-                        }
-                    },
-                    {
-                        "UpdatedAt",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "UpdatedAt"},
-                        }
-                    },
-                    {
-                        "Version",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "Version"},
-                        }
-                    },
-                });
-            DropTable("apartmenthost.Dictionaries",
-                removedColumnAnnotations: new Dictionary<string, IDictionary<string, object>>
+                        {"ServiceTableColumn", "Deleted"}
+                    }
+                },
                 {
+                    "Id",
+                    new Dictionary<string, object>
                     {
-                        "CreatedAt",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "CreatedAt"},
-                        }
-                    },
-                    {
-                        "Deleted",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "Deleted"},
-                        }
-                    },
-                    {
-                        "Id",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "Id"},
-                        }
-                    },
-                    {
-                        "UpdatedAt",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "UpdatedAt"},
-                        }
-                    },
-                    {
-                        "Version",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "Version"},
-                        }
-                    },
-                });
-            DropTable("apartmenthost.Props",
-                removedColumnAnnotations: new Dictionary<string, IDictionary<string, object>>
+                        {"ServiceTableColumn", "Id"}
+                    }
+                },
                 {
+                    "UpdatedAt",
+                    new Dictionary<string, object>
                     {
-                        "CreatedAt",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "CreatedAt"},
-                        }
-                    },
-                    {
-                        "Deleted",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "Deleted"},
-                        }
-                    },
-                    {
-                        "Id",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "Id"},
-                        }
-                    },
-                    {
-                        "UpdatedAt",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "UpdatedAt"},
-                        }
-                    },
-                    {
-                        "Version",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "Version"},
-                        }
-                    },
-                });
-            DropTable("apartmenthost.Tables",
-                removedColumnAnnotations: new Dictionary<string, IDictionary<string, object>>
+                        {"ServiceTableColumn", "UpdatedAt"}
+                    }
+                },
                 {
+                    "Version",
+                    new Dictionary<string, object>
                     {
-                        "CreatedAt",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "CreatedAt"},
-                        }
-                    },
+                        {"ServiceTableColumn", "Version"}
+                    }
+                }
+            });
+            DropTable("apartmenthost.DictionaryItems", new Dictionary<string, IDictionary<string, object>>
+            {
+                {
+                    "CreatedAt",
+                    new Dictionary<string, object>
                     {
-                        "Deleted",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "Deleted"},
-                        }
-                    },
+                        {"ServiceTableColumn", "CreatedAt"}
+                    }
+                },
+                {
+                    "Deleted",
+                    new Dictionary<string, object>
                     {
-                        "Id",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "Id"},
-                        }
-                    },
+                        {"ServiceTableColumn", "Deleted"}
+                    }
+                },
+                {
+                    "Id",
+                    new Dictionary<string, object>
                     {
-                        "UpdatedAt",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "UpdatedAt"},
-                        }
-                    },
+                        {"ServiceTableColumn", "Id"}
+                    }
+                },
+                {
+                    "UpdatedAt",
+                    new Dictionary<string, object>
                     {
-                        "Version",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "Version"},
-                        }
-                    },
-                });
+                        {"ServiceTableColumn", "UpdatedAt"}
+                    }
+                },
+                {
+                    "Version",
+                    new Dictionary<string, object>
+                    {
+                        {"ServiceTableColumn", "Version"}
+                    }
+                }
+            });
+            DropTable("apartmenthost.Dictionaries", new Dictionary<string, IDictionary<string, object>>
+            {
+                {
+                    "CreatedAt",
+                    new Dictionary<string, object>
+                    {
+                        {"ServiceTableColumn", "CreatedAt"}
+                    }
+                },
+                {
+                    "Deleted",
+                    new Dictionary<string, object>
+                    {
+                        {"ServiceTableColumn", "Deleted"}
+                    }
+                },
+                {
+                    "Id",
+                    new Dictionary<string, object>
+                    {
+                        {"ServiceTableColumn", "Id"}
+                    }
+                },
+                {
+                    "UpdatedAt",
+                    new Dictionary<string, object>
+                    {
+                        {"ServiceTableColumn", "UpdatedAt"}
+                    }
+                },
+                {
+                    "Version",
+                    new Dictionary<string, object>
+                    {
+                        {"ServiceTableColumn", "Version"}
+                    }
+                }
+            });
+            DropTable("apartmenthost.Props", new Dictionary<string, IDictionary<string, object>>
+            {
+                {
+                    "CreatedAt",
+                    new Dictionary<string, object>
+                    {
+                        {"ServiceTableColumn", "CreatedAt"}
+                    }
+                },
+                {
+                    "Deleted",
+                    new Dictionary<string, object>
+                    {
+                        {"ServiceTableColumn", "Deleted"}
+                    }
+                },
+                {
+                    "Id",
+                    new Dictionary<string, object>
+                    {
+                        {"ServiceTableColumn", "Id"}
+                    }
+                },
+                {
+                    "UpdatedAt",
+                    new Dictionary<string, object>
+                    {
+                        {"ServiceTableColumn", "UpdatedAt"}
+                    }
+                },
+                {
+                    "Version",
+                    new Dictionary<string, object>
+                    {
+                        {"ServiceTableColumn", "Version"}
+                    }
+                }
+            });
+            DropTable("apartmenthost.Tables", new Dictionary<string, IDictionary<string, object>>
+            {
+                {
+                    "CreatedAt",
+                    new Dictionary<string, object>
+                    {
+                        {"ServiceTableColumn", "CreatedAt"}
+                    }
+                },
+                {
+                    "Deleted",
+                    new Dictionary<string, object>
+                    {
+                        {"ServiceTableColumn", "Deleted"}
+                    }
+                },
+                {
+                    "Id",
+                    new Dictionary<string, object>
+                    {
+                        {"ServiceTableColumn", "Id"}
+                    }
+                },
+                {
+                    "UpdatedAt",
+                    new Dictionary<string, object>
+                    {
+                        {"ServiceTableColumn", "UpdatedAt"}
+                    }
+                },
+                {
+                    "Version",
+                    new Dictionary<string, object>
+                    {
+                        {"ServiceTableColumn", "Version"}
+                    }
+                }
+            });
             DropTable("apartmenthost.TableProp");
         }
 
@@ -299,8 +293,8 @@ namespace apartmenthostService.Migrations
                 "apartmenthost.TableProp",
                 c => new
                 {
-                    TableRefId = c.String(nullable: false, maxLength: 128),
-                    PropRefId = c.String(nullable: false, maxLength: 128),
+                    TableRefId = c.String(false, 128),
+                    PropRefId = c.String(false, 128)
                 })
                 .PrimaryKey(t => new {t.TableRefId, t.PropRefId});
 
@@ -308,47 +302,47 @@ namespace apartmenthostService.Migrations
                 "apartmenthost.Tables",
                 c => new
                 {
-                    Id = c.String(nullable: false, maxLength: 128,
+                    Id = c.String(false, 128,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "Id")
-                            },
+                                new AnnotationValues(null, "Id")
+                            }
                         }),
                     Name = c.String(),
-                    Version = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion",
+                    Version = c.Binary(false, fixedLength: true, timestamp: true, storeType: "rowversion",
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "Version")
-                            },
+                                new AnnotationValues(null, "Version")
+                            }
                         }),
-                    CreatedAt = c.DateTimeOffset(nullable: false, precision: 7,
+                    CreatedAt = c.DateTimeOffset(false, 7,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "CreatedAt")
-                            },
+                                new AnnotationValues(null, "CreatedAt")
+                            }
                         }),
                     UpdatedAt = c.DateTimeOffset(precision: 7,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "UpdatedAt")
-                            },
+                                new AnnotationValues(null, "UpdatedAt")
+                            }
                         }),
-                    Deleted = c.Boolean(nullable: false,
+                    Deleted = c.Boolean(false,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "Deleted")
-                            },
-                        }),
+                                new AnnotationValues(null, "Deleted")
+                            }
+                        })
                 })
                 .PrimaryKey(t => t.Id);
 
@@ -356,66 +350,66 @@ namespace apartmenthostService.Migrations
                 "apartmenthost.Props",
                 c => new
                 {
-                    Id = c.String(nullable: false, maxLength: 128,
+                    Id = c.String(false, 128,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "Id")
-                            },
+                                new AnnotationValues(null, "Id")
+                            }
                         }),
                     Name = c.String(),
                     Type = c.String(),
                     DataType = c.String(),
-                    GetRule_Visible = c.Boolean(nullable: false),
-                    GetRule_RequiredForm = c.Boolean(nullable: false),
-                    GetRule_RequiredTransfer = c.Boolean(nullable: false),
-                    GetRule_Order = c.Int(nullable: false),
-                    PostRule_Visible = c.Boolean(nullable: false),
-                    PostRule_RequiredForm = c.Boolean(nullable: false),
-                    PostRule_RequiredTransfer = c.Boolean(nullable: false),
-                    PostRule_Order = c.Int(nullable: false),
-                    PutRule_Visible = c.Boolean(nullable: false),
-                    PutRule_RequiredForm = c.Boolean(nullable: false),
-                    PutRule_RequiredTransfer = c.Boolean(nullable: false),
-                    PutRule_Order = c.Int(nullable: false),
-                    DeleteRule_Visible = c.Boolean(nullable: false),
-                    DeleteRule_RequiredForm = c.Boolean(nullable: false),
-                    DeleteRule_RequiredTransfer = c.Boolean(nullable: false),
-                    DeleteRule_Order = c.Int(nullable: false),
+                    GetRule_Visible = c.Boolean(false),
+                    GetRule_RequiredForm = c.Boolean(false),
+                    GetRule_RequiredTransfer = c.Boolean(false),
+                    GetRule_Order = c.Int(false),
+                    PostRule_Visible = c.Boolean(false),
+                    PostRule_RequiredForm = c.Boolean(false),
+                    PostRule_RequiredTransfer = c.Boolean(false),
+                    PostRule_Order = c.Int(false),
+                    PutRule_Visible = c.Boolean(false),
+                    PutRule_RequiredForm = c.Boolean(false),
+                    PutRule_RequiredTransfer = c.Boolean(false),
+                    PutRule_Order = c.Int(false),
+                    DeleteRule_Visible = c.Boolean(false),
+                    DeleteRule_RequiredForm = c.Boolean(false),
+                    DeleteRule_RequiredTransfer = c.Boolean(false),
+                    DeleteRule_Order = c.Int(false),
                     DictionaryId = c.String(maxLength: 128),
-                    Version = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion",
+                    Version = c.Binary(false, fixedLength: true, timestamp: true, storeType: "rowversion",
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "Version")
-                            },
+                                new AnnotationValues(null, "Version")
+                            }
                         }),
-                    CreatedAt = c.DateTimeOffset(nullable: false, precision: 7,
+                    CreatedAt = c.DateTimeOffset(false, 7,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "CreatedAt")
-                            },
+                                new AnnotationValues(null, "CreatedAt")
+                            }
                         }),
                     UpdatedAt = c.DateTimeOffset(precision: 7,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "UpdatedAt")
-                            },
+                                new AnnotationValues(null, "UpdatedAt")
+                            }
                         }),
-                    Deleted = c.Boolean(nullable: false,
+                    Deleted = c.Boolean(false,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "Deleted")
-                            },
-                        }),
+                                new AnnotationValues(null, "Deleted")
+                            }
+                        })
                 })
                 .PrimaryKey(t => t.Id);
 
@@ -423,47 +417,47 @@ namespace apartmenthostService.Migrations
                 "apartmenthost.Dictionaries",
                 c => new
                 {
-                    Id = c.String(nullable: false, maxLength: 128,
+                    Id = c.String(false, 128,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "Id")
-                            },
+                                new AnnotationValues(null, "Id")
+                            }
                         }),
                     Name = c.String(),
-                    Version = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion",
+                    Version = c.Binary(false, fixedLength: true, timestamp: true, storeType: "rowversion",
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "Version")
-                            },
+                                new AnnotationValues(null, "Version")
+                            }
                         }),
-                    CreatedAt = c.DateTimeOffset(nullable: false, precision: 7,
+                    CreatedAt = c.DateTimeOffset(false, 7,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "CreatedAt")
-                            },
+                                new AnnotationValues(null, "CreatedAt")
+                            }
                         }),
                     UpdatedAt = c.DateTimeOffset(precision: 7,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "UpdatedAt")
-                            },
+                                new AnnotationValues(null, "UpdatedAt")
+                            }
                         }),
-                    Deleted = c.Boolean(nullable: false,
+                    Deleted = c.Boolean(false,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "Deleted")
-                            },
-                        }),
+                                new AnnotationValues(null, "Deleted")
+                            }
+                        })
                 })
                 .PrimaryKey(t => t.Id);
 
@@ -471,52 +465,52 @@ namespace apartmenthostService.Migrations
                 "apartmenthost.DictionaryItems",
                 c => new
                 {
-                    Id = c.String(nullable: false, maxLength: 128,
+                    Id = c.String(false, 128,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "Id")
-                            },
+                                new AnnotationValues(null, "Id")
+                            }
                         }),
-                    DictionaryId = c.String(nullable: false, maxLength: 128),
+                    DictionaryId = c.String(false, 128),
                     StrValue = c.String(),
                     NumValue = c.Decimal(precision: 18, scale: 2),
                     DateValue = c.DateTime(),
                     BoolValue = c.Boolean(),
                     Lang = c.String(),
-                    Version = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion",
+                    Version = c.Binary(false, fixedLength: true, timestamp: true, storeType: "rowversion",
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "Version")
-                            },
+                                new AnnotationValues(null, "Version")
+                            }
                         }),
-                    CreatedAt = c.DateTimeOffset(nullable: false, precision: 7,
+                    CreatedAt = c.DateTimeOffset(false, 7,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "CreatedAt")
-                            },
+                                new AnnotationValues(null, "CreatedAt")
+                            }
                         }),
                     UpdatedAt = c.DateTimeOffset(precision: 7,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "UpdatedAt")
-                            },
+                                new AnnotationValues(null, "UpdatedAt")
+                            }
                         }),
-                    Deleted = c.Boolean(nullable: false,
+                    Deleted = c.Boolean(false,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "Deleted")
-                            },
-                        }),
+                                new AnnotationValues(null, "Deleted")
+                            }
+                        })
                 })
                 .PrimaryKey(t => t.Id);
 
@@ -524,15 +518,15 @@ namespace apartmenthostService.Migrations
                 "apartmenthost.PropVals",
                 c => new
                 {
-                    Id = c.String(nullable: false, maxLength: 128,
+                    Id = c.String(false, 128,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "Id")
-                            },
+                                new AnnotationValues(null, "Id")
+                            }
                         }),
-                    PropId = c.String(nullable: false, maxLength: 128),
+                    PropId = c.String(false, 128),
                     ApartmentItemId = c.String(maxLength: 128),
                     AdvertItemId = c.String(maxLength: 128),
                     ReservationItemId = c.String(maxLength: 128),
@@ -542,38 +536,38 @@ namespace apartmenthostService.Migrations
                     BoolValue = c.Boolean(),
                     DictionaryItemId = c.String(maxLength: 128),
                     Lang = c.String(),
-                    Version = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion",
+                    Version = c.Binary(false, fixedLength: true, timestamp: true, storeType: "rowversion",
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "Version")
-                            },
+                                new AnnotationValues(null, "Version")
+                            }
                         }),
-                    CreatedAt = c.DateTimeOffset(nullable: false, precision: 7,
+                    CreatedAt = c.DateTimeOffset(false, 7,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "CreatedAt")
-                            },
+                                new AnnotationValues(null, "CreatedAt")
+                            }
                         }),
                     UpdatedAt = c.DateTimeOffset(precision: 7,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "UpdatedAt")
-                            },
+                                new AnnotationValues(null, "UpdatedAt")
+                            }
                         }),
-                    Deleted = c.Boolean(nullable: false,
+                    Deleted = c.Boolean(false,
                         annotations: new Dictionary<string, AnnotationValues>
                         {
                             {
                                 "ServiceTableColumn",
-                                new AnnotationValues(oldValue: null, newValue: "Deleted")
-                            },
-                        }),
+                                new AnnotationValues(null, "Deleted")
+                            }
+                        })
                 })
                 .PrimaryKey(t => t.Id);
 
@@ -588,45 +582,44 @@ namespace apartmenthostService.Migrations
             DropColumn("apartmenthost.Users", "EmailConfirmed");
             DropColumn("apartmenthost.Users", "SaltedAndHashedCode");
             DropColumn("apartmenthost.Users", "SaltedAndHashedEmail");
-            DropTable("apartmenthost.CardGenders",
-                removedColumnAnnotations: new Dictionary<string, IDictionary<string, object>>
+            DropTable("apartmenthost.CardGenders", new Dictionary<string, IDictionary<string, object>>
+            {
                 {
+                    "CreatedAt",
+                    new Dictionary<string, object>
                     {
-                        "CreatedAt",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "CreatedAt"},
-                        }
-                    },
+                        {"ServiceTableColumn", "CreatedAt"}
+                    }
+                },
+                {
+                    "Deleted",
+                    new Dictionary<string, object>
                     {
-                        "Deleted",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "Deleted"},
-                        }
-                    },
+                        {"ServiceTableColumn", "Deleted"}
+                    }
+                },
+                {
+                    "Id",
+                    new Dictionary<string, object>
                     {
-                        "Id",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "Id"},
-                        }
-                    },
+                        {"ServiceTableColumn", "Id"}
+                    }
+                },
+                {
+                    "UpdatedAt",
+                    new Dictionary<string, object>
                     {
-                        "UpdatedAt",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "UpdatedAt"},
-                        }
-                    },
+                        {"ServiceTableColumn", "UpdatedAt"}
+                    }
+                },
+                {
+                    "Version",
+                    new Dictionary<string, object>
                     {
-                        "Version",
-                        new Dictionary<string, object>
-                        {
-                            {"ServiceTableColumn", "Version"},
-                        }
-                    },
-                });
+                        {"ServiceTableColumn", "Version"}
+                    }
+                }
+            });
             CreateIndex("apartmenthost.TableProp", "PropRefId");
             CreateIndex("apartmenthost.TableProp", "TableRefId");
             CreateIndex("apartmenthost.Articles", "PictureId");
@@ -648,11 +641,10 @@ namespace apartmenthostService.Migrations
             AddForeignKey("apartmenthost.PropVals", "ReservationItemId", "apartmenthost.Reservations", "Id");
             AddForeignKey("apartmenthost.PropVals", "DictionaryItemId", "apartmenthost.DictionaryItems", "Id");
             AddForeignKey("apartmenthost.Props", "DictionaryId", "apartmenthost.Dictionaries", "Id");
-            AddForeignKey("apartmenthost.TableProp", "PropRefId", "apartmenthost.Props", "Id", cascadeDelete: true);
-            AddForeignKey("apartmenthost.TableProp", "TableRefId", "apartmenthost.Tables", "Id", cascadeDelete: true);
-            AddForeignKey("apartmenthost.PropVals", "PropId", "apartmenthost.Props", "Id", cascadeDelete: true);
-            AddForeignKey("apartmenthost.DictionaryItems", "DictionaryId", "apartmenthost.Dictionaries", "Id",
-                cascadeDelete: true);
+            AddForeignKey("apartmenthost.TableProp", "PropRefId", "apartmenthost.Props", "Id", true);
+            AddForeignKey("apartmenthost.TableProp", "TableRefId", "apartmenthost.Tables", "Id", true);
+            AddForeignKey("apartmenthost.PropVals", "PropId", "apartmenthost.Props", "Id", true);
+            AddForeignKey("apartmenthost.DictionaryItems", "DictionaryId", "apartmenthost.Dictionaries", "Id", true);
         }
     }
 }

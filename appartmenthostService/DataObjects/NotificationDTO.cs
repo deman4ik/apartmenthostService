@@ -1,6 +1,4 @@
 ﻿using System;
-using apartmenthostService.Attributes;
-using apartmenthostService.Helpers;
 using Newtonsoft.Json;
 
 namespace apartmenthostService.DataObjects
