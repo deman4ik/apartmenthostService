@@ -110,8 +110,10 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_USER_REQUIRED, new List<string> {"code"}));
                 }
-                var user =
-                    _context.Users.SingleOrDefault(x => x.Id == confirmRequest.UserId || x.Email == confirmRequest.Email);
+
+               var user = !string.IsNullOrEmpty(confirmRequest.UserId)
+                        ? _context.Users.SingleOrDefault(x => x.Id == confirmRequest.UserId)
+                        : _context.Users.SingleOrDefault(x => x.Email == confirmRequest.Email);
                 if (user == null)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
@@ -154,8 +156,9 @@ namespace apartmenthostService.Controllers
         {
             try
             {
-                var user =
-                    _context.Users.SingleOrDefault(x => x.Id == resetRequest.UserId || x.Email == resetRequest.Email);
+               var user = !string.IsNullOrEmpty(resetRequest.UserId)
+                        ? _context.Users.SingleOrDefault(x => x.Id == resetRequest.UserId)
+                        : _context.Users.SingleOrDefault(x => x.Email == resetRequest.Email);
                 if (user == null)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest,

@@ -131,13 +131,13 @@ namespace apartmenthostService.Messages
                         bodyTokenValues.Add("dateto", basemessage.DateTo.ToString());
                         break;
                     case ConstVals.Reg:
-                        bodyTokenValues.Add("confirmcode", basemessage.ConfirmCode);
+                        bodyTokenValues.Add("code", basemessage.ConfirmCode);
                         bodyTokenValues.Add("url", webDomain + "#/confirm?userId=" + basemessage.ToUserId + "&code=" +
                                                    basemessage.ConfirmCode);
                         break;
                     case ConstVals.Restore:
-                        bodyTokenValues.Add("confirmcode", basemessage.ConfirmCode);
-                        bodyTokenValues.Add("url", webDomain + "#/confirm?userId=" + basemessage.ToUserId + "&code=" +
+                        bodyTokenValues.Add("code", basemessage.ConfirmCode);
+                        bodyTokenValues.Add("url", webDomain + "#/reset?userId=" + basemessage.ToUserId + "&code=" +
                                                    basemessage.ConfirmCode);
                         break;
                     case ConstVals.Feedback:
