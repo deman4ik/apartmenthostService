@@ -245,7 +245,7 @@
     <Compile Include="Authentication\VK\VKCredentials .cs" />
     <Compile Include="Authentication\VK\VKLoginAuthenticationProvider.cs" />
     <Compile Include="Authentication\VK\VKLoginProvider.cs" />
-    <Compile Include="Controllers\ApiControllers\FeedbackController.cs" />
+    <Compile Include="Controllers\ApiControllers\FeedbackApiController.cs" />
     <Compile Include="Controllers\SeedDbController.cs" />
     <Compile Include="DataObjects\FeedbackDTO.cs" />
     <Compile Include="DataObjects\GendersDTO.cs" />
@@ -268,6 +268,10 @@
     <Compile Include="Migrations\201511272014491_Feedback.cs" />
     <Compile Include="Migrations\201511272014491_Feedback.Designer.cs">
       <DependentUpon>201511272014491_Feedback.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512052049339_FeedbackTypes.cs" />
+    <Compile Include="Migrations\201512052049339_FeedbackTypes.Designer.cs">
+      <DependentUpon>201512052049339_FeedbackTypes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\TestDBPopulator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -366,6 +370,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511272014491_Feedback.resx">
       <DependentUpon>201511272014491_Feedback.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512052049339_FeedbackTypes.resx">
+      <DependentUpon>201512052049339_FeedbackTypes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -130,6 +130,12 @@ namespace apartmenthostService.Models
                 .HasForeignKey(s => s.UserId)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<User>()
+               .HasMany(s => s.Appeals)
+               .WithOptional(s => s.Abuser)
+               .HasForeignKey(s => s.AbuserId)
+               .WillCascadeOnDelete(false);
+
             //Apartment
             modelBuilder.Entity<Apartment>()
                 .HasMany(s => s.Cards)

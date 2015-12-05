@@ -16,16 +16,16 @@ using Microsoft.WindowsAzure.Mobile.Service.Security;
 namespace apartmenthostService.Controllers
 {
     [AuthorizeLevel(AuthorizationLevel.Application)]
-    public class FeedbackController : ApiController
+    public class FeedbackApiController : ApiController
     {
         private readonly IApartmenthostContext _context = new ApartmenthostContext();
         public ApiServices Services { get; set; }
 
-        public FeedbackController()
+        public FeedbackApiController()
         {
         }
 
-        public FeedbackController(IApartmenthostContext context)
+        public FeedbackApiController(IApartmenthostContext context)
         {
             _context = context;
         }
@@ -46,6 +46,12 @@ namespace apartmenthostService.Controllers
                 if (feedback.Text == null)
                 {
                     respList.Add("Text");
+                }
+
+                //TODO: Проверка Типа, Пользователя на которого пожаловались, отправка сообщения для жалобы.
+                if (feedback.Type == null)
+                {
+                    respList.Add("Type");
                 }
 
                 if (feedback.UserName == null)

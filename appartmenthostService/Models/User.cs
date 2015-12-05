@@ -39,5 +39,6 @@ namespace apartmenthostService.Models
         public ICollection<Review> OutReviews { get; set; }
         public ICollection<Review> InReviews { get; set; }
         public ICollection<Feedback> Feedbacks { get; set; }
+        public ICollection<Feedback> Appeals { get; set; }
     }
 }

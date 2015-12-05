@@ -44,6 +44,7 @@ namespace apartmenthostService.Helpers
         public const string Restore = "RESTORE";
         public const string EmailTemplate = "EMAIL_TEMPLATE";
         public const string Feedback = "FEEDBACK";
+        public const string Abuse = "ABUSE";
     }
 
     public static class RespH
