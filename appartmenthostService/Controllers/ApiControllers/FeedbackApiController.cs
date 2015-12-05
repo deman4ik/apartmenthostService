@@ -54,7 +54,7 @@ namespace apartmenthostService.Controllers
                     respList.Add("Type");
                 }
 
-                if (feedback.UserName == null)
+                if (feedback.Username == null)
                 {
                     // Check Current User
                     var currentUser = User as ServiceUser;
@@ -76,7 +76,7 @@ namespace apartmenthostService.Controllers
                             RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                     }
                     feedback.UserId = account.UserId;
-                    feedback.UserName = profile.FirstName + " " + profile.LastName;
+                    feedback.Username = profile.FirstName + " " + profile.LastName;
                     feedback.Email = user.Email;
                 }
 
@@ -96,7 +96,7 @@ namespace apartmenthostService.Controllers
                     {
                         Id = feedbackGuid,
                         UserId = feedback.UserId,
-                        UserName = feedback.UserName,
+                        UserName = feedback.Username,
                         Email = feedback.Email,
                         Text = feedback.Text,
                         AnswerByEmail = feedback.AnswerByEmail
@@ -112,7 +112,7 @@ namespace apartmenthostService.Controllers
                         ToUserEmail = Environment.GetEnvironmentVariable("FEEDBACK_EMAIL"),
                         ToUserName = "Команда Petforaweek",
                         FromUserEmail = feedback.Email,
-                        FromUserName = feedback.UserName,
+                        FromUserName = feedback.Username,
                         Text = feedback.Text,
                         AnswerByEmail = feedback.AnswerByEmail
                     };

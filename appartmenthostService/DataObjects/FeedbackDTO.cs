@@ -5,7 +5,7 @@
         /// <summary>
         ///     Имя пользователя (указывается только для гостя)
         /// </summary>
-        public string UserName { get; set; }
+        public string Username { get; set; }
 
         /// <summary>
         ///     Электронная почта пользователя (указывается только для гостя)
