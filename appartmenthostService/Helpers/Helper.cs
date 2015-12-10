@@ -107,6 +107,7 @@ namespace apartmenthostService.Helpers
             if (user == null || profile == null) return RespH.Create(RespH.SRV_USER_NOTFOUND);
             if (user.Blocked) return RespH.Create(RespH.SRV_USER_BLOCKED);
             if (!user.EmailConfirmed) return RespH.Create(RespH.SRV_USER_NOT_CONFIRMED);
+            if (!user.PhoneConfirmed) return RespH.Create(RespH.SRV_USER_PHONE_NOT_CONFIRMED);
             if (string.IsNullOrWhiteSpace(profile.FirstName))
                 return RespH.Create(RespH.SRV_USER_NO_NAME);
             return null;

@@ -144,7 +144,9 @@ namespace apartmenthostService.Messages
                         bodyTokenValues.Add("username", basemessage.FromUserName);
                         bodyTokenValues.Add("text", basemessage.Text);
                         if (!string.IsNullOrWhiteSpace(basemessage.FromUserEmail) && basemessage.AnswerByEmail)
-                        { bodyTokenValues.Add("email", basemessage.FromUserEmail);}
+                        {
+                            bodyTokenValues.Add("email", basemessage.FromUserEmail);
+                        }
                         else
                         {
                             bodyTokenValues.Add("email", "не указан");

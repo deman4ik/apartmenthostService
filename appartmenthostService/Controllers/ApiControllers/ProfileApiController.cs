@@ -214,7 +214,18 @@ namespace apartmenthostService.Controllers
                         RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
 
-
+                if (profileCurrent.Phone != profile.Phone)
+                {
+                    var hasCards = _context.Cards.Any(x => x.UserId == user.Id);
+                    if (hasCards)
+                    {
+                        respList.Add(user.Id);
+                        return Request.CreateResponse(HttpStatusCode.BadRequest,
+                            RespH.Create(RespH.SRV_USER_HAS_CARD, respList));
+                    }
+                    user.PhoneConfirmed = false;
+                    _context.MarkAsModified(user);
+                }
                 // Check FirstName is not NULL
                 //resp = CheckHelper.IsNull(profile.FirstName, "FirstName", RespH.SRV_USER_REQUIRED);
                 //if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);

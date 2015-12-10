@@ -13,7 +13,7 @@
         public string Email { get; set; }
 
         /// <summary>
-        /// Тип сообщения (FEEDBACK - для обратной связи, ABUSE - для жалобы)
+        ///     Тип сообщения (FEEDBACK - для обратной связи, ABUSE - для жалобы)
         /// </summary>
         public string Type { get; set; }
 
@@ -28,9 +28,10 @@
         public bool AnswerByEmail { get; set; }
 
         /// <summary>
-        /// Идентификатор пользователя на кого пожаловались
+        ///     Идентификатор пользователя на кого пожаловались
         /// </summary>
         public string AbuserId { get; set; }
+
         public string UserId { get; set; }
     }
 }

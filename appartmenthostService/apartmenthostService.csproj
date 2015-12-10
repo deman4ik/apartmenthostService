@@ -41,6 +41,24 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
@@ -126,6 +144,9 @@
     <Reference Include="SendGridMail, Version=6.1.0.0, Culture=neutral, PublicKeyToken=2ae73662c35d80e4, processorArchitecture=MSIL">
       <HintPath>..\packages\Sendgrid.6.1.0\lib\SendGridMail.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="SmsApi">
+      <HintPath>obj\Debug\SmsApi.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -246,13 +267,14 @@
     <Compile Include="Authentication\VK\VKLoginAuthenticationProvider.cs" />
     <Compile Include="Authentication\VK\VKLoginProvider.cs" />
     <Compile Include="Controllers\ApiControllers\FeedbackApiController.cs" />
-    <Compile Include="Controllers\SeedDbController.cs" />
+    <Compile Include="Controllers\ApiControllers\PhoneApiController.cs" />
     <Compile Include="DataObjects\FeedbackDTO.cs" />
     <Compile Include="DataObjects\GendersDTO.cs" />
     <Compile Include="Messages\BaseEmailMessage.cs" />
     <Compile Include="Messages\MailSender.cs" />
     <Compile Include="Messages\Notifications.cs" />
     <Compile Include="Helpers\SequentialGuid.cs" />
+    <Compile Include="Messages\SmsSender.cs" />
     <Compile Include="Migrations\201508231137399_ResGender.cs" />
     <Compile Include="Migrations\201508231137399_ResGender.Designer.cs">
       <DependentUpon>201508231137399_ResGender.cs</DependentUpon>
@@ -295,7 +317,6 @@
     <Compile Include="Controllers\ApiControllers\ArticleApiController.cs" />
     <Compile Include="Controllers\ApiControllers\LoginApiController.cs" />
     <Compile Include="Controllers\ApiControllers\RegistrationApiController.cs" />
-    <Compile Include="Controllers\TableControllers\ProfileController.cs" />
     <Compile Include="Controllers\ApiControllers\UserApiController.cs" />
     <Compile Include="DataObjects\ArticleDTO.cs" />
     <Compile Include="DataObjects\CardDTO.cs" />

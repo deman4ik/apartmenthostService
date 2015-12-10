@@ -79,6 +79,13 @@ namespace apartmenthostService.Helpers
         public const string SRV_USER_RESET_REQUESTED = "SRV_USER_RESET_REQUESTED"; // Сброс пароля запрошен
         public const string SRV_USER_RESET_NOT_REQUESTED = "SRV_USER_RESET_NOT_REQUESTED"; // Сброс пароля не запрошен
         public const string SRV_USER_RESETED = "SRV_USER_RESETED"; // Пароль изменен
+
+        public const string SRV_USER_PHONE_CONFIRM_REQUESTED = "SRV_USER_PHONE_CONFIRM_REQUESTED";
+            // Подтверждение телефона запрошено
+
+        public const string SRV_USER_PHONE_CONFIRMED = "SRV_USER_PHONE_CONFIRMED"; // Телефон подтвержден
+        public const string SRV_USER_PHONE_NOT_CONFIRMED = "SRV_USER_PHONE_NOT_CONFIRMED"; // Телефон не подтвержден
+        public const string SRV_USER_HAS_CARD = "SRV_USER_HAS_CARD"; // У пользователя есть карточка 
         //Registration
         public const string SRV_REG_INVALID_EMAIL = "SRV_REG_INVALID_EMAIL"; // Не верный email
         public const string SRV_REG_INVALID_PASSWORD = "SRV_REG_INVALID_PASSWORD"; // Не верный пароль

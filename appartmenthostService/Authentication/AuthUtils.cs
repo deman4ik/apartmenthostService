@@ -106,7 +106,6 @@ namespace apartmenthostService.Authentication
                             Email = email,
                             EmailConfirmed = email != null,
                             Salt = generateSalt()
-
                         };
                         context.Users.Add(user);
                     }

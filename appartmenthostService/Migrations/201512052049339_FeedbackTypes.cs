@@ -1,8 +1,7 @@
+using System.Data.Entity.Migrations;
+
 namespace apartmenthostService.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-    
     public partial class FeedbackTypes : DbMigration
     {
         public override void Up()
@@ -12,11 +11,11 @@ namespace apartmenthostService.Migrations
             CreateIndex("apartmenthost.Feedbacks", "AbuserId");
             AddForeignKey("apartmenthost.Feedbacks", "AbuserId", "apartmenthost.Users", "Id");
         }
-        
+
         public override void Down()
         {
             DropForeignKey("apartmenthost.Feedbacks", "AbuserId", "apartmenthost.Users");
-            DropIndex("apartmenthost.Feedbacks", new[] { "AbuserId" });
+            DropIndex("apartmenthost.Feedbacks", new[] {"AbuserId"});
             DropColumn("apartmenthost.Feedbacks", "Type");
             DropColumn("apartmenthost.Feedbacks", "AbuserId");
         }
