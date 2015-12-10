@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web.Http;
 using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
@@ -88,15 +89,41 @@ namespace apartmenthostService.Controllers
                 if (respList.Count > 0)
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_FEEDBACK_REQUIRED, respList));
+                var bem = new BaseEmailMessage();
+                if (feedback.Type == ConstVals.Abuse)
+                {
+                    var abuser = _context.Users.SingleOrDefault(x => x.Id == feedback.AbuserId);
+                    var abuserProfile = _context.Profile.SingleOrDefault(x => x.Id == feedback.AbuserId);
 
-
+                    if (abuser == null || abuserProfile == null)
+                    {
+                        respList.Add(feedback.AbuserId);
+                        return Request.CreateResponse(HttpStatusCode.BadRequest,
+                            RespH.Create(RespH.SRV_FEEDBACK_ABUSER_NOTFOUND, respList));
+                    }
+                    StringBuilder addText = new StringBuilder();
+                    addText.Append("Жалоба на пользователя: <br>");
+                    addText.Append(abuserProfile.FirstName + " " + abuserProfile.LastName + "<br>");
+                    addText.Append("Email: "+abuser.Email + "<br>");
+                    addText.Append("Id: " + abuser.Id + "<br>");
+                    addText.Append("Текст жалобы: <br>");
+                    addText.Append(feedback.Text);
+                    feedback.Text = addText.ToString();
+                    bem.Code = ConstVals.Abuse;
+                }
+                else
+                {
+                    bem.Code = ConstVals.Feedback;
+                }
                 var feedbackGuid = SequentialGuid.NewGuid().ToString();
                 _context.Feedbacks.Add(
                     new Feedback
                     {
                         Id = feedbackGuid,
+                        AbuserId = feedback.AbuserId,
                         UserId = feedback.UserId,
                         UserName = feedback.UserName,
+                        Type = feedback.Type,
                         Email = feedback.Email,
                         Text = feedback.Text,
                         AnswerByEmail = feedback.AnswerByEmail
@@ -106,16 +133,14 @@ namespace apartmenthostService.Controllers
 
                 using (MailSender mailSender = new MailSender())
                 {
-                    var bem = new BaseEmailMessage
-                    {
-                        Code = ConstVals.Feedback,
-                        ToUserEmail = Environment.GetEnvironmentVariable("FEEDBACK_EMAIL"),
-                        ToUserName = "Команда Petforaweek",
-                        FromUserEmail = feedback.Email,
-                        FromUserName = feedback.UserName,
-                        Text = feedback.Text,
-                        AnswerByEmail = feedback.AnswerByEmail
-                    };
+                    
+                    bem.ToUserEmail = Environment.GetEnvironmentVariable("FEEDBACK_EMAIL");
+                    bem.ToUserName = "Команда Petforaweek";
+                    bem.FromUserEmail = feedback.Email;
+                    bem.FromUserName = feedback.UserName;
+                    bem.Text = feedback.Text;
+                    bem.AnswerByEmail = feedback.AnswerByEmail;
+                   
                     mailSender.Create(_context, bem);
                 }
                 respList.Add(feedbackGuid);

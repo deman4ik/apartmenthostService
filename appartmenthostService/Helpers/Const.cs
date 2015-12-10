@@ -194,7 +194,7 @@ namespace apartmenthostService.Helpers
         public const string SRV_FEEDBACK_NOTFOUND = "SRV_FEEDBACK_NOTFOUND"; // Объект не найден
         public const string SRV_FEEDBACK_INVALID_FILTER = "SRV_FEEDBACK_INVALID_FILTER"; // Не верный объект запроса
         public const string SRV_FEEDBACK_REQUIRED = "SRV_FEEDBACK_REQUIRED"; // Не заполнено обязательно поле
-
+        public const string SRV_FEEDBACK_ABUSER_NOTFOUND = "SRV_FEEDBACK_ABUSER_NOTFOUND";
         public static ResponseDTO Create(string code, List<string> data = null)
         {
             return new ResponseDTO

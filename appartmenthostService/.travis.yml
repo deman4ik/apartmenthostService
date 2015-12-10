@@ -1,0 +1,4 @@
+﻿language: csharp
+solution: apartmenthost.sln
+install:
+  - nuget restore apartmenthost.sln

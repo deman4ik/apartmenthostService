@@ -379,6 +379,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".travis.yml" />
     <None Include="Properties\PublishProfiles\apartmenthost - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\apartmenthost - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\mobile-apartmenthost.pubxml" />

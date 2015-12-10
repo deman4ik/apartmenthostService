@@ -105,6 +105,7 @@ namespace apartmenthostService.Authentication
                             Id = SequentialGuid.NewGuid().ToString(),
                             Email = email,
                             EmailConfirmed = email != null,
+                            PhoneStatus = ConstVals.PUnconf,
                             Salt = generateSalt()
                         };
                         context.Users.Add(user);
