@@ -1,6 +1,0 @@
-﻿language: csharp
-solution: apartmenthost.sln
-install:
-  - nuget restore apartmenthost.sln
-script:
-  - xbuild /p:Configuration=Release apartmenthost.sln
