@@ -295,6 +295,10 @@
     <Compile Include="Migrations\201512052049339_FeedbackTypes.Designer.cs">
       <DependentUpon>201512052049339_FeedbackTypes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512101532439_PhoneConfirmation.cs" />
+    <Compile Include="Migrations\201512101532439_PhoneConfirmation.Designer.cs">
+      <DependentUpon>201512101532439_PhoneConfirmation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\TestDBPopulator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attributes\QueryableExpandAttribute.cs" />
@@ -394,6 +398,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512052049339_FeedbackTypes.resx">
       <DependentUpon>201512052049339_FeedbackTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512101532439_PhoneConfirmation.resx">
+      <DependentUpon>201512101532439_PhoneConfirmation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -58,13 +58,23 @@ namespace apartmenthostService.Controllers
                 resp = CheckHelper.IsNull(profile.Phone, "Phone", RespH.SRV_USER_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
-                if (user.PhoneConfirmed)
+                if (user.PhoneStatus == ConstVals.PConf)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
-                        RespH.Create(RespH.SRV_USER_PHONE_CONFIRMED, new List<string> {user.Id}));
+                        RespH.Create(RespH.SRV_USER_PHONE_CONFIRMED, new List<string> { user.PhoneStatus }));
+                }
+                if (user.PhoneCodeRequestedAt.HasValue && user.PhoneStatus == ConstVals.PPending)
+                {
+                    if (user.PhoneCodeRequestedAt.Value.AddMinutes(3) > DateTime.Now)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_USER_PHONE_CONFIRM_REQUESTED, new List<string> { user.PhoneCodeRequestedAt.ToString() }));
+                    }
                 }
                 var confirmCode = AuthUtils.randomNumString(4);
                 user.SaltedAndHashedSmsCode = AuthUtils.hash(confirmCode, user.Salt);
+                user.PhoneCodeRequestedAt = DateTime.Now;
+                user.PhoneStatus = ConstVals.PPending;
                 _context.MarkAsModified(user);
                 _context.SaveChanges();
 
@@ -77,7 +87,7 @@ namespace apartmenthostService.Controllers
                             RespH.Create(RespH.SRV_EXCEPTION, new List<string> {result}));
                 }
                 return Request.CreateResponse(HttpStatusCode.OK,
-                    RespH.Create(RespH.SRV_DONE, new List<string> {user.Id}));
+                    RespH.Create(RespH.SRV_DONE, new List<string> { user.PhoneStatus }));
             }
             catch (Exception ex)
             {
@@ -118,7 +128,7 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.Unauthorized,
                         RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
-                if (user.PhoneConfirmed)
+                if (user.PhoneStatus == ConstVals.PConf)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_USER_PHONE_CONFIRMED, new List<string> {user.Id}));
@@ -137,11 +147,12 @@ namespace apartmenthostService.Controllers
                             new List<string> {user.Id, confirmRequest.Code}));
                 }
                 user.SaltedAndHashedSmsCode = null;
-                user.PhoneConfirmed = true;
+                user.PhoneStatus = ConstVals.PConf;
+                user.PhoneCodeRequestedAt = null;
                 _context.MarkAsModified(user);
                 _context.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK,
-                    RespH.Create(RespH.SRV_USER_PHONE_CONFIRMED, new List<string> {user.Id}));
+                    RespH.Create(RespH.SRV_USER_PHONE_CONFIRMED, new List<string> { user.PhoneStatus }));
             }
             catch (Exception ex)
             {

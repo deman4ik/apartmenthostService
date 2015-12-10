@@ -58,6 +58,7 @@ namespace apartmenthostService.Controllers
                     RatingCount = x.RatingCount,
                     Score = x.Score,
                     EmailConfirmed = x.User.EmailConfirmed,
+                    PhoneStatus = x.User.PhoneStatus,
                     CardCount = _context.Cards.Count(c => c.UserId == x.Id),
                     CreatedAt = x.CreatedAt,
                     UpdatedAt = x.UpdatedAt,

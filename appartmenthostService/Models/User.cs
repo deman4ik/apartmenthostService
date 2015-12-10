@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.WindowsAzure.Mobile.Service;
 
 namespace apartmenthostService.Models
@@ -28,7 +29,8 @@ namespace apartmenthostService.Models
         public byte[] SaltedAndHashedCode { get; set; }
         public byte[] SaltedAndHashedSmsCode { get; set; }
         public bool EmailConfirmed { get; set; }
-        public bool PhoneConfirmed { get; set; }
+        public string PhoneStatus { get; set; }
+        public DateTime? PhoneCodeRequestedAt { get; set; }
         public bool ResetRequested { get; set; }
         public bool Blocked { get; set; }
         public virtual Profile Profile { get; set; }

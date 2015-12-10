@@ -221,9 +221,9 @@ namespace apartmenthostService.Controllers
                     {
                         respList.Add(user.Id);
                         return Request.CreateResponse(HttpStatusCode.BadRequest,
-                            RespH.Create(RespH.SRV_USER_HAS_CARD, respList));
+                            RespH.Create(RespH.SRV_PROFILE_ERR_UPDATE_PHONE, respList));
                     }
-                    user.PhoneConfirmed = false;
+                    user.PhoneStatus = ConstVals.PUnconf;
                     _context.MarkAsModified(user);
                 }
                 // Check FirstName is not NULL

@@ -60,6 +60,7 @@ namespace apartmenthostService.DataObjects
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public bool EmailConfirmed { get; set; }
 
+        public string PhoneStatus { get; set; }
         // Дата и Время создания объекта
         public DateTimeOffset? CreatedAt { get; set; }
 
