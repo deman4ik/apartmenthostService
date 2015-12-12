@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Models;
@@ -118,9 +117,9 @@ namespace apartmenthostService.Helpers
     {
         static CloudinaryHelper()
         {
-            var clacc = new Account(ConfigurationManager.AppSettings["CLOUDINARY_CLOUD_NAME"],
-                ConfigurationManager.AppSettings["CLOUDINARY_API_KEY"],
-                ConfigurationManager.AppSettings["CLOUDINARY_API_SECRET"]);
+            var clacc = new Account(Environment.GetEnvironmentVariable("CLOUDINARY_CLOUD_NAME"),
+                Environment.GetEnvironmentVariable("CLOUDINARY_API_KEY"),
+                Environment.GetEnvironmentVariable("CLOUDINARY_API_SECRET"));
             Cloudinary = new Cloudinary(clacc);
         }
 

@@ -61,14 +61,15 @@ namespace apartmenthostService.Controllers
                 if (user.PhoneStatus == ConstVals.PConf)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
-                        RespH.Create(RespH.SRV_USER_PHONE_CONFIRMED, new List<string> { user.PhoneStatus }));
+                        RespH.Create(RespH.SRV_USER_PHONE_CONFIRMED, new List<string> {user.PhoneStatus}));
                 }
                 if (user.PhoneCodeRequestedAt.HasValue && user.PhoneStatus == ConstVals.PPending)
                 {
                     if (user.PhoneCodeRequestedAt.Value.AddMinutes(3) > DateTime.Now)
                     {
                         return Request.CreateResponse(HttpStatusCode.BadRequest,
-                        RespH.Create(RespH.SRV_USER_PHONE_CONFIRM_REQUESTED, new List<string> { user.PhoneCodeRequestedAt.ToString() }));
+                            RespH.Create(RespH.SRV_USER_PHONE_CONFIRM_REQUESTED,
+                                new List<string> {user.PhoneCodeRequestedAt.ToString()}));
                     }
                 }
                 var confirmCode = AuthUtils.randomNumString(4);
@@ -87,7 +88,7 @@ namespace apartmenthostService.Controllers
                             RespH.Create(RespH.SRV_EXCEPTION, new List<string> {result}));
                 }
                 return Request.CreateResponse(HttpStatusCode.OK,
-                    RespH.Create(RespH.SRV_DONE, new List<string> { user.PhoneStatus }));
+                    RespH.Create(RespH.SRV_DONE, new List<string> {user.PhoneStatus}));
             }
             catch (Exception ex)
             {
@@ -152,7 +153,7 @@ namespace apartmenthostService.Controllers
                 _context.MarkAsModified(user);
                 _context.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK,
-                    RespH.Create(RespH.SRV_USER_PHONE_CONFIRMED, new List<string> { user.PhoneStatus }));
+                    RespH.Create(RespH.SRV_USER_PHONE_CONFIRMED, new List<string> {user.PhoneStatus}));
             }
             catch (Exception ex)
             {

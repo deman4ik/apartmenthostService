@@ -36,8 +36,8 @@ namespace apartmenthostService.Authentication
         {
             var options = new FacebookAuthenticationOptions
             {
-                AppId = settings["FBAppId"],
-                AppSecret = settings["FBAppSecret"],
+                AppId = Environment.GetEnvironmentVariable("FBAppId"),
+                AppSecret = Environment.GetEnvironmentVariable("FBAppSecret"),
                 AuthenticationType = Name,
                 Provider = new FBLoginAuthenticationProvider(),
                 Scope = {"email"}

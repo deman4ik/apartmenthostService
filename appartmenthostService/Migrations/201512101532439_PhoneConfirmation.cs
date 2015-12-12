@@ -1,8 +1,7 @@
+using System.Data.Entity.Migrations;
+
 namespace apartmenthostService.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-    
     public partial class PhoneConfirmation : DbMigration
     {
         public override void Up()
@@ -11,7 +10,7 @@ namespace apartmenthostService.Migrations
             AddColumn("apartmenthost.Users", "PhoneStatus", c => c.String());
             AddColumn("apartmenthost.Users", "PhoneCodeRequestedAt", c => c.DateTime());
         }
-        
+
         public override void Down()
         {
             DropColumn("apartmenthost.Users", "PhoneCodeRequestedAt");

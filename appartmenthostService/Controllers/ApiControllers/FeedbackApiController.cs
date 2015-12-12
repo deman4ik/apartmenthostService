@@ -104,7 +104,7 @@ namespace apartmenthostService.Controllers
                     StringBuilder addText = new StringBuilder();
                     addText.Append("Жалоба на пользователя: <br>");
                     addText.Append(abuserProfile.FirstName + " " + abuserProfile.LastName + "<br>");
-                    addText.Append("Email: "+abuser.Email + "<br>");
+                    addText.Append("Email: " + abuser.Email + "<br>");
                     addText.Append("Id: " + abuser.Id + "<br>");
                     addText.Append("Текст жалобы: <br>");
                     addText.Append(feedback.Text);
@@ -133,14 +133,13 @@ namespace apartmenthostService.Controllers
 
                 using (MailSender mailSender = new MailSender())
                 {
-                    
                     bem.ToUserEmail = Environment.GetEnvironmentVariable("FEEDBACK_EMAIL");
                     bem.ToUserName = "Команда Petforaweek";
                     bem.FromUserEmail = feedback.Email;
                     bem.FromUserName = feedback.UserName;
                     bem.Text = feedback.Text;
                     bem.AnswerByEmail = feedback.AnswerByEmail;
-                   
+
                     mailSender.Create(_context, bem);
                 }
                 respList.Add(feedbackGuid);

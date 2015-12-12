@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using apartmenthostService.DataObjects;
 
 namespace apartmenthostService.Helpers
@@ -53,7 +52,6 @@ namespace apartmenthostService.Helpers
 
     public static class RespH
     {
-
         //Success
         public const string SRV_DONE = "SRV_DONE";
         public const string SRV_CREATED = "SRV_CREATED";
@@ -86,12 +84,14 @@ namespace apartmenthostService.Helpers
         public const string SRV_USER_RESETED = "SRV_USER_RESETED"; // Пароль изменен
 
         public const string SRV_USER_PHONE_CONFIRM_REQUESTED = "SRV_USER_PHONE_CONFIRM_REQUESTED";
-            // Подтверждение телефона запрошено
+        // Подтверждение телефона запрошено
 
         public const string SRV_USER_PHONE_CONFIRMED = "SRV_USER_PHONE_CONFIRMED"; // Телефон подтвержден
         public const string SRV_USER_PHONE_NOT_CONFIRMED = "SRV_USER_PHONE_NOT_CONFIRMED"; // Телефон не подтвержден
 
-        public const string SRV_PROFILE_ERR_UPDATE_PHONE = "SRV_PROFILE_ERR_UPDATE_PHONE"; // У пользователя есть карточка 
+        public const string SRV_PROFILE_ERR_UPDATE_PHONE = "SRV_PROFILE_ERR_UPDATE_PHONE";
+            // У пользователя есть карточка 
+
         //Registration
         public const string SRV_REG_INVALID_EMAIL = "SRV_REG_INVALID_EMAIL"; // Не верный email
         public const string SRV_REG_INVALID_PASSWORD = "SRV_REG_INVALID_PASSWORD"; // Не верный пароль
@@ -117,7 +117,7 @@ namespace apartmenthostService.Helpers
         public const string SRV_CARD_NOTFOUND = "SRV_CARD_NOTFOUND"; // Объект не найден
         public const string SRV_CARD_REQUIRED = "SRV_CARD_REQUIRED"; // Не заполнено обязательно поле
         public const string SRV_CARD_EXISTS = "SRV_CARD_EXISTS"; // Объект уже существует
-        public const string SRV_CARD_PHONE_UNCONF = "SRV_CARD_PHONE_UNCONF";  //Телефон не подтвержден
+        public const string SRV_CARD_PHONE_UNCONF = "SRV_CARD_PHONE_UNCONF"; //Телефон не подтвержден
         public const string SRV_CARD_DEPENDENCY = "SRV_CARD_DEPENDENCY";
         // Объект не может быть изменен/удален т.к. зависит от другого объекта.  
 
@@ -195,6 +195,7 @@ namespace apartmenthostService.Helpers
         public const string SRV_FEEDBACK_INVALID_FILTER = "SRV_FEEDBACK_INVALID_FILTER"; // Не верный объект запроса
         public const string SRV_FEEDBACK_REQUIRED = "SRV_FEEDBACK_REQUIRED"; // Не заполнено обязательно поле
         public const string SRV_FEEDBACK_ABUSER_NOTFOUND = "SRV_FEEDBACK_ABUSER_NOTFOUND";
+
         public static ResponseDTO Create(string code, List<string> data = null)
         {
             return new ResponseDTO

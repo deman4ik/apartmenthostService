@@ -34,8 +34,8 @@ namespace apartmenthostService.Authentication
         {
             var options = new VkAuthenticationOptions
             {
-                ClientId = settings["VKClientId"],
-                ClientSecret = settings["VKClientSecret"],
+                ClientId = Environment.GetEnvironmentVariable("VKClientId"),
+                ClientSecret = Environment.GetEnvironmentVariable("VKClientSecret"),
                 Provider = new VKLoginAuthenticationProvider(),
                 AuthenticationType = Name,
                 Scope = {"email"}
