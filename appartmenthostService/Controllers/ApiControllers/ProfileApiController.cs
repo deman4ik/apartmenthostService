@@ -46,6 +46,7 @@ namespace apartmenthostService.Controllers
                     Gender = x.Gender,
                     Birthday = x.Birthday,
                     Phone = x.Phone,
+                    PhoneStatus = x.User.PhoneStatus,
                     ContactEmail = x.ContactEmail,
                     ContactKind = x.ContactKind,
                     Description = x.Description,

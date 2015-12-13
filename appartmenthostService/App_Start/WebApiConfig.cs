@@ -1,6 +1,9 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Data.Entity;
+using System.Web.Http;
 using apartmenthostService.Authentication;
 using apartmenthostService.Helpers;
+using apartmenthostService.Models;
 using AutoMapper;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security.Providers;
@@ -31,17 +34,18 @@ namespace apartmenthostService
 
             //var migrator = new DbMigrator(new Configuration());
             //migrator.Update();
-            // Database.SetInitializer(new appartmenthostInitializer());
+            //Database.SetInitializer(new appartmenthostInitializer());
         }
     }
 
-    //public class appartmenthostInitializer : ClearDatabaseSchemaAlways<apartmenthostContext> 
+    //public class appartmenthostInitializer : DropCreateDatabaseAlways<ApartmenthostContext>
 
-    //{ 
-    //    protected override void Seed(apartmenthostContext context)
+    //{
+    //    protected override void Seed(ApartmenthostContext context)
     //    {
 
     //        base.Seed(context);
+
     //    }
     //}
 }
