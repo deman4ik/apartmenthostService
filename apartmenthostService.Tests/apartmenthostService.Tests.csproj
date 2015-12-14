@@ -214,6 +214,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ControllersTest\SmsTest.cs" />
     <Compile Include="ControllersTest\TestArticleController.cs" />
     <Compile Include="Infrastructure\ControllerResult.cs" />
     <Compile Include="Infrastructure\TestContext.cs" />

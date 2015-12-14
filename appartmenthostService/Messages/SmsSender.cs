@@ -17,21 +17,17 @@ namespace apartmenthostService.Messages
             _sender = Environment.GetEnvironmentVariable("MAINSMS_SENDER");
         }
 
-
-        public string Send(string recipient, string message)
+        public SmsSender(string prjname, string apikey, string sender)
         {
-            try
-            {
+            _prjname = prjname;
+            _apikey = apikey;
+            _sender = sender;
+        }
+
+        public void Send(string recipient, string message)
+        {
                 Sms sms = new Sms(_prjname, _apikey);
-                ResponseSend rsend = sms.send(_sender, recipient, message);
-                return rsend.response;
-                ;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-                return e.Message;
-            }
+                sms.send(_sender, recipient, message);
         }
 
         public void Dispose()

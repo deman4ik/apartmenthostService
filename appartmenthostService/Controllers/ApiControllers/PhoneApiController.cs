@@ -82,10 +82,8 @@ namespace apartmenthostService.Controllers
 
                 using (SmsSender sender = new SmsSender())
                 {
-                    var result = sender.Send(profile.Phone, confirmCode);
-                    if (result != "success")
-                        return Request.CreateResponse(HttpStatusCode.BadRequest,
-                            RespH.Create(RespH.SRV_EXCEPTION, new List<string> {result}));
+                    sender.Send(profile.Phone, confirmCode);
+                   
                 }
                 return Request.CreateResponse(HttpStatusCode.OK,
                     RespH.Create(RespH.SRV_DONE, new List<string> {user.PhoneStatus}));

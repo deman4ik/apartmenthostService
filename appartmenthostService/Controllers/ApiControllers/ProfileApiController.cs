@@ -247,7 +247,7 @@ namespace apartmenthostService.Controllers
                 profileCurrent.LastName = profile.LastName;
                 profileCurrent.Gender = profile.Gender;
                 profileCurrent.Birthday = profile.Birthday;
-                profileCurrent.Phone = profile.Phone;
+                profileCurrent.Phone = CheckHelper.CleanPhone(profile.Phone);
                 profileCurrent.Description = profile.Description;
 
                 _context.MarkAsModified(profileCurrent);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Models;
 using CloudinaryDotNet;
@@ -110,6 +111,12 @@ namespace apartmenthostService.Helpers
             if (string.IsNullOrWhiteSpace(profile.FirstName))
                 return RespH.Create(RespH.SRV_USER_NO_NAME);
             return null;
+        }
+
+        public static string CleanPhone(string phone)
+        {
+            Regex digitsOnly = new Regex(@"[^\d]");
+            return digitsOnly.Replace(phone, "");
         }
     }
 
