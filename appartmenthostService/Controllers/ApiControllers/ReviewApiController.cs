@@ -50,7 +50,7 @@ namespace apartmenthostService.Controllers
 
             var ownerReviews = new List<ReservReviewDTO>();
             var renterReviews = new List<ReservReviewDTO>();
-
+            var result = new List<ReservReviewDTO>();
             if (type == ConstVals.Owner || string.IsNullOrWhiteSpace(type))
             {
                 ownerReviews =
@@ -61,8 +61,6 @@ namespace apartmenthostService.Controllers
                         .Select(
                             x => new ReservReviewDTO
                             {
-                                Type = ConstVals.Owner,
-                                CanResponse = x.DateTo <= DateTime.Now,
                                 Reservation = new ReservationDTO
                                 {
                                     Id = x.Id,
@@ -73,10 +71,150 @@ namespace apartmenthostService.Controllers
                                     DateFrom = x.DateFrom,
                                     DateTo = x.DateTo,
                                     CreatedAt = x.CreatedAt,
-                                    UpdatedAt = x.UpdatedAt,
-                                    User = new BaseUserDTO
+                                    UpdatedAt = x.UpdatedAt
+                                }
+                            }).ToList();
+
+                if (ownerReviews.Any())
+                {
+                    foreach (var owrev in ownerReviews)
+                    {
+                        owrev.Type = ConstVals.Owner;
+                        owrev.CanResponse = owrev.Reservation.DateTo <= DateTime.Now;
+                        owrev.Reservation.User =
+                            _context.Users.AsNoTracking()
+                                .Where(u => u.Id == owrev.Reservation.UserId)
+                                .Select(x => new BaseUserDTO
+                                {
+                                    Id = x.Profile.Id,
+                                    Email = x.Email,
+                                    FirstName = x.Profile.FirstName,
+                                    LastName = x.Profile.LastName,
+                                    Rating = x.Profile.Rating,
+                                    RatingCount = x.Profile.RatingCount,
+                                    Gender = x.Profile.Gender,
+                                    Picture = new PictureDTO
                                     {
-                                        Id = x.User.Profile.Id,
+                                        //  Id = x.Profile.Picture.Id,
+                                        //  Name = x.Profile.Picture.Name,
+                                        //  Description = x.Profile.Picture.Description,
+                                        Url = x.Profile.Picture.Url,
+                                        Xsmall = x.Profile.Picture.Xsmall,
+                                        Small = x.Profile.Picture.Small,
+                                        Mid = x.Profile.Picture.Mid,
+                                        Large = x.Profile.Picture.Large,
+                                        Xlarge = x.Profile.Picture.Xlarge,
+                                        Default = x.Profile.Picture.Default
+                                        //  CreatedAt = x.Profile.Picture.CreatedAt
+                                    }
+                                }).FirstOrDefault();
+
+                        owrev.OwnerReview =
+                            _context.Reviews.AsNoTracking().Where(
+                                rev => rev.ReservationId == owrev.Reservation.Id && rev.FromUserId == account.UserId)
+                                .OrderByDescending(r => r.CreatedAt)
+                                .Select(owreview => new ReviewDTO
+                                {
+                                    Id = owreview.Id,
+                                    FromUserId = owreview.FromUserId,
+                                    ToUserId = owreview.ToUserId,
+                                    ReservationId = owreview.ReservationId,
+                                    Rating = owreview.Rating,
+                                    Text = owreview.Text,
+                                    CreatedAt = owreview.CreatedAt,
+                                    UpdatedAt = owreview.UpdatedAt
+                                }).FirstOrDefault();
+
+                        owrev.RenterReview =
+                            _context.Reviews.AsNoTracking()
+                                .Where(
+                                    rev => rev.ReservationId == owrev.Reservation.Id && rev.ToUserId == account.UserId)
+                                .OrderByDescending(r => r.CreatedAt)
+                                .Select(renrev => new ReviewDTO
+                                {
+                                    Id = renrev.Id,
+                                    FromUserId = renrev.FromUserId,
+                                    ToUserId = renrev.ToUserId,
+                                    ReservationId = renrev.ReservationId,
+                                    Rating = renrev.Rating,
+                                    Text = renrev.Text,
+                                    CreatedAt = renrev.CreatedAt,
+                                    UpdatedAt = renrev.UpdatedAt
+                                }).FirstOrDefault();
+                        result.Add(owrev);
+                    }
+                }
+            }
+            if (type == ConstVals.Renter || string.IsNullOrWhiteSpace(type))
+            {
+                renterReviews =
+                    _context.Reservations.AsNoTracking()
+                        .Where(r => r.UserId == account.UserId && r.Status == ConstVals.Accepted)
+                        .OrderByDescending(r => r.CreatedAt)
+                        .Select(
+                            x => new ReservReviewDTO
+                            {
+                                Reservation = new ReservationDTO
+                                {
+                                    Id = x.Id,
+                                    CardId = x.CardId,
+                                    UserId = x.UserId,
+                                    Status = x.Status,
+                                    Gender = x.Gender,
+                                    DateFrom = x.DateFrom,
+                                    DateTo = x.DateTo,
+                                    CreatedAt = x.CreatedAt,
+                                    UpdatedAt = x.UpdatedAt
+                                }
+                            }).ToList();
+
+                if (renterReviews.Any())
+                {
+                    foreach (var rerev in renterReviews)
+                    {
+                        rerev.Type = ConstVals.Renter;
+                        rerev.CanResponse = rerev.Reservation.DateTo <= DateTime.Now;
+                        rerev.Reservation.Card =
+                            _context.Cards.AsNoTracking().Where(c => c.Id == rerev.Reservation.CardId).Select(x =>
+                                new CardDTO
+                                {
+                                    Id = x.Id,
+                                    Name = x.Name,
+                                    UserId = x.UserId,
+                                    PriceDay = x.Genders.FirstOrDefault(ge => ge.Name == rerev.Reservation.Gender).Price,
+                                    Cohabitation = x.Cohabitation,
+                                    IsFavorite = x.Favorites.Any(f => f.UserId == account.UserId),
+                                    Apartment = new ApartmentDTO
+                                    {
+                                        Id = x.Apartment.Id,
+                                        Name = x.Apartment.Name,
+                                        Type = x.Apartment.Type,
+                                        Options = x.Apartment.Options,
+                                        Adress = x.Apartment.Adress,
+                                        FormattedAdress = x.Apartment.FormattedAdress,
+                                        Latitude = x.Apartment.Latitude,
+                                        Longitude = x.Apartment.Longitude,
+                                        PlaceId = x.Apartment.PlaceId,
+                                        DefaultPicture =
+                                            x.Apartment.Pictures.Where(ap => ap.Default)
+                                                .Select(apic => new PictureDTO
+                                                {
+                                                    //  Id = apic.Id,
+                                                    //  Name = apic.Name,
+                                                    //  Description = apic.Description,
+                                                    Url = apic.Url,
+                                                    Xsmall = apic.Xsmall,
+                                                    Small = apic.Small,
+                                                    Mid = apic.Mid,
+                                                    Large = apic.Large,
+                                                    Xlarge = apic.Xlarge,
+                                                    Default = apic.Default
+                                                    //  CreatedAt = apic.CreatedAt
+                                                }).FirstOrDefault()
+                                    },
+                                    User = new UserDTO
+                                    {
+                                        Id = x.User.Id,
                                         Email = x.User.Email,
                                         FirstName = x.User.Profile.FirstName,
                                         LastName = x.User.Profile.LastName,
@@ -98,156 +236,47 @@ namespace apartmenthostService.Controllers
                                             //  CreatedAt = x.User.Profile.Picture.CreatedAt
                                         }
                                     }
-                                },
-                                OwnerReview =
-                                    x.Reviews.Where(rev => rev.ReservationId == x.Id && rev.FromUserId == account.UserId)
-                                        .OrderByDescending(r => r.CreatedAt)
-                                        .Select(owrev => new ReviewDTO
-                                        {
-                                            Id = owrev.Id,
-                                            FromUserId = owrev.FromUserId,
-                                            ToUserId = owrev.ToUserId,
-                                            ReservationId = owrev.ReservationId,
-                                            Rating = owrev.Rating,
-                                            Text = owrev.Text,
-                                            CreatedAt = owrev.CreatedAt,
-                                            UpdatedAt = owrev.UpdatedAt
-                                        }).FirstOrDefault(),
-                                RenterReview =
-                                    x.Reviews.Where(rev => rev.ReservationId == x.Id && rev.ToUserId == account.UserId)
-                                        .OrderByDescending(r => r.CreatedAt)
-                                        .Select(renrev => new ReviewDTO
-                                        {
-                                            Id = renrev.Id,
-                                            FromUserId = renrev.FromUserId,
-                                            ToUserId = renrev.ToUserId,
-                                            ReservationId = renrev.ReservationId,
-                                            Rating = renrev.Rating,
-                                            Text = renrev.Text,
-                                            CreatedAt = renrev.CreatedAt,
-                                            UpdatedAt = renrev.UpdatedAt
-                                        }).FirstOrDefault()
-                            }
-                        ).ToList();
-            }
-            if (type == ConstVals.Renter || string.IsNullOrWhiteSpace(type))
-            {
-                renterReviews =
-                    _context.Reservations.AsNoTracking()
-                        .Where(r => r.UserId == account.UserId && r.Status == ConstVals.Accepted)
-                        .OrderByDescending(r => r.CreatedAt)
-                        .Select(
-                            x => new ReservReviewDTO
-                            {
-                                Type = ConstVals.Renter,
-                                CanResponse = x.DateTo <= DateTime.Now,
-                                Reservation = new ReservationDTO
+                                }).FirstOrDefault();
+
+                        rerev.OwnerReview =
+                            _context.Reviews.AsNoTracking()
+                                .Where(
+                                    rev => rev.ReservationId == rerev.Reservation.Id && rev.ToUserId == account.UserId)
+                                .OrderByDescending(r => r.CreatedAt)
+                                .Select(owrev => new ReviewDTO
                                 {
-                                    Id = x.Id,
-                                    CardId = x.CardId,
-                                    UserId = x.UserId,
-                                    Status = x.Status,
-                                    Gender = x.Gender,
-                                    DateFrom = x.DateFrom,
-                                    DateTo = x.DateTo,
-                                    CreatedAt = x.CreatedAt,
-                                    UpdatedAt = x.UpdatedAt,
-                                    Card = new CardDTO
-                                    {
-                                        Id = x.Card.Id,
-                                        Name = x.Card.Name,
-                                        UserId = x.Card.UserId,
-                                        PriceDay = x.Card.Genders.FirstOrDefault(ge => ge.Name == x.Gender).Price,
-                                        Cohabitation = x.Card.Cohabitation,
-                                        IsFavorite = x.Card.Favorites.Any(f => f.UserId == account.UserId),
-                                        Apartment = new ApartmentDTO
-                                        {
-                                            Id = x.Card.Apartment.Id,
-                                            Name = x.Card.Apartment.Name,
-                                            Type = x.Card.Apartment.Type,
-                                            Options = x.Card.Apartment.Options,
-                                            Adress = x.Card.Apartment.Adress,
-                                            FormattedAdress = x.Card.Apartment.FormattedAdress,
-                                            Latitude = x.Card.Apartment.Latitude,
-                                            Longitude = x.Card.Apartment.Longitude,
-                                            PlaceId = x.Card.Apartment.PlaceId,
-                                            DefaultPicture =
-                                                x.Card.Apartment.Pictures.Where(ap => ap.Default)
-                                                    .Select(apic => new PictureDTO
-                                                    {
-                                                        //  Id = apic.Id,
-                                                        //  Name = apic.Name,
-                                                        //  Description = apic.Description,
-                                                        Url = apic.Url,
-                                                        Xsmall = apic.Xsmall,
-                                                        Small = apic.Small,
-                                                        Mid = apic.Mid,
-                                                        Large = apic.Large,
-                                                        Xlarge = apic.Xlarge,
-                                                        Default = apic.Default
-                                                        //  CreatedAt = apic.CreatedAt
-                                                    }).FirstOrDefault()
-                                        },
-                                        User = new UserDTO
-                                        {
-                                            Id = x.Card.User.Id,
-                                            Email = x.Card.User.Email,
-                                            FirstName = x.Card.User.Profile.FirstName,
-                                            LastName = x.Card.User.Profile.LastName,
-                                            Rating = x.Card.User.Profile.Rating,
-                                            RatingCount = x.Card.User.Profile.RatingCount,
-                                            Gender = x.Card.User.Profile.Gender,
-                                            Picture = new PictureDTO
-                                            {
-                                                //  Id = x.Card.User.Profile.Picture.Id,
-                                                //  Name = x.Card.User.Profile.Picture.Name,
-                                                //  Description = x.Card.User.Profile.Picture.Description,
-                                                Url = x.Card.User.Profile.Picture.Url,
-                                                Xsmall = x.Card.User.Profile.Picture.Xsmall,
-                                                Small = x.Card.User.Profile.Picture.Small,
-                                                Mid = x.Card.User.Profile.Picture.Mid,
-                                                Large = x.Card.User.Profile.Picture.Large,
-                                                Xlarge = x.Card.User.Profile.Picture.Xlarge,
-                                                Default = x.Card.User.Profile.Picture.Default
-                                                //  CreatedAt = x.Card.User.Profile.Picture.CreatedAt
-                                            }
-                                        }
-                                    }
-                                },
-                                OwnerReview =
-                                    x.Reviews.Where(rev => rev.ReservationId == x.Id && rev.ToUserId == account.UserId)
-                                        .OrderByDescending(r => r.CreatedAt)
-                                        .Select(owrev => new ReviewDTO
-                                        {
-                                            Id = owrev.Id,
-                                            FromUserId = owrev.FromUserId,
-                                            ToUserId = owrev.ToUserId,
-                                            ReservationId = owrev.ReservationId,
-                                            Rating = owrev.Rating,
-                                            Text = owrev.Text,
-                                            CreatedAt = owrev.CreatedAt,
-                                            UpdatedAt = owrev.UpdatedAt
-                                        }).FirstOrDefault(),
-                                RenterReview =
-                                    x.Reviews.Where(rev => rev.ReservationId == x.Id && rev.FromUserId == account.UserId)
-                                        .OrderByDescending(r => r.CreatedAt)
-                                        .Select(renrev => new ReviewDTO
-                                        {
-                                            Id = renrev.Id,
-                                            FromUserId = renrev.FromUserId,
-                                            ToUserId = renrev.ToUserId,
-                                            ReservationId = renrev.ReservationId,
-                                            Rating = renrev.Rating,
-                                            Text = renrev.Text,
-                                            CreatedAt = renrev.CreatedAt,
-                                            UpdatedAt = renrev.UpdatedAt
-                                        }).FirstOrDefault()
-                            }
-                        ).ToList();
+                                    Id = owrev.Id,
+                                    FromUserId = owrev.FromUserId,
+                                    ToUserId = owrev.ToUserId,
+                                    ReservationId = owrev.ReservationId,
+                                    Rating = owrev.Rating,
+                                    Text = owrev.Text,
+                                    CreatedAt = owrev.CreatedAt,
+                                    UpdatedAt = owrev.UpdatedAt
+                                }).FirstOrDefault();
+
+                        rerev.RenterReview =
+                            _context.Reviews.AsNoTracking()
+                                .Where(
+                                    rev => rev.ReservationId == rerev.Reservation.Id && rev.FromUserId == account.UserId)
+                                .OrderByDescending(r => r.CreatedAt)
+                                .Select(renrev => new ReviewDTO
+                                {
+                                    Id = renrev.Id,
+                                    FromUserId = renrev.FromUserId,
+                                    ToUserId = renrev.ToUserId,
+                                    ReservationId = renrev.ReservationId,
+                                    Rating = renrev.Rating,
+                                    Text = renrev.Text,
+                                    CreatedAt = renrev.CreatedAt,
+                                    UpdatedAt = renrev.UpdatedAt
+                                }).FirstOrDefault();
+
+                        result.Add(rerev);
+                    }
+                }
             }
-            var result = new List<ReservReviewDTO>(ownerReviews.Count + renterReviews.Count);
-            result.AddRange(ownerReviews);
-            result.AddRange(renterReviews);
+
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 

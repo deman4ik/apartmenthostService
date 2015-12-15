@@ -312,7 +312,7 @@ namespace apartmenthostService.Controllers
                 }
                 var cards = _context.Cards.AsExpandable().AsNoTracking()
                     .Where(pre)
-                    .OrderByDescending(o => o.CreatedAt)
+                    .OrderByDescending(o => o.User.Profile.Rating).ThenBy(o => o.CreatedAt)
                     .Skip(() => skip)
                     .Take(() => limit)
                     .Select(x => new CardDTO
@@ -329,31 +329,33 @@ namespace apartmenthostService.Controllers
                         CreatedAt = x.CreatedAt,
                         UpdatedAt = x.UpdatedAt,
                         Lang = x.Lang,
-                    });
+                    }).ToList();
                 List<CardDTO> result = new List<CardDTO>();
                 if (cards.Any())
                 {
                     foreach (var card in cards)
                     {
+                        card.IsFavorite = false;
+                        if (userId != null)
                         card.IsFavorite = _context.Favorites.AsNoTracking().Any(f => f.UserId == userId && f.CardId == card.Id);
                         card.PriceDay =
                             currGender != null
-                                ? _context.Genders.AsNoTracking().FirstOrDefault(g => g.Name == currGender && g.CardId == card.Id)
+                                ? _context.Genders.FirstOrDefault(g => g.Name == currGender && g.CardId == card.Id)
                                     .Price
-                                : _context.Genders.AsNoTracking().Where(g => g.CardId == card.Id).Min(ge => ge.Price);
+                                : _context.Genders.Where(g => g.CardId == card.Id).Min(ge => ge.Price);
                         card.PriceGender =
                             currGender ??
-                            _context.Genders.AsNoTracking().FirstOrDefault(
+                            _context.Genders.FirstOrDefault(
                                 gn =>
-                                    gn.Price == _context.Genders.AsNoTracking().Where(g => g.CardId == card.Id).Min(ge => ge.Price) &&
+                                    gn.Price == _context.Genders.Where(g => g.CardId == card.Id).Min(ge => ge.Price) &&
                                     gn.CardId == card.Id).Name;
                         card.PricePeriod =
                             currGender != null
-                                ? _context.Genders.AsNoTracking().FirstOrDefault(g => g.Name == currGender && g.CardId == card.Id)
+                                ? _context.Genders.FirstOrDefault(g => g.Name == currGender && g.CardId == card.Id)
                                     .Price*periodDays
-                                : _context.Genders.AsNoTracking().Where(g => g.CardId == card.Id).Min(ge => ge.Price)*periodDays;
+                                : _context.Genders.Where(g => g.CardId == card.Id).Min(ge => ge.Price)*periodDays;
 
-                        card.Genders = _context.Genders.AsNoTracking().Select(g => new GendersDTO
+                        card.Genders = _context.Genders.Where(x => x.CardId == card.Id).Select(g => new GendersDTO
                         {
                             Name = g.Name,
                             Price = g.Price
@@ -363,14 +365,20 @@ namespace apartmenthostService.Controllers
                         {
                             DateFrom = d.DateFrom,
                             DateTo = d.DateTo
-                        })
-                            .Union(
+                        }).ToList();
+
+                        ICollection<DatesDTO> reservDates =
                                 _context.Reservations.AsNoTracking().Where(r => r.Status == ConstVals.Accepted && r.CardId == card.Id)
                                     .Select(rv => new DatesDTO
                                     {
                                         DateFrom = rv.DateFrom,
                                         DateTo = rv.DateTo
-                                    }).ToList()).ToList();
+                                    }).ToList();
+                        foreach (var resD in reservDates)
+                        {
+                            card.Dates.Add(resD);
+                        }
+                       
 
                         card.User = _context.Users.AsNoTracking().Where(u => u.Id == card.UserId).Select(x => new UserDTO
                         {
@@ -549,7 +557,7 @@ namespace apartmenthostService.Controllers
                         //        }).ToList()
                    
 
-                return Request.CreateResponse(HttpStatusCode.OK, cards);
+                return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (JsonReaderException ex)
             {
