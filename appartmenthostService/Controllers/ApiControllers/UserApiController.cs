@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -39,10 +38,10 @@ namespace apartmenthostService.Controllers
                 var currentUser = User as ServiceUser;
                 if (currentUser == null)
                     return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_USER_NULL));
-                var account = _context.Accounts.SingleOrDefault(a => a.AccountId == currentUser.Id);
+                var account = _context.Accounts.AsNoTracking().SingleOrDefault(a => a.AccountId == currentUser.Id);
                 if (account == null)
                     return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_USER_NOTFOUND));
-                var result = _context.Profile.Where(p => p.Id == account.UserId).Select(x => new UserDTO
+                var result = _context.Profile.AsNoTracking().Where(p => p.Id == account.UserId).Select(x => new UserDTO
                 {
                     Id = x.Id,
                     Email = x.User.Email,
@@ -81,7 +80,6 @@ namespace apartmenthostService.Controllers
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
             }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -85,22 +85,24 @@ namespace apartmenthostService.Controllers
                     }
                 }
 
-                var result = _context.Article.AsQueryable().Where(pre.Compile()).Select(art => new ArticleDTO
-                {
-                    Id = art.Id,
-                    Name = art.Name,
-                    Title = art.Title,
-                    Text = art.Text,
-                    Type = art.Type,
-                    Lang = art.Lang,
-                    CreatedAt = art.CreatedAt,
-                    UpdatedAt = art.UpdatedAt
-                }).ToList().OrderBy(o => o.Lang).ThenBy(o => o.Type).ThenBy(o => o.Name);
+                var result = _context.Article.AsQueryable()
+                    .AsNoTracking()
+                    .Where(pre.Compile())
+                    .Select(art => new ArticleDTO
+                    {
+                        Id = art.Id,
+                        Name = art.Name,
+                        Title = art.Title,
+                        Text = art.Text,
+                        Type = art.Type,
+                        Lang = art.Lang,
+                        CreatedAt = art.CreatedAt,
+                        UpdatedAt = art.UpdatedAt
+                    }).ToList().OrderBy(o => o.Lang).ThenBy(o => o.Type).ThenBy(o => o.Name);
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
             }
@@ -165,7 +167,6 @@ namespace apartmenthostService.Controllers
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
             }
@@ -232,7 +233,6 @@ namespace apartmenthostService.Controllers
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.InnerException);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
             }
@@ -268,7 +268,6 @@ namespace apartmenthostService.Controllers
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.InnerException);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
             }

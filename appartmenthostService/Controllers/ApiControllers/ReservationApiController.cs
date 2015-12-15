@@ -56,7 +56,7 @@ namespace apartmenthostService.Controllers
                 if (type == ConstVals.Owner || string.IsNullOrWhiteSpace(type))
                 {
                     ownerReserv =
-                        _context.Reservations.Where(x => x.Card.UserId == account.UserId)
+                        _context.Reservations.AsNoTracking().Where(x => x.Card.UserId == account.UserId)
                             .OrderByDescending(r => r.CreatedAt)
                             .Select(r => new ReservationDTO
                             {
@@ -156,7 +156,7 @@ namespace apartmenthostService.Controllers
                 if (type == ConstVals.Renter || string.IsNullOrWhiteSpace(type))
                 {
                     renterReserv =
-                        _context.Reservations.Where(x => x.UserId == account.UserId)
+                        _context.Reservations.AsNoTracking().Where(x => x.UserId == account.UserId)
                             .OrderByDescending(r => r.CreatedAt)
                             .Select(r => new ReservationDTO
                             {
@@ -328,7 +328,7 @@ namespace apartmenthostService.Controllers
 
                 // Check Reservation already exists
                 if (
-                    _context.Reservations.Any(
+                    _context.Reservations.AsNoTracking().Any(
                         x =>
                             x.UserId == account.UserId && x.CardId == cardId && x.DateFrom == dateFrom &&
                             x.DateTo == dateTo))
@@ -341,7 +341,7 @@ namespace apartmenthostService.Controllers
                 var reservationDates = new TimeRange(dateFrom, dateTo);
 
                 var unavailableDates =
-                    _context.Dates.Where(x => x.CardId == card.Id)
+                    _context.Dates.AsNoTracking().Where(x => x.CardId == card.Id)
                         .ToList()
                         .Select(unDate => new TimeRange(unDate.DateFrom, unDate.DateTo))
                         .ToList();
@@ -355,7 +355,8 @@ namespace apartmenthostService.Controllers
                 }
 
                 var currentReservations =
-                    _context.Reservations.Where(r => r.CardId == cardId && r.Status == ConstVals.Accepted);
+                    _context.Reservations.AsNoTracking()
+                        .Where(r => r.CardId == cardId && r.Status == ConstVals.Accepted);
                 foreach (var currentReservation in currentReservations)
                 {
                     var reservedDates = new TimeRange(currentReservation.DateFrom, currentReservation.DateTo);
@@ -384,8 +385,8 @@ namespace apartmenthostService.Controllers
                 Notifications.Create(_context, card.UserId, ConstVals.General, RespH.SRV_NOTIF_RESERV_PENDING, null,
                     reservationGuid, null);
 
-                var user = _context.Users.SingleOrDefault(x => x.Id == account.UserId);
-                var profile = _context.Profile.SingleOrDefault(x => x.Id == account.UserId);
+                var user = _context.Users.AsNoTracking().SingleOrDefault(x => x.Id == account.UserId);
+                var profile = _context.Profile.AsNoTracking().SingleOrDefault(x => x.Id == account.UserId);
                 using (MailSender mailSender = new MailSender())
                 {
                     var bem = new BaseEmailMessage
@@ -454,7 +455,7 @@ namespace apartmenthostService.Controllers
                         RespH.Create(RespH.SRV_RESERVATION_NOTFOUND, respList));
                 }
 
-                var card = _context.Cards.SingleOrDefault(a => a.Id == currentReservation.CardId);
+                var card = _context.Cards.AsNoTracking().SingleOrDefault(a => a.Id == currentReservation.CardId);
                 // Check CARD is not NULL 
                 if (card == null)
                     return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_NULL));
@@ -495,7 +496,7 @@ namespace apartmenthostService.Controllers
                         }
                     }
                     var currentReservations =
-                        _context.Reservations.Where(
+                        _context.Reservations.AsNoTracking().Where(
                             r =>
                                 r.CardId == currentReservation.CardId && currentReservation.Status == ConstVals.Accepted);
                     foreach (var currentReserv in currentReservations)
@@ -523,10 +524,10 @@ namespace apartmenthostService.Controllers
                 Notifications.Create(_context, currentReservation.UserId, ConstVals.General, notifCode, null,
                     currentReservation.Id, null);
 
-                var fromUser = _context.Users.SingleOrDefault(x => x.Id == account.UserId);
-                var fromProfile = _context.Profile.SingleOrDefault(x => x.Id == account.UserId);
-                var toUser = _context.Users.SingleOrDefault(x => x.Id == currentReservation.UserId);
-                var toProfile = _context.Profile.SingleOrDefault(x => x.Id == currentReservation.UserId);
+                var fromUser = _context.Users.AsNoTracking().SingleOrDefault(x => x.Id == account.UserId);
+                var fromProfile = _context.Profile.AsNoTracking().SingleOrDefault(x => x.Id == account.UserId);
+                var toUser = _context.Users.AsNoTracking().SingleOrDefault(x => x.Id == currentReservation.UserId);
+                var toProfile = _context.Profile.AsNoTracking().SingleOrDefault(x => x.Id == currentReservation.UserId);
                 using (MailSender mailSender = new MailSender())
                 {
                     var bem = new BaseEmailMessage

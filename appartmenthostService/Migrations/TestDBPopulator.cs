@@ -212,7 +212,7 @@ namespace apartmenthostService.Migrations
 
         public void PopulateUsers()
         {
-            var salt = AuthUtils.generateSalt();
+            var salt = AuthUtils.GenerateSalt();
 
             var users = new List<User>
             {
@@ -221,84 +221,84 @@ namespace apartmenthostService.Migrations
                     Id = "u1",
                     Email = "parus@parus.ru",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("parusina", salt)
+                    SaltedAndHashedPassword = AuthUtils.Hash("parusina", salt)
                 },
                 new User
                 {
                     Id = "u2",
                     Email = "user2@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user2", salt)
+                    SaltedAndHashedPassword = AuthUtils.Hash("user2", salt)
                 },
                 new User
                 {
                     Id = "u3",
                     Email = "user3@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user3", salt)
+                    SaltedAndHashedPassword = AuthUtils.Hash("user3", salt)
                 },
                 new User
                 {
                     Id = "u4",
                     Email = "user4@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user4", salt)
+                    SaltedAndHashedPassword = AuthUtils.Hash("user4", salt)
                 },
                 new User
                 {
                     Id = "u5",
                     Email = "user5@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user5", salt)
+                    SaltedAndHashedPassword = AuthUtils.Hash("user5", salt)
                 },
                 new User
                 {
                     Id = "u6",
                     Email = "user6@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user6", salt)
+                    SaltedAndHashedPassword = AuthUtils.Hash("user6", salt)
                 },
                 new User
                 {
                     Id = "u7",
                     Email = "user7@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user7", salt)
+                    SaltedAndHashedPassword = AuthUtils.Hash("user7", salt)
                 },
                 new User
                 {
                     Id = "u8",
                     Email = "user8@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user8", salt)
+                    SaltedAndHashedPassword = AuthUtils.Hash("user8", salt)
                 },
                 new User
                 {
                     Id = "u9",
                     Email = "user9@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user9", salt)
+                    SaltedAndHashedPassword = AuthUtils.Hash("user9", salt)
                 },
                 new User
                 {
                     Id = "u10",
                     Email = "user10@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user10", salt)
+                    SaltedAndHashedPassword = AuthUtils.Hash("user10", salt)
                 },
                 new User
                 {
                     Id = "u11",
                     Email = "user11@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user11", salt)
+                    SaltedAndHashedPassword = AuthUtils.Hash("user11", salt)
                 },
                 new User
                 {
                     Id = "u12",
                     Email = "user12@example.com",
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash("user12", salt)
+                    SaltedAndHashedPassword = AuthUtils.Hash("user12", salt)
                 }
             };
 

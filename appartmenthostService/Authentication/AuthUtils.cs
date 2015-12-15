@@ -11,36 +11,34 @@ namespace apartmenthostService.Authentication
 {
     public static class AuthUtils
     {
-        public static string randomString(int size)
+        public static string RandomString(int size)
         {
             var random = new Random((int) DateTime.Now.Ticks);
             var builder = new StringBuilder();
-            char ch;
             for (var i = 0; i < size; i++)
             {
-                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26*random.NextDouble() + 65)));
+                var ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26*random.NextDouble() + 65)));
                 builder.Append(ch);
             }
 
             return builder.ToString();
         }
 
-        public static string randomNumString(int size)
+        public static string RandomNumString(int size)
         {
             var random = new Random((int) DateTime.Now.Ticks);
             var builder = new StringBuilder();
-            char ch;
             for (var i = 0; i < size; i++)
             {
                 var str = random.Next(0, 9).ToString();
-                ch = str[0];
+                var ch = str[0];
                 builder.Append(ch);
             }
 
             return builder.ToString();
         }
 
-        public static byte[] hash(string plaintext, byte[] salt)
+        public static byte[] Hash(string plaintext, byte[] salt)
         {
             var hashFunc = new SHA512Cng();
             var plainBytes = Encoding.ASCII.GetBytes(plaintext);
@@ -50,7 +48,7 @@ namespace apartmenthostService.Authentication
             return hashFunc.ComputeHash(toHash);
         }
 
-        public static byte[] generateSalt()
+        public static byte[] GenerateSalt()
         {
             var rng = new RNGCryptoServiceProvider();
             var salt = new byte[256];
@@ -58,7 +56,7 @@ namespace apartmenthostService.Authentication
             return salt;
         }
 
-        public static bool slowEquals(byte[] a, byte[] b)
+        public static bool SlowEquals(byte[] a, byte[] b)
         {
             var diff = a.Length ^ b.Length;
             for (var i = 0; i < a.Length && i < b.Length; i++)
@@ -106,7 +104,7 @@ namespace apartmenthostService.Authentication
                             Email = email,
                             EmailConfirmed = email != null,
                             PhoneStatus = ConstVals.PUnconf,
-                            Salt = generateSalt()
+                            Salt = GenerateSalt()
                         };
                         context.Users.Add(user);
                     }

@@ -275,30 +275,6 @@
     <Compile Include="Messages\Notifications.cs" />
     <Compile Include="Helpers\SequentialGuid.cs" />
     <Compile Include="Messages\SmsSender.cs" />
-    <Compile Include="Migrations\201508231137399_ResGender.cs" />
-    <Compile Include="Migrations\201508231137399_ResGender.Designer.cs">
-      <DependentUpon>201508231137399_ResGender.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508231147095_ArticleType.cs" />
-    <Compile Include="Migrations\201508231147095_ArticleType.Designer.cs">
-      <DependentUpon>201508231147095_ArticleType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508231912457_CardPrice.cs" />
-    <Compile Include="Migrations\201508231912457_CardPrice.Designer.cs">
-      <DependentUpon>201508231912457_CardPrice.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201511272014491_Feedback.cs" />
-    <Compile Include="Migrations\201511272014491_Feedback.Designer.cs">
-      <DependentUpon>201511272014491_Feedback.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512052049339_FeedbackTypes.cs" />
-    <Compile Include="Migrations\201512052049339_FeedbackTypes.Designer.cs">
-      <DependentUpon>201512052049339_FeedbackTypes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512101532439_PhoneConfirmation.cs" />
-    <Compile Include="Migrations\201512101532439_PhoneConfirmation.Designer.cs">
-      <DependentUpon>201512101532439_PhoneConfirmation.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\TestDBPopulator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attributes\QueryableExpandAttribute.cs" />
@@ -379,30 +355,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\PublishProfiles\apartmenthost - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\apartmenthost - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\mobile-apartmenthost.pubxml" />
     <None Include="Properties\PublishProfiles\mobile-petforaweekService.pubxml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201508231137399_ResGender.resx">
-      <DependentUpon>201508231137399_ResGender.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508231147095_ArticleType.resx">
-      <DependentUpon>201508231147095_ArticleType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508231912457_CardPrice.resx">
-      <DependentUpon>201508231912457_CardPrice.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201511272014491_Feedback.resx">
-      <DependentUpon>201511272014491_Feedback.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512052049339_FeedbackTypes.resx">
-      <DependentUpon>201512052049339_FeedbackTypes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512101532439_PhoneConfirmation.resx">
-      <DependentUpon>201512101532439_PhoneConfirmation.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Core.Common.CommandTrees;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -308,102 +310,125 @@ namespace apartmenthostService.Controllers
                 {
                     userId = account.UserId;
                 }
-                var result = _context.Cards.AsExpandable()
+                var cards = _context.Cards.AsExpandable().AsNoTracking()
                     .Where(pre)
                     .OrderByDescending(o => o.CreatedAt)
-                    .Skip(skip)
-                    .Take(limit)
-                    .
-                    Select(x => new CardDTO
+                    .Skip(() => skip)
+                    .Take(() => limit)
+                    .Select(x => new CardDTO
                     {
                         Id = x.Id,
                         Name = x.Name,
                         UserId = x.UserId,
                         Description = x.Description,
-                        ApartmentId = x.ApartmentId,
-                        PriceDay =
-                            currGender != null
-                                ? x.Genders.FirstOrDefault(g => g.Name == currGender).Price
-                                : x.Genders.Min(ge => ge.Price),
-                        PriceGender =
-                            currGender ?? x.Genders.FirstOrDefault(gn => gn.Price == x.Genders.Min(ge => ge.Price)).Name,
-                        PricePeriod =
-                            currGender != null
-                                ? x.Genders.FirstOrDefault(g => g.Name == currGender).Price*periodDays
-                                : x.Genders.Min(ge => ge.Price)*periodDays,
+                         ApartmentId = x.ApartmentId,
+                       
                         PeriodDays = periodDays,
                         Cohabitation = x.Cohabitation,
-                        IsFavorite = x.Favorites.Any(f => f.UserId == userId),
+                        
                         CreatedAt = x.CreatedAt,
                         UpdatedAt = x.UpdatedAt,
                         Lang = x.Lang,
-                        Genders = x.Genders.Select(g => new GendersDTO
+                    });
+                List<CardDTO> result = new List<CardDTO>();
+                if (cards.Any())
+                {
+                    foreach (var card in cards)
+                    {
+                        card.IsFavorite = _context.Favorites.AsNoTracking().Any(f => f.UserId == userId && f.CardId == card.Id);
+                        card.PriceDay =
+                            currGender != null
+                                ? _context.Genders.AsNoTracking().FirstOrDefault(g => g.Name == currGender && g.CardId == card.Id)
+                                    .Price
+                                : _context.Genders.AsNoTracking().Where(g => g.CardId == card.Id).Min(ge => ge.Price);
+                        card.PriceGender =
+                            currGender ??
+                            _context.Genders.AsNoTracking().FirstOrDefault(
+                                gn =>
+                                    gn.Price == _context.Genders.AsNoTracking().Where(g => g.CardId == card.Id).Min(ge => ge.Price) &&
+                                    gn.CardId == card.Id).Name;
+                        card.PricePeriod =
+                            currGender != null
+                                ? _context.Genders.AsNoTracking().FirstOrDefault(g => g.Name == currGender && g.CardId == card.Id)
+                                    .Price*periodDays
+                                : _context.Genders.AsNoTracking().Where(g => g.CardId == card.Id).Min(ge => ge.Price)*periodDays;
+
+                        card.Genders = _context.Genders.AsNoTracking().Select(g => new GendersDTO
                         {
                             Name = g.Name,
                             Price = g.Price
-                        }).ToList(),
-                        Dates = x.Dates.Select(d => new DatesDTO
+                        }).ToList();
+
+                        card.Dates = _context.Dates.AsNoTracking().Where(da => da.CardId == card.Id).Select(d => new DatesDTO
                         {
                             DateFrom = d.DateFrom,
                             DateTo = d.DateTo
-                        }).Union(x.Reservations.Where(r => r.Status == ConstVals.Accepted).Select(rv => new DatesDTO
+                        })
+                            .Union(
+                                _context.Reservations.AsNoTracking().Where(r => r.Status == ConstVals.Accepted && r.CardId == card.Id)
+                                    .Select(rv => new DatesDTO
+                                    {
+                                        DateFrom = rv.DateFrom,
+                                        DateTo = rv.DateTo
+                                    }).ToList()).ToList();
+
+                        card.User = _context.Users.AsNoTracking().Where(u => u.Id == card.UserId).Select(x => new UserDTO
                         {
-                            DateFrom = rv.DateFrom,
-                            DateTo = rv.DateTo
-                        }).ToList()).ToList(),
-                        User = new UserDTO
-                        {
-                            Id = x.User.Profile.Id,
-                            FirstName = x.User.Profile.FirstName,
-                            LastName = x.User.Profile.LastName,
-                            Gender = x.User.Profile.Gender,
-                            Rating = x.User.Profile.Rating,
-                            RatingCount = x.User.Profile.RatingCount,
-                            Phone = x.User.Profile.Phone,
+                            Id = x.Profile.Id,
+                            FirstName = x.Profile.FirstName,
+                            LastName = x.Profile.LastName,
+                            Gender = x.Profile.Gender,
+                            Rating = x.Profile.Rating,
+                            RatingCount = x.Profile.RatingCount,
+                            Phone = x.Profile.Phone,
                             Picture = new PictureDTO
                             {
-                                Id = x.User.Profile.Picture.Id,
-                                Name = x.User.Profile.Picture.Name,
-                                Description = x.User.Profile.Picture.Description,
-                                Url = x.User.Profile.Picture.Url,
-                                Xsmall = x.User.Profile.Picture.Xsmall,
-                                Small = x.User.Profile.Picture.Small,
-                                Mid = x.User.Profile.Picture.Mid,
-                                Large = x.User.Profile.Picture.Large,
-                                Xlarge = x.User.Profile.Picture.Xlarge,
-                                Default = x.User.Profile.Picture.Default,
-                                CreatedAt = x.User.Profile.Picture.CreatedAt
+                                Id = x.Profile.Picture.Id,
+                                Name = x.Profile.Picture.Name,
+                                Description = x.Profile.Picture.Description,
+                                Url = x.Profile.Picture.Url,
+                                Xsmall = x.Profile.Picture.Xsmall,
+                                Small = x.Profile.Picture.Small,
+                                Mid = x.Profile.Picture.Mid,
+                                Large = x.Profile.Picture.Large,
+                                Xlarge = x.Profile.Picture.Xlarge,
+                                Default = x.Profile.Picture.Default,
+                                CreatedAt = x.Profile.Picture.CreatedAt
                             }
-                        },
-                        Apartment = new ApartmentDTO
-                        {
-                            Id = x.Apartment.Id,
-                            Name = x.Apartment.Name,
-                            Type = x.Apartment.Type,
-                            Options = x.Apartment.Options,
-                            UserId = x.Apartment.UserId,
-                            Adress = x.Apartment.Adress,
-                            FormattedAdress = x.Apartment.FormattedAdress,
-                            Latitude = x.Apartment.Latitude,
-                            Longitude = x.Apartment.Longitude,
-                            PlaceId = x.Apartment.PlaceId,
-                            Pictures = x.Apartment.Pictures.Select(apic => new PictureDTO
+                        }).FirstOrDefault();
+
+                        card.Apartment =
+                            _context.Apartments.AsNoTracking().Where(a => a.Id == card.ApartmentId).Select(x => new ApartmentDTO
                             {
-                                Id = apic.Id,
-                                Name = apic.Name,
-                                Description = apic.Description,
-                                Url = apic.Url,
-                                Xsmall = apic.Xsmall,
-                                Small = apic.Small,
-                                Mid = apic.Mid,
-                                Large = apic.Large,
-                                Xlarge = apic.Xlarge,
-                                Default = apic.Default,
-                                CreatedAt = apic.CreatedAt
-                            }).ToList()
-                        },
-                        Reviews =
-                            x.User.InReviews.Where(inr => inr.Reservation.CardId == id && id != null)
+                                Id = x.Id,
+                                Name = x.Name,
+                                Type = x.Type,
+                                Options = x.Options,
+                                UserId = x.UserId,
+                                Adress = x.Adress,
+                                FormattedAdress = x.FormattedAdress,
+                                Latitude = x.Latitude,
+                                Longitude = x.Longitude,
+                                PlaceId = x.PlaceId,
+                                Pictures = x.Pictures.Select(apic => new PictureDTO
+                                {
+                                    Id = apic.Id,
+                                    Name = apic.Name,
+                                    Description = apic.Description,
+                                    Url = apic.Url,
+                                    Xsmall = apic.Xsmall,
+                                    Small = apic.Small,
+                                    Mid = apic.Mid,
+                                    Large = apic.Large,
+                                    Xlarge = apic.Xlarge,
+                                    Default = apic.Default,
+                                    CreatedAt = apic.CreatedAt
+                                }).ToList()
+                            }).FirstOrDefault();
+
+                        card.Reviews =
+                            _context.Reviews.AsNoTracking().Where(
+                                inr => inr.Reservation.CardId == id && id != null && inr.ToUserId == card.UserId)
                                 .Select(rev => new ReviewDTO
                                 {
                                     Id = rev.Id,
@@ -434,94 +459,97 @@ namespace apartmenthostService.Controllers
                                             CreatedAt = rev.FromUser.Profile.Picture.CreatedAt
                                         }
                                     }
-                                }).ToList(),
-                        RelatedCards =
-                            _context.Cards.Where(
-                                crd => crd.Id != x.Id && crd.Apartment.Type == x.Apartment.Type && id != null)
-                                .Take(5)
-                                .Select(card => new RelatedCardDTO
-                                {
-                                    Id = card.Id,
-                                    Name = card.Name,
-                                    UserId = card.UserId,
-                                    Description = card.Description,
-                                    ApartmentId = card.ApartmentId,
-                                    PriceDay = card.Genders.Min(ge => ge.Price),
-                                    PriceGender =
-                                        card.Genders.FirstOrDefault(gn => gn.Price == x.Genders.Min(ge => ge.Price))
-                                            .Name,
-                                    PricePeriod = card.Genders.Min(ge => ge.Price)*periodDays,
-                                    Cohabitation = card.Cohabitation,
-                                    IsFavorite = card.Favorites.Any(f => f.UserId == userId),
-                                    CreatedAt = card.CreatedAt,
-                                    Lang = card.Lang,
-                                    Dates = card.Dates.Select(d => new DatesDTO
-                                    {
-                                        DateFrom = d.DateFrom,
-                                        DateTo = d.DateTo
-                                    })
-                                        .Union(
-                                            card.Reservations.Where(r => r.Status == ConstVals.Accepted)
-                                                .Select(rv => new DatesDTO
-                                                {
-                                                    DateFrom = rv.DateFrom,
-                                                    DateTo = rv.DateTo
-                                                }).ToList()).ToList(),
-                                    Apartment = new ApartmentDTO
-                                    {
-                                        Id = card.Apartment.Id,
-                                        Name = card.Apartment.Name,
-                                        Type = card.Apartment.Type,
-                                        Options = card.Apartment.Options,
-                                        UserId = card.Apartment.UserId,
-                                        Adress = card.Apartment.Adress,
-                                        FormattedAdress = card.Apartment.FormattedAdress,
-                                        Latitude = card.Apartment.Latitude,
-                                        Longitude = card.Apartment.Longitude,
-                                        PlaceId = card.Apartment.PlaceId,
-                                        Pictures = card.Apartment.Pictures.Select(apic => new PictureDTO
-                                        {
-                                            Id = apic.Id,
-                                            Name = apic.Name,
-                                            Description = apic.Description,
-                                            Url = apic.Url,
-                                            Xsmall = apic.Xsmall,
-                                            Small = apic.Small,
-                                            Mid = apic.Mid,
-                                            Large = apic.Large,
-                                            Xlarge = apic.Xlarge,
-                                            Default = apic.Default,
-                                            CreatedAt = apic.CreatedAt
-                                        }).ToList()
-                                    },
-                                    User = new BaseUserDTO
-                                    {
-                                        Id = card.User.Profile.Id,
-                                        Email = card.User.Email,
-                                        FirstName = card.User.Profile.FirstName,
-                                        LastName = card.User.Profile.LastName,
-                                        Rating = card.User.Profile.Rating,
-                                        RatingCount = card.User.Profile.RatingCount,
-                                        Gender = card.User.Profile.Gender,
-                                        Picture = new PictureDTO
-                                        {
-                                            Id = card.User.Profile.Picture.Id,
-                                            Name = card.User.Profile.Picture.Name,
-                                            Description = card.User.Profile.Picture.Description,
-                                            Url = card.User.Profile.Picture.Url,
-                                            Xsmall = card.User.Profile.Picture.Xsmall,
-                                            Small = card.User.Profile.Picture.Small,
-                                            Mid = card.User.Profile.Picture.Mid,
-                                            Large = card.User.Profile.Picture.Large,
-                                            Xlarge = card.User.Profile.Picture.Xlarge,
-                                            Default = card.User.Profile.Picture.Default,
-                                            CreatedAt = card.User.Profile.Picture.CreatedAt
-                                        }
-                                    }
-                                }).ToList()
-                    });
+                                }).ToList();
+                        result.Add(card);
+                    }                 
+                }
+                //RelatedCards =
+                        //    _context.Cards.Where(
+                        //        crd => crd.Id != x.Id && crd.Apartment.Type == x.Apartment.Type && id != null)
+                        //        .Take(5)
+                        //        .Select(card => new RelatedCardDTO
+                        //        {
+                        //            Id = card.Id,
+                        //            Name = card.Name,
+                        //            UserId = card.UserId,
+                        //            Description = card.Description,
+                        //            ApartmentId = card.ApartmentId,
+                        //            PriceDay = card.Genders.Min(ge => ge.Price),
+                        //            PriceGender =
+                        //                card.Genders.FirstOrDefault(gn => gn.Price == x.Genders.Min(ge => ge.Price))
+                        //                    .Name,
+                        //            PricePeriod = card.Genders.Min(ge => ge.Price)*periodDays,
+                        //            Cohabitation = card.Cohabitation,
+                        //            IsFavorite = card.Favorites.Any(f => f.UserId == userId),
+                        //            CreatedAt = card.CreatedAt,
+                        //            Lang = card.Lang,
+                        //            Dates = card.Dates.Select(d => new DatesDTO
+                        //            {
+                        //                DateFrom = d.DateFrom,
+                        //                DateTo = d.DateTo
+                        //            })
+                        //                .Union(
+                        //                    card.Reservations.Where(r => r.Status == ConstVals.Accepted)
+                        //                        .Select(rv => new DatesDTO
+                        //                        {
+                        //                            DateFrom = rv.DateFrom,
+                        //                            DateTo = rv.DateTo
+                        //                        }).ToList()).ToList(),
+                        //            Apartment = new ApartmentDTO
+                        //            {
+                        //                Id = card.Apartment.Id,
+                        //                Name = card.Apartment.Name,
+                        //                Type = card.Apartment.Type,
+                        //                Options = card.Apartment.Options,
+                        //                UserId = card.Apartment.UserId,
+                        //                Adress = card.Apartment.Adress,
+                        //                FormattedAdress = card.Apartment.FormattedAdress,
+                        //                Latitude = card.Apartment.Latitude,
+                        //                Longitude = card.Apartment.Longitude,
+                        //                PlaceId = card.Apartment.PlaceId,
+                        //                Pictures = card.Apartment.Pictures.Select(apic => new PictureDTO
+                        //                {
+                        //                    Id = apic.Id,
+                        //                    Name = apic.Name,
+                        //                    Description = apic.Description,
+                        //                    Url = apic.Url,
+                        //                    Xsmall = apic.Xsmall,
+                        //                    Small = apic.Small,
+                        //                    Mid = apic.Mid,
+                        //                    Large = apic.Large,
+                        //                    Xlarge = apic.Xlarge,
+                        //                    Default = apic.Default,
+                        //                    CreatedAt = apic.CreatedAt
+                        //                }).ToList()
+                        //            },
+                        //            User = new BaseUserDTO
+                        //            {
+                        //                Id = card.User.Profile.Id,
+                        //                Email = card.User.Email,
+                        //                FirstName = card.User.Profile.FirstName,
+                        //                LastName = card.User.Profile.LastName,
+                        //                Rating = card.User.Profile.Rating,
+                        //                RatingCount = card.User.Profile.RatingCount,
+                        //                Gender = card.User.Profile.Gender,
+                        //                Picture = new PictureDTO
+                        //                {
+                        //                    Id = card.User.Profile.Picture.Id,
+                        //                    Name = card.User.Profile.Picture.Name,
+                        //                    Description = card.User.Profile.Picture.Description,
+                        //                    Url = card.User.Profile.Picture.Url,
+                        //                    Xsmall = card.User.Profile.Picture.Xsmall,
+                        //                    Small = card.User.Profile.Picture.Small,
+                        //                    Mid = card.User.Profile.Picture.Mid,
+                        //                    Large = card.User.Profile.Picture.Large,
+                        //                    Xlarge = card.User.Profile.Picture.Xlarge,
+                        //                    Default = card.User.Profile.Picture.Default,
+                        //                    CreatedAt = card.User.Profile.Picture.CreatedAt
+                        //                }
+                        //            }
+                        //        }).ToList()
+                   
 
-                return Request.CreateResponse(HttpStatusCode.OK, result);
+                return Request.CreateResponse(HttpStatusCode.OK, cards);
             }
             catch (JsonReaderException ex)
             {
@@ -530,7 +558,6 @@ namespace apartmenthostService.Controllers
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
             }

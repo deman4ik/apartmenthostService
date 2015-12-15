@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -55,7 +54,7 @@ namespace apartmenthostService.Controllers
             if (type == ConstVals.Owner || string.IsNullOrWhiteSpace(type))
             {
                 ownerReviews =
-                    _context.Reservations.Where(
+                    _context.Reservations.AsNoTracking().Where(
                         r => r.Card.UserId == account.UserId &&
                              r.Status == ConstVals.Accepted
                         ).OrderByDescending(r => r.CreatedAt)
@@ -86,17 +85,17 @@ namespace apartmenthostService.Controllers
                                         Gender = x.User.Profile.Gender,
                                         Picture = new PictureDTO
                                         {
-                                            Id = x.User.Profile.Picture.Id,
-                                            Name = x.User.Profile.Picture.Name,
-                                            Description = x.User.Profile.Picture.Description,
+                                            //  Id = x.User.Profile.Picture.Id,
+                                            //  Name = x.User.Profile.Picture.Name,
+                                            //  Description = x.User.Profile.Picture.Description,
                                             Url = x.User.Profile.Picture.Url,
                                             Xsmall = x.User.Profile.Picture.Xsmall,
                                             Small = x.User.Profile.Picture.Small,
                                             Mid = x.User.Profile.Picture.Mid,
                                             Large = x.User.Profile.Picture.Large,
                                             Xlarge = x.User.Profile.Picture.Xlarge,
-                                            Default = x.User.Profile.Picture.Default,
-                                            CreatedAt = x.User.Profile.Picture.CreatedAt
+                                            Default = x.User.Profile.Picture.Default
+                                            //  CreatedAt = x.User.Profile.Picture.CreatedAt
                                         }
                                     }
                                 },
@@ -134,7 +133,8 @@ namespace apartmenthostService.Controllers
             if (type == ConstVals.Renter || string.IsNullOrWhiteSpace(type))
             {
                 renterReviews =
-                    _context.Reservations.Where(r => r.UserId == account.UserId && r.Status == ConstVals.Accepted)
+                    _context.Reservations.AsNoTracking()
+                        .Where(r => r.UserId == account.UserId && r.Status == ConstVals.Accepted)
                         .OrderByDescending(r => r.CreatedAt)
                         .Select(
                             x => new ReservReviewDTO
@@ -175,17 +175,17 @@ namespace apartmenthostService.Controllers
                                                 x.Card.Apartment.Pictures.Where(ap => ap.Default)
                                                     .Select(apic => new PictureDTO
                                                     {
-                                                        Id = apic.Id,
-                                                        Name = apic.Name,
-                                                        Description = apic.Description,
+                                                        //  Id = apic.Id,
+                                                        //  Name = apic.Name,
+                                                        //  Description = apic.Description,
                                                         Url = apic.Url,
                                                         Xsmall = apic.Xsmall,
                                                         Small = apic.Small,
                                                         Mid = apic.Mid,
                                                         Large = apic.Large,
                                                         Xlarge = apic.Xlarge,
-                                                        Default = apic.Default,
-                                                        CreatedAt = apic.CreatedAt
+                                                        Default = apic.Default
+                                                        //  CreatedAt = apic.CreatedAt
                                                     }).FirstOrDefault()
                                         },
                                         User = new UserDTO
@@ -199,17 +199,17 @@ namespace apartmenthostService.Controllers
                                             Gender = x.Card.User.Profile.Gender,
                                             Picture = new PictureDTO
                                             {
-                                                Id = x.Card.User.Profile.Picture.Id,
-                                                Name = x.Card.User.Profile.Picture.Name,
-                                                Description = x.Card.User.Profile.Picture.Description,
+                                                //  Id = x.Card.User.Profile.Picture.Id,
+                                                //  Name = x.Card.User.Profile.Picture.Name,
+                                                //  Description = x.Card.User.Profile.Picture.Description,
                                                 Url = x.Card.User.Profile.Picture.Url,
                                                 Xsmall = x.Card.User.Profile.Picture.Xsmall,
                                                 Small = x.Card.User.Profile.Picture.Small,
                                                 Mid = x.Card.User.Profile.Picture.Mid,
                                                 Large = x.Card.User.Profile.Picture.Large,
                                                 Xlarge = x.Card.User.Profile.Picture.Xlarge,
-                                                Default = x.Card.User.Profile.Picture.Default,
-                                                CreatedAt = x.Card.User.Profile.Picture.CreatedAt
+                                                Default = x.Card.User.Profile.Picture.Default
+                                                //  CreatedAt = x.Card.User.Profile.Picture.CreatedAt
                                             }
                                         }
                                     }
@@ -267,7 +267,7 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_REVIEW_NULL));
 
                 // Check Reservation is not NULL
-                var reservation = _context.Reservations.SingleOrDefault(x => x.Id == resId);
+                var reservation = _context.Reservations.AsNoTracking().SingleOrDefault(x => x.Id == resId);
                 if (reservation == null)
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_RESERVATION_NOTFOUND));
@@ -319,7 +319,7 @@ namespace apartmenthostService.Controllers
 
                 // Check Review doesn't already exist
                 var currentReview =
-                    _context.Reviews.SingleOrDefault(
+                    _context.Reviews.AsNoTracking().SingleOrDefault(
                         r =>
                             r.ReservationId == reservation.Id && r.FromUserId == newReview.FromUserId &&
                             r.ToUserId == newReview.ToUserId);
@@ -362,10 +362,10 @@ namespace apartmenthostService.Controllers
                 _context.SaveChanges();
                 // Create Notification
                 Notifications.Create(_context, newReview.ToUserId, ConstVals.General, notifCode, null, null, reviewGuid);
-                var fromUser = _context.Users.SingleOrDefault(x => x.Id == account.UserId);
-                var fromProfile = _context.Profile.SingleOrDefault(x => x.Id == account.UserId);
-                var toUser = _context.Users.SingleOrDefault(x => x.Id == newReview.ToUserId);
-                var toProfile = _context.Profile.SingleOrDefault(x => x.Id == newReview.ToUserId);
+                var fromUser = _context.Users.AsNoTracking().SingleOrDefault(x => x.Id == account.UserId);
+                var fromProfile = _context.Profile.AsNoTracking().SingleOrDefault(x => x.Id == account.UserId);
+                var toUser = _context.Users.AsNoTracking().SingleOrDefault(x => x.Id == newReview.ToUserId);
+                var toProfile = _context.Profile.AsNoTracking().SingleOrDefault(x => x.Id == newReview.ToUserId);
                 using (MailSender mailSender = new MailSender())
                 {
                     var bem = new BaseEmailMessage
@@ -386,7 +386,6 @@ namespace apartmenthostService.Controllers
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.InnerException);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
             }
@@ -415,7 +414,8 @@ namespace apartmenthostService.Controllers
                 }
 
                 // Check Reservation is not NULL
-                var reservation = _context.Reservations.SingleOrDefault(x => x.Id == currentReview.ReservationId);
+                var reservation =
+                    _context.Reservations.AsNoTracking().SingleOrDefault(x => x.Id == currentReview.ReservationId);
                 if (reservation == null)
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_RESERVATION_NOTFOUND));
@@ -465,7 +465,6 @@ namespace apartmenthostService.Controllers
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.InnerException);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
             }

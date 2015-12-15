@@ -90,7 +90,7 @@ namespace apartmenthostService.Helpers
         public const string SRV_USER_PHONE_NOT_CONFIRMED = "SRV_USER_PHONE_NOT_CONFIRMED"; // Телефон не подтвержден
 
         public const string SRV_PROFILE_ERR_UPDATE_PHONE = "SRV_PROFILE_ERR_UPDATE_PHONE";
-            // У пользователя есть карточка 
+        // У пользователя есть карточка 
 
         //Registration
         public const string SRV_REG_INVALID_EMAIL = "SRV_REG_INVALID_EMAIL"; // Не верный email

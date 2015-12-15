@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -52,7 +51,7 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.Unauthorized,
                         RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
-                var profile = _context.Profile.SingleOrDefault(x => x.Id == account.UserId);
+                var profile = _context.Profile.AsNoTracking().SingleOrDefault(x => x.Id == account.UserId);
 
 
                 resp = CheckHelper.IsNull(profile.Phone, "Phone", RespH.SRV_USER_REQUIRED);
@@ -72,8 +71,8 @@ namespace apartmenthostService.Controllers
                                 new List<string> {user.PhoneCodeRequestedAt.ToString()}));
                     }
                 }
-                var confirmCode = AuthUtils.randomNumString(4);
-                user.SaltedAndHashedSmsCode = AuthUtils.hash(confirmCode, user.Salt);
+                var confirmCode = AuthUtils.RandomNumString(4);
+                user.SaltedAndHashedSmsCode = AuthUtils.Hash(confirmCode, user.Salt);
                 user.PhoneCodeRequestedAt = DateTime.Now;
                 user.PhoneStatus = ConstVals.PPending;
                 _context.MarkAsModified(user);
@@ -83,14 +82,12 @@ namespace apartmenthostService.Controllers
                 using (SmsSender sender = new SmsSender())
                 {
                     sender.Send(profile.Phone, confirmCode);
-                   
                 }
                 return Request.CreateResponse(HttpStatusCode.OK,
                     RespH.Create(RespH.SRV_DONE, new List<string> {user.PhoneStatus}));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.InnerException);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
             }
@@ -107,7 +104,6 @@ namespace apartmenthostService.Controllers
             try
             {
                 var respList = new List<string>();
-                ResponseDTO resp;
                 // Check Current User
                 var currentUser = User as ServiceUser;
                 if (currentUser == null)
@@ -137,9 +133,9 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_USER_REQUIRED, new List<string> {"code"}));
                 }
-                var incoming = AuthUtils.hash(confirmRequest.Code, user.Salt);
+                var incoming = AuthUtils.Hash(confirmRequest.Code, user.Salt);
 
-                if (!AuthUtils.slowEquals(incoming, user.SaltedAndHashedSmsCode))
+                if (!AuthUtils.SlowEquals(incoming, user.SaltedAndHashedSmsCode))
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_USER_WRONG_CODE,
@@ -155,7 +151,6 @@ namespace apartmenthostService.Controllers
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.InnerException);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
             }

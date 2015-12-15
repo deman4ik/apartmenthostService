@@ -69,8 +69,8 @@ namespace apartmenthostService.Controllers
                             RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                     }
 
-                    var user = _context.Users.SingleOrDefault(x => x.Id == account.UserId);
-                    var profile = _context.Profile.SingleOrDefault(x => x.Id == account.UserId);
+                    var user = _context.Users.AsNoTracking().SingleOrDefault(x => x.Id == account.UserId);
+                    var profile = _context.Profile.AsNoTracking().SingleOrDefault(x => x.Id == account.UserId);
                     if (user == null || profile == null)
                     {
                         return Request.CreateResponse(HttpStatusCode.Unauthorized,

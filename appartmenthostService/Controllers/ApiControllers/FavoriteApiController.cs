@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -43,7 +42,7 @@ namespace apartmenthostService.Controllers
             }
             else
             {
-                status = _context.Favorites.Any(f => f.CardId == cardId && f.UserId == account.UserId);
+                status = _context.Favorites.AsNoTracking().Any(f => f.CardId == cardId && f.UserId == account.UserId);
             }
             return Request.CreateResponse(HttpStatusCode.OK, RespH.CreateBool(RespH.SRV_DONE, new List<bool> {status}));
         }
@@ -74,7 +73,7 @@ namespace apartmenthostService.Controllers
                         RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
 
-                var currentCard = _context.Cards.SingleOrDefault(a => a.Id == cardId);
+                var currentCard = _context.Cards.AsNoTracking().SingleOrDefault(a => a.Id == cardId);
                 if (currentCard == null)
                 {
                     respList.Add(cardId);
@@ -104,8 +103,8 @@ namespace apartmenthostService.Controllers
                     Notifications.Create(_context, currentCard.UserId, ConstVals.General, RespH.SRV_NOTIF_CARD_FAVORITED,
                         favoriteGUID, null, null);
 
-                    var user = _context.Users.SingleOrDefault(x => x.Id == account.UserId);
-                    var profile = _context.Profile.SingleOrDefault(x => x.Id == account.UserId);
+                    var user = _context.Users.AsNoTracking().SingleOrDefault(x => x.Id == account.UserId);
+                    var profile = _context.Profile.AsNoTracking().SingleOrDefault(x => x.Id == account.UserId);
                     using (MailSender mailSender = new MailSender())
                     {
                         var bem = new BaseEmailMessage
@@ -135,7 +134,6 @@ namespace apartmenthostService.Controllers
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.InnerException);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
             }

@@ -51,22 +51,22 @@ namespace apartmenthostService.Controllers
                 }
 
 
-                var user = _context.Users.SingleOrDefault(a => a.Email == registrationRequest.Email);
+                var user = _context.Users.AsNoTracking().SingleOrDefault(a => a.Email == registrationRequest.Email);
                 if (user != null)
                 {
                     respList.Add(registrationRequest.Email);
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_REG_EXISTS_EMAIL, respList));
                 }
-                var salt = AuthUtils.generateSalt();
-                var confirmCode = AuthUtils.randomNumString(6);
+                var salt = AuthUtils.GenerateSalt();
+                var confirmCode = AuthUtils.RandomNumString(6);
                 var newUser = new User
                 {
                     Id = SequentialGuid.NewGuid().ToString(),
                     Email = registrationRequest.Email,
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.hash(registrationRequest.Password, salt),
-                    SaltedAndHashedEmail = AuthUtils.hash(confirmCode, salt)
+                    SaltedAndHashedPassword = AuthUtils.Hash(registrationRequest.Password, salt),
+                    SaltedAndHashedEmail = AuthUtils.Hash(confirmCode, salt)
                 };
                 _context.Users.Add(newUser);
                 _context.SaveChanges();
@@ -92,7 +92,6 @@ namespace apartmenthostService.Controllers
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
             }
@@ -126,9 +125,9 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_USER_CONFIRMED, new List<string> {confirmRequest.UserId}));
                 }
-                var incoming = AuthUtils.hash(confirmRequest.Code, user.Salt);
+                var incoming = AuthUtils.Hash(confirmRequest.Code, user.Salt);
 
-                if (AuthUtils.slowEquals(incoming, user.SaltedAndHashedEmail))
+                if (AuthUtils.SlowEquals(incoming, user.SaltedAndHashedEmail))
                 {
                     user.EmailConfirmed = true;
                     user.SaltedAndHashedEmail = null;
@@ -143,7 +142,6 @@ namespace apartmenthostService.Controllers
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
             }
@@ -165,12 +163,12 @@ namespace apartmenthostService.Controllers
                         RespH.Create(RespH.SRV_USER_NOTFOUND,
                             new List<string> {resetRequest.UserId ?? resetRequest.Email}));
                 }
-                var confirmCode = AuthUtils.randomNumString(8);
-                user.SaltedAndHashedCode = AuthUtils.hash(confirmCode, user.Salt);
+                var confirmCode = AuthUtils.RandomNumString(8);
+                user.SaltedAndHashedCode = AuthUtils.Hash(confirmCode, user.Salt);
                 user.ResetRequested = true;
                 _context.SaveChanges();
 
-                var profile = _context.Profile.SingleOrDefault(x => x.Id == user.Id);
+                var profile = _context.Profile.AsNoTracking().SingleOrDefault(x => x.Id == user.Id);
                 using (MailSender mailSender = new MailSender())
                 {
                     var bem = new BaseEmailMessage
@@ -225,9 +223,9 @@ namespace apartmenthostService.Controllers
                             RespH.Create(RespH.SRV_USER_RESET_NOT_REQUESTED,
                                 new List<string> {resetRequest.UserId ?? resetRequest.Email}));
                     }
-                    var incoming = AuthUtils.hash(resetRequest.Code, user.Salt);
+                    var incoming = AuthUtils.Hash(resetRequest.Code, user.Salt);
 
-                    if (!AuthUtils.slowEquals(incoming, user.SaltedAndHashedCode))
+                    if (!AuthUtils.SlowEquals(incoming, user.SaltedAndHashedCode))
                     {
                         return Request.CreateResponse(HttpStatusCode.BadRequest,
                             RespH.Create(RespH.SRV_USER_WRONG_CODE,
@@ -266,7 +264,7 @@ namespace apartmenthostService.Controllers
                     }
 
                     if (
-                        !AuthUtils.slowEquals(AuthUtils.hash(resetRequest.CurrentPassword, user.Salt),
+                        !AuthUtils.SlowEquals(AuthUtils.Hash(resetRequest.CurrentPassword, user.Salt),
                             user.SaltedAndHashedPassword))
                     {
                         return Request.CreateResponse(HttpStatusCode.Unauthorized,
@@ -283,16 +281,15 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_REG_INVALID_PASSWORD, new List<string> {resetRequest.Password}));
                 }
-                var salt = AuthUtils.generateSalt();
+                var salt = AuthUtils.GenerateSalt();
                 user.Salt = salt;
-                user.SaltedAndHashedPassword = AuthUtils.hash(resetRequest.Password, salt);
+                user.SaltedAndHashedPassword = AuthUtils.Hash(resetRequest.Password, salt);
                 _context.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK,
                     RespH.Create(RespH.SRV_USER_RESETED, new List<string> {user.Id}));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
             }

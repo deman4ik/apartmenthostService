@@ -31,15 +31,15 @@ namespace apartmenthostService.Controllers
         [AuthorizeLevel(AuthorizationLevel.Anonymous)]
         public HttpResponseMessage Post(LoginRequest loginRequest)
         {
-            var user = _context.Users.SingleOrDefault(a => a.Email == loginRequest.email);
+            var user = _context.Users.AsNoTracking().SingleOrDefault(a => a.Email == loginRequest.email);
             if (user != null)
             {
                 if (user.Blocked)
                     return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_BLOCKED));
 
-                var incoming = AuthUtils.hash(loginRequest.password, user.Salt);
+                var incoming = AuthUtils.Hash(loginRequest.password, user.Salt);
 
-                if (AuthUtils.slowEquals(incoming, user.SaltedAndHashedPassword))
+                if (AuthUtils.SlowEquals(incoming, user.SaltedAndHashedPassword))
                 {
                     var claimsIdentity = new ClaimsIdentity();
                     claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, loginRequest.email));

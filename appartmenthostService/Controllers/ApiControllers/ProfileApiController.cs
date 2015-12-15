@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -37,7 +36,7 @@ namespace apartmenthostService.Controllers
         {
             try
             {
-                var result = _context.Profile.Where(p => p.Id == userId).Select(x => new UserDTO
+                var result = _context.Profile.AsNoTracking().Where(p => p.Id == userId).Select(x => new UserDTO
                 {
                     Id = x.Id,
                     Email = x.User.Email,
@@ -158,7 +157,6 @@ namespace apartmenthostService.Controllers
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
             }
@@ -199,7 +197,7 @@ namespace apartmenthostService.Controllers
                         RespH.Create(RespH.SRV_USER_WRONG_USER, respList));
                 }
 
-                var user = _context.Users.SingleOrDefault(u => u.Id == account.UserId);
+                var user = _context.Users.AsNoTracking().SingleOrDefault(u => u.Id == account.UserId);
                 if (user == null)
                 {
                     respList.Add(account.UserId);
@@ -258,7 +256,6 @@ namespace apartmenthostService.Controllers
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.InnerException);
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                     RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
             }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using SmsApi;
 
 namespace apartmenthostService.Messages
@@ -26,8 +25,8 @@ namespace apartmenthostService.Messages
 
         public void Send(string recipient, string message)
         {
-                Sms sms = new Sms(_prjname, _apikey);
-                sms.send(_sender, recipient, message);
+            Sms sms = new Sms(_prjname, _apikey);
+            sms.send(_sender, recipient, message);
         }
 
         public void Dispose()
