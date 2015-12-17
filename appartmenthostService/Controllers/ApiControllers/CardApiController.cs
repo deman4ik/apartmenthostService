@@ -605,9 +605,8 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.Unauthorized,
                         RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
-                resp = CheckHelper.IsProfileFill(_context, account.UserId);
+                resp = CheckHelper.IsProfileFill(_context, account.UserId, true);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
-
                 // Check CARD not Already Exists
                 resp = CheckHelper.IsCardExist(_context, account.UserId, RespH.SRV_CARD_EXISTS);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
@@ -806,7 +805,7 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.Unauthorized,
                         RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
-                resp = CheckHelper.IsProfileFill(_context, account.UserId);
+                resp = CheckHelper.IsProfileFill(_context, account.UserId, true);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check CARD User

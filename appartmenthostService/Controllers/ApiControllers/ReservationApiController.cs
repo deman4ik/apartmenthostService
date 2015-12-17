@@ -256,7 +256,7 @@ namespace apartmenthostService.Controllers
                 //}
 
                 // Check Dates
-                if (DateTime.Compare(dateFrom, dateTo) >= 0)
+                if (DateTime.Compare(dateFrom, dateTo) > 0)
                 {
                     respList.Add(dateFrom.ToLocalTime().ToString(CultureInfo.InvariantCulture));
                     respList.Add(dateTo.ToLocalTime().ToString(CultureInfo.InvariantCulture));
@@ -380,7 +380,7 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.Unauthorized,
                         RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
-                ResponseDTO resp = CheckHelper.IsProfileFill(_context, account.UserId);
+                ResponseDTO resp = CheckHelper.IsProfileFill(_context, account.UserId, true);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 //Check Reservation

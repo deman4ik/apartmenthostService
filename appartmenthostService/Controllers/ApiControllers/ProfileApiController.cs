@@ -171,7 +171,7 @@ namespace apartmenthostService.Controllers
             try
             {
                 var respList = new List<string>();
-
+                ResponseDTO resp;
                 // Check Profile is not NULL 
                 if (profile == null)
                     return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_USER_NULL));
@@ -213,21 +213,30 @@ namespace apartmenthostService.Controllers
                         RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                 }
 
-                if (profileCurrent.Phone != profile.Phone)
+                if (!string.IsNullOrWhiteSpace(profile.Phone))
                 {
-                    var hasCards = _context.Cards.Any(x => x.UserId == user.Id);
-                    if (hasCards)
+                    profile.Phone = CheckHelper.CleanPhone(profile.Phone);
+                    if (profileCurrent.Phone != profile.Phone)
                     {
-                        respList.Add(user.Id);
-                        return Request.CreateResponse(HttpStatusCode.BadRequest,
-                            RespH.Create(RespH.SRV_PROFILE_ERR_UPDATE_PHONE, respList));
+                        var hasCards = _context.Cards.Any(x => x.UserId == user.Id);
+                        if (hasCards)
+                        {
+                            respList.Add(user.Id);
+                            return Request.CreateResponse(HttpStatusCode.BadRequest,
+                                RespH.Create(RespH.SRV_PROFILE_ERR_UPDATE_PHONE, respList));
+                        }
+                        user.PhoneStatus = ConstVals.PUnconf;
+                        _context.MarkAsModified(user);
                     }
+            }
+                else
+                {
                     user.PhoneStatus = ConstVals.PUnconf;
                     _context.MarkAsModified(user);
                 }
-                // Check FirstName is not NULL
-                //resp = CheckHelper.IsNull(profile.FirstName, "FirstName", RespH.SRV_USER_REQUIRED);
-                //if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+            // Check FirstName is not NULL
+                resp = CheckHelper.IsNull(profile.FirstName, "FirstName", RespH.SRV_USER_REQUIRED);
+                if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
                 // Check LastName is not NULL
                 //resp = CheckHelper.IsNull(profile.LastName, "LastName", RespH.SRV_USER_REQUIRED);
@@ -245,7 +254,7 @@ namespace apartmenthostService.Controllers
                 profileCurrent.LastName = profile.LastName;
                 profileCurrent.Gender = profile.Gender;
                 profileCurrent.Birthday = profile.Birthday;
-                profileCurrent.Phone = CheckHelper.CleanPhone(profile.Phone);
+                profileCurrent.Phone = profile.Phone;
                 profileCurrent.Description = profile.Description;
 
                 _context.MarkAsModified(profileCurrent);

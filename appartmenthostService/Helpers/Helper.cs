@@ -100,16 +100,17 @@ namespace apartmenthostService.Helpers
             return null;
         }
 
-        public static ResponseDTO IsProfileFill(IApartmenthostContext context, string userId)
+        public static ResponseDTO IsProfileFill(IApartmenthostContext context, string userId, bool checkPhone = false)
         {
             var user = context.Users.SingleOrDefault(x => x.Id == userId);
             var profile = context.Profile.SingleOrDefault(x => x.Id == userId);
             if (user == null || profile == null) return RespH.Create(RespH.SRV_USER_NOTFOUND);
             if (user.Blocked) return RespH.Create(RespH.SRV_USER_BLOCKED);
             if (!user.EmailConfirmed) return RespH.Create(RespH.SRV_USER_NOT_CONFIRMED);
-            if (user.PhoneStatus != ConstVals.PConf) return RespH.Create(RespH.SRV_CARD_PHONE_UNCONF);
             if (string.IsNullOrWhiteSpace(profile.FirstName))
                 return RespH.Create(RespH.SRV_USER_NO_NAME);
+            if (checkPhone)
+            if (user.PhoneStatus != ConstVals.PConf) return RespH.Create(RespH.SRV_CARD_PHONE_UNCONF);
             return null;
         }
 
