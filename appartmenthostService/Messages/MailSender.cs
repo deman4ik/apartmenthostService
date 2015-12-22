@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Common.CommandTrees;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -64,11 +65,11 @@ namespace apartmenthostService.Messages
 
                 // Глобальный HTML шаблон письма
                 StringBuilder htmlTemplate = new StringBuilder();
-                var templArt = context.Article.SingleOrDefault(x => x.Name == ConstVals.EmailTemplate);
+                var templArt = context.Article.SingleOrDefault(x => x.Name == ConstVals.EmailTemplate && x.Type == ConstVals.Email);
                 htmlTemplate.Append(templArt.Text);
 
                 // Приветстиве пользователя
-                var greetArt = context.Article.SingleOrDefault(x => x.Name == ConstVals.Greet);
+                var greetArt = context.Article.SingleOrDefault(x => x.Name == ConstVals.Greet && x.Type == ConstVals.Email);
                 var greetTv = new Dictionary<string, string>
                 {
                     {"username", basemessage.ToUserName}
@@ -85,7 +86,7 @@ namespace apartmenthostService.Messages
                 // Считывание шаблона
                 if (!string.IsNullOrEmpty(basemessage.Code))
                 {
-                    var article = context.Article.SingleOrDefault(x => x.Name == basemessage.Code);
+                    var article = context.Article.SingleOrDefault(x => x.Name == basemessage.Code && x.Type == ConstVals.Email);
                     if (article != null)
                     {
                         message.Subject = article.Title;

@@ -43,6 +43,8 @@ namespace apartmenthostService.Helpers
         public const string Reg = "REG";
         public const string Restore = "RESTORE";
         public const string EmailTemplate = "EMAIL_TEMPLATE";
+        public const string Email = "EMAIL";
+        public const string Sms = "SMS";
         public const string Feedback = "FEEDBACK";
         public const string Abuse = "ABUSE";
         public const string PUnconf = "UNCONF";
@@ -104,7 +106,7 @@ namespace apartmenthostService.Helpers
         public const string SRV_APARTMENT_NOTFOUND = "SRV_APARTMENT_NOTFOUND"; // Объект не найден
         public const string SRV_APARTMENT_REQUIRED = "SRV_APARTMENT_REQUIRED"; // Не заполнено обязательно поле
         public const string SRV_APARTMENT_EXISTS = "SRV_APARTMENT_EXISTS"; // Объект уже существует
-
+        public const string SRV_APARTMENT_WRONG_GEO = "SRV_APARTMENT_WRONG_GEO"; //Не заданы координаты
         public const string SRV_APARTMENT_DEPENDENCY = "SRV_APARTMENT_DEPENDENCY";
         // Объект не может быть изменен/удален т.к. зависит от другого объекта.  
 

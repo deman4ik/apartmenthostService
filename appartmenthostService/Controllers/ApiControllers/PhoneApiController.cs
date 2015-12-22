@@ -78,10 +78,17 @@ namespace apartmenthostService.Controllers
                 _context.MarkAsModified(user);
                 _context.SaveChanges();
 
-
+                var regArt = _context.Article.SingleOrDefault(x => x.Name == ConstVals.Reg && x.Type == ConstVals.Sms);
+                string smstext;
+                if (regArt != null)
+                {   smstext = confirmCode + " " + regArt.Text;}
+                else
+                {
+                    smstext = confirmCode;
+                }
                 using (SmsSender sender = new SmsSender())
                 {
-                    sender.Send(profile.Phone, confirmCode);
+                    sender.Send(profile.Phone, smstext);
                 }
                 return Request.CreateResponse(HttpStatusCode.OK,
                     RespH.Create(RespH.SRV_DONE, new List<string> {user.PhoneStatus}));

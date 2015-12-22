@@ -624,6 +624,9 @@ namespace apartmenthostService.Controllers
                     RespH.SRV_APARTMENT_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
+                if (card.Apartment.Latitude == null || card.Apartment.Longitude == null)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.SRV_APARTMENT_WRONG_GEO);
 
                 // Check Apartment Type is not NULL
                 resp = CheckHelper.IsNull(card.Apartment.Type, "Type", RespH.SRV_APARTMENT_REQUIRED);
