@@ -7,6 +7,7 @@ using System.Web.Http;
 using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
+using apartmenthostService.Messages;
 using apartmenthostService.Models;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
@@ -266,10 +267,99 @@ namespace apartmenthostService.Controllers
             catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.InnerException.ToString()}));
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
             }
         }
 
+        [Route("api/Profile/Email")]
+        [AuthorizeLevel(AuthorizationLevel.User)]
+        [HttpPost]
+        public HttpResponseMessage SetEmail(UserDTO userdata)
+        {
+            try
+            {
+                var respList = new List<string>();
+
+                if (string.IsNullOrWhiteSpace(userdata.Email))
+                {
+                    respList.Add("Email");
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_USER_REQUIRED, respList));
+                }
+
+                if (!AuthUtils.IsEmailValid(userdata.Email))
+                {
+                    respList.Add(userdata.Email);
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_REG_INVALID_EMAIL, respList));
+                }
+                var usersame = _context.Users.AsNoTracking().SingleOrDefault(a => a.Email == userdata.Email);
+                if (usersame != null)
+                {
+                    respList.Add(userdata.Email);
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_REG_EXISTS_EMAIL, respList));
+                }
+                // Check Current User
+                var currentUser = User as ServiceUser;
+                if (currentUser == null)
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
+                var account = AuthUtils.GetUserAccount(_context, currentUser);
+                if (account == null)
+                {
+                    respList.Add(currentUser.Id);
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                        RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
+                }
+                var user = _context.Users.SingleOrDefault(x => x.Id == account.UserId);
+                var profile = _context.Profile.SingleOrDefault(x => x.Id == account.UserId);
+                if (user == null || profile == null)
+                {
+                    respList.Add(account.UserId);
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                        RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
+                }
+
+                if (!string.IsNullOrWhiteSpace(user.Email))
+                {
+                    respList.Add(user.Email);
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                        RespH.Create(RespH.SRV_USER_EXISTS, respList));
+                }
+
+                var salt = AuthUtils.GenerateSalt();
+                var confirmCode = AuthUtils.RandomNumString(6);
+                user.Email = userdata.Email;
+                user.Salt = salt;
+                user.SaltedAndHashedEmail = AuthUtils.Hash(confirmCode, salt);
+                _context.MarkAsModified(user);
+                _context.SaveChanges();
+                using (MailSender mailSender = new MailSender())
+                {
+                    var bem = new BaseEmailMessage
+                    {
+                        Code = ConstVals.Reg,
+                        ToUserId = user.Id,
+                        ToUserEmail = user.Email,
+                        ToUserName = profile.FirstName,
+                        ConfirmCode = confirmCode
+                    };
+                    mailSender.Create(_context, bem);
+                }
+
+              
+                
+
+                respList.Add(user.Id);
+                return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED, respList));
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                   RespH.Create(RespH.SRV_EXCEPTION, new List<string> { ex.ToString() }));
+            }
+            
+        }
         //PUT api/UpdateRating/
         [Route("api/UpdateRating")]
         [HttpPost]

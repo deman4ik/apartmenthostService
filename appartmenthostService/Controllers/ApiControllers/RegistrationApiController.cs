@@ -66,7 +66,7 @@ namespace apartmenthostService.Controllers
                     Email = registrationRequest.Email,
                     Salt = salt,
                     SaltedAndHashedPassword = AuthUtils.Hash(registrationRequest.Password, salt),
-                    SaltedAndHashedEmail = AuthUtils.Hash(confirmCode, salt)
+                    SaltedAndHashedEmail= AuthUtils.Hash(confirmCode, salt)
                 };
                 _context.Users.Add(newUser);
                 _context.SaveChanges();
