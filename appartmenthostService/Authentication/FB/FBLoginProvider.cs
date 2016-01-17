@@ -63,7 +63,6 @@ namespace apartmenthostService.Authentication
                 if (userId == null) return null;
                 var emailClaim = claimsIdentity.FindFirst(ClaimTypes.Email);
                 var nameClaim = claimsIdentity.FindFirst(ClaimTypes.Name);
-
                 var credentials = new FBCredentials
                 {
                     UserId = userId,

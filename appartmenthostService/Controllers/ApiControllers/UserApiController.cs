@@ -96,6 +96,7 @@ namespace apartmenthostService.Controllers
             var user = _context.Users.SingleOrDefault(x => x.Email == email);
             if (user != null)
             {
+
                 var profile = _context.Profile.SingleOrDefault(x => x.Id == user.Id);
                 var accounts = _context.Accounts.Where(x => x.UserId == user.Id);
 

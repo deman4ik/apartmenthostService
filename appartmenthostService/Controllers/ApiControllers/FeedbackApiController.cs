@@ -49,7 +49,6 @@ namespace apartmenthostService.Controllers
                     respList.Add("Text");
                 }
 
-                //TODO: Проверка Типа, Пользователя на которого пожаловались, отправка сообщения для жалобы.
                 if (feedback.Type == null)
                 {
                     respList.Add("Type");
@@ -133,7 +132,15 @@ namespace apartmenthostService.Controllers
 
                 using (MailSender mailSender = new MailSender())
                 {
-                    bem.ToUserEmail = Environment.GetEnvironmentVariable("FEEDBACK_EMAIL");
+                    if (feedback.Type == ConstVals.Abuse)
+                    {
+                        bem.ToUserEmail = Environment.GetEnvironmentVariable("ABUSE_EMAIL");
+                    }
+                    else
+                    {
+                        bem.ToUserEmail = Environment.GetEnvironmentVariable("FEEDBACK_EMAIL");
+                    }
+                   
                     bem.ToUserName = "Команда Petforaweek";
                     bem.FromUserEmail = feedback.Email;
                     bem.FromUserName = feedback.UserName;

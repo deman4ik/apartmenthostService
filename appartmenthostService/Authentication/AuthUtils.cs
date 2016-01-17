@@ -141,7 +141,6 @@ namespace apartmenthostService.Authentication
                             profile.LastName = names[1];
                         }
                     }
-
                     context.Profile.Add(profile);
                 }
                 context.SaveChanges();

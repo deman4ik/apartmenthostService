@@ -1,7 +1,9 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Web.Http;
 using apartmenthostService.Authentication;
 using apartmenthostService.Helpers;
+using apartmenthostService.Migrations;
 using apartmenthostService.Models;
 using AutoMapper;
 using Microsoft.WindowsAzure.Mobile.Service;
@@ -34,8 +36,8 @@ namespace apartmenthostService
             Mapper.Initialize(cfg => { DTOMapper.CreateMapping(cfg); });
 
             //var migrator = new DbMigrator(new Configuration());
-            //migrator.Update();
-           // Database.SetInitializer(new appartmenthostInitializer());
+           // migrator.Update();
+          //  Database.SetInitializer(new appartmenthostInitializer());
         }
     }
 
@@ -43,18 +45,18 @@ namespace apartmenthostService
 
     //{
     //    protected override void Seed(ApartmenthostContext context)
-    //{
-
-    //    base.Seed(context);
-    //    context.Article.Add(new Article
     //    {
-    //        Id = SequentialGuid.NewGuid().ToString()
+
+    //        base.Seed(context);
+    //        context.Article.Add(new Article
+    //        {
+    //            Id = SequentialGuid.NewGuid().ToString()
 
 
+    //        }
+    //            );
+
+    //        context.SaveChanges();
     //    }
-    //        );
-
-    //    context.SaveChanges();
     //}
-//}
 }

@@ -23,7 +23,7 @@ namespace apartmenthostService.Models
         public ApartmenthostContext()
             : base(connectionStringName)
         {
-            Database.SetInitializer<ApartmenthostContext>(null);
+           // Database.SetInitializer<ApartmenthostContext>(null);
         }
 
         public DbSet<Apartment> Apartments { get; set; }
