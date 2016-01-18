@@ -142,6 +142,7 @@ namespace apartmenthostService.Messages
                                                    basemessage.ConfirmCode);
                         break;
                     case ConstVals.Feedback:
+                    case   ConstVals.Abuse:
                         bodyTokenValues.Add("username", basemessage.FromUserName);
                         bodyTokenValues.Add("text", basemessage.Text);
                         if (!string.IsNullOrWhiteSpace(basemessage.FromUserEmail) && basemessage.AnswerByEmail)
