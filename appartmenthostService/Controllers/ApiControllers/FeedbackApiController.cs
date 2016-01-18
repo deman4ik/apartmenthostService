@@ -138,7 +138,7 @@ namespace apartmenthostService.Controllers
                     bem.FromUserEmail = feedback.Email;
                     bem.FromUserName = feedback.UserName;
                     bem.Text = feedback.Text;
-                    bem.AnswerByEmail = feedback.AnswerByEmail;
+                    bem.AnswerByEmail = feedback.Type == ConstVals.Abuse || feedback.AnswerByEmail;
 
                     mailSender.Create(_context, bem);
                 }
