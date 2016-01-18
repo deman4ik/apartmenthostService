@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using apartmenthostService.Helpers;
 using apartmenthostService.Models;
 using Alpinely.TownCrier;
+using Exceptions;
 using SendGrid;
 
 namespace apartmenthostService.Messages
@@ -65,11 +66,13 @@ namespace apartmenthostService.Messages
 
                 // Глобальный HTML шаблон письма
                 StringBuilder htmlTemplate = new StringBuilder();
-                var templArt = context.Article.SingleOrDefault(x => x.Name == ConstVals.EmailTemplate && x.Type == ConstVals.Email);
+                var templArt =
+                    context.Article.SingleOrDefault(x => x.Name == ConstVals.EmailTemplate && x.Type == ConstVals.Email);
                 htmlTemplate.Append(templArt.Text);
 
                 // Приветстиве пользователя
-                var greetArt = context.Article.SingleOrDefault(x => x.Name == ConstVals.Greet && x.Type == ConstVals.Email);
+                var greetArt =
+                    context.Article.SingleOrDefault(x => x.Name == ConstVals.Greet && x.Type == ConstVals.Email);
                 var greetTv = new Dictionary<string, string>
                 {
                     {"username", basemessage.ToUserName}
@@ -86,7 +89,8 @@ namespace apartmenthostService.Messages
                 // Считывание шаблона
                 if (!string.IsNullOrEmpty(basemessage.Code))
                 {
-                    var article = context.Article.SingleOrDefault(x => x.Name == basemessage.Code && x.Type == ConstVals.Email);
+                    var article =
+                        context.Article.SingleOrDefault(x => x.Name == basemessage.Code && x.Type == ConstVals.Email);
                     if (article != null)
                     {
                         message.Subject = article.Title;
@@ -142,7 +146,7 @@ namespace apartmenthostService.Messages
                                                    basemessage.ConfirmCode);
                         break;
                     case ConstVals.Feedback:
-                    case   ConstVals.Abuse:
+                    case ConstVals.Abuse:
                         bodyTokenValues.Add("username", basemessage.FromUserName);
                         bodyTokenValues.Add("text", basemessage.Text);
                         if (!string.IsNullOrWhiteSpace(basemessage.FromUserEmail) && basemessage.AnswerByEmail)
@@ -177,6 +181,15 @@ namespace apartmenthostService.Messages
                 message.EnableClickTracking(true);
 
                 await Send(message);
+            }
+            catch (InvalidApiRequestException e)
+            {
+                Debug.WriteLine("!!!!!Invalid Api Request Exception!!!!!!");
+                foreach (var err in e.Errors)
+                {
+                    Debug.WriteLine(err);
+                }
+                
             }
             catch (Exception e)
             {

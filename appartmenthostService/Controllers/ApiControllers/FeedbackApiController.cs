@@ -132,15 +132,8 @@ namespace apartmenthostService.Controllers
 
                 using (MailSender mailSender = new MailSender())
                 {
-                    if (feedback.Type == ConstVals.Abuse)
-                    {
-                        bem.ToUserEmail = Environment.GetEnvironmentVariable("ABUSE_EMAIL");
-                    }
-                    else
-                    {
-                        bem.ToUserEmail = Environment.GetEnvironmentVariable("FEEDBACK_EMAIL");
-                    }
-                   
+                    bem.ToUserEmail = Environment.GetEnvironmentVariable(feedback.Type == ConstVals.Abuse ? "ABUSE_EMAIL" : "FEEDBACK_EMAIL");
+
                     bem.ToUserName = "Команда Petforaweek";
                     bem.FromUserEmail = feedback.Email;
                     bem.FromUserName = feedback.UserName;
