@@ -217,6 +217,15 @@ namespace apartmenthostService.Controllers
                 if (!string.IsNullOrWhiteSpace(profile.Phone))
                 {
                     profile.Phone = CheckHelper.CleanPhone(profile.Phone);
+                    if (profile.Phone[0] == '7')
+                    {
+                        if (profile.Phone.Length != 11)
+                        {
+                            respList.Add(profile.Phone);
+                            return Request.CreateResponse(HttpStatusCode.BadRequest,
+                                RespH.Create(RespH.SRV_PROFILE_WRONG_PHONE, respList));
+                        }
+                    }
                     if (profileCurrent.Phone != profile.Phone)
                     {
                         var hasCards = _context.Cards.Any(x => x.UserId == user.Id);
