@@ -81,7 +81,9 @@ namespace apartmenthostService.Controllers
                 var regArt = _context.Article.SingleOrDefault(x => x.Name == ConstVals.Reg && x.Type == ConstVals.Sms);
                 string smstext;
                 if (regArt != null)
-                {   smstext = confirmCode + " " + regArt.Text;}
+                {
+                    smstext = confirmCode + " " + regArt.Text;
+                }
                 else
                 {
                     smstext = confirmCode;

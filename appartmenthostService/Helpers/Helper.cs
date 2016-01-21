@@ -110,7 +110,7 @@ namespace apartmenthostService.Helpers
             if (string.IsNullOrWhiteSpace(profile.FirstName))
                 return RespH.Create(RespH.SRV_USER_NO_NAME);
             if (checkPhone)
-            if (user.PhoneStatus != ConstVals.PConf) return RespH.Create(RespH.SRV_CARD_PHONE_UNCONF);
+                if (user.PhoneStatus != ConstVals.PConf) return RespH.Create(RespH.SRV_CARD_PHONE_UNCONF);
             return null;
         }
 

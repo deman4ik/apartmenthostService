@@ -5,11 +5,6 @@ namespace apartmenthostService.Migrations
 {
     internal sealed class Configuration : DbMigrationsConfiguration<ApartmenthostContext>
     {
-        public Configuration()
-        {
-          //  AutomaticMigrationsEnabled = true;
-        }
-
         protected override void Seed(ApartmenthostContext context)
         {
             //  This method will be called after migrating to the latest version.

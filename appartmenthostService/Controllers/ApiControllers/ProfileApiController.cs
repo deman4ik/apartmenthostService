@@ -229,13 +229,13 @@ namespace apartmenthostService.Controllers
                         user.PhoneStatus = ConstVals.PUnconf;
                         _context.MarkAsModified(user);
                     }
-            }
+                }
                 else
                 {
                     user.PhoneStatus = ConstVals.PUnconf;
                     _context.MarkAsModified(user);
                 }
-            // Check FirstName is not NULL
+                // Check FirstName is not NULL
                 resp = CheckHelper.IsNull(profile.FirstName, "FirstName", RespH.SRV_USER_REQUIRED);
                 if (resp != null) return Request.CreateResponse(HttpStatusCode.BadRequest, resp);
 
@@ -347,8 +347,6 @@ namespace apartmenthostService.Controllers
                     mailSender.Create(_context, bem);
                 }
 
-              
-                
 
                 respList.Add(user.Id);
                 return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_UPDATED, respList));
@@ -356,10 +354,10 @@ namespace apartmenthostService.Controllers
             catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
-                   RespH.Create(RespH.SRV_EXCEPTION, new List<string> { ex.ToString() }));
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
             }
-            
         }
+
         //PUT api/UpdateRating/
         [Route("api/UpdateRating")]
         [HttpPost]

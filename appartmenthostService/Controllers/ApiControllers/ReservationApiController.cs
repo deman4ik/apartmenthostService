@@ -12,7 +12,6 @@ using apartmenthostService.Helpers;
 using apartmenthostService.Messages;
 using apartmenthostService.Models;
 using Itenso.TimePeriod;
-using Microsoft.ServiceBus;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security;
 
@@ -69,7 +68,7 @@ namespace apartmenthostService.Controllers
                                 DateFrom = r.DateFrom,
                                 DateTo = r.DateTo,
                                 CreatedAt = r.CreatedAt,
-                                UpdatedAt = r.UpdatedAt,
+                                UpdatedAt = r.UpdatedAt
                             }).ToList();
                 }
                 if (type == ConstVals.Renter || string.IsNullOrWhiteSpace(type))
@@ -97,9 +96,9 @@ namespace apartmenthostService.Controllers
                 //    return Request.CreateResponse(HttpStatusCode.OK, new List<ReservationDTO>());
                 //}
                 var result = new List<ReservationDTO>(resCount);
-                    var reservations = new List<ReservationDTO>(resCount);
-                    reservations.AddRange(ownerReserv);
-                    reservations.AddRange(renterReserv);
+                var reservations = new List<ReservationDTO>(resCount);
+                reservations.AddRange(ownerReserv);
+                reservations.AddRange(renterReserv);
 
 
                 if (!reservations.Any()) return Request.CreateResponse(HttpStatusCode.OK, result);
@@ -194,7 +193,6 @@ namespace apartmenthostService.Controllers
 
 
                 return Request.CreateResponse(HttpStatusCode.OK, result);
-            
             }
             catch (Exception ex)
             {

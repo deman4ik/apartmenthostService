@@ -6,7 +6,6 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http;
-using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
 using apartmenthostService.Messages;
@@ -54,31 +53,28 @@ namespace apartmenthostService.Controllers
                     respList.Add("Type");
                 }
 
-                if (feedback.UserName == null)
-                {
-                    // Check Current User
-                    var currentUser = User as ServiceUser;
-                    if (currentUser == null)
-                        return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
-                    var account = AuthUtils.GetUserAccount(_context, currentUser);
-                    if (account == null)
-                    {
-                        respList.Add(currentUser.Id);
-                        return Request.CreateResponse(HttpStatusCode.Unauthorized,
-                            RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
-                    }
 
-                    var user = _context.Users.AsNoTracking().SingleOrDefault(x => x.Id == account.UserId);
-                    var profile = _context.Profile.AsNoTracking().SingleOrDefault(x => x.Id == account.UserId);
+                if (feedback.UserId != null)
+                {
+                    var user = _context.Users.AsNoTracking().SingleOrDefault(x => x.Id == feedback.UserId);
+                    var profile = _context.Profile.AsNoTracking().SingleOrDefault(x => x.Id == feedback.UserId);
                     if (user == null || profile == null)
                     {
+                        respList.Add(feedback.UserId);
                         return Request.CreateResponse(HttpStatusCode.Unauthorized,
                             RespH.Create(RespH.SRV_USER_NOTFOUND, respList));
                     }
-                    feedback.UserId = account.UserId;
                     feedback.UserName = profile.FirstName + " " + profile.LastName;
                     feedback.Email = user.Email;
                 }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(feedback.UserName))
+                    {
+                        respList.Add("Username");
+                    }
+                }
+
 
                 if (feedback.AnswerByEmail && feedback.Email == null)
                 {
@@ -132,14 +128,16 @@ namespace apartmenthostService.Controllers
 
                 using (MailSender mailSender = new MailSender())
                 {
-                    bem.ToUserEmail = Environment.GetEnvironmentVariable(feedback.Type == ConstVals.Abuse ? "ABUSE_EMAIL" : "FEEDBACK_EMAIL");
+                    bem.ToUserEmail =
+                        Environment.GetEnvironmentVariable(feedback.Type == ConstVals.Abuse
+                            ? "ABUSE_EMAIL"
+                            : "FEEDBACK_EMAIL");
 
                     bem.ToUserName = "Команда Petforaweek";
                     bem.FromUserEmail = feedback.Email;
                     bem.FromUserName = feedback.UserName;
                     bem.Text = feedback.Text;
                     bem.AnswerByEmail = feedback.Type == ConstVals.Abuse || feedback.AnswerByEmail;
-
                     mailSender.Create(_context, bem);
                 }
                 respList.Add(feedbackGuid);

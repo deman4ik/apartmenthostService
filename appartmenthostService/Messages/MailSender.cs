@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Common.CommandTrees;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -149,6 +148,7 @@ namespace apartmenthostService.Messages
                     case ConstVals.Abuse:
                         bodyTokenValues.Add("username", basemessage.FromUserName);
                         bodyTokenValues.Add("text", basemessage.Text);
+
                         if (!string.IsNullOrWhiteSpace(basemessage.FromUserEmail) && basemessage.AnswerByEmail)
                         {
                             bodyTokenValues.Add("email", basemessage.FromUserEmail);
@@ -189,7 +189,6 @@ namespace apartmenthostService.Messages
                 {
                     Debug.WriteLine(err);
                 }
-                
             }
             catch (Exception e)
             {
