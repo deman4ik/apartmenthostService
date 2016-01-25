@@ -5,6 +5,7 @@ using AutoMapper;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Security.Providers;
 using Newtonsoft.Json;
+using WebApiThrottle;
 
 namespace apartmenthostService
 {
@@ -29,6 +30,14 @@ namespace apartmenthostService
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize;
             config.Formatters.JsonFormatter.SerializerSettings.PreserveReferencesHandling =
                 PreserveReferencesHandling.Objects;
+            config.MessageHandlers.Add(new ThrottlingHandler()
+            {
+                Policy = new ThrottlePolicy(perSecond: 5)
+                {
+                    IpThrottling = true
+                },
+                Repository = new CacheRepository()
+            });
             Mapper.Initialize(cfg => { DTOMapper.CreateMapping(cfg); });
 
             //var migrator = new DbMigrator(new Configuration());

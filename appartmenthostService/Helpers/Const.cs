@@ -168,6 +168,7 @@ namespace apartmenthostService.Helpers
         public const string SRV_NOTIFICATION_WRONG_USER = "SRV_NOTIFICATION_WRONG_USER";
         // Объект не может быть изменен/удален другим пользователем
 
+        public const string SRV_NOTIF_RESERV_NEW = "SRV_NOTIF_RESERV_NEW"; // Новое бронирование
         public const string SRV_NOTIF_RESERV_PENDING = "SRV_NOTIF_RESERV_PENDING"; // Новое бронирование
         public const string SRV_NOTIF_RESERV_ACCEPTED = "SRV_NOTIF_RESERV_ACCEPTED"; // Бронирование одобрено
         public const string SRV_NOTIF_RESERV_DECLINED = "SRV_NOTIF_RESERV_DECLINED"; // Бронирование отклонено

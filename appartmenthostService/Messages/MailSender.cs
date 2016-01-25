@@ -96,28 +96,43 @@ namespace apartmenthostService.Messages
                         bodyTemplate.Append(article.Text);
                     }
                 }
-
+                var dateformat = "dd.mm.yyyy";
                 switch (basemessage.Code)
                 {
                     case RespH.SRV_NOTIF_CARD_FAVORITED:
                         bodyTokenValues.Add("username", basemessage.FromUserName);
                         bodyTokenValues.Add("url", webDomain + "#/posts/" + basemessage.CardId);
                         break;
-                    case RespH.SRV_NOTIF_RESERV_PENDING:
+                    case RespH.SRV_NOTIF_RESERV_NEW:
+                        bodyTokenValues.Add("username", basemessage.FromUserName);
                         bodyTokenValues.Add("cardname", basemessage.CardName);
-                        bodyTokenValues.Add("datefrom", basemessage.DateFrom.ToString());
-                        bodyTokenValues.Add("dateto", basemessage.DateTo.ToString());
+                        bodyTokenValues.Add("carddesc", basemessage.CardDescription);
+                        bodyTokenValues.Add("datefrom", basemessage.DateFrom.ToString(dateformat) );
+                        bodyTokenValues.Add("dateto", basemessage.DateTo.ToString(dateformat));
+                        bodyTokenValues.Add("url", webDomain + "#/posts/" + basemessage.CardId);
+                        break;
+                    case RespH.SRV_NOTIF_RESERV_PENDING:
+                        bodyTokenValues.Add("ownername", basemessage.FromUserName);
+                        bodyTokenValues.Add("cardname", basemessage.CardName);
+                        bodyTokenValues.Add("datefrom", basemessage.DateFrom.ToString(dateformat));
+                        bodyTokenValues.Add("dateto", basemessage.DateTo.ToString(dateformat));
+                        bodyTokenValues.Add("url", webDomain + "#/posts/" + basemessage.CardId);
                         break;
                     case RespH.SRV_NOTIF_RESERV_ACCEPTED:
                         bodyTokenValues.Add("ownername", basemessage.FromUserName);
                         bodyTokenValues.Add("cardname", basemessage.CardName);
-                        bodyTokenValues.Add("datefrom", basemessage.DateFrom.ToString());
-                        bodyTokenValues.Add("dateto", basemessage.DateTo.ToString());
+                        bodyTokenValues.Add("carddesc", basemessage.CardDescription);
+                        bodyTokenValues.Add("datefrom", basemessage.DateFrom.ToString(dateformat));
+                        bodyTokenValues.Add("dateto", basemessage.DateTo.ToString(dateformat));
+                        bodyTokenValues.Add("url", webDomain + "#/posts/" + basemessage.CardId);
                         break;
                     case RespH.SRV_NOTIF_RESERV_DECLINED:
+                        bodyTokenValues.Add("ownername", basemessage.FromUserName);
                         bodyTokenValues.Add("cardname", basemessage.CardName);
-                        bodyTokenValues.Add("datefrom", basemessage.DateFrom.ToString());
-                        bodyTokenValues.Add("dateto", basemessage.DateTo.ToString());
+                        bodyTokenValues.Add("carddesc", basemessage.CardDescription);
+                        bodyTokenValues.Add("datefrom", basemessage.DateFrom.ToString(dateformat));
+                        bodyTokenValues.Add("dateto", basemessage.DateTo.ToString(dateformat));
+                        bodyTokenValues.Add("url", webDomain + "#/posts/" + basemessage.CardId);
                         break;
                     case RespH.SRV_NOTIF_REVIEW_ADDED:
                         bodyTokenValues.Add("username", basemessage.FromUserName);
@@ -131,8 +146,9 @@ namespace apartmenthostService.Messages
                         break;
                     case RespH.SRV_NOTIF_REVIEW_AVAILABLE:
                         bodyTokenValues.Add("cardname", basemessage.CardName);
-                        bodyTokenValues.Add("datefrom", basemessage.DateFrom.ToString());
-                        bodyTokenValues.Add("dateto", basemessage.DateTo.ToString());
+                        bodyTokenValues.Add("carddesc", basemessage.CardDescription);
+                        bodyTokenValues.Add("datefrom", basemessage.DateFrom.ToString(dateformat));
+                        bodyTokenValues.Add("dateto", basemessage.DateTo.ToString(dateformat));
                         break;
                     case ConstVals.Reg:
                         bodyTokenValues.Add("code", basemessage.ConfirmCode);

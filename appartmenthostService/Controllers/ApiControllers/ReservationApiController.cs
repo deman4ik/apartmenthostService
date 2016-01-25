@@ -332,7 +332,28 @@ namespace apartmenthostService.Controllers
                         DateFrom = dateFrom,
                         DateTo = dateTo,
                         ToUserName = profile.FirstName,
-                        ToUserEmail = profile.ContactEmail ?? user.Email
+                        ToUserEmail = profile.ContactEmail ?? user.Email,
+                        CardId = card.Id
+                    };
+                    mailSender.Create(_context, bem);
+                }
+
+                var cardUser = _context.Users.AsNoTracking().SingleOrDefault(x => x.Id == card.UserId);
+                var cardProfile = _context.Profile.AsNoTracking().SingleOrDefault(x => x.Id == card.UserId);
+                using (MailSender mailSender = new MailSender())
+                {
+                    var bem = new BaseEmailMessage
+                    {
+                        Code = RespH.SRV_NOTIF_RESERV_NEW,
+                        CardName = card.Name,
+                        CardDescription = card.Description,
+                        FromUserName = profile.FirstName,
+                        DateFrom = dateFrom,
+                        DateTo = dateTo,
+                        ToUserName = cardProfile.FirstName,
+                        ToUserEmail = cardProfile.ContactEmail ?? cardUser.Email,
+                        CardId = card.Id
+                        
                     };
                     mailSender.Create(_context, bem);
                 }
@@ -470,6 +491,8 @@ namespace apartmenthostService.Controllers
                     {
                         Code = notifCode,
                         CardName = card.Name,
+                        CardDescription = card.Description,
+                        CardId = card.Id,
                         DateFrom = currentReservation.DateFrom,
                         DateTo = currentReservation.DateTo,
                         FromUserName = fromProfile.FirstName,
