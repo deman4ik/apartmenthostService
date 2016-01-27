@@ -14,8 +14,6 @@ namespace apartmenthostService.Models
         public string Gender { get; set; }
         public DateTime? Birthday { get; set; }
         public string Phone { get; set; }
-        public string ContactEmail { get; set; }
-        public string ContactKind { get; set; }
         public string Description { get; set; }
         public string PictureId { get; set; }
         public decimal Rating { get; set; }

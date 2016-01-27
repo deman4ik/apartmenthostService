@@ -28,12 +28,6 @@ namespace apartmenthostService.DataObjects
         // Телефон
         public string Phone { get; set; }
 
-        // Контактный email
-        public string ContactEmail { get; set; }
-
-        // Предпочитаемый вид связи (Email/Телефон)
-        public string ContactKind { get; set; }
-
         // О себе
         public string Description { get; set; }
 

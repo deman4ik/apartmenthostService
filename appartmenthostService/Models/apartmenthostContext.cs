@@ -40,6 +40,7 @@ namespace apartmenthostService.Models
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<Article> Article { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<Admin> Admins { get; set; } 
 
         public void MarkAsModified(object item)
         {

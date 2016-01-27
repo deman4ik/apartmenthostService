@@ -209,15 +209,14 @@ namespace apartmenthostService.Controllers
                     }
 
                     // Пол проживающего
-                    // TODO: Deprecate
-                    if (cardRequest.ResidentGender != null)
-                    {
-                        var genPre = PredicateBuilder.False<Card>();
+                    //if (cardRequest.ResidentGender != null)
+                    //{
+                    //    var genPre = PredicateBuilder.False<Card>();
 
-                        genPre = cardRequest.ResidentGender.Aggregate(genPre,
-                            (current, gen) => current.Or(t => t.ResidentGender.Contains(gen)));
-                        pre = pre.And(genPre);
-                    }
+                    //    genPre = cardRequest.ResidentGender.Aggregate(genPre,
+                    //        (current, gen) => current.Or(t => t.ResidentGender.Contains(gen)));
+                    //    pre = pre.And(genPre);
+                    //}
 
                     // Пол постояльца
                     if (cardRequest.Genders != null)

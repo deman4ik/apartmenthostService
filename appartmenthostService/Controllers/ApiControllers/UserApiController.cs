@@ -50,8 +50,6 @@ namespace apartmenthostService.Controllers
                     Gender = x.Gender,
                     Birthday = x.Birthday,
                     Phone = x.Phone,
-                    ContactEmail = x.ContactEmail,
-                    ContactKind = x.ContactKind,
                     Description = x.Description,
                     Rating = x.Rating,
                     RatingCount = x.RatingCount,
@@ -86,11 +84,10 @@ namespace apartmenthostService.Controllers
         }
 
 
-        //TODO: Deprecate
-        // For TEST ONLY
-        // DELETE IN PRODUCTION!!!
+
         [Route("api/DelUser/{email}")]
-        [HttpGet]
+        [HttpPost]
+        [AuthorizeLevel(AuthorizationLevel.Admin)]
         public string DeleteUser(string email)
         {
             var user = _context.Users.SingleOrDefault(x => x.Email == email);

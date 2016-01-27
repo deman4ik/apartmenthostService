@@ -97,6 +97,52 @@ namespace apartmenthostService.Controllers
             }
         }
 
+        [Route("api/AdminReg")]
+        [AuthorizeLevel(AuthorizationLevel.Admin)]
+        [HttpPost]
+        public HttpResponseMessage AdminRegistration(RegistrationRequest registrationRequest)
+        {
+            try
+            {
+                var respList = new List<string>();
+                if (!AuthUtils.IsEmailValid(registrationRequest.Email))
+                {
+                    respList.Add(registrationRequest.Email);
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_REG_INVALID_EMAIL, respList));
+                }
+                
+
+
+                var admin = _context.Admins.AsNoTracking().SingleOrDefault(a => a.Email == registrationRequest.Email);
+                if (admin != null)
+                {
+                    respList.Add(registrationRequest.Email);
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        RespH.Create(RespH.SRV_REG_EXISTS_EMAIL, respList));
+                }
+                var salt = AuthUtils.GenerateSalt();
+                
+                var newUser = new Admin
+                {
+                    Id = SequentialGuid.NewGuid().ToString(),
+                    Email = registrationRequest.Email,
+                    Salt = salt,
+                    SaltedAndHashedPassword = AuthUtils.Hash(registrationRequest.Password, salt),
+                };
+                _context.Admins.Add(newUser);
+                _context.SaveChanges();
+
+                respList.Add(newUser.Id);
+                return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> { ex.ToString() }));
+            }
+        }
+
         [Route("api/EmailConfirm")]
         [AuthorizeLevel(AuthorizationLevel.Application)]
         [HttpPost]

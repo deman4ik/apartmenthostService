@@ -283,6 +283,10 @@
     <Compile Include="Messages\Notifications.cs" />
     <Compile Include="Helpers\SequentialGuid.cs" />
     <Compile Include="Messages\SmsSender.cs" />
+    <Compile Include="Migrations\201601271610300_admin.cs" />
+    <Compile Include="Migrations\201601271610300_admin.Designer.cs">
+      <DependentUpon>201601271610300_admin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\TestDBPopulator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attributes\QueryableExpandAttribute.cs" />
@@ -323,6 +327,7 @@
     <Compile Include="Helpers\Const.cs" />
     <Compile Include="Helpers\DTOMapper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Apartment.cs" />
     <Compile Include="Models\Article.cs" />
     <Compile Include="Models\CardDates.cs" />
@@ -365,6 +370,11 @@
   <ItemGroup>
     <None Include="Properties\PublishProfiles\mobile-apartmenthost.pubxml" />
     <None Include="Properties\PublishProfiles\mobile-petforaweek.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201601271610300_admin.resx">
+      <DependentUpon>201601271610300_admin.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

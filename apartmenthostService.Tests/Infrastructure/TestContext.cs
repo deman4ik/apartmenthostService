@@ -38,6 +38,8 @@ namespace apartmenthostService.Tests.Infrastructure
         public DbSet<Favorite> Favorites { get; }
         public DbSet<Article> Article { get; }
         public DbSet<Feedback> Feedbacks { get; }
+        public DbSet<Admin> Admins { get; }
+
         public int SaveChanges()
         {
             return 0;
