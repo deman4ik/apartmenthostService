@@ -112,7 +112,7 @@ namespace apartmenthostService.Controllers
                             Code = RespH.SRV_NOTIF_CARD_FAVORITED,
                             CardId = currentCard.Id,
                             FromUserName = profile.FirstName,
-                            FromUserEmail = profile.ContactEmail ?? user.Email,
+                            FromUserEmail = user.Email,
                             ToUserName = currentCard.User.Profile.FirstName,
                             ToUserEmail = currentCard.User.Email
                         };

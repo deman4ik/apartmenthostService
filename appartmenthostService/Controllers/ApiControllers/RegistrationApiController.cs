@@ -176,7 +176,7 @@ namespace apartmenthostService.Controllers
                         Code = ConstVals.Restore,
                         ToUserId = user.Id,
                         ToUserName = profile.FirstName,
-                        ToUserEmail = profile.ContactEmail ?? user.Email,
+                        ToUserEmail = user.Email,
                         ConfirmCode = confirmCode
                     };
                     mailSender.Create(_context, bem);

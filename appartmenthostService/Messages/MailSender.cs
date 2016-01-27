@@ -96,7 +96,7 @@ namespace apartmenthostService.Messages
                         bodyTemplate.Append(article.Text);
                     }
                 }
-                var dateformat = "dd.mm.yyyy";
+                var dateformat = "dd.MM.yyyy";
                 switch (basemessage.Code)
                 {
                     case RespH.SRV_NOTIF_CARD_FAVORITED:

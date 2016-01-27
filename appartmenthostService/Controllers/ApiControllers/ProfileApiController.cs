@@ -241,6 +241,13 @@ namespace apartmenthostService.Controllers
                 }
                 else
                 {
+                    var hasCards = _context.Cards.Any(x => x.UserId == user.Id);
+                    if (hasCards)
+                    {
+                        respList.Add(user.Id);
+                        return Request.CreateResponse(HttpStatusCode.BadRequest,
+                            RespH.Create(RespH.SRV_PROFILE_ERR_UPDATE_PHONE, respList));
+                    }
                     user.PhoneStatus = ConstVals.PUnconf;
                     _context.MarkAsModified(user);
                 }

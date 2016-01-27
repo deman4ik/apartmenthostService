@@ -332,7 +332,7 @@ namespace apartmenthostService.Controllers
                         DateFrom = dateFrom,
                         DateTo = dateTo,
                         ToUserName = profile.FirstName,
-                        ToUserEmail = profile.ContactEmail ?? user.Email,
+                        ToUserEmail =  user.Email,
                         CardId = card.Id
                     };
                     mailSender.Create(_context, bem);
@@ -351,7 +351,7 @@ namespace apartmenthostService.Controllers
                         DateFrom = dateFrom,
                         DateTo = dateTo,
                         ToUserName = cardProfile.FirstName,
-                        ToUserEmail = cardProfile.ContactEmail ?? cardUser.Email,
+                        ToUserEmail =  cardUser.Email,
                         CardId = card.Id
                         
                     };
@@ -496,9 +496,9 @@ namespace apartmenthostService.Controllers
                         DateFrom = currentReservation.DateFrom,
                         DateTo = currentReservation.DateTo,
                         FromUserName = fromProfile.FirstName,
-                        FromUserEmail = fromProfile.ContactEmail ?? fromUser.Email,
+                        FromUserEmail =  fromUser.Email,
                         ToUserName = toProfile.FirstName,
-                        ToUserEmail = toProfile.ContactEmail ?? toUser.Email
+                        ToUserEmail =  toUser.Email
                     };
                     mailSender.Create(_context, bem);
                 }
