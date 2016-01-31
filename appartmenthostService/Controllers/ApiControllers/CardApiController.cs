@@ -389,6 +389,7 @@ namespace apartmenthostService.Controllers
                                 Rating = x.Profile.Rating,
                                 RatingCount = x.Profile.RatingCount,
                                 Phone = x.Profile.Phone,
+                                Description = x.Profile.Description,
                                 Picture = new PictureDTO
                                 {
                                     Id = x.Profile.Picture.Id,
