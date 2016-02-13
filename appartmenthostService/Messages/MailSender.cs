@@ -106,14 +106,17 @@ namespace apartmenthostService.Messages
                     case RespH.SRV_NOTIF_RESERV_NEW:
                         bodyTokenValues.Add("username", basemessage.FromUserName);
                         bodyTokenValues.Add("cardname", basemessage.CardName);
+                        bodyTokenValues.Add("cardtype", basemessage.CardType);
                         bodyTokenValues.Add("carddesc", basemessage.CardDescription);
-                        bodyTokenValues.Add("datefrom", basemessage.DateFrom.ToString(dateformat) );
+                        bodyTokenValues.Add("datefrom", basemessage.DateFrom.ToString(dateformat));
                         bodyTokenValues.Add("dateto", basemessage.DateTo.ToString(dateformat));
                         bodyTokenValues.Add("url", webDomain + "#/posts/" + basemessage.CardId);
                         break;
                     case RespH.SRV_NOTIF_RESERV_PENDING:
                         bodyTokenValues.Add("ownername", basemessage.FromUserName);
                         bodyTokenValues.Add("cardname", basemessage.CardName);
+                        bodyTokenValues.Add("cardtype", basemessage.CardType);
+                        bodyTokenValues.Add("carddesc", basemessage.CardDescription);
                         bodyTokenValues.Add("datefrom", basemessage.DateFrom.ToString(dateformat));
                         bodyTokenValues.Add("dateto", basemessage.DateTo.ToString(dateformat));
                         bodyTokenValues.Add("url", webDomain + "#/posts/" + basemessage.CardId);
@@ -121,6 +124,7 @@ namespace apartmenthostService.Messages
                     case RespH.SRV_NOTIF_RESERV_ACCEPTED:
                         bodyTokenValues.Add("ownername", basemessage.FromUserName);
                         bodyTokenValues.Add("cardname", basemessage.CardName);
+                        bodyTokenValues.Add("cardtype", basemessage.CardType);
                         bodyTokenValues.Add("carddesc", basemessage.CardDescription);
                         bodyTokenValues.Add("datefrom", basemessage.DateFrom.ToString(dateformat));
                         bodyTokenValues.Add("dateto", basemessage.DateTo.ToString(dateformat));
@@ -129,6 +133,7 @@ namespace apartmenthostService.Messages
                     case RespH.SRV_NOTIF_RESERV_DECLINED:
                         bodyTokenValues.Add("ownername", basemessage.FromUserName);
                         bodyTokenValues.Add("cardname", basemessage.CardName);
+                        bodyTokenValues.Add("cardtype", basemessage.CardType);
                         bodyTokenValues.Add("carddesc", basemessage.CardDescription);
                         bodyTokenValues.Add("datefrom", basemessage.DateFrom.ToString(dateformat));
                         bodyTokenValues.Add("dateto", basemessage.DateTo.ToString(dateformat));

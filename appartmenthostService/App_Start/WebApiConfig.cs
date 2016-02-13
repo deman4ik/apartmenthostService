@@ -30,9 +30,9 @@ namespace apartmenthostService
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize;
             config.Formatters.JsonFormatter.SerializerSettings.PreserveReferencesHandling =
                 PreserveReferencesHandling.Objects;
-            config.MessageHandlers.Add(new ThrottlingHandler()
+            config.MessageHandlers.Add(new ThrottlingHandler
             {
-                Policy = new ThrottlePolicy(perSecond: 5)
+                Policy = new ThrottlePolicy(5)
                 {
                     IpThrottling = true
                 },

@@ -83,7 +83,15 @@ namespace apartmenthostService.Controllers
             }
         }
 
-
+        [Route("api/User/GetUserInfo")]
+        [AuthorizeLevel(AuthorizationLevel.User)]
+        [HttpGet]
+        public HttpResponseMessage GetUserInfo()
+        {
+            var currentUser = User as ServiceUser;
+            var creds = currentUser.GetIdentitiesAsync();
+            return Request.CreateResponse(HttpStatusCode.OK, creds);
+        }
 
         [Route("api/DelUser/{email}")]
         [HttpPost]

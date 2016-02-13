@@ -217,7 +217,7 @@ namespace apartmenthostService.Controllers
                 if (cardId == null)
                     return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_RESERVATION_NULL));
 
-                var card = _context.Cards.SingleOrDefault(a => a.Id == cardId);
+                var card = _context.Cards.Include("Apartment").SingleOrDefault(a => a.Id == cardId);
                 // Check CARD is not NULL 
                 if (card == null)
                     return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_NULL));
@@ -329,10 +329,12 @@ namespace apartmenthostService.Controllers
                     {
                         Code = RespH.SRV_NOTIF_RESERV_PENDING,
                         CardName = card.Name,
+                        CardType = DicHelper.GetCardTypeByLang(card.Apartment.Type),
+                        CardDescription = card.Description,
                         DateFrom = dateFrom,
                         DateTo = dateTo,
                         ToUserName = profile.FirstName,
-                        ToUserEmail =  user.Email,
+                        ToUserEmail = user.Email,
                         CardId = card.Id
                     };
                     mailSender.Create(_context, bem);
@@ -346,14 +348,14 @@ namespace apartmenthostService.Controllers
                     {
                         Code = RespH.SRV_NOTIF_RESERV_NEW,
                         CardName = card.Name,
+                        CardType = DicHelper.GetCardTypeByLang(card.Apartment.Type),
                         CardDescription = card.Description,
                         FromUserName = profile.FirstName,
                         DateFrom = dateFrom,
                         DateTo = dateTo,
                         ToUserName = cardProfile.FirstName,
-                        ToUserEmail =  cardUser.Email,
+                        ToUserEmail = cardUser.Email,
                         CardId = card.Id
-                        
                     };
                     mailSender.Create(_context, bem);
                 }
@@ -412,7 +414,10 @@ namespace apartmenthostService.Controllers
                         RespH.Create(RespH.SRV_RESERVATION_NOTFOUND, respList));
                 }
 
-                var card = _context.Cards.AsNoTracking().SingleOrDefault(a => a.Id == currentReservation.CardId);
+                var card =
+                    _context.Cards.Include("Apartment")
+                        .AsNoTracking()
+                        .SingleOrDefault(a => a.Id == currentReservation.CardId);
                 // Check CARD is not NULL 
                 if (card == null)
                     return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_CARD_NULL));
@@ -491,14 +496,15 @@ namespace apartmenthostService.Controllers
                     {
                         Code = notifCode,
                         CardName = card.Name,
+                        CardType = DicHelper.GetCardTypeByLang(card.Apartment.Type),
                         CardDescription = card.Description,
                         CardId = card.Id,
                         DateFrom = currentReservation.DateFrom,
                         DateTo = currentReservation.DateTo,
                         FromUserName = fromProfile.FirstName,
-                        FromUserEmail =  fromUser.Email,
+                        FromUserEmail = fromUser.Email,
                         ToUserName = toProfile.FirstName,
-                        ToUserEmail =  toUser.Email
+                        ToUserEmail = toUser.Email
                     };
                     mailSender.Create(_context, bem);
                 }

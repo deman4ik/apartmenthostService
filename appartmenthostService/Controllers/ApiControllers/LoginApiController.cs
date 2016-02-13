@@ -11,7 +11,7 @@ using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace apartmenthostService.Controllers
 {
-   // [AuthorizeLevel(AuthorizationLevel.Application)]
+    // [AuthorizeLevel(AuthorizationLevel.Application)]
     public class StandartLoginController : ApiController
     {
         private readonly IApartmenthostContext _context = new ApartmenthostContext();
@@ -53,25 +53,22 @@ namespace apartmenthostService.Controllers
         }
 
         [Route("api/AdminLogin")]
-        [AuthorizeLevel(AuthorizationLevel.Admin)]
+        //[AuthorizeLevel(AuthorizationLevel.Admin)]
+        [AuthorizeLevel(AuthorizationLevel.Anonymous)]
         public HttpResponseMessage LoginAdmin(LoginRequest loginRequest)
         {
             var admin = _context.Admins.AsNoTracking().SingleOrDefault(a => a.Email == loginRequest.email);
-            if (admin != null)
-            {
-                var incoming = AuthUtils.Hash(loginRequest.password, admin.Salt);
+            if (admin == null)
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_LOGIN_INVALID_EMAIL));
+            var incoming = AuthUtils.Hash(loginRequest.password, admin.Salt);
 
-                if (AuthUtils.SlowEquals(incoming, admin.SaltedAndHashedPassword))
-                {
-                    var claimsIdentity = new ClaimsIdentity();
-                    claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, loginRequest.email));
-                    var loginResult = new StandartLoginProvider(Handler).CreateLoginResult(claimsIdentity,
-                        Services.Settings.MasterKey);
-                    return Request.CreateResponse(HttpStatusCode.OK, loginResult);
-                }
+            if (!AuthUtils.SlowEquals(incoming, admin.SaltedAndHashedPassword))
                 return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_LOGIN_INVALID_PASS));
-            }
-            return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_LOGIN_INVALID_EMAIL));
+            var claimsIdentity = new ClaimsIdentity();
+            claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, loginRequest.email));
+            var loginResult = new StandartLoginProvider(Handler).CreateLoginResult(claimsIdentity,
+                Services.Settings.MasterKey);
+            return Request.CreateResponse(HttpStatusCode.OK, loginResult);
         }
     }
 }

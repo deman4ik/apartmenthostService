@@ -401,9 +401,9 @@ namespace apartmenthostService.Controllers
                     {
                         Code = notifCode,
                         FromUserName = fromProfile.FirstName,
-                        FromUserEmail =  fromUser.Email,
+                        FromUserEmail = fromUser.Email,
                         ToUserName = toProfile.FirstName,
-                        ToUserEmail =  toUser.Email,
+                        ToUserEmail = toUser.Email,
                         ReviewText = newReview.Text,
                         ReviewRating = newReview.Rating
                     };

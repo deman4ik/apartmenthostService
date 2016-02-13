@@ -22,10 +22,9 @@ namespace apartmenthostService.Helpers
         public const string Thing = "PC_THING";
         public const string Alien = "PC_ALIEN";
         public const string House = "POT_HOUSE"; //Дом
-        public const string Flat = "POT_FLAT"; //Квартира
+        public const string Apartment = "POT_APARTMENT"; //Квартира
         public const string Room = "POT_ROOM"; //Комната
-        public const string Office = "POT_OFFICE"; //Офис
-        public const string HotelRoom = "POT_ROOM"; //Гостинечный номер
+        public const string HotelRoom = "POT_HOTEL_ROOM"; //Гостинечный номер
         public const string SeperateResidence = "DVAL_SEPARATE_RESIDENCE"; //Раздельное проживание
         public const string Cohabitation = "DVAL_COHABITATION"; //Совместное проживание
         public const string Parking = "Паркова"; //Паркова

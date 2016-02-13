@@ -112,7 +112,7 @@ namespace apartmenthostService.Controllers
         ///     POST api/Article/
         /// </summary>
         [Route("api/Article/")]
-        [AuthorizeLevel(AuthorizationLevel.Admin)]
+        [AuthorizeLevel(AuthorizationLevel.User)]
         [HttpPost]
         public HttpResponseMessage PostArticle(ArticleDTO article)
         {
@@ -120,10 +120,12 @@ namespace apartmenthostService.Controllers
             {
                 // Check Current User
                 var currentUser = User as ServiceUser;
+
                 if (currentUser == null)
                     return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
                 string[] cred = currentUser.Id.Split(':');
-                var admin = _context.Admins.AsNoTracking().SingleOrDefault(x => x.Email == cred[1]);
+                string email = cred[1];
+                var admin = _context.Admins.AsNoTracking().SingleOrDefault(x => x.Email == email);
                 if (admin == null)
                     return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
                 var respList = new List<string>();
@@ -184,7 +186,7 @@ namespace apartmenthostService.Controllers
         ///     PUT api/Article/
         /// </summary>
         [Route("api/Article/{id}")]
-        [AuthorizeLevel(AuthorizationLevel.Admin)]
+        [AuthorizeLevel(AuthorizationLevel.User)]
         [HttpPut]
         public HttpResponseMessage PutArticle(string id, ArticleDTO article)
         {
@@ -195,7 +197,8 @@ namespace apartmenthostService.Controllers
                 if (currentUser == null)
                     return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
                 string[] cred = currentUser.Id.Split(':');
-                var admin = _context.Admins.AsNoTracking().SingleOrDefault(x => x.Email == cred[1]);
+                string email = cred[1];
+                var admin = _context.Admins.AsNoTracking().SingleOrDefault(x => x.Email == email);
                 if (admin == null)
                     return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
                 var respList = new List<string>();
@@ -258,7 +261,7 @@ namespace apartmenthostService.Controllers
         ///     DELETE api/Article/
         /// </summary>
         [Route("api/Article/{id}")]
-        [AuthorizeLevel(AuthorizationLevel.Admin)]
+        [AuthorizeLevel(AuthorizationLevel.User)]
         [HttpDelete]
         public HttpResponseMessage DeleteArticle(string id)
         {
@@ -269,7 +272,8 @@ namespace apartmenthostService.Controllers
                 if (currentUser == null)
                     return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
                 string[] cred = currentUser.Id.Split(':');
-                var admin = _context.Admins.AsNoTracking().SingleOrDefault(x => x.Email == cred[1]);
+                string email = cred[1];
+                var admin = _context.Admins.AsNoTracking().SingleOrDefault(x => x.Email == email);
                 if (admin == null)
                     return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_UNAUTH));
 

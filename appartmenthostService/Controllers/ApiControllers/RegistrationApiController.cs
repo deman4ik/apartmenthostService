@@ -111,7 +111,6 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
                         RespH.Create(RespH.SRV_REG_INVALID_EMAIL, respList));
                 }
-                
 
 
                 var admin = _context.Admins.AsNoTracking().SingleOrDefault(a => a.Email == registrationRequest.Email);
@@ -122,13 +121,13 @@ namespace apartmenthostService.Controllers
                         RespH.Create(RespH.SRV_REG_EXISTS_EMAIL, respList));
                 }
                 var salt = AuthUtils.GenerateSalt();
-                
+
                 var newUser = new Admin
                 {
                     Id = SequentialGuid.NewGuid().ToString(),
                     Email = registrationRequest.Email,
                     Salt = salt,
-                    SaltedAndHashedPassword = AuthUtils.Hash(registrationRequest.Password, salt),
+                    SaltedAndHashedPassword = AuthUtils.Hash(registrationRequest.Password, salt)
                 };
                 _context.Admins.Add(newUser);
                 _context.SaveChanges();
@@ -139,7 +138,7 @@ namespace apartmenthostService.Controllers
             catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> { ex.ToString() }));
+                    RespH.Create(RespH.SRV_EXCEPTION, new List<string> {ex.ToString()}));
             }
         }
 

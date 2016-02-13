@@ -278,6 +278,11 @@
     <Compile Include="Controllers\ApiControllers\PhoneApiController.cs" />
     <Compile Include="DataObjects\FeedbackDTO.cs" />
     <Compile Include="DataObjects\GendersDTO.cs" />
+    <Compile Include="LangResources\Dic_RU.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Dic_RU.resx</DependentUpon>
+    </Compile>
     <Compile Include="Messages\BaseEmailMessage.cs" />
     <Compile Include="Messages\MailSender.cs" />
     <Compile Include="Messages\Notifications.cs" />
@@ -372,6 +377,10 @@
     <None Include="Properties\PublishProfiles\mobile-petforaweek.pubxml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="LangResources\Dic_RU.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Dic_RU.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601271610300_admin.resx">
       <DependentUpon>201601271610300_admin.cs</DependentUpon>
     </EmbeddedResource>

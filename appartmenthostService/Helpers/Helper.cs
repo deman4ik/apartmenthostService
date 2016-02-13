@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using apartmenthostService.DataObjects;
+using apartmenthostService.LangResources;
 using apartmenthostService.Models;
 using CloudinaryDotNet;
 using Account = CloudinaryDotNet.Account;
@@ -132,5 +133,33 @@ namespace apartmenthostService.Helpers
         }
 
         public static Cloudinary Cloudinary { get; set; }
+    }
+
+    public static class DicHelper
+    {
+        public static string GetCardTypeByLang(string type, string lang = "RU")
+        {
+            switch (lang)
+            {
+                case "RU":
+                    switch (type)
+                    {
+                        case ConstVals.Room:
+                            return Dic_RU.POT_ROOM;
+                        case ConstVals.House:
+                            return Dic_RU.POT_HOUSE;
+                        case ConstVals.Apartment:
+                            return Dic_RU.POT_APARTMENT;
+                        case ConstVals.HotelRoom:
+                            return Dic_RU.POT_HOTEL_ROOM;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    return null;
+            }
+            return null;
+        }
     }
 }

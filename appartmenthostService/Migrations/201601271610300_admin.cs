@@ -1,10 +1,9 @@
+using System.Collections.Generic;
+using System.Data.Entity.Infrastructure.Annotations;
+using System.Data.Entity.Migrations;
+
 namespace apartmenthostService.Migrations
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data.Entity.Infrastructure.Annotations;
-    using System.Data.Entity.Migrations;
-    
     public partial class admin : DbMigration
     {
         public override void Up()
@@ -12,102 +11,101 @@ namespace apartmenthostService.Migrations
             CreateTable(
                 "apartmenthost.Admins",
                 c => new
-                    {
-                        Id = c.String(nullable: false, maxLength: 128,
-                            annotations: new Dictionary<string, AnnotationValues>
+                {
+                    Id = c.String(false, 128,
+                        annotations: new Dictionary<string, AnnotationValues>
+                        {
                             {
-                                { 
-                                    "ServiceTableColumn",
-                                    new AnnotationValues(oldValue: null, newValue: "Id")
-                                },
-                            }),
-                        Email = c.String(),
-                        Salt = c.Binary(),
-                        SaltedAndHashedPassword = c.Binary(),
-                        Version = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion",
-                            annotations: new Dictionary<string, AnnotationValues>
+                                "ServiceTableColumn",
+                                new AnnotationValues(null, "Id")
+                            }
+                        }),
+                    Email = c.String(),
+                    Salt = c.Binary(),
+                    SaltedAndHashedPassword = c.Binary(),
+                    Version = c.Binary(false, fixedLength: true, timestamp: true, storeType: "rowversion",
+                        annotations: new Dictionary<string, AnnotationValues>
+                        {
                             {
-                                { 
-                                    "ServiceTableColumn",
-                                    new AnnotationValues(oldValue: null, newValue: "Version")
-                                },
-                            }),
-                        CreatedAt = c.DateTimeOffset(nullable: false, precision: 7,
-                            annotations: new Dictionary<string, AnnotationValues>
+                                "ServiceTableColumn",
+                                new AnnotationValues(null, "Version")
+                            }
+                        }),
+                    CreatedAt = c.DateTimeOffset(false, 7,
+                        annotations: new Dictionary<string, AnnotationValues>
+                        {
                             {
-                                { 
-                                    "ServiceTableColumn",
-                                    new AnnotationValues(oldValue: null, newValue: "CreatedAt")
-                                },
-                            }),
-                        UpdatedAt = c.DateTimeOffset(precision: 7,
-                            annotations: new Dictionary<string, AnnotationValues>
+                                "ServiceTableColumn",
+                                new AnnotationValues(null, "CreatedAt")
+                            }
+                        }),
+                    UpdatedAt = c.DateTimeOffset(precision: 7,
+                        annotations: new Dictionary<string, AnnotationValues>
+                        {
                             {
-                                { 
-                                    "ServiceTableColumn",
-                                    new AnnotationValues(oldValue: null, newValue: "UpdatedAt")
-                                },
-                            }),
-                        Deleted = c.Boolean(nullable: false,
-                            annotations: new Dictionary<string, AnnotationValues>
+                                "ServiceTableColumn",
+                                new AnnotationValues(null, "UpdatedAt")
+                            }
+                        }),
+                    Deleted = c.Boolean(false,
+                        annotations: new Dictionary<string, AnnotationValues>
+                        {
                             {
-                                { 
-                                    "ServiceTableColumn",
-                                    new AnnotationValues(oldValue: null, newValue: "Deleted")
-                                },
-                            }),
-                    })
+                                "ServiceTableColumn",
+                                new AnnotationValues(null, "Deleted")
+                            }
+                        })
+                })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.CreatedAt, clustered: true);
-            
+
             DropColumn("apartmenthost.Profiles", "ContactEmail");
             DropColumn("apartmenthost.Profiles", "ContactKind");
         }
-        
+
         public override void Down()
         {
             AddColumn("apartmenthost.Profiles", "ContactKind", c => c.String());
             AddColumn("apartmenthost.Profiles", "ContactEmail", c => c.String());
-            DropIndex("apartmenthost.Admins", new[] { "CreatedAt" });
-            DropTable("apartmenthost.Admins",
-                removedColumnAnnotations: new Dictionary<string, IDictionary<string, object>>
+            DropIndex("apartmenthost.Admins", new[] {"CreatedAt"});
+            DropTable("apartmenthost.Admins", new Dictionary<string, IDictionary<string, object>>
+            {
                 {
+                    "CreatedAt",
+                    new Dictionary<string, object>
                     {
-                        "CreatedAt",
-                        new Dictionary<string, object>
-                        {
-                            { "ServiceTableColumn", "CreatedAt" },
-                        }
-                    },
+                        {"ServiceTableColumn", "CreatedAt"}
+                    }
+                },
+                {
+                    "Deleted",
+                    new Dictionary<string, object>
                     {
-                        "Deleted",
-                        new Dictionary<string, object>
-                        {
-                            { "ServiceTableColumn", "Deleted" },
-                        }
-                    },
+                        {"ServiceTableColumn", "Deleted"}
+                    }
+                },
+                {
+                    "Id",
+                    new Dictionary<string, object>
                     {
-                        "Id",
-                        new Dictionary<string, object>
-                        {
-                            { "ServiceTableColumn", "Id" },
-                        }
-                    },
+                        {"ServiceTableColumn", "Id"}
+                    }
+                },
+                {
+                    "UpdatedAt",
+                    new Dictionary<string, object>
                     {
-                        "UpdatedAt",
-                        new Dictionary<string, object>
-                        {
-                            { "ServiceTableColumn", "UpdatedAt" },
-                        }
-                    },
+                        {"ServiceTableColumn", "UpdatedAt"}
+                    }
+                },
+                {
+                    "Version",
+                    new Dictionary<string, object>
                     {
-                        "Version",
-                        new Dictionary<string, object>
-                        {
-                            { "ServiceTableColumn", "Version" },
-                        }
-                    },
-                });
+                        {"ServiceTableColumn", "Version"}
+                    }
+                }
+            });
         }
     }
 }

@@ -555,7 +555,7 @@ namespace apartmenthostService.Migrations
                 {
                     Id = "ap1",
                     Name = "Офис Парус",
-                    Type = ConstVals.Office,
+                    Type = ConstVals.Apartment,
                     Options = ConstVals.Parking + "," + ConstVals.Concierge + "," + ConstVals.AirConditioning,
                     UserId = "u1",
                     Adress = "Ярославская ул., 10к4",
@@ -587,7 +587,7 @@ namespace apartmenthostService.Migrations
                 {
                     Id = "ap3",
                     Name = "Ленкина квартирка в Ясенево",
-                    Type = ConstVals.Flat,
+                    Type = ConstVals.Apartment,
                     Options = ConstVals.WashingMachine + "," + ConstVals.Refrigerator,
                     UserId = "u3",
                     Adress = "Соловьиный пр-д, 18",
@@ -602,7 +602,7 @@ namespace apartmenthostService.Migrations
                 {
                     Id = "ap4",
                     Name = "Удальцова 73",
-                    Type = ConstVals.Flat,
+                    Type = ConstVals.Apartment,
                     Options = ConstVals.WashingMachine + "," + ConstVals.Refrigerator,
                     UserId = "u4",
                     Adress = "ул. Удальцова, 73",
@@ -617,7 +617,7 @@ namespace apartmenthostService.Migrations
                 {
                     Id = "ap5",
                     Name = "Сумской проезд",
-                    Type = ConstVals.Flat,
+                    Type = ConstVals.Apartment,
                     Options = ConstVals.WashingMachine + "," + ConstVals.Refrigerator,
                     UserId = "u5",
                     Adress = "Сумской пр-д, 12к5",
@@ -632,7 +632,7 @@ namespace apartmenthostService.Migrations
                 {
                     Id = "ap6",
                     Name = "Братеево",
-                    Type = ConstVals.Flat,
+                    Type = ConstVals.Apartment,
                     Options = ConstVals.WashingMachine + "," + ConstVals.Refrigerator,
                     UserId = "u6",
                     Adress = "Ключевая ул., 10к2",
@@ -647,7 +647,7 @@ namespace apartmenthostService.Migrations
                 {
                     Id = "ap7",
                     Name = "Замоскворечье",
-                    Type = ConstVals.Flat,
+                    Type = ConstVals.Apartment,
                     Options = ConstVals.Concierge + "," + ConstVals.WashingMachine + "," + ConstVals.Refrigerator,
                     UserId = "u7",
                     Adress = "Валовая ул., 10",
@@ -662,7 +662,7 @@ namespace apartmenthostService.Migrations
                 {
                     Id = "ap8",
                     Name = "Замоскворечье около Парка Горького",
-                    Type = ConstVals.Flat,
+                    Type = ConstVals.Apartment,
                     Options =
                         ConstVals.Concierge + "," + ConstVals.AirConditioning + "," + ConstVals.WashingMachine + "," +
                         ConstVals.Refrigerator,
@@ -679,7 +679,7 @@ namespace apartmenthostService.Migrations
                 {
                     Id = "ap9",
                     Name = "Марфино",
-                    Type = ConstVals.Flat,
+                    Type = ConstVals.Apartment,
                     Options = ConstVals.AirConditioning + "," + ConstVals.WashingMachine + "," + ConstVals.Refrigerator,
                     UserId = "u9",
                     Adress = "ул. Академика Комарова, 7В",
@@ -694,7 +694,7 @@ namespace apartmenthostService.Migrations
                 {
                     Id = "ap10",
                     Name = "Крылатское",
-                    Type = ConstVals.Flat,
+                    Type = ConstVals.Apartment,
                     Options =
                         ConstVals.Parking + "," + ConstVals.Concierge + "," + ConstVals.AirConditioning + "," +
                         ConstVals.WashingMachine + "," + ConstVals.Refrigerator,

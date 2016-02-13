@@ -18,6 +18,7 @@ namespace apartmenthostService.Messages
         public DateTimeOffset DateTo { get; set; }
         public string CardId { get; set; }
         public string CardName { get; set; }
+        public string CardType { get; set; }
         public string CardDescription { get; set; }
         public string Text { get; set; }
         public bool AnswerByEmail { get; set; }

@@ -19,7 +19,7 @@ namespace apartmenthostService.Models
         DbSet<Favorite> Favorites { get; }
         DbSet<Article> Article { get; }
         DbSet<Feedback> Feedbacks { get; }
-        DbSet<Admin> Admins { get; } 
+        DbSet<Admin> Admins { get; }
         int SaveChanges();
         void MarkAsModified(object item);
     }
