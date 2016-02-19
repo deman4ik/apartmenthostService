@@ -262,6 +262,25 @@ namespace apartmenthostService.Controllers
                             RespH.Create(RespH.SRV_USER_NOTFOUND,
                                 new List<string> {resetRequest.UserId ?? resetRequest.Email}));
                     }
+
+
+                    var standartAccount =
+                        _context.Accounts.SingleOrDefault(
+                            x => x.Provider == StandartLoginProvider.ProviderName && x.UserId == user.Id);
+                    if (standartAccount == null)
+                    {
+                        var newstandartaccount = new Account
+                        {
+                            Id = SequentialGuid.NewGuid().ToString(),
+                            UserId = user.Id,
+                            AccountId = StandartLoginProvider.ProviderName + ":" + user.Email,
+                            Provider = StandartLoginProvider.ProviderName,
+                            ProviderId = user.Email
+                        };
+                        _context.Accounts.Add(newstandartaccount);
+                        _context.SaveChanges();
+                    }
+
                     if (!user.ResetRequested)
                     {
                         return Request.CreateResponse(HttpStatusCode.BadRequest,
@@ -302,6 +321,22 @@ namespace apartmenthostService.Controllers
                                 new List<string> {account.UserId}));
                     }
 
+                    var standartAccount =
+                        _context.Accounts.SingleOrDefault(
+                            x => x.Provider == StandartLoginProvider.ProviderName && x.UserId == user.Id);
+                    if (standartAccount == null)
+                    {
+                        var newstandartaccount = new Account
+                        {
+                            Id = SequentialGuid.NewGuid().ToString(),
+                            UserId = user.Id,
+                            AccountId = StandartLoginProvider.ProviderName + ":" + user.Email,
+                            Provider = StandartLoginProvider.ProviderName,
+                            ProviderId = user.Email
+                        };
+                        _context.Accounts.Add(newstandartaccount);
+                        _context.SaveChanges();
+                    }
                     if (string.IsNullOrWhiteSpace(resetRequest.CurrentPassword))
                     {
                         return Request.CreateResponse(HttpStatusCode.BadRequest,
