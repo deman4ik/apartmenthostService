@@ -38,14 +38,17 @@ namespace apartmenthostService.Controllers
                     return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_USER_BLOCKED));
 
                 var incoming = AuthUtils.Hash(loginRequest.password, user.Salt);
-
-                if (AuthUtils.SlowEquals(incoming, user.SaltedAndHashedPassword))
+                if (user.SaltedAndHashedPassword != null)
                 {
-                    var claimsIdentity = new ClaimsIdentity();
-                    claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, loginRequest.email));
-                    var loginResult = new StandartLoginProvider(Handler).CreateLoginResult(claimsIdentity,
-                        Services.Settings.MasterKey);
-                    return Request.CreateResponse(HttpStatusCode.OK, loginResult);
+                    if (AuthUtils.SlowEquals(incoming, user.SaltedAndHashedPassword))
+                    {
+                        var claimsIdentity = new ClaimsIdentity();
+                        claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, loginRequest.email));
+                        var loginResult = new StandartLoginProvider(Handler).CreateLoginResult(claimsIdentity,
+                            Services.Settings.MasterKey);
+                        return Request.CreateResponse(HttpStatusCode.OK, loginResult);
+                    }
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_LOGIN_INVALID_PASS));
                 }
                 return Request.CreateResponse(HttpStatusCode.Unauthorized, RespH.Create(RespH.SRV_LOGIN_INVALID_PASS));
             }

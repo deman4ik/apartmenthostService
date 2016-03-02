@@ -101,6 +101,7 @@ namespace apartmenthostService.Helpers
         //Login
         public const string SRV_LOGIN_INVALID_EMAIL = "SRV_LOGIN_INVALID_EMAIL"; // Не верный логин 
         public const string SRV_LOGIN_INVALID_PASS = "SRV_LOGIN_INVALID_PASS"; // Не верный пароль
+        public const string SRV_LOGIN_NO_PASS = "SRV_LOGIN_NO_PASS"; // Не установлен пароль
         //Apartment
         public const string SRV_APARTMENT_NULL = "SRV_APARTMENT_NULL"; // Пустой объект запроса
         public const string SRV_APARTMENT_NOTFOUND = "SRV_APARTMENT_NOTFOUND"; // Объект не найден
