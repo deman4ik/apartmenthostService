@@ -276,6 +276,7 @@
     <Compile Include="Authentication\VK\VKLoginProvider.cs" />
     <Compile Include="Controllers\ApiControllers\FeedbackApiController.cs" />
     <Compile Include="Controllers\ApiControllers\PhoneApiController.cs" />
+    <Compile Include="DataObjects\CardResponseDTO.cs" />
     <Compile Include="DataObjects\FeedbackDTO.cs" />
     <Compile Include="DataObjects\GendersDTO.cs" />
     <Compile Include="LangResources\Dic_RU.Designer.cs">
