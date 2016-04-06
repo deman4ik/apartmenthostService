@@ -146,7 +146,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="SmsApi">
-      <HintPath>obj\Debug\SmsApi.dll</HintPath>
+      <HintPath>..\lib\SmsApi.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
