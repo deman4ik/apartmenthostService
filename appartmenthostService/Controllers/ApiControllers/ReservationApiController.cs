@@ -323,41 +323,47 @@ namespace apartmenthostService.Controllers
 
                 var user = _context.Users.AsNoTracking().SingleOrDefault(x => x.Id == account.UserId);
                 var profile = _context.Profile.AsNoTracking().SingleOrDefault(x => x.Id == account.UserId);
-                using (MailSender mailSender = new MailSender())
+                if (user.EmailNotifications)
                 {
-                    var bem = new BaseEmailMessage
+                    using (MailSender mailSender = new MailSender())
                     {
-                        Code = RespH.SRV_NOTIF_RESERV_PENDING,
-                        CardName = card.Name,
-                        CardType = DicHelper.GetCardTypeByLang(card.Apartment.Type),
-                        CardDescription = card.Description,
-                        DateFrom = dateFrom,
-                        DateTo = dateTo,
-                        ToUserName = profile.FirstName,
-                        ToUserEmail = user.Email,
-                        CardId = card.Id
-                    };
-                    mailSender.Create(_context, bem);
+                        var bem = new BaseEmailMessage
+                        {
+                            Code = RespH.SRV_NOTIF_RESERV_PENDING,
+                            CardName = card.Name,
+                            CardType = DicHelper.GetCardTypeByLang(card.Apartment.Type),
+                            CardDescription = card.Description,
+                            DateFrom = dateFrom,
+                            DateTo = dateTo,
+                            ToUserName = profile.FirstName,
+                            ToUserEmail = user.Email,
+                            CardId = card.Id
+                        };
+                        mailSender.Create(_context, bem);
+                    }
                 }
 
                 var cardUser = _context.Users.AsNoTracking().SingleOrDefault(x => x.Id == card.UserId);
                 var cardProfile = _context.Profile.AsNoTracking().SingleOrDefault(x => x.Id == card.UserId);
-                using (MailSender mailSender = new MailSender())
+                if (cardUser.EmailNotifications)
                 {
-                    var bem = new BaseEmailMessage
+                    using (MailSender mailSender = new MailSender())
                     {
-                        Code = RespH.SRV_NOTIF_RESERV_NEW,
-                        CardName = card.Name,
-                        CardType = DicHelper.GetCardTypeByLang(card.Apartment.Type),
-                        CardDescription = card.Description,
-                        FromUserName = profile.FirstName,
-                        DateFrom = dateFrom,
-                        DateTo = dateTo,
-                        ToUserName = cardProfile.FirstName,
-                        ToUserEmail = cardUser.Email,
-                        CardId = card.Id
-                    };
-                    mailSender.Create(_context, bem);
+                        var bem = new BaseEmailMessage
+                        {
+                            Code = RespH.SRV_NOTIF_RESERV_NEW,
+                            CardName = card.Name,
+                            CardType = DicHelper.GetCardTypeByLang(card.Apartment.Type),
+                            CardDescription = card.Description,
+                            FromUserName = profile.FirstName,
+                            DateFrom = dateFrom,
+                            DateTo = dateTo,
+                            ToUserName = cardProfile.FirstName,
+                            ToUserEmail = cardUser.Email,
+                            CardId = card.Id
+                        };
+                        mailSender.Create(_context, bem);
+                    }
                 }
                 respList.Add(reservationGuid);
                 return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));

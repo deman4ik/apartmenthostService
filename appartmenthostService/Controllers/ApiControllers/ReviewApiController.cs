@@ -395,21 +395,23 @@ namespace apartmenthostService.Controllers
                 var fromProfile = _context.Profile.AsNoTracking().SingleOrDefault(x => x.Id == account.UserId);
                 var toUser = _context.Users.AsNoTracking().SingleOrDefault(x => x.Id == newReview.ToUserId);
                 var toProfile = _context.Profile.AsNoTracking().SingleOrDefault(x => x.Id == newReview.ToUserId);
-                using (MailSender mailSender = new MailSender())
+                if (toUser.EmailNewsletter)
                 {
-                    var bem = new BaseEmailMessage
+                    using (MailSender mailSender = new MailSender())
                     {
-                        Code = notifCode,
-                        FromUserName = fromProfile.FirstName,
-                        FromUserEmail = fromUser.Email,
-                        ToUserName = toProfile.FirstName,
-                        ToUserEmail = toUser.Email,
-                        ReviewText = newReview.Text,
-                        ReviewRating = newReview.Rating
-                    };
-                    mailSender.Create(_context, bem);
+                        var bem = new BaseEmailMessage
+                        {
+                            Code = notifCode,
+                            FromUserName = fromProfile.FirstName,
+                            FromUserEmail = fromUser.Email,
+                            ToUserName = toProfile.FirstName,
+                            ToUserEmail = toUser.Email,
+                            ReviewText = newReview.Text,
+                            ReviewRating = newReview.Rating
+                        };
+                        mailSender.Create(_context, bem);
+                    }
                 }
-
                 respList.Add(reviewGuid);
                 return Request.CreateResponse(HttpStatusCode.OK, RespH.Create(RespH.SRV_CREATED, respList));
             }

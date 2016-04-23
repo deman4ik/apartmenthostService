@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using System.Web.Http;
 using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
@@ -53,20 +54,20 @@ namespace apartmenthostService.Controllers
                     Score = x.Score,
                     CreatedAt = x.CreatedAt,
                     UpdatedAt = x.UpdatedAt,
-                    Picture = new PictureDTO
+                    Picture = _context.Pictures.Where(pic => pic.Id == x.PictureId).Select( p => new PictureDTO
                     {
-                        Id = x.Picture.Id,
-                        Name = x.Picture.Name,
-                        Description = x.Picture.Description,
-                        Url = x.Picture.Url,
-                        Xsmall = x.Picture.Xsmall,
-                        Small = x.Picture.Small,
-                        Mid = x.Picture.Mid,
-                        Large = x.Picture.Large,
-                        Xlarge = x.Picture.Xlarge,
-                        Default = x.Picture.Default,
-                        CreatedAt = x.Picture.CreatedAt
-                    }
+                        Id = p.Id,
+                        Name = p.Name,
+                        Description = p.Description,
+                        Url = p.Url,
+                        Xsmall = p.Xsmall,
+                        Small = p.Small,
+                        Mid = p.Mid,
+                        Large = p.Large,
+                        Xlarge = p.Xlarge,
+                        Default = p.Default,
+                        CreatedAt = p.CreatedAt
+                    }).FirstOrDefault()
                 }).FirstOrDefault();
                 if (profile != null)
                 {
@@ -89,24 +90,24 @@ namespace apartmenthostService.Controllers
                                         c.Genders.FirstOrDefault(gn => gn.Price == c.Genders.Min(ge => ge.Price)).Name,
                                     Cohabitation = c.Cohabitation,
                                     Lang = c.Lang,
-                                    Dates = c.Dates.Select(d => new DatesDTO
+                                    Dates = _context.Dates.Where(date => date.CardId == c.Id).Select(d => new DatesDTO
                                     {
                                         DateFrom = d.DateFrom,
                                         DateTo = d.DateTo
                                     }
                                         ).ToList(),
-                                    Apartment = new ApartmentDTO
+                                    Apartment = _context.Apartments.Where(a => a.Id == c.ApartmentId).Select(ap => new ApartmentDTO
                                     {
-                                        Id = c.Apartment.Id,
-                                        Name = c.Apartment.Name,
-                                        Type = c.Apartment.Type,
-                                        Options = c.Apartment.Options,
-                                        UserId = c.Apartment.UserId,
-                                        Adress = c.Apartment.Adress,
-                                        FormattedAdress = c.Apartment.FormattedAdress,
-                                        Latitude = c.Apartment.Latitude,
-                                        Longitude = c.Apartment.Longitude,
-                                        PlaceId = c.Apartment.PlaceId,
+                                        Id = ap.Id,
+                                        Name = ap.Name,
+                                        Type = ap.Type,
+                                        Options = ap.Options,
+                                        UserId = ap.UserId,
+                                        Adress = ap.Adress,
+                                        FormattedAdress = ap.FormattedAdress,
+                                        Latitude = ap.Latitude,
+                                        Longitude = ap.Longitude,
+                                        PlaceId = ap.PlaceId,
                                         Pictures = _context.Pictures.Where(pic => pic.Apartments.Contains(c.Apartment)).Select(apic => new PictureDTO
                                         {
                                             Id = apic.Id,
@@ -120,7 +121,7 @@ namespace apartmenthostService.Controllers
                                             Xlarge = apic.Xlarge,
                                             Default = apic.Default
                                         }).ToList()
-                                    }
+                                    }).FirstOrDefault()
                                 }).ToList();
                     }
 
@@ -290,7 +291,9 @@ namespace apartmenthostService.Controllers
                 profileCurrent.Birthday = profile.Birthday;
                 profileCurrent.Phone = profile.Phone;
                 profileCurrent.Description = profile.Description;
-
+                user.EmailNotifications = profile.EmailNotifications;
+                user.EmailNewsletter = profile.EmailNewsletter;
+                _context.MarkAsModified(user);
                 _context.MarkAsModified(profileCurrent);
                 _context.SaveChanges();
 

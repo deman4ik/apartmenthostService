@@ -15,11 +15,12 @@ namespace apartmenthostService.Controllers
     [AuthorizeLevel(AuthorizationLevel.Application)]
     public class UserApiController : ApiController
     {
-        private readonly IApartmenthostContext _context = new ApartmenthostContext();
+        private readonly IApartmenthostContext _context;
         public ApiServices Services { get; set; }
 
         public UserApiController()
         {
+            _context = new ApartmenthostContext();
         }
 
         public UserApiController(IApartmenthostContext context)
@@ -59,6 +60,8 @@ namespace apartmenthostService.Controllers
                     CardCount = _context.Cards.Count(c => c.UserId == x.Id),
                     CreatedAt = x.CreatedAt,
                     UpdatedAt = x.UpdatedAt,
+                    EmailNotifications = x.User.EmailNotifications,
+                    EmailNewsletter = x.User.EmailNewsletter,
                     Picture = new PictureDTO
                     {
                         Id = x.Picture.Id,

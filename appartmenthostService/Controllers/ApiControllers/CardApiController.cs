@@ -43,6 +43,7 @@ namespace apartmenthostService.Controllers
         {
             try
             {
+                CardRequestDTO cardRequest;
                 var limit = 100;
                 var skip = 0;
                 string currGender = null;
@@ -53,7 +54,7 @@ namespace apartmenthostService.Controllers
                 // Получаем объект из строки запроса
                 if (!string.IsNullOrWhiteSpace(filter) && filter != "{}")
                 {
-                    var cardRequest = JsonConvert.DeserializeObject<CardRequestDTO>(filter);
+                    cardRequest = JsonConvert.DeserializeObject<CardRequestDTO>(filter);
 
                     if (cardRequest == null)
                         return Request.CreateResponse(HttpStatusCode.BadRequest,
@@ -308,9 +309,10 @@ namespace apartmenthostService.Controllers
                 {
                     userId = account.UserId;
                 }
-                var cards = _context.Cards.AsExpandable().AsNoTracking()
+                var count = _context.Cards.AsExpandable().AsNoTracking().Where(pre).Count();
+                IQueryable<CardDTO> cards = _context.Cards.AsExpandable().AsNoTracking()
                     .Where(pre)
-                    .OrderByDescending(o => o.User.Profile.Rating).ThenBy(o => o.CreatedAt)
+                    .OrderByDescending(o => o.User.Profile.Rating).ThenByDescending(o => o.CreatedAt)
                     .Skip(() => skip)
                     .Take(() => limit)
                     .Select(x => new CardDTO
@@ -325,11 +327,12 @@ namespace apartmenthostService.Controllers
                         CreatedAt = x.CreatedAt,
                         UpdatedAt = x.UpdatedAt,
                         Lang = x.Lang
-                    }).ToList();
-                List<CardDTO> result = new List<CardDTO>();
-                if (cards.Any())
+                    });
+                CardResponseDTO result = new CardResponseDTO {Count = count, Cards = new List<CardDTO>()};
+                var cardsList = cards.ToList();
+                if (cardsList.Any())
                 {
-                    foreach (var card in cards)
+                    foreach (var card in cardsList)
                     {
                         card.IsFavorite = false;
                         if (userId != null)
@@ -380,30 +383,31 @@ namespace apartmenthostService.Controllers
 
 
                         card.User =
-                            _context.Users.AsNoTracking().Where(u => u.Id == card.UserId).Select(x => new UserDTO
+                            _context.Profile.AsNoTracking().Where(u => u.Id == card.UserId).Select(x => new UserDTO
                             {
-                                Id = x.Profile.Id,
-                                FirstName = x.Profile.FirstName,
-                                LastName = x.Profile.LastName,
-                                Gender = x.Profile.Gender,
-                                Rating = x.Profile.Rating,
-                                RatingCount = x.Profile.RatingCount,
-                                Phone = x.Profile.Phone,
-                                Description = x.Profile.Description,
-                                Picture = new PictureDTO
+                                Id = x.Id,
+                                FirstName = x.FirstName,
+                                LastName = x.LastName,
+                                Gender = x.Gender,
+                                Rating = x.Rating,
+                                RatingCount = x.RatingCount,
+                                Phone = x.Phone,
+                                Description = x.Description,
+                                Picture = _context.Pictures.Where(p => p.Id == x.PictureId).Select( pic =>
+                                new PictureDTO
                                 {
-                                    Id = x.Profile.Picture.Id,
-                                    Name = x.Profile.Picture.Name,
-                                    Description = x.Profile.Picture.Description,
-                                    Url = x.Profile.Picture.Url,
-                                    Xsmall = x.Profile.Picture.Xsmall,
-                                    Small = x.Profile.Picture.Small,
-                                    Mid = x.Profile.Picture.Mid,
-                                    Large = x.Profile.Picture.Large,
-                                    Xlarge = x.Profile.Picture.Xlarge,
-                                    Default = x.Profile.Picture.Default,
-                                    CreatedAt = x.Profile.Picture.CreatedAt
-                                }
+                                    Id = pic.Id,
+                                    Name = pic.Name,
+                                    Description = pic.Description,
+                                    Url = pic.Url,
+                                    Xsmall = pic.Xsmall,
+                                    Small = pic.Small,
+                                    Mid = pic.Mid,
+                                    Large = pic.Large,
+                                    Xlarge = pic.Xlarge,
+                                    Default = pic.Default,
+                                    CreatedAt = pic.CreatedAt
+                                }).FirstOrDefault()
                             }).FirstOrDefault();
 
                         card.Apartment =
@@ -421,7 +425,7 @@ namespace apartmenthostService.Controllers
                                     Latitude = x.Latitude,
                                     Longitude = x.Longitude,
                                     PlaceId = x.PlaceId,
-                                    Pictures = x.Pictures.Select(apic => new PictureDTO
+                                    Pictures = _context.Pictures.Where(p => p.Apartments.Contains(x)).Select(apic => new PictureDTO
                                     {
                                         Id = apic.Id,
                                         Name = apic.Name,
@@ -436,42 +440,49 @@ namespace apartmenthostService.Controllers
                                         CreatedAt = apic.CreatedAt
                                     }).ToList()
                                 }).FirstOrDefault();
-
-                        card.Reviews =
-                            _context.Reviews.AsNoTracking().Where(
-                                inr => inr.Reservation.CardId == id && id != null && inr.ToUserId == card.UserId)
-                                .Select(rev => new ReviewDTO
-                                {
-                                    Id = rev.Id,
-                                    Rating = rev.Rating,
-                                    Text = rev.Text,
-                                    CreatedAt = rev.CreatedAt,
-                                    FromUser = new BaseUserDTO
+                        // Уникальный идентификатор Карточки
+                        if (cardRequest.Id != null)
+                        {
+                            card.Reviews =
+                                _context.Reviews.AsNoTracking().Where(
+                                    inr => inr.Reservation.CardId == id && id != null && inr.ToUserId == card.UserId)
+                                    .Select(rev => new ReviewDTO
                                     {
-                                        Id = rev.FromUser.Profile.Id,
-                                        Email = rev.FromUser.Email,
-                                        FirstName = rev.FromUser.Profile.FirstName,
-                                        LastName = rev.FromUser.Profile.LastName,
-                                        Rating = rev.FromUser.Profile.Rating,
-                                        RatingCount = rev.FromUser.Profile.RatingCount,
-                                        Gender = rev.FromUser.Profile.Gender,
-                                        Picture = new PictureDTO
-                                        {
-                                            Id = rev.FromUser.Profile.Picture.Id,
-                                            Name = rev.FromUser.Profile.Picture.Name,
-                                            Description = rev.FromUser.Profile.Picture.Description,
-                                            Url = rev.FromUser.Profile.Picture.Url,
-                                            Xsmall = rev.FromUser.Profile.Picture.Xsmall,
-                                            Small = rev.FromUser.Profile.Picture.Small,
-                                            Mid = rev.FromUser.Profile.Picture.Mid,
-                                            Large = rev.FromUser.Profile.Picture.Large,
-                                            Xlarge = rev.FromUser.Profile.Picture.Xlarge,
-                                            Default = rev.FromUser.Profile.Picture.Default,
-                                            CreatedAt = rev.FromUser.Profile.Picture.CreatedAt
-                                        }
-                                    }
-                                }).ToList();
-                        result.Add(card);
+                                        Id = rev.Id,
+                                        Rating = rev.Rating,
+                                        Text = rev.Text,
+                                        CreatedAt = rev.CreatedAt,
+                                        FromUser =
+                                            _context.Users.Where(u => u.Id == rev.FromUserId)
+                                                .Select(us => new BaseUserDTO
+                                                {
+                                                    Id = us.Profile.Id,
+                                                    Email = us.Email,
+                                                    FirstName = us.Profile.FirstName,
+                                                    LastName = us.Profile.LastName,
+                                                    Rating = us.Profile.Rating,
+                                                    RatingCount = us.Profile.RatingCount,
+                                                    Gender = us.Profile.Gender,
+                                                    Picture =
+                                                        _context.Pictures.Where(p => p.Id == us.Profile.PictureId)
+                                                            .Select(pic => new PictureDTO
+                                                            {
+                                                                Id = pic.Id,
+                                                                Name = pic.Name,
+                                                                Description = pic.Description,
+                                                                Url = pic.Url,
+                                                                Xsmall = pic.Xsmall,
+                                                                Small = pic.Small,
+                                                                Mid = pic.Mid,
+                                                                Large = pic.Large,
+                                                                Xlarge = pic.Xlarge,
+                                                                Default = pic.Default,
+                                                                CreatedAt = pic.CreatedAt
+                                                            }).FirstOrDefault()
+                                                }).FirstOrDefault()
+                                    }).ToList();
+                        }
+                        result.Cards.Add(card);
                     }
                 }
                 //RelatedCards =

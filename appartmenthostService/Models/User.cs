@@ -33,6 +33,8 @@ namespace apartmenthostService.Models
         public DateTime? PhoneCodeRequestedAt { get; set; }
         public bool ResetRequested { get; set; }
         public bool Blocked { get; set; }
+        public bool EmailNewsletter { get; set; }
+        public bool EmailNotifications { get; set; }
         public virtual Profile Profile { get; set; }
         public ICollection<Notification> Notifications { get; set; }
         public ICollection<Favorite> Favorites { get; set; }
