@@ -291,7 +291,9 @@ namespace apartmenthostService.Controllers
                 profileCurrent.Birthday = profile.Birthday;
                 profileCurrent.Phone = profile.Phone;
                 profileCurrent.Description = profile.Description;
-
+                user.EmailNotifications = profile.EmailNotifications;
+                user.EmailNewsletter = profile.EmailNewsletter;
+                _context.MarkAsModified(user);
                 _context.MarkAsModified(profileCurrent);
                 _context.SaveChanges();
 

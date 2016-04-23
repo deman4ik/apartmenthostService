@@ -7,13 +7,13 @@ namespace apartmenthostService.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.1-30610")]
-    public sealed partial class admin : IMigrationMetadata
+    public sealed partial class EmailSub : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(admin));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(EmailSub));
         
         string IMigrationMetadata.Id
         {
-            get { return "201601271610300_admin"; }
+            get { return "201604231358509_EmailSub"; }
         }
         
         string IMigrationMetadata.Source

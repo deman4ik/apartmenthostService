@@ -105,18 +105,21 @@ namespace apartmenthostService.Controllers
 
                     var user = _context.Users.AsNoTracking().SingleOrDefault(x => x.Id == account.UserId);
                     var profile = _context.Profile.AsNoTracking().SingleOrDefault(x => x.Id == account.UserId);
-                    using (MailSender mailSender = new MailSender())
+                    if (user.EmailNotifications)
                     {
-                        var bem = new BaseEmailMessage
+                        using (MailSender mailSender = new MailSender())
                         {
-                            Code = RespH.SRV_NOTIF_CARD_FAVORITED,
-                            CardId = currentCard.Id,
-                            FromUserName = profile.FirstName,
-                            FromUserEmail = user.Email,
-                            ToUserName = currentCard.User.Profile.FirstName,
-                            ToUserEmail = currentCard.User.Email
-                        };
-                        mailSender.Create(_context, bem);
+                            var bem = new BaseEmailMessage
+                            {
+                                Code = RespH.SRV_NOTIF_CARD_FAVORITED,
+                                CardId = currentCard.Id,
+                                FromUserName = profile.FirstName,
+                                FromUserEmail = user.Email,
+                                ToUserName = currentCard.User.Profile.FirstName,
+                                ToUserEmail = currentCard.User.Email
+                            };
+                            mailSender.Create(_context, bem);
+                        }
                     }
                     status = true;
                 }

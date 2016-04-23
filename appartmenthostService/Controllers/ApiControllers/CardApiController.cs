@@ -310,7 +310,7 @@ namespace apartmenthostService.Controllers
                     userId = account.UserId;
                 }
                 var count = _context.Cards.AsExpandable().AsNoTracking().Where(pre).Count();
-                var cards = _context.Cards.AsExpandable().AsNoTracking()
+                IQueryable<CardDTO> cards = _context.Cards.AsExpandable().AsNoTracking()
                     .Where(pre)
                     .OrderByDescending(o => o.User.Profile.Rating).ThenByDescending(o => o.CreatedAt)
                     .Skip(() => skip)
@@ -327,11 +327,12 @@ namespace apartmenthostService.Controllers
                         CreatedAt = x.CreatedAt,
                         UpdatedAt = x.UpdatedAt,
                         Lang = x.Lang
-                    }).ToList();
+                    });
                 CardResponseDTO result = new CardResponseDTO {Count = count, Cards = new List<CardDTO>()};
-                if (cards.Any())
+                var cardsList = cards.ToList();
+                if (cardsList.Any())
                 {
-                    foreach (var card in cards)
+                    foreach (var card in cardsList)
                     {
                         card.IsFavorite = false;
                         if (userId != null)
