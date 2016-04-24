@@ -407,7 +407,8 @@ namespace apartmenthostService.Controllers
                             ToUserName = toProfile.FirstName,
                             ToUserEmail = toUser.Email,
                             ReviewText = newReview.Text,
-                            ReviewRating = newReview.Rating
+                            ReviewRating = newReview.Rating,
+                            UnsubscrCode = toUser.EmailSubCode
                         };
                         mailSender.Create(_context, bem);
                     }

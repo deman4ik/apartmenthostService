@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using apartmenthostService.Authentication;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
 using apartmenthostService.Models;
@@ -21,20 +22,15 @@ namespace apartmenthostService.Controllers
 
         [HttpPost]
         [Route("api/Mail/Unsubscribe")]
-        [AuthorizeLevel(AuthorizationLevel.User)]
-        public HttpResponseMessage Unsubscribe(string type = null)
+        public HttpResponseMessage Unsubscribe(UnsubscribeRequest req)
         {
             try
             {
                 var respList = new List<string>();
-                var currentUser = User as ServiceUser;
-                if (currentUser == null)
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_USER_NULL));
-                var account = _context.Accounts.AsNoTracking().SingleOrDefault(a => a.AccountId == currentUser.Id);
-                if (account == null)
+                var user = _context.Users.SingleOrDefault(u => u.EmailSubCode == req.Code);
+                if (user == null)
                     return Request.CreateResponse(HttpStatusCode.BadRequest, RespH.Create(RespH.SRV_USER_NOTFOUND));
-                var user = _context.Users.SingleOrDefault(u => u.Id == account.UserId);
-                switch (type)
+                switch (req.Type)
                 {
                     case "newsletter":
                         user.EmailNewsletter = false;
@@ -72,6 +68,20 @@ namespace apartmenthostService.Controllers
                 AllUsersList = _context.Users.Where(x => x.Email != null).Select(u => u.Email).ToList()
             };
             return Request.CreateResponse(HttpStatusCode.OK, mailList);
+        }
+
+        [HttpPost]
+        public string Generate()
+        {
+            var users = _context.Users.ToList();
+
+            foreach (var user in users)
+            {
+                var u = _context.Users.SingleOrDefault(x => x.Id == user.Id);
+                u.EmailSubCode = SequentialGuid.NewGuid().ToString();
+                _context.SaveChanges();
+            }
+            return "ok";
         }
     }
 }

@@ -22,5 +22,6 @@ namespace apartmenthostService.Messages
         public string CardDescription { get; set; }
         public string Text { get; set; }
         public bool AnswerByEmail { get; set; }
+        public string UnsubscrCode { get; set; }
     }
 }

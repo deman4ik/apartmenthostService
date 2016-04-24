@@ -22,8 +22,10 @@ namespace apartmenthostService.Models
             InReviews = new HashSet<Review>();
         }
 
+       
         public string Email { get; set; }
         public byte[] Salt { get; set; }
+        public string EmailSubCode { get; set; }
         public byte[] SaltedAndHashedPassword { get; set; }
         public byte[] SaltedAndHashedEmail { get; set; }
         public byte[] SaltedAndHashedCode { get; set; }

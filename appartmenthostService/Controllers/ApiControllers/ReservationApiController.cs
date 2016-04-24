@@ -337,7 +337,8 @@ namespace apartmenthostService.Controllers
                             DateTo = dateTo,
                             ToUserName = profile.FirstName,
                             ToUserEmail = user.Email,
-                            CardId = card.Id
+                            CardId = card.Id,
+                            UnsubscrCode = user.EmailSubCode
                         };
                         mailSender.Create(_context, bem);
                     }
@@ -360,7 +361,8 @@ namespace apartmenthostService.Controllers
                             DateTo = dateTo,
                             ToUserName = cardProfile.FirstName,
                             ToUserEmail = cardUser.Email,
-                            CardId = card.Id
+                            CardId = card.Id,
+                            UnsubscrCode = cardUser.EmailSubCode
                         };
                         mailSender.Create(_context, bem);
                     }
@@ -510,7 +512,8 @@ namespace apartmenthostService.Controllers
                         FromUserName = fromProfile.FirstName,
                         FromUserEmail = fromUser.Email,
                         ToUserName = toProfile.FirstName,
-                        ToUserEmail = toUser.Email
+                        ToUserEmail = toUser.Email,
+                        UnsubscrCode = toUser.EmailSubCode
                     };
                     mailSender.Create(_context, bem);
                 }

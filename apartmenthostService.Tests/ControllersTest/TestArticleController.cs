@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web.Http;
+using apartmenthostService.Authentication;
 using apartmenthostService.Controllers;
 using apartmenthostService.DataObjects;
 using apartmenthostService.Helpers;
@@ -125,6 +130,14 @@ namespace apartmenthostService.Tests.ControllersTest
             Assert.IsTrue(result.ResponseData.Contains("Text"));
             Assert.IsTrue(result.ResponseData.Contains("Type"));
             Assert.IsTrue(result.ResponseData.Contains("Lang"));
+        }
+
+        [TestMethod]
+        public void Test()
+        {
+            
+           
+
         }
     }
 }

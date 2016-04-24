@@ -54,6 +54,8 @@ namespace apartmenthostService.Controllers
                     Score = x.Score,
                     CreatedAt = x.CreatedAt,
                     UpdatedAt = x.UpdatedAt,
+                    EmailNewsletter = x.User.EmailNewsletter,
+                    EmailNotifications = x.User.EmailNotifications,
                     Picture = _context.Pictures.Where(pic => pic.Id == x.PictureId).Select( p => new PictureDTO
                     {
                         Id = p.Id,

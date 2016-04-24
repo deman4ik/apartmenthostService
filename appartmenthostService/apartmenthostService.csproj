@@ -281,6 +281,7 @@
     <Compile Include="DataObjects\FeedbackDTO.cs" />
     <Compile Include="DataObjects\GendersDTO.cs" />
     <Compile Include="DataObjects\MailList.cs" />
+    <Compile Include="DataObjects\UnsubscribeRequest.cs" />
     <Compile Include="LangResources\Dic_RU.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

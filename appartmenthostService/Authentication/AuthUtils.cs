@@ -38,6 +38,16 @@ namespace apartmenthostService.Authentication
             return builder.ToString();
         }
 
+        public static string RandomCharNum(int size)
+        {
+            var builder = new StringBuilder();
+            for (var i = 1; i <= size; i++)
+            {
+                var str = RandomString(1) + RandomNumString(1);
+                builder.Append(str);
+            }
+            return builder.ToString();
+        }
         public static byte[] Hash(string plaintext, byte[] salt)
         {
             var hashFunc = new SHA512Cng();

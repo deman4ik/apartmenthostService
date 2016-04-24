@@ -102,6 +102,7 @@ namespace apartmenthostService.Messages
                     case RespH.SRV_NOTIF_CARD_FAVORITED:
                         bodyTokenValues.Add("username", basemessage.FromUserName);
                         bodyTokenValues.Add("url", webDomain + "#/posts/" + basemessage.CardId);
+                        bodyTokenValues.Add("unsubUrl", webDomain + "#/unsubscr?type=notifications&code="+basemessage.UnsubscrCode);
                         break;
                     case RespH.SRV_NOTIF_RESERV_NEW:
                         bodyTokenValues.Add("username", basemessage.FromUserName);
@@ -111,6 +112,7 @@ namespace apartmenthostService.Messages
                         bodyTokenValues.Add("datefrom", basemessage.DateFrom.ToString(dateformat));
                         bodyTokenValues.Add("dateto", basemessage.DateTo.ToString(dateformat));
                         bodyTokenValues.Add("url", webDomain + "#/posts/" + basemessage.CardId);
+                        bodyTokenValues.Add("unsubUrl", webDomain + "#/unsubscr?type=notifications&code=" + basemessage.UnsubscrCode);
                         break;
                     case RespH.SRV_NOTIF_RESERV_PENDING:
                         bodyTokenValues.Add("ownername", basemessage.FromUserName);
@@ -120,6 +122,7 @@ namespace apartmenthostService.Messages
                         bodyTokenValues.Add("datefrom", basemessage.DateFrom.ToString(dateformat));
                         bodyTokenValues.Add("dateto", basemessage.DateTo.ToString(dateformat));
                         bodyTokenValues.Add("url", webDomain + "#/posts/" + basemessage.CardId);
+                        bodyTokenValues.Add("unsubUrl", webDomain + "#/unsubscr?type=notifications&code=" + basemessage.UnsubscrCode);
                         break;
                     case RespH.SRV_NOTIF_RESERV_ACCEPTED:
                         bodyTokenValues.Add("ownername", basemessage.FromUserName);
@@ -129,6 +132,7 @@ namespace apartmenthostService.Messages
                         bodyTokenValues.Add("datefrom", basemessage.DateFrom.ToString(dateformat));
                         bodyTokenValues.Add("dateto", basemessage.DateTo.ToString(dateformat));
                         bodyTokenValues.Add("url", webDomain + "#/posts/" + basemessage.CardId);
+                        bodyTokenValues.Add("unsubUrl", webDomain + "#/unsubscr?type=notifications&code=" + basemessage.UnsubscrCode);
                         break;
                     case RespH.SRV_NOTIF_RESERV_DECLINED:
                         bodyTokenValues.Add("ownername", basemessage.FromUserName);
@@ -138,16 +142,19 @@ namespace apartmenthostService.Messages
                         bodyTokenValues.Add("datefrom", basemessage.DateFrom.ToString(dateformat));
                         bodyTokenValues.Add("dateto", basemessage.DateTo.ToString(dateformat));
                         bodyTokenValues.Add("url", webDomain + "#/posts/" + basemessage.CardId);
+                        bodyTokenValues.Add("unsubUrl", webDomain + "#/unsubscr?type=notifications&code=" + basemessage.UnsubscrCode);
                         break;
                     case RespH.SRV_NOTIF_REVIEW_ADDED:
                         bodyTokenValues.Add("username", basemessage.FromUserName);
                         bodyTokenValues.Add("reviewtext", basemessage.ReviewText);
+                        bodyTokenValues.Add("unsubUrl", webDomain + "#/unsubscr?type=notifications&code=" + basemessage.UnsubscrCode);
                         break;
                     case RespH.SRV_NOTIF_REVIEW_RATING_ADDED:
                         bodyTokenValues.Add("username", basemessage.FromUserName);
                         bodyTokenValues.Add("reviewtext", basemessage.ReviewText);
                         bodyTokenValues.Add("reviewrating",
                             basemessage.ReviewRating.ToString(CultureInfo.InvariantCulture));
+                        bodyTokenValues.Add("unsubUrl", webDomain + "#/unsubscr?type=notifications&code=" + basemessage.UnsubscrCode);
                         break;
                     case RespH.SRV_NOTIF_REVIEW_AVAILABLE:
                         bodyTokenValues.Add("cardname", basemessage.CardName);

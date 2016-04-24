@@ -60,11 +60,13 @@ namespace apartmenthostService.Controllers
                 }
                 var salt = AuthUtils.GenerateSalt();
                 var confirmCode = AuthUtils.RandomNumString(6);
+                var userId = SequentialGuid.NewGuid().ToString();
                 var newUser = new User
                 {
-                    Id = SequentialGuid.NewGuid().ToString(),
+                    Id = userId,
                     Email = registrationRequest.Email,
                     Salt = salt,
+                    EmailSubCode = SequentialGuid.NewGuid().ToString(),
                     SaltedAndHashedPassword = AuthUtils.Hash(registrationRequest.Password, salt),
                     SaltedAndHashedEmail = AuthUtils.Hash(confirmCode, salt)
                 };

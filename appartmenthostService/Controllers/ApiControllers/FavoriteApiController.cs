@@ -116,7 +116,8 @@ namespace apartmenthostService.Controllers
                                 FromUserName = profile.FirstName,
                                 FromUserEmail = user.Email,
                                 ToUserName = currentCard.User.Profile.FirstName,
-                                ToUserEmail = currentCard.User.Email
+                                ToUserEmail = currentCard.User.Email,
+                                UnsubscrCode = currentCard.User.EmailSubCode
                             };
                             mailSender.Create(_context, bem);
                         }
