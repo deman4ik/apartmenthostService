@@ -62,12 +62,44 @@ namespace apartmenthostService.Controllers
         [AuthorizeLevel(AuthorizationLevel.User)]
         public HttpResponseMessage GetMailList()
         {
-            MailList mailList = new MailList
+            MailLists mailLists = new MailLists
             {
-                NewsletterList = _context.Users.Where(x => x.EmailNewsletter && x.Email != null).Select(u => u.Email).ToList(),
-                AllUsersList = _context.Users.Where(x => x.Email != null).Select(u => u.Email).ToList()
+                NewsletterList = new List<MailList>(),
+                NorificationsList = new List<MailList>(),
+                AllUsersList = new List<MailList>()
             };
-            return Request.CreateResponse(HttpStatusCode.OK, mailList);
+            foreach (var newsletter in _context.Users.Where(x => x.EmailNewsletter && x.Email != null).ToList())
+            {
+                var user = new MailList
+                {
+                    Email = newsletter.Email,
+                    FirstName = newsletter.Profile.FirstName,
+                    LastName = newsletter.Profile.LastName
+                };
+                mailLists.NewsletterList.Add(user);
+            }
+            foreach (var notif in _context.Users.Where(x => x.EmailNotifications && x.Email != null).ToList())
+            {
+                var user = new MailList
+                {
+                    Email = notif.Email,
+                    FirstName = notif.Profile.FirstName,
+                    LastName = notif.Profile.LastName
+                };
+                mailLists.NorificationsList.Add(user);
+            }
+            foreach (var allusers in _context.Users.Where(x => x.Email != null).ToList())
+            {
+                var user = new MailList
+                {
+                    Email = allusers.Email,
+                    FirstName = allusers.Profile.FirstName,
+                    LastName = allusers.Profile.LastName
+                };
+                mailLists.AllUsersList.Add(user);
+            }
+           
+            return Request.CreateResponse(HttpStatusCode.OK, mailLists);
         }
 
         [HttpPost]
